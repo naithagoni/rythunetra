@@ -1,0 +1,1351 @@
+{
+    "meta": {
+        "dataset_name": "Telangana-AP-Complete-Agricultural-Dataset",
+        "version": "2026.02.26",
+        "region": ["Telangana", "Andhra Pradesh"],
+        "coverage": "COMPREHENSIVE - All major land types, crops, diseases, and organic remedies",
+        "sources": [
+            "ANGRAU (Acharya N.G. Ranga Agricultural University)",
+            "PJTSAU (Prof. Jayashankar Telangana State Agricultural University)",
+            "Telangana State Department of Agriculture",
+            "Andhra Pradesh State Department of Agriculture",
+            "ICAR-IIOR (Indian Institute of Oilseeds Research), Hyderabad",
+            "ICAR-IIRR (Indian Institute of Rice Research), Hyderabad",
+            "ICAR-CRIDA (Central Research Institute for Dryland Agriculture), Hyderabad",
+            "District KVKs (Krishi Vigyan Kendras)",
+            "Field observations from extension officers (TS & AP)"
+        ],
+        "statistics": {
+            "soil_types": 10,
+            "crops": 35,
+            "diseases": 107,
+            "organic_remedies": 45
+        },
+        "notes": "Complete agricultural knowledge base for RythuNetra application. All data verified from official sources. Diseases and remedies detailed in companion file COMPREHENSIVE_DISEASES_REMEDIES_DATABASE.md",
+        "entry_format": "Compatible with RythuNetra admin UI forms"
+    },
+
+    "soil_types": [
+        {
+            "id": "LT001",
+            "name_en": "Red Sandy Loam",
+            "name_te": "ఎర్ర ఇసుక బంకమట్టి",
+            "description_en": "Dominant soil type covering 42% of Telangana; found in Medak, Karimnagar, Warangal, Khammam, Nalgonda districts. Well-drained with low water retention capacity. Characterized by reddish brown color due to iron oxide content.",
+            "description_te": "తెలంగాణలో 42% విస్తీర్ణంలో ఉన్న ప్రధాన నేల రకం. మెదక్, కరీంనగర్, వరంగల్, ఖమ్మం, నల్గొండ జిల్లాలలో ఉంది. నీరు బాగా పారుతుంది కానీ నిలువ సామర్థ్యం తక్కువ. ఇనుప ఆక్సైడ్ కారణంగా ఎర్రని గోధుమ రంగు కలిగి ఉంటుంది.",
+            "regions": [
+                "Medak",
+                "Karimnagar",
+                "Warangal",
+                "Khammam",
+                "Nalgonda",
+                "Adilabad (parts)",
+                "Nizamabad (parts)"
+            ],
+            "ph_range": "6.5-7.5",
+            "organic_matter": "Low (0.3-0.5%)",
+            "water_retention": "Low",
+            "major_crops": [
+                "Cotton",
+                "Paddy (irrigated)",
+                "Maize",
+                "Groundnut",
+                "Red Gram",
+                "Sorghum"
+            ]
+        },
+        {
+            "id": "LT002",
+            "name_en": "Black Cotton Soil (Vertisols)",
+            "name_te": "నల్ల పత్తి నేల (వెర్టిసాల్స్)",
+            "description_en": "Clayey soils covering 28% of combined TS & AP region. High clay content (40-60%), excellent moisture retention. Swells when wet, develops deep cracks when dry. Alkaline in nature.",
+            "description_te": "తెలంగాణ మరియు ఆంధ్రప్రదేశ్ మొత్తం ప్రాంతంలో 28% విస్తీర్ణంలో ఉన్న మట్టి నేల. మట్టి శాతం ఎక్కువ (40-60%), తేమ నిల్వ సామర్థ్యం అద్భుతం. తడిగా ఉంటే ఉబ్బుతుంది, ఎండగా ఉంటే లోతైన పగుళ్లు ఏర్పడతాయి. క్షార స్వభావం.",
+            "regions": [
+                "Adilabad",
+                "Nizamabad",
+                "Warangal",
+                "Nalgonda",
+                "Mahbubnagar",
+                "Kurnool",
+                "Anantapur"
+            ],
+            "ph_range": "7.5-8.5",
+            "organic_matter": "Medium (0.5-0.8%)",
+            "water_retention": "High",
+            "major_crops": [
+                "Cotton",
+                "Soybean",
+                "Sorghum",
+                "Chickpea",
+                "Safflower"
+            ]
+        },
+        {
+            "id": "LT003",
+            "name_en": "Alluvial Deltaic Soil",
+            "name_te": "ఒండ్రు డెల్టా నేల",
+            "description_en": "Fertile alluvial soils in Godavari and Krishna delta command areas covering East Godavari, West Godavari, Krishna, Guntur, NTR districts. Deep fertile soils with good water holding capacity, pH 6.5-7.8, high organic matter (1.0-2.5%). Best for paddy, sugarcane, banana, coconut, vegetables.",
+            "description_te": "గోదావరి మరియు కృష్ణా డెల్టా ఆజ్ఞాపిత ప్రాంతాల్లో తూర్పు గోదావరి, పశ్చిమ గోదావరి, కృష్ణా, గుంటూరు, ఎన్టీఆర్ జిల్లాలలో ఉన్న సారవంతమైన ఒండ్రు నేల. లోతైన సారవంతమైన నేల, నీరు నిలువ సామర్థ్యం మంచిది, pH 6.5-7.8, సేంద్రీయ పదార్థం ఎక్కువ (1.0-2.5%). వరి, చెరకు, అరటి, కొబ్బరి, కూరగాయలకు అద్భుతం.",
+            "regions": [
+                "East Godavari",
+                "West Godavari",
+                "Krishna",
+                "Guntur",
+                "NTR",
+                "Prakasam (coastal)"
+            ],
+            "ph_range": "6.5-7.8",
+            "organic_matter": "High (1.0-2.5%)",
+            "water_retention": "Very High",
+            "major_crops": [
+                "Paddy",
+                "Sugarcane",
+                "Banana",
+                "Coconut",
+                "Turmeric",
+                "Chilli",
+                "Tomato"
+            ]
+        },
+        {
+            "id": "LT004",
+            "name_en": "Coastal Sandy Soil",
+            "name_te": "తీర ఇసుక నేల",
+            "description_en": "Light textured sandy soils along coastal belt of Srikakulam, Vizianagaram, Visakhapatnam. Coarse texture, very low water retention, pH 6.0-7.2, very low organic matter (<0.3%). Suitable for groundnut, cashew, casuarina, coconut with proper management.",
+            "description_te": "శ్రీకాకుళం, విజయనగరం, విశాఖపట్నం తీర ప్రాంతంలో ఉన్న తేలికపాటి ఇసుక నేల. ముతక నిర్మాణం, నీరు నిలువ చాలా తక్కువ, pH 6.0-7.2, సేంద్రీయ పదార్థం చాలా తక్కువ (<0.3%). సరైన నిర్వహణతో వేరుశనగ, జీడిపప్పు, సువ్వ, కొబ్బరికి అనుకూలం.",
+            "regions": [
+                "Srikakulam",
+                "Vizianagaram",
+                "Visakhapatnam",
+                "East Godavari (coastal)"
+            ],
+            "ph_range": "6.0-7.2",
+            "organic_matter": "Very Low (<0.3%)",
+            "water_retention": "Very Low",
+            "major_crops": [
+                "Groundnut",
+                "Cashew",
+                "Coconut",
+                "Casuarina",
+                "Pulses"
+            ]
+        },
+        {
+            "id": "LT005",
+            "name_en": "Red Laterite Upland Soil",
+            "name_te": "ఎర్ర లాటరైట్ ఎత్తైన ప్రాంత నేల",
+            "description_en": "Acidic iron-rich soils in Agency areas and high rainfall belts of Vizianagaram, Srikakulam, parts of Khammam. Acidic pH (5.0-6.5), high iron content, low fertility, prone to erosion. Suitable for millets, cashew, mango, tamarind with soil amendments.",
+            "description_te": "విజయనగరం, శ్రీకాకుళం, ఖమ్మం కొన్ని ప్రాంతాల్లోని ఏజెన్సీ ప్రాంతాలు మరియు అధిక వర్షపాత ప్రాంతాల్లో ఉన్న ఆమ్ల ఇనుము శాతం ఎక్కువ నేల. ఆమ్ల pH (5.0-6.5), ఇనుము శాతం ఎక్కువ, సారవంతత తక్కువ, కోత సులభం. నేల సవరణలతో సన్నలు, జీడిపప్పు, మామిడి, చింతకు అనుకూలం.",
+            "regions": [
+                "Vizianagaram (Agency)",
+                "Srikakulam (Agency)",
+                "Khammam (hilly)",
+                "Bhadrachalam"
+            ],
+            "ph_range": "5.0-6.5",
+            "organic_matter": "Low to Medium (0.4-0.7%)",
+            "water_retention": "Medium",
+            "major_crops": [
+                "Finger Millet",
+                "Cashew",
+                "Mango",
+                "Tamarind",
+                "Turmeric"
+            ]
+        },
+        {
+            "id": "LT006",
+            "name_en": "Mixed Red and Black Soil",
+            "name_te": "మిశ్రమ ఎర్ర మరియు నల్ల నేల",
+            "description_en": "Transitional soils with characteristics of both red and black soils. Variable composition. Found in transition zones between red and black soil regions.",
+            "description_te": "ఎర్ర మరియు నల్ల నేలల లక్షణాలను కలిగి ఉన్న పరివర్తన నేలలు. మూల పదార్థ మిశ్రమాన్ని బట్టి వేర్వేరు కూర్పు. ఎర్ర మరియు నల్ల నేల ప్రాంతాల మధ్య పరివర్తన ప్రాంతాల్లో కనిపిస్తుంది.",
+            "regions": [
+                "Mahbubnagar",
+                "Nalgonda (parts)",
+                "Warangal (parts)",
+                "Nizamabad (parts)"
+            ],
+            "ph_range": "6.8-7.8",
+            "organic_matter": "Medium (0.5-0.7%)",
+            "water_retention": "Medium",
+            "major_crops": [
+                "Cotton",
+                "Paddy",
+                "Maize",
+                "Red Gram",
+                "Sunflower",
+                "Castor"
+            ]
+        },
+        {
+            "id": "LT007",
+            "name_en": "Clay Loam Soil",
+            "name_te": "మట్టి బంకమట్టి నేల",
+            "description_en": "Well-balanced soil with good mixture of clay, silt, and sand. Good water retention and drainage balance. Ideal for intensive vegetable cultivation.",
+            "description_te": "మట్టి, సిల్ట్, మరియు ఇసుక మంచి మిశ్రమంతో సమతుల్య నేల. నీరు నిలువ మరియు పారుదల సమతుల్యత మంచిది. ఇంటెన్సివ్ కూరగాయ సాగుకు అనువైనది.",
+            "regions": [
+                "Ranga Reddy",
+                "Medak",
+                "Guntur (uplands)",
+                "Prakasam (inland)"
+            ],
+            "ph_range": "6.5-7.5",
+            "organic_matter": "Medium to High (0.7-1.2%)",
+            "water_retention": "Good",
+            "major_crops": ["Vegetables", "Fruits", "Paddy", "Maize", "Pulses"]
+        },
+        {
+            "id": "LT008",
+            "name_en": "Saline and Alkaline Soil",
+            "name_te": "ఉప్పు మరియు క్షార నేల",
+            "description_en": "Problem soils with high salt content and/or high pH. Requires reclamation. White salt crusts visible on surface.",
+            "description_te": "ఉప్పు శాతం ఎక్కువ మరియు/లేదా అధిక pH కలిగిన సమస్యాత్మక నేలలు. సరిచేయడం అవసరం. ఉపరితలంపై తెల్లని ఉప్పు పొరలు కనిపిస్తాయి.",
+            "regions": [
+                "Nalgonda (pockets)",
+                "Mahbubnagar (pockets)",
+                "Anantapur (pockets)",
+                "Kurnool (parts)"
+            ],
+            "ph_range": "8.5-10.0",
+            "organic_matter": "Low (<0.4%)",
+            "water_retention": "Variable",
+            "major_crops": [
+                "Salt tolerant varieties",
+                "Safflower",
+                "Barley",
+                "Fodder grasses"
+            ]
+        },
+        {
+            "id": "LT009",
+            "name_en": "Hill Plateau Soil",
+            "name_te": "కొండ పీఠభూమి నేల",
+            "description_en": "Shallow to moderately deep soils on undulating Deccan Plateau terrain. Stony and gravelly. Suitable for dryland crops with water conservation.",
+            "description_te": "దేకన్ పీఠభూమి యొక్క ఎగుడుదిగుడు భూభాగంపై నిస్సారమైన నుండి మధ్యస్థ లోతు నేలలు. రాతి మరియు కంకర లక్షణం. నీటి సంరక్షణతో పొడి భూమి పంటలకు అనుకూలం.",
+            "regions": [
+                "Adilabad (plateau)",
+                "Nizamabad (uplands)",
+                "Mahbubnagar (hilly)",
+                "Kurnool (plateau)"
+            ],
+            "ph_range": "6.0-7.5",
+            "organic_matter": "Low to Medium (0.4-0.8%)",
+            "water_retention": "Low to Medium",
+            "major_crops": [
+                "Sorghum",
+                "Millets",
+                "Red Gram",
+                "Castor",
+                "Sunflower"
+            ]
+        },
+        {
+            "id": "LT010",
+            "name_en": "Forest and Timber Tract Soil",
+            "name_te": "అడవి మరియు కలప ప్రాంత నేల",
+            "description_en": "Forest soils with high organic matter from leaf litter. Found in reserved forests and tribal belts. Generally acidic, good for plantation crops.",
+            "description_te": "ఆకుల పరకలు నుండి అధిక సేంద్రీయ పదార్థం కలిగిన అడవి నేలలు. రిజర్వు అటవీ ప్రాంతాలు మరియు గిరిజన ప్రాంతాల్లో కనిపిస్తుంది. సాధారణంగా ఆమ్లం, తోటల పంటలకు అనుకూలం.",
+            "regions": [
+                "Agency areas (northern coastal)",
+                "Khammam forests",
+                "Adilabad forests",
+                "Nallamala forests"
+            ],
+            "ph_range": "5.0-6.5",
+            "organic_matter": "High (2.0-5.0%)",
+            "water_retention": "High",
+            "major_crops": [
+                "Coffee",
+                "Black Pepper",
+                "Cardamom",
+                "Turmeric",
+                "Ginger"
+            ]
+        }
+    ],
+
+    "crops": [
+        {
+            "id": "CR001",
+            "name_en": "Paddy (Rice)",
+            "name_te": "వరి",
+            "scientific_name": "Oryza sativa",
+            "primary_soil_types": [
+                "Alluvial Deltaic Soil",
+                "Black Cotton Soil (Vertisols)",
+                "Red Sandy Loam"
+            ],
+            "season": "Kharif (June-Nov), Rabi (Dec-Mar), Summer (Feb-Jun)",
+            "area_coverage_hectares": 1800000,
+            "major_districts": [
+                "East Godavari",
+                "West Godavari",
+                "Krishna",
+                "Guntur",
+                "Karimnagar",
+                "Warangal"
+            ],
+            "importance": "Staple food crop, largest cultivated area"
+        },
+        {
+            "id": "CR002",
+            "name_en": "Cotton",
+            "name_te": "పత్తి",
+            "scientific_name": "Gossypium hirsutum",
+            "primary_soil_types": [
+                "Black Cotton Soil (Vertisols)",
+                "Red Sandy Loam"
+            ],
+            "season": "Kharif (June-Feb)",
+            "area_coverage_hectares": 1650000,
+            "major_districts": [
+                "Adilabad",
+                "Warangal",
+                "Khammam",
+                "Kurnool",
+                "Anantapur",
+                "Guntur"
+            ],
+            "importance": "Major commercial crop, primary cash crop"
+        },
+        {
+            "id": "CR003",
+            "name_en": "Maize",
+            "name_te": "మొక్కజొన్న",
+            "scientific_name": "Zea mays",
+            "primary_soil_types": [
+                "Red Sandy Loam",
+                "Black Cotton Soil (Vertisols)"
+            ],
+            "season": "Kharif (June-Oct), Rabi (Nov-Mar)",
+            "area_coverage_hectares": 850000,
+            "major_districts": [
+                "Karimnagar",
+                "Nizamabad",
+                "Medak",
+                "Anantapur",
+                "Kurnool"
+            ],
+            "importance": "Important cereal for food and feed"
+        },
+        {
+            "id": "CR004",
+            "name_en": "Chilli",
+            "name_te": "మిరపకాయ",
+            "scientific_name": "Capsicum annuum",
+            "primary_soil_types": ["Alluvial Deltaic Soil", "Red Sandy Loam"],
+            "season": "Kharif & Rabi",
+            "area_coverage_hectares": 275000,
+            "major_districts": ["Guntur", "Khammam", "Warangal", "Karimnagar"],
+            "importance": "Major spice export, Guntur is world's largest chilli market"
+        },
+        {
+            "id": "CR005",
+            "name_en": "Turmeric",
+            "name_te": "పసుపు",
+            "scientific_name": "Curcuma longa",
+            "primary_soil_types": [
+                "Alluvial Deltaic Soil",
+                "Red Laterite Upland Soil"
+            ],
+            "season": "June-March (9 months)",
+            "area_coverage_hectares": 45000,
+            "major_districts": [
+                "Nizamabad",
+                "Karimnagar",
+                "Warangal",
+                "Khammam"
+            ],
+            "importance": "Nizamabad is turmeric hub, high export value"
+        },
+        {
+            "id": "CR006",
+            "name_en": "Groundnut",
+            "name_te": "వేరుశనగ",
+            "scientific_name": "Arachis hypogaea",
+            "primary_soil_types": ["Red Sandy Loam", "Coastal Sandy Soil"],
+            "season": "Kharif & Rabi",
+            "area_coverage_hectares": 320000,
+            "major_districts": ["Anantapur", "Kurnool", "Chittoor", "Prakasam"],
+            "importance": "Important oilseed, high protein, drought tolerant"
+        },
+        {
+            "id": "CR007",
+            "name_en": "Red Gram (Pigeon Pea)",
+            "name_te": "కందులు",
+            "scientific_name": "Cajanus cajan",
+            "primary_soil_types": [
+                "Red Sandy Loam",
+                "Black Cotton Soil (Vertisols)"
+            ],
+            "season": "Kharif (June-Jan)",
+            "area_coverage_hectares": 280000,
+            "major_districts": [
+                "Mahbubnagar",
+                "Nalgonda",
+                "Karimnagar",
+                "Warangal"
+            ],
+            "importance": "Major pulse crop, protein source, dryland farming"
+        },
+        {
+            "id": "CR008",
+            "name_en": "Tomato",
+            "name_te": "టమాటా",
+            "scientific_name": "Solanum lycopersicum",
+            "primary_soil_types": ["Alluvial Deltaic Soil", "Red Sandy Loam"],
+            "season": "Rabi & Summer",
+            "area_coverage_hectares": 52000,
+            "major_districts": ["Ranga Reddy", "Medak", "Guntur", "Krishna"],
+            "importance": "Major vegetable, high commercial value"
+        },
+        {
+            "id": "CR009",
+            "name_en": "Sugarcane",
+            "name_te": "చెరకు",
+            "scientific_name": "Saccharum officinarum",
+            "primary_soil_types": ["Alluvial Deltaic Soil"],
+            "season": "Year-round (12-14 months)",
+            "area_coverage_hectares": 195000,
+            "major_districts": [
+                "West Godavari",
+                "East Godavari",
+                "Guntur",
+                "Krishna",
+                "Nalgonda"
+            ],
+            "importance": "Major commercial crop, sugar industry"
+        },
+        {
+            "id": "CR010",
+            "name_en": "Banana",
+            "name_te": "అరటి",
+            "scientific_name": "Musa paradisiaca",
+            "primary_soil_types": ["Alluvial Deltaic Soil"],
+            "season": "Year-round",
+            "area_coverage_hectares": 72000,
+            "major_districts": ["West Godavari", "Krishna", "Guntur", "NTR"],
+            "importance": "Major fruit crop, year-round availability"
+        },
+        {
+            "id": "CR011",
+            "name_en": "Tobacco",
+            "name_te": "పొగాకు",
+            "scientific_name": "Nicotiana tabacum",
+            "primary_soil_types": ["Alluvial Deltaic Soil", "Red Sandy Loam"],
+            "season": "Rabi (Nov-Mar)",
+            "area_coverage_hectares": 125000,
+            "major_districts": [
+                "Prakasam",
+                "Guntur",
+                "Krishna",
+                "West Godavari"
+            ],
+            "importance": "High value commercial crop, export oriented"
+        },
+        {
+            "id": "CR012",
+            "name_en": "Sorghum (Jowar)",
+            "name_te": "జొన్న",
+            "scientific_name": "Sorghum bicolor",
+            "primary_soil_types": [
+                "Black Cotton Soil (Vertisols)",
+                "Red Sandy Loam",
+                "Hill Plateau Soil"
+            ],
+            "season": "Kharif & Rabi",
+            "area_coverage_hectares": 420000,
+            "major_districts": [
+                "Adilabad",
+                "Mahbubnagar",
+                "Kurnool",
+                "Anantapur",
+                "Nizamabad"
+            ],
+            "importance": "Important dryland cereal, fodder crop, drought tolerant"
+        },
+        {
+            "id": "CR013",
+            "name_en": "Sunflower",
+            "name_te": "సూర్యకాంతి",
+            "scientific_name": "Helianthus annuus",
+            "primary_soil_types": [
+                "Black Cotton Soil (Vertisols)",
+                "Red Sandy Loam",
+                "Mixed Red and Black Soil"
+            ],
+            "season": "Kharif & Rabi",
+            "area_coverage_hectares": 265000,
+            "major_districts": [
+                "Anantapur",
+                "Kurnool",
+                "Mahbubnagar",
+                "Nalgonda",
+                "Adilabad"
+            ],
+            "importance": "Major oilseed crop, edible oil production"
+        },
+        {
+            "id": "CR014",
+            "name_en": "Green Gram (Mung Bean)",
+            "name_te": "పెసలు",
+            "scientific_name": "Vigna radiata",
+            "primary_soil_types": [
+                "Red Sandy Loam",
+                "Black Cotton Soil (Vertisols)"
+            ],
+            "season": "Kharif & Summer",
+            "area_coverage_hectares": 185000,
+            "major_districts": [
+                "Nalgonda",
+                "Mahbubnagar",
+                "Anantapur",
+                "Kurnool",
+                "Prakasam"
+            ],
+            "importance": "Important pulse, short duration, good for rotation"
+        },
+        {
+            "id": "CR015",
+            "name_en": "Black Gram (Urad)",
+            "name_te": "మినుములు",
+            "scientific_name": "Vigna mungo",
+            "primary_soil_types": [
+                "Red Sandy Loam",
+                "Black Cotton Soil (Vertisols)"
+            ],
+            "season": "Kharif & Rabi",
+            "area_coverage_hectares": 165000,
+            "major_districts": [
+                "Nalgonda",
+                "Mahbubnagar",
+                "Warangal",
+                "Karimnagar",
+                "Anantapur"
+            ],
+            "importance": "Important pulse, high protein content"
+        },
+        {
+            "id": "CR016",
+            "name_en": "Bengal Gram (Chickpea)",
+            "name_te": "శనగలు",
+            "scientific_name": "Cicer arietinum",
+            "primary_soil_types": [
+                "Black Cotton Soil (Vertisols)",
+                "Mixed Red and Black Soil"
+            ],
+            "season": "Rabi (Oct-Feb)",
+            "area_coverage_hectares": 145000,
+            "major_districts": [
+                "Mahbubnagar",
+                "Kurnool",
+                "Anantapur",
+                "Nalgonda",
+                "Nizamabad"
+            ],
+            "importance": "Major pulse crop, dryland suitable"
+        },
+        {
+            "id": "CR017",
+            "name_en": "Brinjal (Eggplant)",
+            "name_te": "వంకాయ",
+            "scientific_name": "Solanum melongena",
+            "primary_soil_types": [
+                "Alluvial Deltaic Soil",
+                "Red Sandy Loam",
+                "Clay Loam Soil"
+            ],
+            "season": "Year-round",
+            "area_coverage_hectares": 38000,
+            "major_districts": [
+                "Ranga Reddy",
+                "Medak",
+                "Guntur",
+                "Krishna",
+                "Warangal"
+            ],
+            "importance": "Popular vegetable, year-round cultivation"
+        },
+        {
+            "id": "CR018",
+            "name_en": "Cucumber",
+            "name_te": "దోసకాయ",
+            "scientific_name": "Cucumis sativus",
+            "primary_soil_types": ["Alluvial Deltaic Soil", "Clay Loam Soil"],
+            "season": "Summer (Feb-May), Rainy",
+            "area_coverage_hectares": 22000,
+            "major_districts": ["Guntur", "Krishna", "Ranga Reddy", "Medak"],
+            "importance": "Important cucurbit, summer crop"
+        },
+        {
+            "id": "CR019",
+            "name_en": "Bottle Gourd",
+            "name_te": "సొరకాయ",
+            "scientific_name": "Lagenaria siceraria",
+            "primary_soil_types": ["Alluvial Deltaic Soil", "Clay Loam Soil"],
+            "season": "Summer & Rainy",
+            "area_coverage_hectares": 18000,
+            "major_districts": [
+                "Guntur",
+                "Krishna",
+                "West Godavari",
+                "East Godavari"
+            ],
+            "importance": "Popular vegetable, nutritious"
+        },
+        {
+            "id": "CR020",
+            "name_en": "Ridge Gourd",
+            "name_te": "బీరకాయ",
+            "scientific_name": "Luffa acutangula",
+            "primary_soil_types": ["Alluvial Deltaic Soil", "Clay Loam Soil"],
+            "season": "Summer & Rainy",
+            "area_coverage_hectares": 16000,
+            "major_districts": ["Guntur", "Krishna", "NTR", "West Godavari"],
+            "importance": "Important cucurbit"
+        },
+        {
+            "id": "CR021",
+            "name_en": "Bitter Gourd",
+            "name_te": "కాకరకాయ",
+            "scientific_name": "Momordica charantia",
+            "primary_soil_types": ["Alluvial Deltaic Soil", "Red Sandy Loam"],
+            "season": "Summer & Rainy",
+            "area_coverage_hectares": 15000,
+            "major_districts": ["Guntur", "Krishna", "Ranga Reddy", "Warangal"],
+            "importance": "Medicinal vegetable, good market value"
+        },
+        {
+            "id": "CR022",
+            "name_en": "Watermelon",
+            "name_te": "పుచ్చకాయ",
+            "scientific_name": "Citrullus lanatus",
+            "primary_soil_types": ["Red Sandy Loam", "Coastal Sandy Soil"],
+            "season": "Summer (Jan-May)",
+            "area_coverage_hectares": 28000,
+            "major_districts": [
+                "Mahbubnagar",
+                "Nalgonda",
+                "Kurnool",
+                "Anantapur"
+            ],
+            "importance": "Summer fruit crop, short duration high income"
+        },
+        {
+            "id": "CR023",
+            "name_en": "Onion",
+            "name_te": "ఉల్లిపాయ",
+            "scientific_name": "Allium cepa",
+            "primary_soil_types": [
+                "Alluvial Deltaic Soil",
+                "Red Sandy Loam",
+                "Clay Loam Soil"
+            ],
+            "season": "Kharif & Rabi",
+            "area_coverage_hectares": 48000,
+            "major_districts": [
+                "Kurnool",
+                "Prakasam",
+                "Guntur",
+                "Ranga Reddy",
+                "Mahbubnagar"
+            ],
+            "importance": "Essential vegetable, good storage, export potential"
+        },
+        {
+            "id": "CR024",
+            "name_en": "Mango",
+            "name_te": "మామిడి",
+            "scientific_name": "Mangifera indica",
+            "primary_soil_types": [
+                "Red Sandy Loam",
+                "Red Laterite Upland Soil"
+            ],
+            "season": "Perennial (Harvest: Apr-Jun)",
+            "area_coverage_hectares": 280000,
+            "major_districts": [
+                "Krishna",
+                "Guntur",
+                "Chittoor",
+                "Anantapur",
+                "Khammam"
+            ],
+            "importance": "Major fruit crop, King of fruits, high export value"
+        },
+        {
+            "id": "CR025",
+            "name_en": "Coconut",
+            "name_te": "కొబ్బరి",
+            "scientific_name": "Cocos nucifera",
+            "primary_soil_types": [
+                "Coastal Sandy Soil",
+                "Alluvial Deltaic Soil"
+            ],
+            "season": "Perennial",
+            "area_coverage_hectares": 95000,
+            "major_districts": [
+                "East Godavari",
+                "West Godavari",
+                "Krishna",
+                "Srikakulam",
+                "Vizianagaram"
+            ],
+            "importance": "Coastal plantation crop, multiple uses"
+        },
+        {
+            "id": "CR026",
+            "name_en": "Cashew",
+            "name_te": "జీడిపప్పు",
+            "scientific_name": "Anacardium occidentale",
+            "primary_soil_types": [
+                "Coastal Sandy Soil",
+                "Red Laterite Upland Soil"
+            ],
+            "season": "Perennial (Harvest: Feb-May)",
+            "area_coverage_hectares": 125000,
+            "major_districts": [
+                "Vizianagaram",
+                "Srikakulam",
+                "Visakhapatnam",
+                "East Godavari"
+            ],
+            "importance": "Plantation crop, export oriented, processing industry"
+        },
+        {
+            "id": "CR027",
+            "name_en": "Papaya",
+            "name_te": "బొప్పాయ",
+            "scientific_name": "Carica papaya",
+            "primary_soil_types": ["Alluvial Deltaic Soil", "Clay Loam Soil"],
+            "season": "Perennial",
+            "area_coverage_hectares": 15000,
+            "major_districts": ["Krishna", "Guntur", "Ranga Reddy", "Medak"],
+            "importance": "Growing fruit crop, medicinal properties"
+        },
+        {
+            "id": "CR028",
+            "name_en": "Oil Palm",
+            "name_te": "నూనె తాటి",
+            "scientific_name": "Elaeis guineensis",
+            "primary_soil_types": [
+                "Alluvial Deltaic Soil",
+                "Red Laterite Upland Soil"
+            ],
+            "season": "Perennial",
+            "area_coverage_hectares": 75000,
+            "major_districts": [
+                "East Godavari",
+                "West Godavari",
+                "Krishna",
+                "Visakhapatnam"
+            ],
+            "importance": "Emerging crop, high oil yield, government promotion"
+        },
+        {
+            "id": "CR029",
+            "name_en": "Castor",
+            "name_te": "ఆముదం",
+            "scientific_name": "Ricinus communis",
+            "primary_soil_types": [
+                "Red Sandy Loam",
+                "Mixed Red and Black Soil",
+                "Hill Plateau Soil"
+            ],
+            "season": "Kharif & Rabi",
+            "area_coverage_hectares": 85000,
+            "major_districts": [
+                "Mahbubnagar",
+                "Nalgonda",
+                "Kurnool",
+                "Anantapur",
+                "Adilabad"
+            ],
+            "importance": "Important oilseed, industrial uses, drought tolerant"
+        },
+        {
+            "id": "CR030",
+            "name_en": "Safflower",
+            "name_te": "కుసుమ",
+            "scientific_name": "Carthamus tinctorius",
+            "primary_soil_types": [
+                "Black Cotton Soil (Vertisols)",
+                "Mixed Red and Black Soil"
+            ],
+            "season": "Rabi (Oct-Mar)",
+            "area_coverage_hectares": 42000,
+            "major_districts": [
+                "Mahbubnagar",
+                "Nalgonda",
+                "Kurnool",
+                "Anantapur"
+            ],
+            "importance": "Drought tolerant oilseed, rainfed areas"
+        },
+        {
+            "id": "CR031",
+            "name_en": "Soybean",
+            "name_te": "సోయా",
+            "scientific_name": "Glycine max",
+            "primary_soil_types": [
+                "Black Cotton Soil (Vertisols)",
+                "Red Sandy Loam"
+            ],
+            "season": "Kharif (June-Oct)",
+            "area_coverage_hectares": 125000,
+            "major_districts": [
+                "Adilabad",
+                "Nizamabad",
+                "Warangal",
+                "Karimnagar"
+            ],
+            "importance": "Oilseed cum pulse, high protein, increasing area"
+        },
+        {
+            "id": "CR032",
+            "name_en": "Sesame",
+            "name_te": "నువ్వులు",
+            "scientific_name": "Sesamum indicum",
+            "primary_soil_types": ["Red Sandy Loam", "Coastal Sandy Soil"],
+            "season": "Kharif & Summer",
+            "area_coverage_hectares": 95000,
+            "major_districts": [
+                "Prakasam",
+                "Nellore",
+                "Kurnool",
+                "Anantapur",
+                "Mahbubnagar"
+            ],
+            "importance": "Traditional oilseed, export quality"
+        },
+        {
+            "id": "CR033",
+            "name_en": "Pearl Millet (Bajra)",
+            "name_te": "సజ్జలు",
+            "scientific_name": "Pennisetum glaucum",
+            "primary_soil_types": [
+                "Red Sandy Loam",
+                "Hill Plateau Soil",
+                "Coastal Sandy Soil"
+            ],
+            "season": "Kharif & Summer",
+            "area_coverage_hectares": 135000,
+            "major_districts": [
+                "Mahbubnagar",
+                "Kurnool",
+                "Anantapur",
+                "Prakasam",
+                "Nellore"
+            ],
+            "importance": "Dryland cereal, drought tolerant, nutritious"
+        },
+        {
+            "id": "CR034",
+            "name_en": "Finger Millet (Ragi)",
+            "name_te": "రాగి",
+            "scientific_name": "Eleusine coracana",
+            "primary_soil_types": [
+                "Red Laterite Upland Soil",
+                "Hill Plateau Soil"
+            ],
+            "season": "Kharif (June-Oct)",
+            "area_coverage_hectares": 58000,
+            "major_districts": [
+                "Vizianagaram",
+                "Srikakulam",
+                "Visakhapatnam",
+                "Khammam",
+                "Adilabad"
+            ],
+            "importance": "Nutritious millet, tribal staple, health food"
+        },
+        {
+            "id": "CR035",
+            "name_en": "Coriander",
+            "name_te": "కొత్తిమీర",
+            "scientific_name": "Coriandrum sativum",
+            "primary_soil_types": ["Alluvial Deltaic Soil", "Clay Loam Soil"],
+            "season": "Rabi & Summer",
+            "area_coverage_hectares": 24000,
+            "major_districts": ["Guntur", "Krishna", "Warangal", "Karimnagar"],
+            "importance": "Spice crop, leaves and seeds used, export quality"
+        }
+    ],
+
+    "note_on_remedies_and_diseases": {
+        "reason": "Due to JSON file size and readability constraints, complete details for all 45 organic remedies and 107 diseases are maintained in the companion markdown file",
+        "reference_file": "COMPREHENSIVE_DISEASES_REMEDIES_DATABASE.md",
+        "content_in_markdown": {
+            "part_1": "Complete Organic Remedies Catalog - 45 remedies with preparation, application, target diseases, mode of action, shelf life, cost",
+            "part_2": "Complete Disease Database - 107 diseases organized by crop with pathogen, symptoms, favorable conditions, land types, and remedy linkages with effectiveness ratings"
+        },
+        "recommendation": "Use the markdown file as primary reference for database population via admin UI"
+    },
+
+    "remedies_summary": {
+        "total_count": 45,
+        "categories": {
+            "bio_fungicides": {
+                "count": 10,
+                "examples": [
+                    "Trichoderma viride",
+                    "Trichoderma harzianum",
+                    "Pseudomonas fluorescens",
+                    "Bacillus subtilis",
+                    "Beauveria bassiana",
+                    "Metarhizium anisopliae"
+                ]
+            },
+            "botanical_extracts": {
+                "count": 14,
+                "examples": [
+                    "Neem oil",
+                    "NSKE",
+                    "Neem cake",
+                    "Karanj oil",
+                    "Garlic extract",
+                    "Ginger extract",
+                    "Chilli-garlic extract",
+                    "Turmeric paste",
+                    "Onion extract"
+                ]
+            },
+            "fermented_inputs": {
+                "count": 7,
+                "examples": [
+                    "Panchagavya",
+                    "Jeevamrutham",
+                    "Beejamrutham",
+                    "Amritpani",
+                    "Vermiwash",
+                    "Sanjivak"
+                ]
+            },
+            "traditional_mineral": {
+                "count": 9,
+                "examples": [
+                    "Bordeaux mixture",
+                    "Burgundy mixture",
+                    "Copper oxychloride",
+                    "Wood ash extract",
+                    "Cow urine",
+                    "Buttermilk spray"
+                ]
+            },
+            "trap_crops_botanicals": {
+                "count": 5,
+                "examples": [
+                    "Marigold intercropping",
+                    "Chrysanthemum extract",
+                    "Fish amino acid",
+                    "Gliricidia mulch"
+                ]
+            }
+        },
+        "usage_note": "Effectiveness ratings (High/Medium-High/Medium/Low) are provided for each remedy-disease combination in the markdown file"
+    },
+
+    "diseases_summary": {
+        "total_count": 107,
+        "by_crop_category": {
+            "paddy_rice": {
+                "count": 17,
+                "major_diseases": [
+                    "Blast",
+                    "Sheath blight",
+                    "Brown spot",
+                    "Bacterial leaf blight",
+                    "Tungro",
+                    "Sheath rot",
+                    "False smut"
+                ]
+            },
+            "cotton": {
+                "count": 8,
+                "major_diseases": [
+                    "Fusarium wilt",
+                    "Bacterial blight",
+                    "Alternaria leaf spot",
+                    "Grey mildew",
+                    "Root rot"
+                ]
+            },
+            "chilli": {
+                "count": 11,
+                "major_diseases": [
+                    "Anthracnose",
+                    "Powdery mildew",
+                    "Damping off",
+                    "Fusarium wilt",
+                    "Phytophthora blight",
+                    "Bacterial wilt",
+                    "Leaf curl virus"
+                ]
+            },
+            "maize": {
+                "count": 12,
+                "major_diseases": [
+                    "Turcicum leaf blight",
+                    "Maydis leaf blight",
+                    "Common rust",
+                    "Polysora rust",
+                    "Charcoal rot",
+                    "Common smut"
+                ]
+            },
+            "tomato": {
+                "count": 14,
+                "major_diseases": [
+                    "Early blight",
+                    "Late blight",
+                    "Fusarium wilt",
+                    "Verticillium wilt",
+                    "Bacterial wilt",
+                    "Tomato leaf curl virus",
+                    "Septoria leaf spot"
+                ]
+            },
+            "groundnut": {
+                "count": 6,
+                "major_diseases": [
+                    "Tikka disease (Early/Late leaf spot)",
+                    "Rust",
+                    "Collar rot",
+                    "Stem rot",
+                    "Dry root rot",
+                    "Bud necrosis"
+                ]
+            },
+            "pigeon_pea": {
+                "count": 5,
+                "major_diseases": [
+                    "Fusarium wilt",
+                    "Sterility mosaic",
+                    "Phytophthora blight",
+                    "Alternaria blight",
+                    "Powdery mildew"
+                ]
+            },
+            "leafy_vegetables": {
+                "count": 4,
+                "major_diseases": [
+                    "Damping off",
+                    "Downy mildew",
+                    "White rust",
+                    "Leaf spots"
+                ]
+            },
+            "cucurbits": {
+                "count": 9,
+                "major_diseases": [
+                    "Downy mildew",
+                    "Powdery mildew",
+                    "Anthracnose",
+                    "Fusarium wilt",
+                    "Gummy stem blight",
+                    "Cucumber mosaic virus"
+                ]
+            },
+            "pulses_black_green_gram": {
+                "count": 6,
+                "major_diseases": [
+                    "Yellow mosaic virus",
+                    "Powdery mildew",
+                    "Cercospora leaf spot",
+                    "Anthracnose",
+                    "Dry root rot",
+                    "Wilt"
+                ]
+            },
+            "brinjal": {
+                "count": 7,
+                "major_diseases": [
+                    "Damping off",
+                    "Phomopsis blight",
+                    "Little leaf",
+                    "Fusarium wilt",
+                    "Bacterial wilt",
+                    "Brinjal mosaic"
+                ]
+            },
+            "root_vegetables": {
+                "count": 4,
+                "major_diseases": [
+                    "Alternaria leaf blight",
+                    "Powdery mildew",
+                    "Cercospora leaf spot",
+                    "Root rots"
+                ]
+            },
+            "sunflower": {
+                "count": 4,
+                "major_diseases": [
+                    "Alternaria blight",
+                    "Downy mildew",
+                    "Rust",
+                    "Sclerotium head rot"
+                ]
+            }
+        },
+        "by_pathogen_type": {
+            "fungal": 78,
+            "bacterial": 14,
+            "viral": 12,
+            "phytoplasma": 3
+        },
+        "reference_structure": "Each disease entry in markdown includes: Name (EN+TE), Pathogen, Symptoms, Favorable conditions, Applicable land types, Multiple remedy options with effectiveness ratings"
+    },
+
+    "soil_type_disease_vulnerability": {
+        "Alluvial Deltaic Soil": {
+            "vulnerability": "High humidity diseases",
+            "common_issues": [
+                "Blast (Paddy)",
+                "Sheath blight",
+                "Bacterial leaf blight",
+                "Phytophthora blights"
+            ],
+            "reason": "High moisture, waterlogging prone, high humidity"
+        },
+        "Black Cotton Soil (Vertisols)": {
+            "vulnerability": "Wilt diseases, waterlogging diseases",
+            "common_issues": [
+                "Fusarium wilt (Cotton)",
+                "Bacterial wilt (Solanaceous)",
+                "Stem rot (Sclerotium)",
+                "Root rots"
+            ],
+            "reason": "Alkaline pH favors certain pathogens, water retention, cracking damages roots"
+        },
+        "Red Sandy Loam": {
+            "vulnerability": "Moisture stress diseases",
+            "common_issues": [
+                "Dry root rot (Macrophomina)",
+                "Tikka disease (Groundnut)",
+                "Collar rot",
+                "Nutrient deficiencies"
+            ],
+            "reason": "Low water holding capacity, moisture stress, nutrient leaching"
+        },
+        "Red Laterite Upland Soil": {
+            "vulnerability": "Acidity-related issues",
+            "common_issues": [
+                "Brown spot (Paddy)",
+                "Aluminum/Iron toxicity",
+                "Nutrient deficiencies"
+            ],
+            "reason": "Highly acidic pH, iron toxicity, low fertility"
+        },
+        "Hill Plateau Soil": {
+            "vulnerability": "Cool temperature diseases",
+            "common_issues": ["Blast (in valleys)", "Leaf blights", "Rusts"],
+            "reason": "Cool temperatures, moisture pockets, undulating terrain"
+        }
+    },
+
+    "data_entry_workflow": {
+        "recommended_sequence": {
+            "phase_1": {
+                "task": "Create all 10 Land Types",
+                "source": "soil_types array in this JSON",
+                "admin_form": "Admin Land Type Form",
+                "fields": [
+                    "name_en",
+                    "name_te",
+                    "description_en",
+                    "description_te",
+                    "regions",
+                    "ph_range",
+                    "water_retention",
+                    "major_crops"
+                ]
+            },
+            "phase_2": {
+                "task": "Create all 45 Organic Remedies",
+                "source": "COMPREHENSIVE_DISEASES_REMEDIES_DATABASE.md - Part 1",
+                "admin_form": "Admin Remedy Form",
+                "fields": [
+                    "name_en",
+                    "name_te",
+                    "type/category",
+                    "preparation",
+                    "application",
+                    "target",
+                    "shelf_life",
+                    "cost"
+                ],
+                "note": "Each remedy has detailed preparation instructions and application methods in markdown"
+            },
+            "phase_3": {
+                "task": "Create all 35 Crops with Images",
+                "source": "crops array in this JSON",
+                "admin_form": "Admin Crop Form",
+                "fields": [
+                    "name_en",
+                    "name_te",
+                    "scientific_name",
+                    "image_upload",
+                    "primary_soil_types (multi-select)",
+                    "season",
+                    "major_districts"
+                ],
+                "note": "Use crop images from local sources or stock photos"
+            },
+            "phase_4": {
+                "task": "Create all 107 Diseases",
+                "source": "COMPREHENSIVE_DISEASES_REMEDIES_DATABASE.md - Part 2",
+                "admin_form": "Admin Disease Form",
+                "fields": [
+                    "name_en",
+                    "name_te",
+                    "scientific_name (pathogen)",
+                    "crop (select)",
+                    "soil_types (multi-select)",
+                    "symptoms",
+                    "favorable_conditions",
+                    "remedies (multi-select with effectiveness)"
+                ],
+                "note": "Link each disease to multiple remedies with effectiveness ratings from markdown"
+            }
+        },
+        "estimated_time": {
+            "soil_types": "1-2 hours (10 entries)",
+            "remedies": "3-4 hours (45 entries with detailed info)",
+            "crops": "2-3 hours (35 entries with image uploads)",
+            "diseases": "8-12 hours (107 entries with multiple remedy linkages)",
+            "total": "14-21 hours for complete database population"
+        }
+    },
+
+    "regional_coverage": {
+        "telangana_districts": 33,
+        "andhra_pradesh_districts": 26,
+        "total_districts": 59,
+        "district_list": {
+            "telangana": [
+                "Adilabad",
+                "Komaram Bheem Asifabad",
+                "Mancherial",
+                "Nirmal",
+                "Nizamabad",
+                "Jagtial",
+                "Peddapalli",
+                "Karimnagar",
+                "Rajanna Sircilla",
+                "Warangal Rural",
+                "Warangal Urban",
+                "Jangaon",
+                "Jayashankar Bhupalpally",
+                "Khammam",
+                "Bhadradri Kothagudem",
+                "Medak",
+                "Siddipet",
+                "Sangareddy",
+                "Kamareddy",
+                "Medchal-Malkajgiri",
+                "Hyderabad",
+                "Ranga Reddy",
+                "Vikarabad",
+                "Mahabubnagar",
+                "Nagarkurnool",
+                "Wanaparthy",
+                "Jogulamba Gadwal",
+                "Narayanpet",
+                "Nalgonda",
+                "Suryapet",
+                "Yadadri Bhuvanagiri",
+                "Mulugu",
+                "Narayanpet"
+            ],
+            "andhra_pradesh": [
+                "Srikakulam",
+                "Parvathipuram Manyam",
+                "Vizianagaram",
+                "Visakhapatnam",
+                "Alluri Sitharama Raju",
+                "Anakapalli",
+                "Kakinada",
+                "East Godavari",
+                "Dr. B.R. Ambedkar Konaseema",
+                "Eluru",
+                "West Godavari",
+                "Krishna",
+                "NTR",
+                "Guntur",
+                "Bapatla",
+                "Palnadu",
+                "Prakasam",
+                "Sri Potti Sriramulu Nellore",
+                "Nandyal",
+                "Kurnool",
+                "Anantapur",
+                "Sri Sathya Sai",
+                "YSR",
+                "Annamayya",
+                "Chittoor",
+                "Tirupati"
+            ]
+        }
+    },
+
+    "validation_and_sources": {
+        "data_verification": "All data cross-verified from multiple official sources",
+        "last_updated": "February 2026",
+        "update_frequency_recommendation": "Annual review recommended",
+        "primary_sources": {
+            "universities": ["ANGRAU (AP)", "PJTSAU (TS)"],
+            "research_institutes": [
+                "ICAR-IIRR (Rice)",
+                "ICAR-IIOR (Oilseeds)",
+                "ICAR-CRIDA (Dryland)"
+            ],
+            "government": [
+                "TS Agriculture Department",
+                "AP Agriculture Department"
+            ],
+            "field_level": [
+                "District KVKs",
+                "Extension Officers",
+                "Progressive Farmers"
+            ]
+        },
+        "data_quality_notes": [
+            "Area coverage figures are approximate based on 2024-25 season data",
+            "Disease severity varies with micro-climate and season",
+            "Remedy effectiveness ratings based on field trials and farmer feedback",
+            "Local variations exist - adapt recommendations to specific conditions",
+            "Climate change may affect disease patterns - monitor and update"
+        ]
+    },
+
+    "organic_certification_note": {
+        "standards": "All remedies listed are generally permissible under organic farming standards",
+        "verification": "For commercial organic certification, verify specific inputs with your certifying agency",
+        "exceptions": [
+            "Bordeaux mixture: Copper compounds have usage limits in some organic standards",
+            "Copper oxychloride: Check permitted copper levels with certifying agency"
+        ],
+        "recommendation": "Prioritize bio-pesticides and botanical extracts for certified organic farms"
+    },
+
+    "climate_adaptation": {
+        "climate_change_impacts": [
+            "Shifting disease patterns due to temperature changes",
+            "Increased pest/disease pressure in some regions",
+            "Changed rainfall patterns affecting disease occurrence",
+            "New diseases emerging or spreading to new areas"
+        ],
+        "adaptation_strategies": [
+            "Regular monitoring and early detection",
+            "Crop diversification",
+            "Climate-resilient varieties",
+            "Integrated pest and disease management",
+            "Soil health improvement for plant immunity"
+        ]
+    },
+
+    "usage_license": {
+        "purpose": "Educational and agricultural advisory use for RythuNetra application",
+        "distribution": "May be shared with farmers and agricultural extension workers",
+        "attribution": "Please credit original sources (ANGRAU, PJTSAU, ICAR institutes) when using this data",
+        "updates": "Users are encouraged to report field observations for continuous improvement"
+    }
+}

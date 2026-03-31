@@ -1,0 +1,64 @@
+[
+    {
+        "id": "uuid-1234",
+        "name": "Black soil",
+        "isVerified": true,
+        "phRange": ["6.0", "7.5"],
+        "organicMatter": ["0.3%", "0.7%"],
+        "waterRetention": ["Low", "Moderate"],
+        "districts": ["District A", "District B"],
+        "majorCrops": ["Crop X", "Crop Y"],
+        "characteristics": "Black soil is rich in clay and has good water retention properties."
+    }
+],
+
+{
+  "Ivy Gourd": {
+    "id": "uuid-1234",
+    "name": "Ivy Gourd",
+    "scientificName": "Coccinia grandis",
+    "type": "vegetable",
+    "isVerified": true,
+    "suitableSoilTypes": ["soiltype-1", "soiltype-2"],
+    "image_url": "sample_image_url.jpg",
+    "seasons": [
+      {
+        "name": "Kharif",
+        "months": ["June", "July", "August"]
+      }
+    ],
+    "districts": ["Hyderabad", "Ranga Reddy"],
+    "popularVarieties": ["Variety A", "Variety B"],
+    "aliases": ["Tindora", "Kovakkai"],
+    "diseases": [
+      {
+        "id": "disease-uuid-5678",
+        "name": "Powdery Mildew",
+        "type": "fungal",
+        "isVerified": true,
+        "severity": "moderate",
+        "symptoms": ["White powdery spots on leaves", "Leaf curling"],
+        "primaryCause": "Erysiphe cichoracearum",
+        "favorableConditions": ["High humidity", "Poor air circulation"],
+        "prevention": ["Crop rotation", "Resistant varieties", "Proper spacing"],
+        "treatment": ["Organic methods like neem oil spray"],
+        "aliases": ["Oidium"],
+        "remedies": [
+          {
+            "id": "remedy-uuid-9012",
+            "name": "Neem Oil Spray",
+            "isVerified": true,
+            "type": "Bio-fungicide",
+            "target": "Powdery Mildew",
+            "modeOfAction": "Neem oil disrupts fungal growth and spore germination.",
+            "application": "Spray neem oil solution on affected plants every 7-14 days.",
+            "preparation": "Mix 1 part neem oil with 10 parts water and a few drops of mild soap.",
+            "ingredients": ["Neem oil", "Water", "Mild soap"],
+            "effectiveness": "Moderate",
+            "aliases": ["Azadirachtin Spray"]
+          }
+        ]
+      }
+    ]
+  }
+}

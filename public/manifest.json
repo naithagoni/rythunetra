@@ -1,0 +1,17 @@
+{
+    "name": "RythuNetra — Organic Farming Platform",
+    "short_name": "RythuNetra",
+    "description": "Identify crop diseases, discover organic remedies, and get AI-powered farming advice for Telangana.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#f8f6f0",
+    "theme_color": "#1A7F54",
+    "icons": [
+        {
+            "src": "/rythunetra.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        }
+    ]
+}

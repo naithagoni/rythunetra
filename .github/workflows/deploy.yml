@@ -1,0 +1,46 @@
+# Step-by-step Setup for GitHub Actions:
+#
+# 1. Create a Vercel API token:
+#    - Go to https://vercel.com/account/tokens → Create Token
+#
+# 2. Link the project (run locally once):
+#    - Run: vercel link
+#    - This creates .vercel/project.json with orgId and projectId
+#
+# 3. Add the GitHub secrets (Settings (Under your GitHub repo) → Secrets and variables → Actions → Secrets → Repository secrets):
+#    - VERCEL_TOKEN    → the token you created in step 1
+#    - VERCEL_ORG_ID    → "orgId" value from .vercel/project.json
+#    - VERCEL_PROJECT_ID → "projectId" value from .vercel/project.json
+#
+# 4. Push to main → production deploy; open a PR → preview deploy.
+
+name: Deploy to Vercel
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: npm
+
+            - run: npm ci
+
+            - run: npm run lint
+
+            - name: Deploy to Vercel
+              uses: amondnet/vercel-action@v25
+              with:
+                  vercel-token: ${{ secrets.VERCEL_TOKEN }}
+                  vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+                  vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+                  vercel-args: ${{ github.ref == 'refs/heads/main' && '--prod' || '' }}

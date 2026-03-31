@@ -1,0 +1,1263 @@
+[
+    {
+        "name": "Mango",
+        "nameTe": "మామిడి",
+        "cropType": "fruit",
+        "aliases": {
+            "en": ["Mango", "Aam"],
+            "te": ["మామిడి", "మామిడిపండు"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "black",
+                "subType": "deep"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            }
+        ],
+        "zones": ["northern", "central", "southern"]
+    },
+    {
+        "name": "Sapota",
+        "nameTe": "సపోట",
+        "cropType": "fruit",
+        "aliases": {
+            "en": ["Sapota", "Chikoo", "Sapodilla", "Naseberry"],
+            "te": ["సపోట", "సపోటాపండు"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "black",
+                "subType": "deep"
+            },
+            {
+                "type": "calcareous",
+                "subType": "deepCalcareous"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            }
+        ],
+        "zones": ["northern"]
+    },
+    {
+        "name": "Guava",
+        "nameTe": "జామ",
+        "cropType": "fruit",
+        "aliases": {
+            "en": ["Guava", "Amrood"],
+            "te": ["జామ", "జామపండు"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "black",
+                "subType": "shallow"
+            },
+            {
+                "type": "calcareous",
+                "subType": "deepCalcareous"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            }
+        ],
+        "zones": ["northern", "central"]
+    },
+    {
+        "name": "Custard Apple",
+        "nameTe": "సీతాఫలం",
+        "cropType": "fruit",
+        "aliases": {
+            "en": ["Custard Apple", "Sitaphal", "Sugar Apple", "Sweetsop"],
+            "te": ["సీతాఫలం", "సీతాపండు"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "shallowGravelly"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "black",
+                "subType": "shallow"
+            },
+            {
+                "type": "calcareous",
+                "subType": "deepCalcareous"
+            }
+        ],
+        "zones": ["northern", "central", "southern"]
+    },
+    {
+        "name": "Banana",
+        "nameTe": "అరటి",
+        "cropType": "fruit",
+        "aliases": {
+            "en": ["Banana", "Plantain"],
+            "te": ["అరటి", "అరటిపండు"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "colluvial"
+            },
+            {
+                "type": "black",
+                "subType": "deep"
+            },
+            {
+                "type": "red",
+                "subType": "clayey"
+            }
+        ],
+        "zones": ["central"]
+    },
+    {
+        "name": "Oil Palm",
+        "nameTe": "ఆయిల్ పామ్",
+        "cropType": "oilseed",
+        "aliases": {
+            "en": ["Oil Palm", "Palm Oil Tree"],
+            "te": ["ఆయిల్ పామ్", "నూనె తాళం"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "colluvial"
+            },
+            {
+                "type": "black",
+                "subType": "deep"
+            }
+        ],
+        "zones": ["central"]
+    },
+    {
+        "name": "Palmyrah",
+        "nameTe": "తాటి",
+        "cropType": "fruit",
+        "aliases": {
+            "en": ["Palmyrah", "Palmyra Palm", "Toddy Palm"],
+            "te": ["తాటి", "తాటిచెట్టు"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "sandyLoam"
+            },
+            {
+                "type": "red",
+                "subType": "shallowGravelly"
+            },
+            {
+                "type": "black",
+                "subType": "shallow"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            }
+        ],
+        "zones": ["central"]
+    },
+    {
+        "name": "Coconut",
+        "nameTe": "కొబ్బరి",
+        "cropType": "fruit",
+        "aliases": {
+            "en": ["Coconut", "Nariyal"],
+            "te": ["కొబ్బరి", "కొబ్బరికాయ"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "sandyLoam"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            }
+        ],
+        "zones": ["central"]
+    },
+    {
+        "name": "Cashewnut",
+        "nameTe": "జీడిపప్పు",
+        "cropType": "fruit",
+        "aliases": {
+            "en": ["Cashewnut", "Cashew", "Kaju"],
+            "te": ["జీడిపప్పు", "జీడిమామిడి"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "shallowGravelly"
+            },
+            {
+                "type": "red",
+                "subType": "sandyLoam"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            }
+        ],
+        "zones": ["central"]
+    },
+    {
+        "name": "Watermelon",
+        "nameTe": "పుచ్చకాయ",
+        "cropType": "fruit",
+        "aliases": {
+            "en": ["Watermelon", "Tarbuz"],
+            "te": ["పుచ్చకాయ", "పుచ్చపండు"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "sandyLoam"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            }
+        ],
+        "zones": ["central", "southern"]
+    },
+    {
+        "name": "Pomegranate",
+        "nameTe": "దానిమ్మ",
+        "cropType": "fruit",
+        "aliases": {
+            "en": ["Pomegranate", "Anar"],
+            "te": ["దానిమ్మ", "దానిమ్మపండు"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "red",
+                "subType": "sandyLoam"
+            },
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "calcareous",
+                "subType": "deepCalcareous"
+            }
+        ],
+        "zones": ["central", "southern"]
+    },
+    {
+        "name": "Papaya",
+        "nameTe": "బొప్పాయి",
+        "cropType": "fruit",
+        "aliases": {
+            "en": ["Papaya", "Papita", "Pawpaw"],
+            "te": ["బొప్పాయి", "బొప్పాయిపండు"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "calcareous",
+                "subType": "deepCalcareous"
+            }
+        ],
+        "zones": ["central", "southern"]
+    },
+    {
+        "name": "Grapes",
+        "nameTe": "ద్రాక్ష",
+        "cropType": "fruit",
+        "aliases": {
+            "en": ["Grapes", "Angoor"],
+            "te": ["ద్రాక్ష", "ద్రాక్షపండు"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "sandyLoam"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "calcareous",
+                "subType": "deepCalcareous"
+            }
+        ],
+        "zones": ["southern"]
+    },
+    {
+        "name": "Sweet Orange",
+        "nameTe": "బత్తాయి",
+        "cropType": "fruit",
+        "aliases": {
+            "en": ["Sweet Orange", "Mosambi", "Orange"],
+            "te": ["బత్తాయి", "బత్తాయిపండు"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            },
+            {
+                "type": "calcareous",
+                "subType": "deepCalcareous"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            }
+        ],
+        "zones": ["southern"]
+    },
+    {
+        "name": "Tomato",
+        "nameTe": "టమాటా",
+        "cropType": "vegetable",
+        "aliases": {
+            "en": ["Tomato"],
+            "te": ["టమాటా", "టమాట"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "black",
+                "subType": "shallow"
+            },
+            {
+                "type": "black",
+                "subType": "medium"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            }
+        ],
+        "zones": ["northern", "central", "southern"]
+    },
+    {
+        "name": "French Beans",
+        "nameTe": "ఫ్రెంచ్ బీన్స్",
+        "cropType": "vegetable",
+        "aliases": {
+            "en": ["French Beans", "Green Beans", "Snap Beans", "String Beans"],
+            "te": ["ఫ్రెంచ్ బీన్స్", "చిక్కుడు"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "red",
+                "subType": "sandyLoam"
+            },
+            {
+                "type": "red",
+                "subType": "shallowGravelly"
+            }
+        ],
+        "zones": ["northern"]
+    },
+    {
+        "name": "Brinjal",
+        "nameTe": "వంకాయ",
+        "cropType": "vegetable",
+        "aliases": {
+            "en": ["Brinjal", "Eggplant", "Aubergine", "Baingan"],
+            "te": ["వంకాయ", "గుత్తివంకాయ"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "black",
+                "subType": "medium"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            }
+        ],
+        "zones": ["central", "southern"]
+    },
+    {
+        "name": "Potato",
+        "nameTe": "బంగాళాదుంప",
+        "cropType": "vegetable",
+        "aliases": {
+            "en": ["Potato", "Aloo"],
+            "te": ["బంగాళాదుంప", "బంగాళదుంపలు"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "sandyLoam"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            }
+        ],
+        "zones": ["central"]
+    },
+    {
+        "name": "Onion",
+        "nameTe": "ఉల్లిపాయ",
+        "cropType": "vegetable",
+        "aliases": {
+            "en": ["Onion", "Pyaz"],
+            "te": ["ఉల్లిపాయ", "ఉల్లి", "ఎర్ర ఉల్లి"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "black",
+                "subType": "shallow"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            }
+        ],
+        "zones": ["central", "southern"]
+    },
+    {
+        "name": "Dolichos Beans",
+        "nameTe": "అనప",
+        "cropType": "vegetable",
+        "aliases": {
+            "en": [
+                "Dolichos Beans",
+                "Hyacinth Beans",
+                "Indian Beans",
+                "Field Beans"
+            ],
+            "te": ["అనప", "అనపకాయ", "చిక్కుడుకాయ"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "red",
+                "subType": "shallowGravelly"
+            }
+        ],
+        "zones": ["central"]
+    },
+    {
+        "name": "Okra",
+        "nameTe": "బెండకాయ",
+        "cropType": "vegetable",
+        "aliases": {
+            "en": ["Okra", "Bhendi", "Lady Finger", "Lady's Finger"],
+            "te": ["బెండకాయ", "బెండ"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            },
+            {
+                "type": "black",
+                "subType": "medium"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            }
+        ],
+        "zones": ["southern"]
+    },
+    {
+        "name": "Gherkins",
+        "nameTe": "ఘెర్కిన్స్",
+        "cropType": "vegetable",
+        "aliases": {
+            "en": ["Gherkins", "Pickling Cucumber", "Cornichon"],
+            "te": ["ఘెర్కిన్స్", "చిన్న దోసకాయ"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "sandyLoam"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            }
+        ],
+        "zones": ["southern"]
+    },
+    {
+        "name": "Colocasia",
+        "nameTe": "చామదుంప",
+        "cropType": "vegetable",
+        "aliases": {
+            "en": ["Colocasia", "Taro", "Arbi", "Eddoe"],
+            "te": ["చామదుంప", "చేమదుంప"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "colluvial"
+            },
+            {
+                "type": "black",
+                "subType": "deep"
+            },
+            {
+                "type": "red",
+                "subType": "clayey"
+            }
+        ],
+        "zones": ["southern"]
+    },
+    {
+        "name": "Sweet Potato",
+        "nameTe": "చిలకడదుంప",
+        "cropType": "vegetable",
+        "aliases": {
+            "en": ["Sweet Potato", "Shakarkand"],
+            "te": ["చిలకడదుంప", "గెనసుదుంప"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "sandyLoam"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            }
+        ],
+        "zones": ["southern"]
+    },
+    {
+        "name": "Cucumber",
+        "nameTe": "దోసకాయ",
+        "cropType": "vegetable",
+        "aliases": {
+            "en": ["Cucumber", "Kheera", "Kakdi"],
+            "te": ["దోసకాయ", "దోస"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "sandyLoam"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            }
+        ],
+        "zones": ["southern"]
+    },
+    {
+        "name": "Bottle Gourd",
+        "nameTe": "సొరకాయ",
+        "cropType": "vegetable",
+        "aliases": {
+            "en": ["Bottle Gourd", "Lauki", "Calabash", "Doodhi"],
+            "te": ["సొరకాయ", "ఆనపకాయ"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "black",
+                "subType": "medium"
+            }
+        ],
+        "zones": ["central", "southern"]
+    },
+    {
+        "name": "Ridge Gourd",
+        "nameTe": "బీరకాయ",
+        "cropType": "vegetable",
+        "aliases": {
+            "en": ["Ridge Gourd", "Tori", "Luffa"],
+            "te": ["బీరకాయ"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            }
+        ],
+        "zones": ["central", "southern"]
+    },
+    {
+        "name": "Bitter Gourd",
+        "nameTe": "కాకరకాయ",
+        "cropType": "vegetable",
+        "aliases": {
+            "en": ["Bitter Gourd", "Karela", "Bitter Melon"],
+            "te": ["కాకరకాయ"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "sandyLoam"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            }
+        ],
+        "zones": ["central", "southern"]
+    },
+    {
+        "name": "Snake Gourd",
+        "nameTe": "పొట్లకాయ",
+        "cropType": "vegetable",
+        "aliases": {
+            "en": ["Snake Gourd", "Chichinda", "Serpent Gourd"],
+            "te": ["పొట్లకాయ"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            }
+        ],
+        "zones": ["central", "southern"]
+    },
+    {
+        "name": "Ash Gourd",
+        "nameTe": "బూడిదగుమ్మడికాయ",
+        "cropType": "vegetable",
+        "aliases": {
+            "en": ["Ash Gourd", "Winter Melon", "Petha", "Wax Gourd"],
+            "te": ["బూడిదగుమ్మడికాయ", "బూడిదగుమ్మడి"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            },
+            {
+                "type": "black",
+                "subType": "medium"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            }
+        ],
+        "zones": ["central", "southern"]
+    },
+    {
+        "name": "Ivy Gourd",
+        "nameTe": "దొండకాయ",
+        "cropType": "vegetable",
+        "aliases": {
+            "en": ["Ivy Gourd", "Tindora", "Kundru", "Kovakkai"],
+            "te": ["దొండకాయ"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            }
+        ],
+        "zones": ["central", "southern"]
+    },
+    {
+        "name": "Spinach",
+        "nameTe": "పాలకూర",
+        "cropType": "vegetable",
+        "aliases": {
+            "en": ["Spinach", "Palak"],
+            "te": ["పాలకూర", "పాలకు"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            },
+            {
+                "type": "black",
+                "subType": "medium"
+            },
+            {
+                "type": "black",
+                "subType": "deep"
+            }
+        ],
+        "zones": ["northern", "central", "southern"]
+    },
+    {
+        "name": "Amaranth",
+        "nameTe": "తోటకూర",
+        "cropType": "vegetable",
+        "aliases": {
+            "en": ["Amaranth", "Amaranth Greens", "Thotakura"],
+            "te": ["తోటకూర"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "sandyLoam"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            }
+        ],
+        "zones": ["northern", "central", "southern"]
+    },
+    {
+        "name": "Fenugreek",
+        "nameTe": "మేథి",
+        "cropType": "vegetable",
+        "aliases": {
+            "en": ["Fenugreek", "Methi", "Fenugreek Greens"],
+            "te": ["మేథి", "మేథికూర", "మేథి ఆకు"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "black",
+                "subType": "shallow"
+            },
+            {
+                "type": "black",
+                "subType": "medium"
+            },
+            {
+                "type": "calcareous",
+                "subType": "deepCalcareous"
+            }
+        ],
+        "zones": ["northern", "central", "southern"]
+    },
+    {
+        "name": "Drumstick",
+        "nameTe": "మునగకాయ",
+        "cropType": "vegetable",
+        "aliases": {
+            "en": ["Drumstick", "Moringa", "Moringa Oleifera"],
+            "te": ["మునగకాయ", "మునగ"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "sandyLoam"
+            },
+            {
+                "type": "red",
+                "subType": "shallowGravelly"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            }
+        ],
+        "zones": ["northern", "central", "southern"]
+    },
+    {
+        "name": "Curry Leaf",
+        "nameTe": "కరివేపాకు",
+        "cropType": "spice",
+        "aliases": {
+            "en": ["Curry Leaf", "Curry Leaves", "Sweet Neem Leaf"],
+            "te": ["కరివేపాకు", "కరివేప"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "red",
+                "subType": "sandyLoam"
+            },
+            {
+                "type": "black",
+                "subType": "shallow"
+            }
+        ],
+        "zones": ["northern", "central", "southern"]
+    },
+    {
+        "name": "Green Chilli",
+        "nameTe": "పచ్చిమిర్చి",
+        "cropType": "spice",
+        "aliases": {
+            "en": ["Green Chilli", "Green Pepper", "Hot Pepper"],
+            "te": ["పచ్చిమిర్చి", "పచ్చి మిర్చి"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "black",
+                "subType": "shallow"
+            },
+            {
+                "type": "black",
+                "subType": "medium"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            }
+        ],
+        "zones": ["northern", "central", "southern"]
+    },
+    {
+        "name": "Red Chilli",
+        "nameTe": "ఎర్రమిర్చి",
+        "cropType": "spice",
+        "aliases": {
+            "en": ["Red Chilli", "Dry Chilli", "Red Pepper", "Lal Mirch"],
+            "te": ["ఎర్రమిర్చి", "ఎండుమిర్చి"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "black",
+                "subType": "medium"
+            },
+            {
+                "type": "black",
+                "subType": "deep"
+            },
+            {
+                "type": "calcareous",
+                "subType": "deepCalcareous"
+            }
+        ],
+        "zones": ["central"]
+    },
+    {
+        "name": "Turmeric",
+        "nameTe": "పసుపు",
+        "cropType": "spice",
+        "aliases": {
+            "en": ["Turmeric", "Haldi"],
+            "te": ["పసుపు", "పసుపుకొమ్ము"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "colluvial"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            }
+        ],
+        "zones": ["northern"]
+    },
+    {
+        "name": "Coriander",
+        "nameTe": "ధనియాలు",
+        "cropType": "spice",
+        "aliases": {
+            "en": ["Coriander", "Cilantro", "Dhania"],
+            "te": ["ధనియాలు", "కొత్తిమీర"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "black",
+                "subType": "shallow"
+            },
+            {
+                "type": "black",
+                "subType": "medium"
+            },
+            {
+                "type": "calcareous",
+                "subType": "deepCalcareous"
+            }
+        ],
+        "zones": ["northern"]
+    },
+    {
+        "name": "Ginger",
+        "nameTe": "అల్లం",
+        "cropType": "spice",
+        "aliases": {
+            "en": ["Ginger", "Adrak"],
+            "te": ["అల్లం"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "colluvial"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            }
+        ],
+        "zones": ["central"]
+    },
+    {
+        "name": "Paprika",
+        "nameTe": "పాప్రికా",
+        "cropType": "spice",
+        "aliases": {
+            "en": ["Paprika", "Bell Pepper", "Sweet Pepper", "Capsicum"],
+            "te": ["పాప్రికా", "క్యాప్సికం", "దొంత మిర్చి"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "black",
+                "subType": "medium"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            }
+        ],
+        "zones": ["central"]
+    },
+    {
+        "name": "Marigold",
+        "nameTe": "బంతిపూలు",
+        "cropType": "flower",
+        "aliases": {
+            "en": ["Marigold", "Genda"],
+            "te": ["బంతిపూలు", "బంతి"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "black",
+                "subType": "medium"
+            }
+        ],
+        "zones": ["southern"]
+    },
+    {
+        "name": "Jasmine",
+        "nameTe": "మల్లెపూలు",
+        "cropType": "flower",
+        "aliases": {
+            "en": ["Jasmine", "Mogra", "Chameli"],
+            "te": ["మల్లెపూలు", "మల్లె"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "red",
+                "subType": "sandyLoam"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            }
+        ],
+        "zones": ["southern"]
+    },
+    {
+        "name": "Chrysanthemum",
+        "nameTe": "చామంతిపూలు",
+        "cropType": "flower",
+        "aliases": {
+            "en": ["Chrysanthemum", "Shevanti", "Guldaudi"],
+            "te": ["చామంతిపూలు", "చామంతి"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            }
+        ],
+        "zones": ["southern"]
+    },
+    {
+        "name": "Crossandra",
+        "nameTe": "కనకాంబరం",
+        "cropType": "flower",
+        "aliases": {
+            "en": ["Crossandra", "Kanakambaram", "Firecracker Flower"],
+            "te": ["కనకాంబరం"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "sandyLoam"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            },
+            {
+                "type": "red",
+                "subType": "clayey"
+            }
+        ],
+        "zones": ["southern"]
+    },
+    {
+        "name": "Rose",
+        "nameTe": "గులాబీ",
+        "cropType": "flower",
+        "aliases": {
+            "en": ["Rose", "Gulab"],
+            "te": ["గులాబీ", "గులాబీపూలు"]
+        },
+        "suitableSoilTypes": [
+            {
+                "type": "red",
+                "subType": "clayey"
+            },
+            {
+                "type": "black",
+                "subType": "medium"
+            },
+            {
+                "type": "alluvioColluvial",
+                "subType": "alluvial"
+            },
+            {
+                "type": "red",
+                "subType": "gravellyLoam"
+            }
+        ],
+        "zones": ["southern"]
+    }
+]

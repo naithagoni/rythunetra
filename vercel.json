@@ -1,0 +1,56 @@
+{
+    "framework": "vite",
+    "installCommand": "npm install --production=false",
+    "buildCommand": "npm run build",
+    "outputDirectory": "dist",
+    "headers": [
+        {
+            "source": "/(.*)",
+            "headers": [
+                {
+                    "key": "X-Content-Type-Options",
+                    "value": "nosniff"
+                },
+                {
+                    "key": "X-Frame-Options",
+                    "value": "DENY"
+                },
+                {
+                    "key": "X-XSS-Protection",
+                    "value": "1; mode=block"
+                },
+                {
+                    "key": "Referrer-Policy",
+                    "value": "strict-origin-when-cross-origin"
+                },
+                {
+                    "key": "Permissions-Policy",
+                    "value": "camera=(self), microphone=(), geolocation=(self)"
+                },
+                {
+                    "key": "Strict-Transport-Security",
+                    "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                    "key": "Content-Security-Policy",
+                    "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co https://translate.googleapis.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+                }
+            ]
+        },
+        {
+            "source": "/api/(.*)",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "no-store"
+                }
+            ]
+        }
+    ],
+    "rewrites": [
+        { "source": "/api/ai/scan", "destination": "/api/ai/scan" },
+        { "source": "/api/ai/chat", "destination": "/api/ai/chat" },
+        { "source": "/api/ai/recommend", "destination": "/api/ai/recommend" },
+        { "source": "/(.*)", "destination": "/index.html" }
+    ]
+}
