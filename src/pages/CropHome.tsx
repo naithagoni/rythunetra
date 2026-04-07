@@ -1,6 +1,5 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import { Search } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { usePageTitle } from '@/hooks/usePageTitle'
 import { useCrops } from '@/hooks/useCrops'
@@ -95,17 +94,6 @@ export function CropHomePage() {
                         })}
                     </div>
                 )}
-            </div>
-
-            {/* See All Diseases button */}
-            <div className="px-4 py-5">
-                <button
-                    onClick={() => navigate('/diseases')}
-                    className="w-full btn-primary py-3.5 rounded-xl text-base inline-flex items-center justify-center gap-2"
-                >
-                    <Search className="h-5 w-5" />
-                    {t('cropHome.allDiseases')}
-                </button>
             </div>
         </div>
     )
