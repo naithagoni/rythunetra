@@ -2,7 +2,6 @@ export const CROP_TYPE_KEYS = [
     'cereal',
     'flower',
     'fruit',
-    'grain',
     'oilseed',
     'pulse',
     'spice',
