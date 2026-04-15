@@ -10,7 +10,9 @@ import { AdminRoute } from '@/components/common/AdminRoute'
 import { GuestRoute } from '@/components/common/GuestRoute'
 
 // Pages — lazy-loaded for code splitting
-import { LandingPage } from '@/pages/Landing'
+const LandingPage = lazy(() =>
+    import('@/pages/Landing').then((m) => ({ default: m.LandingPage })),
+)
 const CropHomePage = lazy(() =>
     import('@/pages/CropHome').then((m) => ({ default: m.CropHomePage })),
 )
@@ -124,7 +126,14 @@ export default function App() {
                     <Routes>
                         <Route element={<Layout />}>
                             {/* Public pages */}
-                            <Route path="/" element={<LandingPage />} />
+                            <Route
+                                path="/"
+                                element={
+                                    <Suspense>
+                                        <LandingPage />
+                                    </Suspense>
+                                }
+                            />
                             <Route
                                 path="/crops"
                                 element={

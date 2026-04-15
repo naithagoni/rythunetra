@@ -1,13 +1,19 @@
+import { Suspense, lazy } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'motion/react'
+import { useAuth } from '@/hooks/useAuth'
 import { Header } from './Header'
 import { MobileHeader } from './MobileHeader'
 import { Footer } from './Footer'
 import { BottomNav } from './BottomNav'
-import { ChatWidget } from './ChatWidget'
+
+const ChatWidget = lazy(() =>
+    import('./ChatWidget').then((m) => ({ default: m.ChatWidget })),
+)
 
 export function Layout() {
     const location = useLocation()
+    const { user } = useAuth()
 
     return (
         <div className="min-h-screen flex flex-col">
@@ -28,7 +34,11 @@ export function Layout() {
             </main>
             <Footer className="hidden md:block" />
             <BottomNav />
-            <ChatWidget />
+            {user && (
+                <Suspense>
+                    <ChatWidget />
+                </Suspense>
+            )}
         </div>
     )
 }
