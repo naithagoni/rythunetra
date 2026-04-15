@@ -6,10 +6,10 @@ import {
     getAIConfig,
     notConfiguredResponse,
     errorResponse,
-} from './config.js'
-import { authenticateRequest } from '../middleware/auth.js'
-import { checkAIRateLimit } from '../middleware/rateLimit.js'
-import type { DiseaseRemedyJoinRow } from '../types/scan.js'
+} from '../_lib/config.js'
+import { authenticateRequest } from '../_lib/middleware/auth.js'
+import { checkAIRateLimit } from '../_lib/middleware/rateLimit.js'
+import type { DiseaseRemedyJoinRow } from '../_lib/types/scan.js'
 
 const supabase = createClient(
     process.env.VITE_SUPABASE_URL!,

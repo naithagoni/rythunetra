@@ -5,11 +5,11 @@ import {
     getAIConfig,
     notConfiguredResponse,
     errorResponse,
-} from './config.js'
-import { getWeatherForDistrict, buildWeatherContext } from './weather.js'
-import { authenticateRequest } from '../middleware/auth.js'
-import { checkAIRateLimit } from '../middleware/rateLimit.js'
-import type { RecommendRequestBody } from '../types/recommend.js'
+} from '../_lib/config.js'
+import { getWeatherForDistrict, buildWeatherContext } from '../_lib/weather.js'
+import { authenticateRequest } from '../_lib/middleware/auth.js'
+import { checkAIRateLimit } from '../_lib/middleware/rateLimit.js'
+import type { RecommendRequestBody } from '../_lib/types/recommend.js'
 
 const SYSTEM_PROMPT = `You are an expert organic agricultural scientist specializing in soil science and crop selection for Telangana, India.
 

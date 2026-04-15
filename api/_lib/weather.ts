@@ -3,7 +3,7 @@ import type {
     Coordinates,
     OpenWeatherCurrentResponse,
     OpenWeatherForecastResponse,
-} from '../types/weather.js'
+} from './types/weather.js'
 import type { Mandal } from '../../src/config/mandals.js'
 
 // Telangana district → approximate lat/lon mapping (fallback when mandal not specified)

@@ -1,3 +1,11 @@
+/**
+ * This module lives under api/_lib/ because Vercel treats every file
+ * directly inside api/ as a separate serverless function. The Hobby plan
+ * allows a maximum of 12 functions per deployment. By placing shared
+ * helpers (config, weather, middleware, types) in _lib/, Vercel ignores
+ * them as standalone functions and bundles them with the endpoint files
+ * that import them.
+ */
 import type { LanguageModel } from 'ai'
 
 export type AIProvider =

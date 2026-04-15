@@ -1,8 +1,8 @@
 import { z } from 'zod'
-import { requireRole } from '../middleware/auth.js'
-import { validateBody } from '../middleware/validate.js'
+import { requireRole } from '../_lib/middleware/auth.js'
+import { validateBody } from '../_lib/middleware/validate.js'
 import { createClient } from '@supabase/supabase-js'
-import { checkRateLimit } from '../middleware/rateLimit.js'
+import { checkRateLimit } from '../_lib/middleware/rateLimit.js'
 
 const supabase = createClient(
     process.env.VITE_SUPABASE_URL!,

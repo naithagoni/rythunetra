@@ -4,11 +4,11 @@ import {
     getAIConfig,
     notConfiguredResponse,
     errorResponse,
-} from './config.js'
-import { getWeatherForDistrict, buildWeatherContext } from './weather.js'
-import { authenticateRequest } from '../middleware/auth.js'
-import { checkAIRateLimit } from '../middleware/rateLimit.js'
-import type { ChatRequestBody } from '../types/chat.js'
+} from '../_lib/config.js'
+import { getWeatherForDistrict, buildWeatherContext } from '../_lib/weather.js'
+import { authenticateRequest } from '../_lib/middleware/auth.js'
+import { checkAIRateLimit } from '../_lib/middleware/rateLimit.js'
+import type { ChatRequestBody } from '../_lib/types/chat.js'
 
 /** Convert UIMessage[] (parts-based) to ModelMessage[] (content-based) for streamText */
 function toModelMessages(
