@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { supabase } from '@/services/supabase'
+import { getCurrentAuth } from '@/services/authService'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
 
 export function AuthCallbackPage() {
@@ -8,9 +8,9 @@ export function AuthCallbackPage() {
 
     useEffect(() => {
         const handleCallback = async () => {
-            const { error } = await supabase.auth.getSession()
-            if (error) {
-                console.error('Auth callback error:', error)
+            const { user } = await getCurrentAuth()
+            if (!user) {
+                console.error('Auth callback: no session found')
                 navigate('/login')
             } else {
                 navigate('/')

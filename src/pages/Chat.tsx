@@ -48,8 +48,8 @@ export function ChatPage() {
     const [input, setInput] = useState('')
 
     // User's district and mandal for weather-aware AI advisory
-    const district = user?.user_metadata?.district || ''
-    const mandal = user?.user_metadata?.mandal || ''
+    const district = user?.district || ''
+    const mandal = user?.mandal || ''
 
     // Fetch sessions
     const { data: sessionsResult } = useQuery({
@@ -65,12 +65,12 @@ export function ChatPage() {
         () =>
             new DefaultChatTransport({
                 api: '/api/ai/chat',
-                headers: session?.access_token
-                    ? { Authorization: `Bearer ${session.access_token}` }
+                headers: session?.accessToken
+                    ? { Authorization: `Bearer ${session.accessToken}` }
                     : undefined,
                 body: { language: currentLanguage, district, mandal },
             }),
-        [currentLanguage, district, mandal, session?.access_token],
+        [currentLanguage, district, mandal, session?.accessToken],
     )
 
     // Vercel AI SDK v6 chat hook

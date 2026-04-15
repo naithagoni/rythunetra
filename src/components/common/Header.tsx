@@ -191,7 +191,7 @@ export function Header() {
                                                     Account
                                                 </p>
                                                 <p className="text-sm text-neutral-700 font-medium truncate mt-0.5">
-                                                    {user.user_metadata?.name ||
+                                                    {user.name ||
                                                         user.email}
                                                 </p>
                                             </div>

@@ -143,8 +143,8 @@ export function SoilRecommenderPage() {
             const headers: Record<string, string> = {
                 'Content-Type': 'application/json',
             }
-            if (session?.access_token) {
-                headers['Authorization'] = `Bearer ${session.access_token}`
+            if (session?.accessToken) {
+                headers['Authorization'] = `Bearer ${session.accessToken}`
             }
             const res = await fetch('/api/ai/recommend', {
                 method: 'POST',

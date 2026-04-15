@@ -1,13 +1,6 @@
 import { supabase } from './supabase'
+import { getAccessToken } from './authService'
 import type { LocalizedText } from '@/types/i18n'
-
-/** Get the current user's access token for authenticated API calls */
-async function getAccessToken(): Promise<string | null> {
-    const {
-        data: { session },
-    } = await supabase.auth.getSession()
-    return session?.access_token ?? null
-}
 
 // ─── Types ────────────────────────────────────────────────
 

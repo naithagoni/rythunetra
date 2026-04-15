@@ -69,12 +69,12 @@ export function ChatWidget() {
         () =>
             new DefaultChatTransport({
                 api: '/api/ai/chat',
-                headers: session?.access_token
-                    ? { Authorization: `Bearer ${session.access_token}` }
+                headers: session?.accessToken
+                    ? { Authorization: `Bearer ${session.accessToken}` }
                     : undefined,
                 body: { language: currentLanguage },
             }),
-        [currentLanguage, session?.access_token],
+        [currentLanguage, session?.accessToken],
     )
 
     // Keep a ref in sync so onFinish always has current session id

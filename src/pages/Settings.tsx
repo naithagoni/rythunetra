@@ -5,7 +5,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useAdmin } from '@/hooks/useAdmin'
 import { useLanguage } from '@/hooks/useLanguage'
 import { usePageTitle } from '@/hooks/usePageTitle'
-import { supabase } from '@/services/supabase'
+import { updateUserProfile } from '@/services/authService'
 import { LanguageToggle } from '@/components/common/LanguageToggle'
 import { CustomDropdown } from '@/components/common/CustomDropdown'
 import { DISTRICT_KEYS } from '@/config/districts'
@@ -27,11 +27,9 @@ export function SettingsPage() {
     const { currentLanguage } = useLanguage()
     usePageTitle('Settings')
     const navigate = useNavigate()
-    const [name, setName] = useState(user?.user_metadata?.name || '')
-    const [district, setDistrict] = useState(
-        user?.user_metadata?.district || '',
-    )
-    const [mandal, setMandal] = useState(user?.user_metadata?.mandal || '')
+    const [name, setName] = useState(user?.name || '')
+    const [district, setDistrict] = useState(user?.district || '')
+    const [mandal, setMandal] = useState(user?.mandal || '')
     const [saving, setSaving] = useState(false)
     const [message, setMessage] = useState('')
 
@@ -63,16 +61,11 @@ export function SettingsPage() {
         setSaving(true)
         setMessage('')
         try {
-            await supabase.auth.updateUser({ data: { name, district, mandal } })
-            await supabase
-                .from('user_profiles')
-                .update({
-                    name,
-                    district: district || null,
-                    mandal: mandal || null,
-                    preferred_language: currentLanguage,
-                })
-                .eq('id', user?.id)
+            await updateUserProfile(
+                user!.id,
+                { name, district, mandal },
+                currentLanguage,
+            )
             setMessage(t('settings.saved'))
         } catch {
             setMessage(t('errors.generic'))

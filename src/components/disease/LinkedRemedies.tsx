@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { Leaf, ChevronDown, Droplets } from 'lucide-react'
 import { cn } from '@/utils/cn'
-import { supabase } from '@/services/supabase'
+import { getRemediesByIds } from '@/services/diseaseService'
 import type { RemedyRow } from '@/types/remedy'
 import { toRemedy } from '@/types/remedy'
 import { localize } from '@/types/i18n'
@@ -22,11 +22,7 @@ export function LinkedRemedies({ remedyIds, language }: LinkedRemediesProps) {
     const { data: remedies = [] } = useQuery({
         queryKey: ['linked-remedies', remedyIds],
         queryFn: async () => {
-            if (remedyIds.length === 0) return []
-            const { data, error } = await supabase
-                .from('remedies')
-                .select('*')
-                .in('id', remedyIds)
+            const { data, error } = await getRemediesByIds(remedyIds)
             if (error) throw error
             return (data as RemedyRow[]).map(toRemedy)
         },

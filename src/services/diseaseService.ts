@@ -55,3 +55,11 @@ export async function getDiseaseById(id: string) {
         .eq('id', id)
         .single()
 }
+
+/**
+ * Fetch remedies by their IDs (used by LinkedRemedies component).
+ */
+export async function getRemediesByIds(ids: string[]) {
+    if (ids.length === 0) return { data: [], error: null }
+    return supabase.from('remedies').select('*').in('id', ids)
+}

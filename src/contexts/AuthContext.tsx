@@ -1,26 +1,23 @@
 import { useEffect, useState, type ReactNode } from 'react'
-import type { User, Session } from '@supabase/supabase-js'
-import { supabase } from '@/services/supabase'
+import type { AppUser, AppSession } from '@/types/auth'
+import * as authService from '@/services/authService'
 import { AuthContext } from './definitions'
-import { OAUTH_CALLBACK_PATH, DEFAULT_LANGUAGE } from '@/config/env'
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-    const [user, setUser] = useState<User | null>(null)
-    const [session, setSession] = useState<Session | null>(null)
+    const [user, setUser] = useState<AppUser | null>(null)
+    const [session, setSession] = useState<AppSession | null>(null)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        supabase.auth.getSession().then(({ data: { session } }) => {
+        authService.getCurrentAuth().then(({ user, session }) => {
             setSession(session)
-            setUser(session?.user ?? null)
+            setUser(user)
             setLoading(false)
         })
 
-        const {
-            data: { subscription },
-        } = supabase.auth.onAuthStateChange((_event, session) => {
+        const subscription = authService.onAuthStateChange((user, session) => {
             setSession(session)
-            setUser(session?.user ?? null)
+            setUser(user)
         })
 
         return () => subscription.unsubscribe()
@@ -33,42 +30,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         district: string,
         mandal: string,
     ) => {
-        const { error } = await supabase.auth.signUp({
-            email,
-            password,
-            options: {
-                data: {
-                    name,
-                    district,
-                    mandal,
-                    preferred_language: DEFAULT_LANGUAGE,
-                },
-            },
-        })
-        if (error) throw error
+        await authService.signUp(email, password, { name, district, mandal })
     }
 
     const signIn = async (email: string, password: string) => {
-        const { error } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        })
-        if (error) throw error
+        await authService.signIn(email, password)
     }
 
     const signInWithGoogle = async () => {
-        const { error } = await supabase.auth.signInWithOAuth({
-            provider: 'google',
-            options: {
-                redirectTo: `${window.location.origin}${OAUTH_CALLBACK_PATH}`,
-            },
-        })
-        if (error) throw error
+        await authService.signInWithGoogle()
     }
 
     const signOut = async () => {
-        const { error } = await supabase.auth.signOut()
-        if (error) throw error
+        await authService.signOut()
     }
 
     return (

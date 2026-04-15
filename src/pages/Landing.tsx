@@ -832,8 +832,8 @@ export function LandingPage() {
                         whileInView="visible"
                         viewport={{ once: true, margin: '-40px' }}
                     >
-                        {features.map((f) => (
-                            <BentoCard key={f.to} {...f} />
+                        {features.map((f, i) => (
+                            <BentoCard key={`${f.to}-${i}`} {...f} />
                         ))}
                     </motion.div>
                 </div>
