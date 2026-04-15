@@ -72,7 +72,10 @@ RythuNetra is an **organic-first agricultural advisory platform** built specific
 | Zod             | 4.x     | Schema validation         |
 | i18next         | 25.x    | Internationalization      |
 | Lucide React    | 0.575.x | Icon library              |
+| Motion          | 12.x    | Animations & transitions  |
 | React Markdown  | 10.x    | Markdown rendering (chat) |
+| Cloudinary      | 1.x     | Image management          |
+| browser-image-compression | 2.x | Client-side image compression |
 
 ### Backend / Infrastructure
 
@@ -81,6 +84,7 @@ RythuNetra is an **organic-first agricultural advisory platform** built specific
 | Supabase       | PostgreSQL database, authentication, storage, RLS         |
 | Vercel         | Hosting & serverless API functions                        |
 | Vercel AI SDK  | 6.x — AI model integration (streaming, structured output) |
+| Vercel Analytics | Web analytics & speed insights                          |
 | OpenWeatherMap | Real-time weather data                                    |
 
 ### AI Provider Support
@@ -90,9 +94,7 @@ RythuNetra supports **multiple AI providers** through a single configuration swi
 - Google Gemini
 - OpenAI (GPT)
 - Azure OpenAI
-- Anthropic (Claude)
-- Mistral
-- Perplexity
+- Perplexity (via OpenAI-compatible API)
 
 ---
 
@@ -146,8 +148,7 @@ RythuNetra supports **multiple AI providers** through a single configuration swi
                 │  AI Provider │
                 │              │
                 │ Google/OpenAI│
-                │ Azure/Claude │
-                │ Mistral/etc. │
+                │ Azure/Perpl. │
                 └──────────────┘
 ```
 
@@ -164,12 +165,18 @@ rythunetra/
 │   │   ├── recommend.ts          # Soil-to-crop recommendation endpoint
 │   │   ├── scan.ts               # Disease scanner endpoint + DB cross-ref
 │   │   └── weather.ts            # OpenWeatherMap integration module
+│   ├── types/
+│   │   ├── chat.ts               # Chat request body types
+│   │   ├── recommend.ts          # Recommend request body types
+│   │   ├── scan.ts               # Disease remedy join row types
+│   │   └── weather.ts            # Weather API response types
 │   ├── diseases/
 │   │   └── route.ts              # Admin disease creation endpoint
 │   ├── preparations/
 │   │   └── route.ts              # Farmer preparations CRUD endpoint
 │   └── middleware/
 │       ├── auth.ts               # JWT auth + role-based access control
+│       ├── rateLimit.ts          # In-memory sliding window rate limiter
 │       └── validate.ts           # Zod schema validation middleware
 │
 ├── data/                         # Reference datasets & documentation
@@ -178,9 +185,6 @@ rythunetra/
 │   └── *.md                      # Architecture & data guides
 │
 ├── public/icons/                 # App icons (PWA)
-│
-├── scripts/
-│   └── generate-mandals.cjs      # Script to regenerate mandals.ts config
 │
 ├── src/
 │   ├── App.tsx                   # Root component with routing
@@ -203,8 +207,13 @@ rythunetra/
 │   │   │   ├── EmptyState.tsx    # Empty data placeholder
 │   │   │   ├── CustomDropdown.tsx# Styled select dropdown
 │   │   │   ├── MultiSelectDropdown.tsx # Multi-value select
-│   │   │   └── GoogleIcon.tsx    # Google OAuth icon
+│   │   │   ├── GoogleIcon.tsx    # Google OAuth icon
+│   │   │   └── LogoMark.tsx      # App logo component
 │   │   ├── disease/              # Disease-specific components
+│   │   │   ├── DiseaseCard.tsx   # Disease card component
+│   │   │   ├── DiseaseDetail.tsx # Disease detail view
+│   │   │   ├── DiseaseGrid.tsx   # Disease grid layout
+│   │   │   └── LinkedRemedies.tsx# Linked remedies display
 │   │   └── preparation/          # Preparation components
 │   │       ├── PreparationForm.tsx # Add/edit form with media upload
 │   │       ├── PreparationCard.tsx # Card with lightbox & video modal
@@ -222,8 +231,7 @@ rythunetra/
 │   │
 │   ├── contexts/
 │   │   ├── AuthContext.tsx        # Supabase auth state provider
-│   │   ├── definitions.ts        # Auth context type definitions
-│   │   └── SoilTypeContext.tsx    # Soil type state provider
+│   │   └── definitions.ts        # Auth context type definitions
 │   │
 │   ├── hooks/
 │   │   ├── useAuth.ts            # Auth state & actions
@@ -231,13 +239,14 @@ rythunetra/
 │   │   ├── useCrops.ts           # Crop data queries
 │   │   ├── useDiseases.ts        # Disease data queries
 │   │   ├── useLanguage.ts        # Language management
-│   │   └── useSoilType.ts        # Soil type state
+│   │   └── usePageTitle.ts       # Dynamic page title
 │   │
 │   ├── i18n/
 │   │   ├── config.ts             # i18next initialization
 │   │   └── locales/
-│   │       ├── en.json           # English translations (~615 lines)
-│   │       └── te.json           # Telugu translations (~615 lines)
+│   │       ├── en.json           # English translations (~616 lines)
+│   │       ├── te.json           # Telugu translations (~617 lines)
+│   │       └── hi.json           # Hindi translations (~225 lines)
 │   │
 │   ├── pages/
 │   │   ├── Landing.tsx           # Marketing landing page
@@ -275,23 +284,22 @@ rythunetra/
 │   │   └── translateService.ts   # EN→TE auto-translation
 │   │
 │   ├── types/
+│   │   ├── auth.ts               # Auth types
 │   │   ├── crop.ts               # Crop & variety types
 │   │   ├── disease.ts            # Disease types + transformer
 │   │   ├── remedy.ts             # Remedy types + transformer
 │   │   ├── preparation.ts        # Preparation types
-│   │   ├── soilType.ts           # Soil type definitions
 │   │   └── i18n.ts               # Localized text types
 │   │
 │   └── utils/
 │       ├── cn.ts                 # Tailwind class merging (clsx + twMerge)
 │       ├── cropImages.ts         # Crop image fallbacks
-│       ├── dateUtils.ts          # Date formatting helpers
-│       └── expiryCalculator.ts   # Remedy expiry calculation
+│       └── dateUtils.ts          # Date formatting helpers
 │
 ├── supabase/
 │   └── migrations/
-│       ├── 001_schema.sql        # Full database schema + RLS policies
-│       └── 002_seed.sql          # Seed data
+│       ├── 000_drop_all.sql      # Schema reset (drop all tables)
+│       └── 001_schema.sql        # Full database schema + RLS policies
 │
 ├── vite.config.ts                # Vite configuration
 ├── vite-api-plugin.ts            # Custom plugin for local API dev
@@ -394,9 +402,9 @@ All API routes are Vercel serverless functions in the `api/` directory.
 
 | Method | Route               | Auth | Description                                                                                                                                                            |
 | ------ | ------------------- | ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| POST   | `/api/ai/scan`      | None | Upload a plant image → returns AI diagnosis with disease name, severity (low/moderate/high/critical), confidence %, symptoms, organic remedies, and matched DB records |
-| POST   | `/api/ai/chat`      | None | Streaming AI chat. Sends `messages[]`, `language`, `district`, `mandal`. Returns Server-Sent Events stream                                                             |
-| POST   | `/api/ai/recommend` | None | Soil-to-crop recommendation. Sends soil type, pH, season, district, irrigation → returns 4-6 ranked crops with suitability scores                                      |
+| POST   | `/api/ai/scan`      | JWT  | Upload a plant image → returns AI diagnosis with disease name, severity (low/moderate/high/critical), confidence %, symptoms, organic remedies, and matched DB records |
+| POST   | `/api/ai/chat`      | JWT  | Streaming AI chat. Sends `messages[]`, `language`, `district`, `mandal`. Returns Server-Sent Events stream. Rate limited (20 req/min)                                  |
+| POST   | `/api/ai/recommend` | JWT  | Soil-to-crop recommendation. Sends soil type, pH, season, district, irrigation → returns 4-6 ranked crops with suitability scores                                      |
 
 ### Data Endpoints
 
@@ -417,7 +425,7 @@ RythuNetra uses the **Vercel AI SDK v6** for all AI features.
 The AI provider is configured via environment variables — switch between providers by changing `AI_PROVIDER`:
 
 ```env
-AI_PROVIDER=google          # google | openai | azure | anthropic | mistral | perplexity
+AI_PROVIDER=google          # google | openai | azure | perplexity
 AI_API_KEY=your-api-key
 AI_MODEL=gemini-2.5-flash   # Model name for the chosen provider
 ```
@@ -458,7 +466,7 @@ AI_MODEL=gemini-2.5-flash   # Model name for the chosen provider
 // api/ai/config.ts — factory pattern for AI models
 export async function createModel(): Promise<LanguageModel> {
     // Returns the appropriate provider based on AI_PROVIDER env var
-    // Supports: google, openai, azure, anthropic, mistral, perplexity
+    // Supports: google, openai, azure, perplexity
 }
 ```
 
@@ -469,7 +477,7 @@ export async function createModel(): Promise<LanguageModel> {
 ### Setup
 
 - **Framework**: i18next + react-i18next + browser language detector
-- **Languages**: English (`en`) and Telugu (`te`)
+- **Languages**: English (`en`), Telugu (`te`), and Hindi (`hi`)
 - **Detection**: localStorage → browser navigator
 - **Fallback**: English
 
@@ -645,7 +653,7 @@ VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON_KEY=your-anon-key
 
 # ─── AI Configuration ────────────────────────────
-AI_PROVIDER=google                    # google | openai | azure | anthropic | mistral | perplexity
+AI_PROVIDER=google                    # google | openai | azure | perplexity
 AI_API_KEY=your-ai-api-key
 AI_MODEL=gemini-2.5-flash             # Model name for the chosen provider
 AI_MAX_RETRIES=1                      # Retry count for AI calls
@@ -698,7 +706,7 @@ cp .env.example .env
 # Edit .env with your credentials
 
 # Run database migrations
-# Apply supabase/migrations/001_schema.sql and 002_seed.sql via Supabase dashboard or CLI
+# Apply supabase/migrations/000_drop_all.sql and 001_schema.sql via Supabase dashboard or CLI
 
 # Start development server
 npm run dev
@@ -718,7 +726,7 @@ npm run dev:api
 | Script         | Command                | Description                                    |
 | -------------- | ---------------------- | ---------------------------------------------- |
 | `dev`          | `vite`                 | Start Vite dev server                          |
-| `dev:api`      | `vercel dev`           | Start with Vercel dev (includes API functions) |
+| `dev:api`      | `npx vercel dev`       | Start with Vercel dev (includes API functions) |
 | `build`        | `tsc -b && vite build` | Type-check + production build                  |
 | `lint`         | `eslint .`             | Run ESLint                                     |
 | `format`       | `prettier --write .`   | Format all files with Prettier                 |
@@ -731,20 +739,11 @@ npm run dev:api
 
 RythuNetra is configured for **Vercel** deployment:
 
-```json
-// vercel.json
-{
-    "buildCommand": "npm run build",
-    "outputDirectory": "dist",
-    "framework": "vite",
-    "rewrites": [
-        { "source": "/api/ai/scan", "destination": "/api/ai/scan" },
-        { "source": "/api/ai/chat", "destination": "/api/ai/chat" },
-        { "source": "/api/ai/recommend", "destination": "/api/ai/recommend" },
-        { "source": "/(.*)", "destination": "/index.html" }
-    ]
-}
-```
+Configured via `vercel.json` with:
+
+- **Security headers**: CSP, HSTS (2 years, preload), X-Content-Type-Options, X-Frame-Options (DENY), Referrer-Policy, Permissions-Policy (camera=self, no microphone)
+- **API cache control**: `no-store` on all `/api/*` routes
+- **SPA fallback**: Catch-all rewrite to `/index.html`
 
 ### Deploy to Vercel
 
