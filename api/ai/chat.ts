@@ -8,6 +8,7 @@ import {
 import { getWeatherForDistrict, buildWeatherContext } from './weather.js'
 import { authenticateRequest } from '../middleware/auth.js'
 import { checkAIRateLimit } from '../middleware/rateLimit.js'
+import type { ChatRequestBody } from '../types/chat.js'
 
 /** Convert UIMessage[] (parts-based) to ModelMessage[] (content-based) for streamText */
 function toModelMessages(
@@ -82,7 +83,8 @@ export async function POST(req: Request) {
         const config = getAIConfig()
         if (!config.apiKey) return notConfiguredResponse()
 
-        const { messages, language, district, mandal } = await req.json()
+        const { messages, language, district, mandal } =
+            (await req.json()) as ChatRequestBody
 
         if (!messages || !Array.isArray(messages)) {
             return new Response(
@@ -109,8 +111,11 @@ export async function POST(req: Request) {
         for (const msg of messages) {
             const text =
                 msg.parts
-                    ?.filter((p: { type: string }) => p.type === 'text')
-                    .map((p: { text: string }) => p.text)
+                    ?.filter(
+                        (p): p is Extract<typeof p, { type: 'text' }> =>
+                            p.type === 'text',
+                    )
+                    .map((p) => p.text)
                     .join('') || ''
             if (text.length > MAX_MESSAGE_LENGTH) {
                 return new Response(

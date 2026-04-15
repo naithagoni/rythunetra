@@ -1,5 +1,13 @@
+import type {
+    WeatherData,
+    Coordinates,
+    OpenWeatherCurrentResponse,
+    OpenWeatherForecastResponse,
+} from '../types/weather.js'
+import type { Mandal } from '../../src/config/mandals.js'
+
 // Telangana district → approximate lat/lon mapping (fallback when mandal not specified)
-const DISTRICT_COORDS: Record<string, { lat: number; lon: number }> = {
+const DISTRICT_COORDS: Record<string, Coordinates> = {
     adilabad: { lat: 19.67, lon: 78.53 },
     bhadradri_kothagudem: { lat: 17.55, lon: 80.62 },
     hyderabad: { lat: 17.39, lon: 78.49 },
@@ -38,17 +46,17 @@ const DISTRICT_COORDS: Record<string, { lat: number; lon: number }> = {
 // Mandal-level coordinates for precise weather (loaded lazily)
 let mandalCoordsCache: Record<
     string,
-    Record<string, { lat: number; lon: number }>
+    Record<string, Coordinates>
 > | null = null
 
 async function getMandalCoordsMap(): Promise<
-    Record<string, Record<string, { lat: number; lon: number }>>
+    Record<string, Record<string, Coordinates>>
 > {
     if (mandalCoordsCache) return mandalCoordsCache
     try {
         const { DISTRICT_MANDALS } = await import('../../src/config/mandals.js')
         mandalCoordsCache = {}
-        for (const [district, mandals] of Object.entries(DISTRICT_MANDALS) as [string, Array<{ key: string; lat: number; lon: number }>][]) {
+        for (const [district, mandals] of Object.entries(DISTRICT_MANDALS) as [string, Mandal[]][]) {
             mandalCoordsCache[district] = {}
             for (const m of mandals) {
                 mandalCoordsCache[district][m.key] = { lat: m.lat, lon: m.lon }
@@ -59,16 +67,6 @@ async function getMandalCoordsMap(): Promise<
         mandalCoordsCache = {}
         return mandalCoordsCache
     }
-}
-
-interface WeatherData {
-    temp: number
-    feelsLike: number
-    humidity: number
-    windSpeed: number
-    description: string
-    rainChance: boolean
-    forecast: string[]
 }
 
 /**
@@ -92,7 +90,7 @@ export async function getWeatherForDistrict(
     const sanitizedMandal = mandalKey?.replace(/[^a-z0-9_]/gi, '').toLowerCase()
 
     // Try mandal-level coords first, then fall back to district
-    let coords: { lat: number; lon: number } | undefined
+    let coords: Coordinates | undefined
     if (sanitizedMandal) {
         const mandalMap = await getMandalCoordsMap()
         coords = mandalMap[sanitizedDistrict]?.[sanitizedMandal]
@@ -108,13 +106,15 @@ export async function getWeatherForDistrict(
             `${baseUrl}/weather?lat=${coords.lat}&lon=${coords.lon}&units=metric&appid=${apiKey}`,
         )
         if (!currentRes.ok) return null
-        const current = await currentRes.json()
+        const current = (await currentRes.json()) as OpenWeatherCurrentResponse
 
         // 5-day / 3-hour forecast
         const forecastRes = await fetch(
             `${baseUrl}/forecast?lat=${coords.lat}&lon=${coords.lon}&units=metric&cnt=8&appid=${apiKey}`,
         )
-        const forecastData = forecastRes.ok ? await forecastRes.json() : null
+        const forecastData = forecastRes.ok
+            ? ((await forecastRes.json()) as OpenWeatherForecastResponse)
+            : null
 
         // Summarize next 24 hours from forecast
         const forecastSummary: string[] = []

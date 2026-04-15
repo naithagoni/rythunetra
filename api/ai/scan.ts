@@ -9,6 +9,7 @@ import {
 } from './config.js'
 import { authenticateRequest } from '../middleware/auth.js'
 import { checkAIRateLimit } from '../middleware/rateLimit.js'
+import type { DiseaseRemedyJoinRow } from '../types/scan.js'
 
 const supabase = createClient(
     process.env.VITE_SUPABASE_URL!,
@@ -112,8 +113,7 @@ async function findDiseaseInDB(diseaseName: string) {
     const disease = diseases[0]
     const remedies =
         disease.disease_remedies?.map(
-            (dr: { remedy_id: string; remedies: Record<string, unknown>[] }) =>
-                dr.remedies,
+            (dr: DiseaseRemedyJoinRow) => dr.remedies,
         ) ?? []
 
     return {

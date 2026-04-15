@@ -9,6 +9,7 @@ import {
 import { getWeatherForDistrict, buildWeatherContext } from './weather.js'
 import { authenticateRequest } from '../middleware/auth.js'
 import { checkAIRateLimit } from '../middleware/rateLimit.js'
+import type { RecommendRequestBody } from '../types/recommend.js'
 
 const SYSTEM_PROMPT = `You are an expert organic agricultural scientist specializing in soil science and crop selection for Telangana, India.
 
@@ -120,7 +121,7 @@ export async function POST(req: Request) {
             mandal,
             irrigation,
             language,
-        } = await req.json()
+        } = (await req.json()) as RecommendRequestBody
 
         if (!soilType || !season) {
             return new Response(
