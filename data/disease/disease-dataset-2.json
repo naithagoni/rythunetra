@@ -1,0 +1,905 @@
+[
+    {
+        "disease_id": 1,
+        "disease_name_english": "Rice Blast",
+        "disease_name_telugu": "వరి అగ్గితెగులు",
+        "disease_type": "Fungal",
+        "affected_crops": ["Rice"],
+        "preventive_remedy_id": 4,
+        "curative_remedy_id": 7,
+        "translations": {
+            "en": {
+                "favorable_weather": [
+                    "High humidity above 85%",
+                    "Cool nights with dew and cloudy days"
+                ],
+                "early_stage_symptoms": [
+                    "Spindle-shaped spots with grey centers on leaves",
+                    "Bluish-green margins on young spots"
+                ],
+                "advanced_stage_symptoms": [
+                    "Nodes turn black and break (Node blast)",
+                    "Neck of the panicle rots and breaks (Neck blast), grains become chaffy"
+                ],
+                "remedy_application_interval": [
+                    "Spray preventively before panicle emergence",
+                    "Apply twice at 7-10 days interval upon symptom notice"
+                ],
+                "cultural_and_physical_controls": [
+                    "Avoid excess nitrogen (Urea) application",
+                    "Burn infected crop residues after harvest"
+                ],
+                "aliases": ["Rice Blast", "Neck Blast", "Node Blast"]
+            },
+            "te": {
+                "favorable_weather": [
+                    "గాలిలో తేమ 85% కంటే ఎక్కువ ఉండటం",
+                    "రాత్రి వేళల్లో చలి, మంచు మరియు పగలు మబ్బు పట్టి ఉండటం"
+                ],
+                "early_stage_symptoms": [
+                    "ఆకులపై నూలు కండె (కంటి) ఆకారపు మచ్చలు ఏర్పడి, మధ్యలో బూడిద రంగులో ఉండటం",
+                    "లేత మచ్చల అంచులు నీలి-ఆకుపచ్చ రంగులో కనిపించడం"
+                ],
+                "advanced_stage_symptoms": [
+                    "కణుపులు నల్లగా మారి విరిగిపోవడం (కణుపు అగ్గి)",
+                    "వెన్ను మొదలు భాగం కుళ్ళి విరిగిపోవడం (మెడ విరుపు తెగులు), గింజలు తాలుగా మారడం"
+                ],
+                "remedy_application_interval": [
+                    "వెన్ను వేసే దశకు ముందే ముందస్తుగా పిచికారీ చేయాలి",
+                    "లక్షణాలు కనిపించినప్పుడు 7-10 రోజుల వ్యవధిలో రెండు సార్లు కొట్టాలి"
+                ],
+                "cultural_and_physical_controls": [
+                    "నత్రజని (యూరియా) ఎరువుల వాడకాన్ని తగ్గించాలి",
+                    "కోత తర్వాత రోగగ్రస్త అవశేషాలను తగులబెట్టాలి"
+                ],
+                "aliases": ["అగ్గితెగులు", "మెడ విరుపు తెగులు", "కణుపు అగ్గి"]
+            }
+        }
+    },
+    {
+        "disease_id": 2,
+        "disease_name_english": "Rice Bacterial Leaf Blight (BLB)",
+        "disease_name_telugu": "వరి బాక్టీరియా ఆకుెండు తెగులు",
+        "disease_type": "Bacterial",
+        "affected_crops": ["Rice"],
+        "preventive_remedy_id": 3,
+        "curative_remedy_id": 10,
+        "translations": {
+            "en": {
+                "favorable_weather": [
+                    "Heavy rains accompanied by strong winds",
+                    "Temperatures around 25-30°C with high humidity"
+                ],
+                "early_stage_symptoms": [
+                    "Water-soaked translucent streaks near leaf tips",
+                    "Wavy yellowish margins along the leaf edges"
+                ],
+                "advanced_stage_symptoms": [
+                    "Leaves dry up rapidly from top to bottom (Kresek stage)",
+                    "Bacterial ooze droplets (milky white) visible on leaves in the morning"
+                ],
+                "remedy_application_interval": [
+                    "Apply to soil/nursery preventively",
+                    "Drench or spray twice at 7 days interval during early infection"
+                ],
+                "cultural_and_physical_controls": [
+                    "Avoid clipping leaf tips during transplanting",
+                    "Drain out excess water from the field temporarily"
+                ],
+                "aliases": ["Bacterial Blight", "BLB", "Kresek"]
+            },
+            "te": {
+                "favorable_weather": [
+                    "ఈదురు గాలులతో కూడిన భారీ వర్షాలు",
+                    "ఉష్ణోగ్రత 25-30°C మధ్య ఉండి గాల్లో తేమ ఎక్కువగా ఉండటం"
+                ],
+                "early_stage_symptoms": [
+                    "ఆకు చివర్ల వద్ద నీరు నానినట్లుండే పారదర్శక చారలు",
+                    "ఆకు అంచుల వెంబడి అలల వంటి పసుపు రంగు చారలు ఏర్పడటం"
+                ],
+                "advanced_stage_symptoms": [
+                    "ఆకులు పైనుండి కిందికి వేగంగా ఎండిపోవడం (క్రెసెక్ దశ)",
+                    "ఉదయం వేళల్లో ఆకులపై తెల్లటి బాక్టీరియా జిగురు చుక్కలు కనిపించడం"
+                ],
+                "remedy_application_interval": [
+                    "నారుమడిలోనే ముందస్తుగా నేలకు అప్లై చేయాలి",
+                    "తెగులు గమనించినప్పుడు వారం వ్యవధిలో రెండు సార్లు స్ప్రే లేదా డ్రెంచింగ్ చేయాలి"
+                ],
+                "cultural_and_physical_controls": [
+                    "నాట్లు వేసేటప్పుడు ఆకు చివర్లను తుంచకూడదు",
+                    "పొలం నుండి అదనపు నీటిని తాత్కాలికంగా తీసేసి ఆరబెట్టాలి"
+                ],
+                "aliases": [
+                    "ఆకుెండు తెగులు",
+                    "బాక్టీరియా బ్లైట్",
+                    "క్రెసెక్ తెగులు"
+                ]
+            }
+        }
+    },
+    {
+        "disease_id": 3,
+        "disease_name_english": "Rice Sheath Blight",
+        "disease_name_telugu": "వరి పొద తెగులు (షీత్ బ్లైట్)",
+        "disease_type": "Fungal",
+        "affected_crops": ["Rice"],
+        "preventive_remedy_id": 1,
+        "curative_remedy_id": 11,
+        "translations": {
+            "en": {
+                "favorable_weather": [
+                    "High plant density causing lack of aeration",
+                    "Warm temperatures (28-32°C) and waterlogged conditions"
+                ],
+                "early_stage_symptoms": [
+                    "Greenish-grey oval spots on leaf sheaths near water level",
+                    "Spots develop a dark brown border with a grey center"
+                ],
+                "advanced_stage_symptoms": [
+                    "Spots enlarge and merge, spreading upwards to upper leaves",
+                    "Whole plant structure weakens, leading to lodging and poor grain filling"
+                ],
+                "remedy_application_interval": [
+                    "Apply to soil/irrigation water at tillering",
+                    "Spray thoroughly focusing on the plant base twice at 8 days interval"
+                ],
+                "cultural_and_physical_controls": [
+                    "Maintain optimal plant spacing",
+                    "Keep bunds clean and remove alternative weed hosts"
+                ],
+                "aliases": ["Sheath Blight", "Snake Skin Disease"]
+            },
+            "te": {
+                "favorable_weather": [
+                    "మొక్కలు దట్టంగా ఉండి గాలి ఆడకపోవడం",
+                    "వేడి వాతావరణం (28-32°C) మరియు పొలంలో నీరు నిల్వ ఉండటం"
+                ],
+                "early_stage_symptoms": [
+                    "నీటి మట్టానికి దగ్గరగా ఉండే ఆకు తొడుగులపై గుండ్రని ఆకుపచ్చ-బూడిద రంగు మచ్చలు",
+                    "మచ్చల అంచులు ముదురు గోధుమ రంగులోకి, మధ్య భాగం బూడిద రంగులోకి మారడం"
+                ],
+                "advanced_stage_symptoms": [
+                    "మచ్చలు పెద్దవై ఒకదానితో ఒకటి కలిసి పై ఆకులకు పాకడం",
+                    "మొక్క కాండం బలహీనపడి పడిపోవడం (Lodging), గింజ గట్టిపడకపోవడం"
+                ],
+                "remedy_application_interval": [
+                    "పిలకలు తొడిగే దశలో నీటితో పాటు అందించాలి",
+                    "మొక్క మొదళ్ల భాగం బాగా నానేలా 8 రోజుల వ్యవధిలో రెండు సార్లు పిచికారీ చేయాలి"
+                ],
+                "cultural_and_physical_controls": [
+                    "మొక్కల మధ్య సరైన దూరం పాటించాలి",
+                    "గట్లపై కలుపు లేకుండా శుభ్రంగా ఉంచాలి"
+                ],
+                "aliases": ["పొద తెగులు", "షీత్ బ్లైట్", "పాము చర్మం తెగులు"]
+            }
+        }
+    },
+    {
+        "disease_id": 4,
+        "disease_name_english": "Rice Tungro Virus",
+        "disease_name_telugu": "వరి టుంగ్రో వైరస్ తెగులు",
+        "disease_type": "Viral",
+        "affected_crops": ["Rice"],
+        "preventive_remedy_id": 4,
+        "curative_remedy_id": 9,
+        "translations": {
+            "en": {
+                "favorable_weather": [
+                    "High population of Green Leafhoppers (GLH)",
+                    "Dry and warm weather accelerating vector movement"
+                ],
+                "early_stage_symptoms": [
+                    "Slight discoloration of leaves starting from tips",
+                    "Stunted growth of tillers"
+                ],
+                "advanced_stage_symptoms": [
+                    "Leaves turn beautiful orange-yellow color",
+                    "Number of tillers drastically reduced, panicles fail to emerge or are sterile"
+                ],
+                "remedy_application_interval": [
+                    "Spray immediately upon noticing Green Leafhoppers",
+                    "Apply twice with a 5-7 day interval to control the vector"
+                ],
+                "cultural_and_physical_controls": [
+                    "Set up yellow sticky traps to capture vectors",
+                    "Pluck and destroy severely infected stunted hills"
+                ],
+                "aliases": ["Tungro", "Orange Leaf Disease"]
+            },
+            "te": {
+                "favorable_weather": [
+                    "పచ్చ దీపపు పురుగులు (Green Leafhoppers) ఎక్కువగా ఉండటం",
+                    "పొడి మరియు వేడి వాతావరణం వల్ల పురుగుల కదలిక పెరగడం"
+                ],
+                "early_stage_symptoms": [
+                    "ఆకు చివర్ల నుండి కొద్దిగా రంగు మారడం ప్రారంభమవ్వడం",
+                    "మొక్కల ఎదుగుదల గిడసబారిపోవడం"
+                ],
+                "advanced_stage_symptoms": [
+                    "ఆకులు ముదురు నారింజ-పసుపు రంగులోకి మారిపోవడం",
+                    "పిలకల సంఖ్య దారుణంగా తగ్గిపోవడం, వెన్నులు బయటకు రాకపోవడం లేదా తాలుగా మారడం"
+                ],
+                "remedy_application_interval": [
+                    "పచ్చ దీపపు పురుగులను గమనించిన వెంటనే పిచికారీ చేయాలి",
+                    "పురుగుల ఉధృతిని తగ్గించడానికి 5-7 రోజుల వ్యవధిలో రెండు సార్లు కొట్టాలి"
+                ],
+                "cultural_and_physical_controls": [
+                    "పొలంలో పసుపు జిగురు అట్టలను (Yellow sticky traps) ఏర్పాటు చేయాలి",
+                    "తీవ్రంగా దెబ్బతిన్న గిడసబారిన మొక్కలను పీకి నాశనం చేయాలి"
+                ],
+                "aliases": ["టుంగ్రో వైరస్", "నారింజ ఆకు తెగులు"]
+            }
+        }
+    },
+    {
+        "disease_id": 5,
+        "disease_name_english": "Cotton Leaf Curl Virus (CLCuV)",
+        "disease_name_telugu": "పత్తి ఆకు ముడత వైరస్ తెగులు",
+        "disease_type": "Viral",
+        "affected_crops": ["Cotton"],
+        "preventive_remedy_id": 4,
+        "curative_remedy_id": 9,
+        "translations": {
+            "en": {
+                "favorable_weather": [
+                    "Dry periods with high infestation of Whiteflies",
+                    "Warm daytime temperatures that favor pest breeding"
+                ],
+                "early_stage_symptoms": [
+                    "Upward or downward curling of leaf margins",
+                    "Thickening of veins on the lower leaf surface"
+                ],
+                "advanced_stage_symptoms": [
+                    "Leaves become leathery and heavily distorted",
+                    "Formation of cup-like leaf outgrowths (enations) under leaves; severe boll dropping"
+                ],
+                "remedy_application_interval": [
+                    "Target whiteflies early in the season",
+                    "Repeat application at 5 days interval if whitefly population persists"
+                ],
+                "cultural_and_physical_controls": [
+                    "Use yellow sticky sheets to trap whiteflies",
+                    "Uproot and bury infected cotton plants away from the field"
+                ],
+                "aliases": ["Leaf Curl", "CLCuV", "Enation Virus"]
+            },
+            "te": {
+                "favorable_weather": [
+                    "పొడి వాతావరణంలో తెల్లదోమల (Whiteflies) ఉధృతి విపరీతంగా పెరగడం",
+                    "పగటి ఉష్ణోగ్రతలు ఎక్కువగా ఉండి పురుగులు వేగంగా వృద్ధి చెందడం"
+                ],
+                "early_stage_symptoms": [
+                    "ఆకుల అంచులు పైకి లేదా కిందికి ముడుచుకుపోవడం",
+                    "ఆకు అడుగు భాగంలో ఈనెలు లావుగా/మందంగా మారడం"
+                ],
+                "advanced_stage_symptoms": [
+                    "ఆకులు ముతకగా, గరుకుగా మారి వికృతంగా తయారవ్వడం",
+                    "ఆకుల అడుగున చిన్న చిన్న కప్పుల వంటి అదనపు ఆకు నిర్మాణాలు రావడం, కాయలు రాలిపోవడం"
+                ],
+                "remedy_application_interval": [
+                    "సీజన్ ప్రారంభంలో తెల్లదోమలను అదుపు చేయడానికి కొట్టాలి",
+                    "తెల్లదోమల ఉధృతి తగ్గకపోతే 5 రోజుల వ్యవధిలో మళ్ళీ పిచికారీ చేయాలి"
+                ],
+                "cultural_and_physical_controls": [
+                    "పొలంలో పసుపు జిగురు అట్టలను పెద్ద సంఖ్యలో పెట్టాలి",
+                    "రోగగ్రస్త మొక్కలను పీకేసి పొలానికి దూరంగా భూమిలో పాతేయాలి"
+                ],
+                "aliases": ["ఆకు ముడత వైరస్", "ఈనెల మందం తెగులు"]
+            }
+        }
+    },
+    {
+        "disease_id": 6,
+        "disease_name_english": "Cotton Blackarm / Bacterial Blight",
+        "disease_name_telugu": "పత్తి నల్లకాండం / బాక్టీరియా మచ్చ తెగులు",
+        "disease_type": "Bacterial",
+        "affected_crops": ["Cotton"],
+        "preventive_remedy_id": 3,
+        "curative_remedy_id": 10,
+        "translations": {
+            "en": {
+                "favorable_weather": [
+                    "Intermittent rains with warm humid weather (30°C)",
+                    "High atmospheric moisture during boll development"
+                ],
+                "early_stage_symptoms": [
+                    "Angular water-soaked spots on leaves restricted by veins",
+                    "Spots turn dark brown to black over time"
+                ],
+                "advanced_stage_symptoms": [
+                    "Infection spreads to stems, causing black lesions that girdle and break branches (Blackarm phase)",
+                    "Sunken black spots on bolls leading to internal rotting of lint"
+                ],
+                "remedy_application_interval": [
+                    "Seed treatment is key",
+                    "Spray twice at 10 days interval when angular spots appear on leaves"
+                ],
+                "cultural_and_physical_controls": [
+                    "Maintain clean cultivation and remove crop stubbles",
+                    "Avoid excessive overhead irrigation"
+                ],
+                "aliases": ["Bacterial Blight", "Angular Leaf Spot", "Blackarm"]
+            },
+            "te": {
+                "favorable_weather": [
+                    "ఉక్కపోతతో కూడిన వాతావరణం (30°C) మరియు మధ్యమధ్యలో పడే వర్షాలు",
+                    "కాయలు ఊరే దశలో గాలిలో తేమ ఎక్కువగా ఉండటం"
+                ],
+                "early_stage_symptoms": [
+                    "ఆకులపై ఈనెల మధ్య మాత్రమే పరిమితమయ్యే కోణీయ (Angular) నీరు నానిన మచ్చలు",
+                    "ఈ మచ్చలు క్రమంగా ముదురు గోధుమ లేదా నల్ల రంగులోకి మారడం"
+                ],
+                "advanced_stage_symptoms": [
+                    "ఇన్ఫెక్షన్ కొమ్మలకు పాకి, కొమ్మలు నల్లబడి విరిగిపోవడం (నల్లకాండం దశ)",
+                    "కాయలపై లోపలికి నొక్కుకుపోయిన నల్లటి మచ్చలు పడటం, లోపలి దూది కుళ్ళిపోవడం"
+                ],
+                "remedy_application_interval": [
+                    "విత్తన శుద్ధి అత్యంత ముఖ్యం",
+                    "ఆకులపై కోణీయ మచ్చలు కనిపించినప్పుడు 10 రోజుల వ్యవధిలో రెండు సార్లు పిచికారీ చేయాలి"
+                ],
+                "cultural_and_physical_controls": [
+                    "పొలాన్ని శుభ్రంగా ఉంచి పాత పంట అవశేషాలను తొలగించాలి",
+                    "ఎక్కువగా పైనుండి నీరు చిమ్మే పద్ధతులను (Sprinklers) తగ్గించాలి"
+                ],
+                "aliases": [
+                    "బాక్టీరియా తెగులు",
+                    "కోణీయ ఆకుమచ్చ తెగులు",
+                    "నల్లకాండం తెగులు"
+                ]
+            }
+        }
+    },
+    {
+        "disease_id": 7,
+        "disease_name_english": "Chilli Leaf Curl (Murda Disease)",
+        "disease_name_telugu": "మిరప ఆకు ముడత తెగులు (మురదా తెగులు)",
+        "disease_type": "Viral Complex / Pest Induced",
+        "affected_crops": ["Chilli"],
+        "preventive_remedy_id": 4,
+        "curative_remedy_id": 9,
+        "translations": {
+            "en": {
+                "favorable_weather": [
+                    "Dry and hot weather conditions",
+                    "High population of Thrips and Mites in the microclimate"
+                ],
+                "early_stage_symptoms": [
+                    "Upward curling of leaves caused by Thrips",
+                    "Downward curling and elongation of leaves caused by Mites"
+                ],
+                "advanced_stage_symptoms": [
+                    "Leaves become extremely small, clustered, and inverted cup-shaped",
+                    "Stunted plant growth resembling a bush; drastic reduction in flower budding"
+                ],
+                "remedy_application_interval": [
+                    "Spray at the first sign of leaf distortion",
+                    "Apply 2-3 times at 5 days interval alternating the organic extracts"
+                ],
+                "cultural_and_physical_controls": [
+                    "Grow barrier crops like Maize or Sorghum around the plot",
+                    "Keep the field borders clean from wild weeds"
+                ],
+                "aliases": ["Chilli Murda", "Upward Mudra", "Downward Murda"]
+            },
+            "te": {
+                "favorable_weather": [
+                    "పొడి మరియు వేడి వాతావరణ పరిస్థితులు",
+                    "తోటలో తామర పురుగులు (Thrips) మరియు నల్లి (Mites) ఉధృతి ఎక్కువగా ఉండటం"
+                ],
+                "early_stage_symptoms": [
+                    "తామర పురుగుల వల్ల ఆకుల అంచులు పైకి దోనెల్లా ముడుచుకుపోవడం",
+                    "నల్లి పురుగుల వల్ల ఆకులు క్రిందికి ముడుచుకుని, పొడవుగా సాగడం"
+                ],
+                "advanced_stage_symptoms": [
+                    "ఆకులు చాలా చిన్నవిగా మారి, గుత్తులుగా బోర్లించిన కప్పుల్లా అవ్వడం",
+                    "మొక్క ఎదుగుదల ఆగిపోయి బొంతలా మారడం (Bushy growth), పూత దారుణంగా తగ్గిపోవడం"
+                ],
+                "remedy_application_interval": [
+                    "ఆకులు కొద్దిగా ముడుచుకోవడం గమనించిన వెంటనే కొట్టాలి",
+                    "5 రోజుల వ్యవధిలో 2-3 సార్లు మార్చి మార్చి కషాయాలను పిచికారీ చేయాలి"
+                ],
+                "cultural_and_physical_controls": [
+                    "పొలం చుట్టూ రక్షణ పంటలుగా జొన్న లేదా మొక్కజొన్నను 3 వరుసలలో పెంచాలి",
+                    "పొలం గట్లపై ఉండే అడవి కలుపు మొక్కలను తొలగించాలి"
+                ],
+                "aliases": ["మురదా తెగులు", "పై ముడత", "కింది ముడత"]
+            }
+        }
+    },
+    {
+        "disease_id": 8,
+        "disease_name_english": "Chilli Dieback & Fruit Rot",
+        "disease_name_telugu": "మిరప కొమ్మెండు మరియు కాయ కుళ్ళు తెగులు",
+        "disease_type": "Fungal",
+        "affected_crops": ["Chilli"],
+        "preventive_remedy_id": 1,
+        "curative_remedy_id": 7,
+        "translations": {
+            "en": {
+                "favorable_weather": [
+                    "Continuous overhead moisture and heavy fog during autumn",
+                    "High relative humidity (above 80%) with temperatures around 24-28°C"
+                ],
+                "early_stage_symptoms": [
+                    "Necrotic spots on twigs; black dots appear on the affected bark",
+                    "Small circular wet spots on ripe pods"
+                ],
+                "advanced_stage_symptoms": [
+                    "Twigs dry up from top downwards (Dieback phase)",
+                    "Pods rot, turn straw-colored or white, and drop off prematurely (Fruit rot phase)"
+                ],
+                "remedy_application_interval": [
+                    "Spray preventively during flowering/fruiting",
+                    "Apply twice at 10 days interval focusing on developing fruits"
+                ],
+                "cultural_and_physical_controls": [
+                    "Collect and burn all infected dry pods",
+                    "Use clean, disease-free seeds for nursery raising"
+                ],
+                "aliases": ["Dieback", "Anthracnose", "Fruit Rot"]
+            },
+            "te": {
+                "favorable_weather": [
+                    "శరదృతువులో నిరంతరం కురిసే తుంపర్లు మరియు దట్టమైన పొగమంచు",
+                    "గాలిలో తేమ 80% పైగా ఉండి ఉష్ణోగ్రత 24-28°C మధ్య ఉండటం"
+                ],
+                "early_stage_symptoms": [
+                    "లేత కొమ్మలపై ఎండిన మచ్చలు పడటం, ఎండిన తొడుగుపై నల్లటి చుక్కలు కనిపించడం",
+                    "పండు కాయల పైన చిన్న గుండ్రని తడి మచ్చలు ఏర్పడటం"
+                ],
+                "advanced_stage_symptoms": [
+                    "కొమ్మల చివర్లు పైనుండి కిందికి ఎండిపోవడం (డైబ్యాక్ దశ)",
+                    "కాయలు కుళ్ళిపోయి, ఎండుగడ్డి రంగు లేదా తెల్ల రంగులోకి మారి రాలిపోవడం (కాయ కుళ్ళు దశ)"
+                ],
+                "remedy_application_interval": [
+                    "పూత మరియు కాయ దశలో ముందస్తుగా పిచికారీ చేయాలి",
+                    "కాయలు ఊరేటప్పుడు 10 రోజుల వ్యవధిలో రెండు సార్లు చెట్టు మొత్తం నానేలా కొట్టాలి"
+                ],
+                "cultural_and_physical_controls": [
+                    "పొలంలో రాలిన రోగగ్రస్త పండు కాయలను ఏరి తగులబెట్టాలి",
+                    "నారుమడి కోసం ఆరోగ్యకరమైన తోటల నుండి సేకరించిన విత్తనాలనే వాడాలి"
+                ],
+                "aliases": [
+                    "కొమ్మెండు తెగులు",
+                    "కాయ కుళ్ళు తెగులు",
+                    "ఆంత్రాక్నోస్"
+                ]
+            }
+        }
+    },
+    {
+        "disease_id": 9,
+        "disease_name_english": "Groundnut Early & Late Leaf Spot (Tikka)",
+        "disease_name_telugu": "వేరుశనగ ఆకుమచ్చ తెగులు (తిక్క తెగులు)",
+        "disease_type": "Fungal",
+        "affected_crops": ["Groundnut"],
+        "preventive_remedy_id": 1,
+        "curative_remedy_id": 8,
+        "translations": {
+            "en": {
+                "favorable_weather": [
+                    "Prolonged wet atmospheric conditions",
+                    "High humidity followed by warm days (26-30°C)"
+                ],
+                "early_stage_symptoms": [
+                    "Sub-circular dark brown spots on upper leaf surface with a bright yellow halo (Early spot)"
+                ],
+                "advanced_stage_symptoms": [
+                    "Spots become completely black without a yellow halo on the lower leaf surface (Late spot)",
+                    "Severe defoliation, leaves drop off leaving bare stems; reduced pod weight"
+                ],
+                "remedy_application_interval": [
+                    "Begin spray 30 days after sowing preventively",
+                    "Apply twice at 10-12 days interval upon symptom appearance"
+                ],
+                "cultural_and_physical_controls": [
+                    "Follow crop rotation with non-leguminous crops",
+                    "Deep summer plowing to destroy soil-borne inoculum"
+                ],
+                "aliases": [
+                    "Tikka Disease",
+                    "Cercospora Leaf Spot",
+                    "Early & Late Spot"
+                ]
+            },
+            "te": {
+                "favorable_weather": [
+                    "ఎడతెరిపి లేకుండా ఎక్కువ రోజులు వర్షాలు పడటం",
+                    "గాలిలో తేమ ఎక్కువగా ఉండి పగటిపూట వేడి (26-30°C) ఉండటం"
+                ],
+                "early_stage_symptoms": [
+                    "ఆకు పైభాగంలో గుండ్రని ముదురు గోధుమ రంగు మచ్చలు ఏర్పడి చుట్టూ స్పష్టమైన పసుపు వలయం (హలో) ఉండటం (ముందస్తు ఆకుమచ్చ)"
+                ],
+                "advanced_stage_symptoms": [
+                    "ఆకు అడుగు భాగంలో పసుపు వలయం లేని పూర్తిగా నల్లటి మచ్చలు దట్టంగా ఏర్పడటం (వెనుకటి ఆకుమచ్చ)",
+                    "ఆకులు పెద్ద ఎత్తున రాలిపోయి కేవలం కాండం మిగలడం, గింజ సైజ్ మరియు నూనె శాతం తగ్గిపోవడం"
+                ],
+                "remedy_application_interval": [
+                    "విత్తిన 30 రోజుల తర్వాత ముందస్తుగా పిచికారీ ప్రారంభించాలి",
+                    "లక్షణాలు కనిపించినప్పుడు 10-12 రోజుల వ్యవధిలో రెండు సార్లు కొట్టాలి"
+                ],
+                "cultural_and_physical_controls": [
+                    "పంట మార్పిడి (ధాన్యపు పంటలతో) పద్ధతిని పాటించాలి",
+                    "వేసవిలో లోతు దుక్కులు దున్నడం ద్వారా నేలలోని శిలీంధ్రాన్ని నాశనం చేయాలి"
+                ],
+                "aliases": ["తిక్క తెగులు", "ఆకుమచ్చ తెగులు", "టాప్ మచ్చలు"]
+            }
+        }
+    },
+    {
+        "disease_id": 10,
+        "disease_name_english": "Groundnut Stem Rot / Sclerotium Wilt",
+        "disease_name_telugu": "వేరుశనగ మొదలు కుళ్ళు / కాండం కుళ్ళు తెగులు",
+        "disease_type": "Fungal (Soil-borne)",
+        "affected_crops": ["Groundnut"],
+        "preventive_remedy_id": 3,
+        "curative_remedy_id": 11,
+        "translations": {
+            "en": {
+                "favorable_weather": [
+                    "High soil moisture combined with high temperatures (30°C)",
+                    "Dense canopy cover holding micro-humidity near the soil surface"
+                ],
+                "early_stage_symptoms": [
+                    "Yellowing and wilting of a single branch or entire plant",
+                    "White cottony fungal growth (mycelium) visible at the soil line on the stem"
+                ],
+                "advanced_stage_symptoms": [
+                    "Fungal growth produces small brown mustard-seed-like structures (sclerotia)",
+                    "Stem rots completely at the base, pods detach and remain in the soil during harvest"
+                ],
+                "remedy_application_interval": [
+                    "Apply organic bio-agents to soil during field preparation",
+                    "Drench the root zone thoroughly twice at 8 days interval upon noticing wilt"
+                ],
+                "cultural_and_physical_controls": [
+                    "Avoid heavy piling of soil around the plant base during intercultural operations",
+                    "Remove previous crop debris from the field"
+                ],
+                "aliases": ["Stem Rot", "Sclerotium Wilt", "White Mold"]
+            },
+            "te": {
+                "favorable_weather": [
+                    "నేలలో ఎక్కువ తేమ ఉండటంతో పాటు వేడి (30°C) ఎక్కువగా ఉండటం",
+                    "మొక్కలు దట్టంగా అల్లుకుని భూమి ఉపరితలం వద్ద తేమ ఆరకుండా ఉండటం"
+                ],
+                "early_stage_symptoms": [
+                    "ఒక కొమ్మ లేదా మొక్క మొత్తం పసుపుబారి హఠాత్తుగా వాడిపోవడం",
+                    "భూమికి తగిలే కాండం భాగంపై తెల్లటి దూది లాంటి బూజు (శిలీంధ్ర జాలం) కనిపించడం"
+                ],
+                "advanced_stage_symptoms": [
+                    "తెల్లటి బూజుపై ఆవాల గింజల వంటి గోధుమ రంగు గుళికలు (Sclerotia) ఏర్పడటం",
+                    "కాండం మొదలు పూర్తిగా కుళ్ళిపోవడం వల్ల పంట తీసేటప్పుడు కాయలు తెగి భూమిలోనే ఉండిపోవడం"
+                ],
+                "remedy_application_interval": [
+                    "ఆఖరి దుక్కిలో జీవ శిలీంధ్ర నాశనులను పశువుల ఎరువుతో కలిపి చల్లాలి",
+                    "ఎండుదల గమనించిన వెంటనే మొక్కల మొదళ్లలో నేల నానేలా 8 రోజుల వ్యవధిలో రెండు సార్లు డ్రెంచింగ్ చేయాలి"
+                ],
+                "cultural_and_physical_controls": [
+                    "అంతరకృషి (దోమ తోలడం) చేసేటప్పుడు మొక్క మొదళ్లపై ఎక్కువ మట్టి పడకుండా చూసుకోవాలి",
+                    "మునుపటి పంట అవశేషాలను పూర్తిగా ఏరివేయాలి"
+                ],
+                "aliases": [
+                    "మొదలు కుళ్ళు తెగులు",
+                    "కాండం కుళ్ళు తెగులు",
+                    "ఆవాల తెగులు"
+                ]
+            }
+        }
+    },
+    {
+        "disease_id": 11,
+        "disease_name_english": "Tomato Early Blight",
+        "disease_name_telugu": "టొమాటో ముందస్తు ఆకుమాడు తెగులు",
+        "disease_type": "Fungal",
+        "affected_crops": ["Tomato", "Potato"],
+        "preventive_remedy_id": 1,
+        "curative_remedy_id": 7,
+        "translations": {
+            "en": {
+                "favorable_weather": [
+                    "Warm, humid conditions with frequent rainfall",
+                    "Alternating wet and dry spells in the atmosphere"
+                ],
+                "early_stage_symptoms": [
+                    "Small brown-black spots on older leaves near the bottom",
+                    "Spots develop characteristic concentric rings (target-board pattern)"
+                ],
+                "advanced_stage_symptoms": [
+                    "Leaves turn yellow and drop off prematurely, exposing fruits to sunscald",
+                    "Dark, sunken leathery spots near the stem end of fruits"
+                ],
+                "remedy_application_interval": [
+                    "Spray lower leaves preventively 20 days after planting",
+                    "Repeat twice with an 8-10 day interval if weather is rainy"
+                ],
+                "cultural_and_physical_controls": [
+                    "Prune lower leaves up to 1 foot height to avoid soil contact",
+                    "Mulch the soil surface to prevent fungal spores from splashing"
+                ],
+                "aliases": [
+                    "Early Blight",
+                    "Target Spot",
+                    "Alternaria Leaf Spot"
+                ]
+            },
+            "te": {
+                "favorable_weather": [
+                    "తరచుగా పడే వర్షాలతో కూడిన ఉక్కపోత వాతావరణం",
+                    "వాతావరణంలో తడి మరియు పొడి పరిస్థితులు మార్చి మార్చి రావడం"
+                ],
+                "early_stage_symptoms": [
+                    "మొక్క కింది భాగంలో ఉండే ముసలి ఆకులపై చిన్న నల్లటి-గోధుమ మచ్చలు ఏర్పడటం",
+                    "మచ్చల లోపల ఏకకేంద్ర వలయాలు (టార్గెట్ బోర్డు / ఎద్దు కన్ను ఆకారం) స్పష్టంగా కనిపించడం"
+                ],
+                "advanced_stage_symptoms": [
+                    "ఆకులు పూర్తిగా పసుపుబారి రాలిపోవడం వల్ల ఎండ తగిలి కాయలు దెబ్బతినడం (Sunscald)",
+                    "కాయల తొడిమ భాగం వద్ద నల్లటి, లోపలికి నొక్కుకుపోయిన ముతక మచ్చలు పడటం"
+                ],
+                "remedy_application_interval": [
+                    "నాటిన 20 రోజులకు కింది ఆకులు తడిచేలా ముందస్తుగా కొట్టాలి",
+                    "వర్షాలు పడుతుంటే 8-10 రోజుల వ్యవధిలో రెండు సార్లు పిచికారీ చేయాలి"
+                ],
+                "cultural_and_physical_controls": [
+                    "నేలకు తగలకుండా కింది నుండి 1 అడుగు ఎత్తు వరకు ఆకులను కత్తిరించాలి (Pruning)",
+                    "మట్టి నుండి ఫంగస్ ఆకులకు చేరకుండా మల్చింగ్ షీట్ లేదా ఎండుగడ్డి వాడాలి"
+                ],
+                "aliases": [
+                    "ముందస్తు ఆకుమాడు",
+                    "ఎద్దుకన్ను తెగులు",
+                    "టార్గెట్ స్పాట్"
+                ]
+            }
+        }
+    },
+    {
+        "disease_id": 12,
+        "disease_name_english": "Tomato Late Blight",
+        "disease_name_telugu": "టొమాటో వెనుకటి ఆకుమాడు తెగులు",
+        "disease_type": "Fungal-like (Oomycete)",
+        "affected_crops": ["Tomato", "Potato"],
+        "preventive_remedy_id": 1,
+        "curative_remedy_id": 8,
+        "translations": {
+            "en": {
+                "favorable_weather": [
+                    "Cool, wet weather with continuous night mists",
+                    "High relative humidity (above 90%) and temperatures around 15-20°C"
+                ],
+                "early_stage_symptoms": [
+                    "Large, irregular water-soaked pale green spots near leaf tips",
+                    "White frost-like fungal growth on the underside of leaves in wet mornings"
+                ],
+                "advanced_stage_symptoms": [
+                    "Entire foliage destroys rapidly, looking like a severe frost burn",
+                    "Large, dark brown greasy lesions on green and ripe fruits; entire crop ruins in days"
+                ],
+                "remedy_application_interval": [
+                    "Extremely critical to spray before continuous winter rains",
+                    "Apply every 5-7 days during high disease pressure until dry weather resumes"
+                ],
+                "cultural_and_physical_controls": [
+                    "Destroy self-sown solanaceous weeds near the plot",
+                    "Avoid overhead sprinkler irrigation during winter nights"
+                ],
+                "aliases": [
+                    "Late Blight",
+                    "Potato/Tomato Blight",
+                    "Downy Blight"
+                ]
+            },
+            "te": {
+                "favorable_weather": [
+                    "రాత్రి వేళల్లో నిరంతరం కురిసే పొగమంచుతో కూడిన చల్లటి, తడి వాతావరణం",
+                    "గాలిలో తేమ 90% పైగా ఉండి ఉష్ణోగ్రతలు 15-20°C మధ్య ఉండటం"
+                ],
+                "early_stage_symptoms": [
+                    "ఆకు చివర్లలో పెద్ద పెద్ద, క్రమరహిత నీరు నానిన లేత ఆకుపచ్చ మచ్చలు",
+                    "తడి ఎక్కువగా ఉన్న ఉదయాల్లో ఆకు అడుగు భాగంలో తెల్లటి మంచు లాంటి బూజు పొర కనిపించడం"
+                ],
+                "advanced_stage_symptoms": [
+                    "తోట మొత్తం మంచుకు కాలిపోయినట్లు నల్లగా మాడిపోవడం (Frost burn)",
+                    "పచ్చటి మరియు పండిన కాయలపై ముదురు గోధుమ రంగు చారలు పడి కుళ్ళిపోవడం, కొద్ది రోజుల్లోనే తోట నాశనం కావడం"
+                ],
+                "remedy_application_interval": [
+                    "శీతాకాలపు వర్షాలు పడే సూచనలు ఉన్నప్పుడే ముందస్తుగా కొట్టడం చాలా ముఖ్యం",
+                    "తెగులు ఉధృతి ఎక్కువగా ఉన్నప్పుడు వాతావరణం పొడిగా మారే వరకు ప్రతి 5-7 రోజులకు ఒకసారి కొట్టాలి"
+                ],
+                "cultural_and_physical_controls": [
+                    "పొలం చుట్టుపక్కల ఉండే అడవి టొమాటో/వాకుడు మొక్కలను తొలగించాలి",
+                    "చలికాలంలో రాత్రి వేళల్లో స్ప్రింక్లర్ల ద్వారా నీరు పెట్టడం ఆపాలి"
+                ],
+                "aliases": [
+                    "వెనుకటి ఆకుమాడు",
+                    "మాగు తెగులు",
+                    "మంచు మాడు తెగులు"
+                ]
+            }
+        }
+    },
+    {
+        "disease_id": 13,
+        "disease_name_english": "Tomato Leaf Curl Virus (ToLCV)",
+        "disease_name_telugu": "టొమాటో ఆకు ముడత వైరస్ తెగులు",
+        "disease_type": "Viral",
+        "affected_crops": ["Tomato"],
+        "preventive_remedy_id": 4,
+        "curative_remedy_id": 9,
+        "translations": {
+            "en": {
+                "favorable_weather": [
+                    "Dry summer seasons with hot winds",
+                    "High density of the vector Bemisia tabaci (Whitefly)"
+                ],
+                "early_stage_symptoms": [
+                    "Severe curling and twisting of young leaves upward",
+                    "Yellowing of leaf margins between veins"
+                ],
+                "advanced_stage_symptoms": [
+                    "Plants exhibit extreme stunting; leaves become thick and very small",
+                    "Blossoming drops off completely; infected plants fail to produce marketable fruits"
+                ],
+                "remedy_application_interval": [
+                    "Nursery protection using fine nets is mandatory",
+                    "Apply vector controls every 7 days from transplanting stage"
+                ],
+                "cultural_and_physical_controls": [
+                    "Raise nursery under 40-mesh nylon nets",
+                    "Intercrop with tall cereals like Pearl Millet (Sajja) to block whiteflies"
+                ],
+                "aliases": ["Leaf Curl", "ToLCV", "Tomato Crinkle"]
+            },
+            "te": {
+                "favorable_weather": [
+                    "వేడి గాలులతో కూడిన పొడి వేసవి కాలం",
+                    "వైరస్‌ను మోసుకొచ్చే తెల్లదోమల (Whiteflies) సంఖ్య విపరీతంగా పెరగడం"
+                ],
+                "early_stage_symptoms": [
+                    "లేత ఆకులు తీవ్రంగా పైకి ముడుచుకుని, వంకర్లు తిరిగిపోవడం",
+                    "ఈనెల మధ్య ఉండే ఆకు అంచులు పసుపు రంగులోకి మారడం"
+                ],
+                "advanced_stage_symptoms": [
+                    "మొక్కలు గిడసబారి చిన్న పొదలా మారిపోవడం, ఆకులు మందంగా మరియు చిన్నవిగా అవ్వడం",
+                    "పూత పూర్తిగా రాలిపోవడం, కాపు అస్సలు రాకపోవడం వల్ల రైతు తీవ్రంగా నష్టపోవడం"
+                ],
+                "remedy_application_interval": [
+                    "నారుమడి దశ నుండి నెట్స్ ద్వారా ముందస్తు రక్షణ కల్పించాలి",
+                    "నాటిన రోజు నుండి ప్రతి 7 రోజులకు ఒకసారి దోమల నివారణ కషాయాలు కొట్టాలి"
+                ],
+                "cultural_and_physical_controls": [
+                    "నారును 40-మేష్ నైలాన్ నెట్ల కింద మాత్రమే పెంచాలి",
+                    "తెల్లదోమలు రాకుండా అడ్డుకోవడానికి పొలంలో సజ్జ లేదా జొన్న పంటలను అంతరపంటలుగా వేయాలి"
+                ],
+                "aliases": ["ఆకు ముడత వైరస్", "టొమాటో సురుకు తెగులు"]
+            }
+        }
+    },
+    {
+        "disease_id": 14,
+        "disease_name_english": "Brinjal Little Leaf Disease",
+        "disease_name_telugu": "వంకాయ బుజ్జి ఆకు తెగులు (లిటిల్ లీఫ్)",
+        "disease_type": "Phytoplasma",
+        "affected_crops": ["Brinjal"],
+        "preventive_remedy_id": 4,
+        "curative_remedy_id": 9,
+        "translations": {
+            "en": {
+                "favorable_weather": [
+                    "Abundant presence of the insect vector Amrasca biguttula (Leafhopper)",
+                    "Warm weather facilitating vector flights"
+                ],
+                "early_stage_symptoms": [
+                    "Reduction in leaf size of newly emerging flushes",
+                    "Petioles become short and leaves look narrow"
+                ],
+                "advanced_stage_symptoms": [
+                    "Leaves become tiny, thin, and smooth, forming a bushy broom-like structure (witches' broom)",
+                    "Stems elongate thinly; flowers become green and sterile, yielding no fruits"
+                ],
+                "remedy_application_interval": [
+                    "Spray organic anti-feedants early at vegetative phase",
+                    "Apply vector controlling extracts 2-3 times at 6 days interval upon leafhopper notice"
+                ],
+                "cultural_and_physical_controls": [
+                    "Uproot infected plants immediately upon detection and burn them",
+                    "Clip off affected auxiliary branches at very early stages if localized"
+                ],
+                "aliases": ["Little Leaf", "Witches' Broom", "Phytoplasma Wilt"]
+            },
+            "te": {
+                "favorable_weather": [
+                    "రసం పీల్చే దీపపు పురుగులు / ఆకు తూనీగలు (Leafhoppers) విపరీతంగా ఉండటం",
+                    "పురుగులు ఎగరడానికి వీలుగా ఉండే వెచ్చని వాతావరణం"
+                ],
+                "early_stage_symptoms": [
+                    "కొత్తగా వచ్చే చిగురు ఆకుల సైజ్ క్రమంగా చిన్నదిగా మారిపోవడం",
+                    "ఆకు తొడిమలు చిన్నవై, ఆకులు వెడల్పు కోల్పోవడం"
+                ],
+                "advanced_stage_symptoms": [
+                    "ఆకులు అతి చిన్నవిగా, పల్చగా మారి చూడ్డానికి 'తుడుపుకట్ట / చీపురుకట్ట' లాగా గుత్తులుగా మారడం",
+                    "పూమొగ్గలు ఆకుపచ్చ రంగులోకి మారిపోయి (Phyllody) వంధ్యత్వానికి గురవ్వడం, కాయలు అస్సలు కాయకపోవడం"
+                ],
+                "remedy_application_interval": [
+                    "మొక్క ఎదుగుదల దశలోనే ముందస్తుగా రసం పీల్చే పురుగుల నివారణ ద్రావణాలు కొట్టాలి",
+                    "తూనీగలను గమనించినప్పుడు 6 రోజుల వ్యవధిలో 2-3 సార్లు కషాయాలను పిచికారీ చేయాలి"
+                ],
+                "cultural_and_physical_controls": [
+                    "తెగులు సోకిన మొక్కను చూసిన వెంటనే వేర్లతో సహా పీకి తగులబెట్టాలి (లేదంటే తోట అంతా పాకుతుంది)",
+                    "ప్రారంభంలో ఒకే కొమ్మకు పరిమితమైతే ఆ కొమ్మను కత్తిరించి నాశనం చేయాలి"
+                ],
+                "aliases": [
+                    "బుజ్జి ఆకు తెగులు",
+                    "లిటిల్ లీఫ్ తెగులు",
+                    "చీపురుకట్ట తెగులు"
+                ]
+            }
+        }
+    },
+    {
+        "disease_id": 15,
+        "disease_name_english": "Mango Anthracnose",
+        "disease_name_telugu": "మామిడి ఆంత్రాక్నోస్ తెగులు (మచ్చ తెగులు)",
+        "disease_type": "Fungal",
+        "affected_crops": ["Mango"],
+        "preventive_remedy_id": 1,
+        "curative_remedy_id": 7,
+        "translations": {
+            "en": {
+                "favorable_weather": [
+                    "High humidity (above 95%) during flowering and fruit set",
+                    "Frequent unseasonal summer rains and overcast skies"
+                ],
+                "early_stage_symptoms": [
+                    "Small dark brown circular spots on leaves, young twigs, and blossoms",
+                    "Blossoms turn black and wither rapidly"
+                ],
+                "advanced_stage_symptoms": [
+                    "Spots on fruits enlarge, coalesce, and form sunken black lesions (tear-stain patterns)",
+                    "Fruits rot internally during storage and storage shelf life drops drastically"
+                ],
+                "remedy_application_interval": [
+                    "Spray at panicle emergence stage preventively",
+                    "Apply during fruit development stage twice at 12 days interval"
+                ],
+                "cultural_and_physical_controls": [
+                    "Prune dead twigs and cross branches before monsoon to ensure sunlight penetration",
+                    "Dip harvested fruits in hot water (52°C) treated with bio-agents"
+                ],
+                "aliases": [
+                    "Anthracnose",
+                    "Blossom Blight",
+                    "Fruit Rot",
+                    "Tear Stain"
+                ]
+            },
+            "te": {
+                "favorable_weather": [
+                    "పూత మరియు పిందె దశలో గాలిలో తేమ 95% పైగా ఉండటం",
+                    "అకాలంగా కురిసే వేసవి వర్షాలు మరియు ఆకాశం నిరంతరం మబ్బు పట్టి ఉండటం"
+                ],
+                "early_stage_symptoms": [
+                    "లేత ఆకులు, కొమ్మలు మరియు పూత రెమ్మలపై చిన్న గుండ్రని ముдуరు గోధుమ మచ్చలు",
+                    "పూత మొత్తం నల్లగా మాడిపోయి ఎండి రాలిపోవడం (Blossom blight)"
+                ],
+                "advanced_stage_symptoms": [
+                    "కాయల పైన మచ్చలు పెద్దవై, లోపలికి నొక్కుకుపోయి నల్లటి చారలు (కన్నీటి చారల ఆకారం) ఏర్పడటం",
+                    "నిల్వ ఉంచినప్పుడు కాయలు లోపలి నుండి కుళ్ళిపోవడం, మార్కెటింగ్ సామర్థ్యం దెబ్బతినడం"
+                ],
+                "remedy_application_interval": [
+                    "మామిడి పూత సువ్వలు బయటకు వచ్చే దశలోనే ముందస్తుగా పిచికారీ చేయాలి",
+                    "పిందె సైజ్ పెరిగేటప్పుడు 12 రోజుల వ్యవధిలో రెండు సార్లు కొట్టాలి"
+                ],
+                "cultural_and_physical_controls": [
+                    "సూర్యరశ్మి లోపలి వరకు పడేలా వర్షాకాలానికి ముందే ఎండిన కొమ్మలను కత్తిరించాలి",
+                    "కోత కోసిన కాయలను వేడి నీటిలో (52°C) ముంచి తీయడం ద్వారా నిల్వ కుళ్ళును అడ్డుకోవచ్చు"
+                ],
+                "aliases": [
+                    "ఆంత్రాక్నోస్",
+                    "పూత మాడు తెగులు",
+                    "నల్లమచ్చ తెగులు"
+                ]
+            }
+        }
+    },
+
+]
