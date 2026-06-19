@@ -28,10 +28,10 @@ interface DiseaseDetailProps {
 }
 
 const severityConfig = {
-    low: { color: 'bg-green-950/50 text-green-400 hover:bg-green-950/50', label: 'low' },
-    moderate: { color: 'bg-amber-950/50 text-amber-400 hover:bg-amber-950/50', label: 'moderate' },
-    high: { color: 'bg-orange-950/50 text-orange-400 hover:bg-orange-950/50', label: 'high' },
-    critical: { color: 'bg-red-950/50 text-red-400 hover:bg-red-950/50', label: 'critical' },
+    low: { color: 'bg-[#4DA34D]/10 text-[#4DA34D] hover:bg-[#4DA34D]/10', label: 'low' },
+    moderate: { color: 'bg-[#D4A72C]/10 text-[#D4A72C] hover:bg-[#D4A72C]/10', label: 'moderate' },
+    high: { color: 'bg-[#F2994A]/10 text-[#F2994A] hover:bg-[#F2994A]/10', label: 'high' },
+    critical: { color: 'bg-[#D94F4F]/10 text-[#D94F4F] hover:bg-[#D94F4F]/10', label: 'critical' },
 }
 
 export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
@@ -100,9 +100,9 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
                         <Bug className="h-4 w-4 inline mr-1.5" />
                         {t('diseases.primaryCause')}
                     </h3>
-                    <Card className="border-amber-800/30 bg-amber-950/30">
+                    <Card className="border-[#D4A72C]/15 bg-[#D4A72C]/5">
                         <CardContent className="p-4">
-                            <p className="text-base text-amber-300">
+                            <p className="text-base text-[#D4A72C]">
                                 {renderInlineItalics(localize(primaryCause, lang))}
                             </p>
                         </CardContent>
@@ -116,12 +116,12 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
                     <h3 className="text-lg font-semibold mb-2">
                         🔍 {t('diseases.symptoms')}
                     </h3>
-                    <Card className="border-red-800/30 bg-red-950/30">
+                    <Card className="border-[#D94F4F]/15 bg-[#D94F4F]/5">
                         <CardContent className="p-4 space-y-2">
                             {symptoms.map((s, i) => (
                                 <div key={i} className="flex items-start gap-2">
-                                    <span className="text-red-400 mt-0.5">•</span>
-                                    <p className="text-sm text-red-300">
+                                    <span className="text-[#D94F4F] mt-0.5">•</span>
+                                    <p className="text-sm text-[#D94F4F]">
                                         {localize(s, lang)}
                                     </p>
                                 </div>
@@ -184,14 +184,14 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
                         <LeafIcon className="h-4 w-4 inline mr-1.5 text-green-500" />
                         {t('diseases.treatments')}
                     </h3>
-                    <Card className="border-green-800/30 bg-green-950/30">
+                    <Card className="border-[#4DA34D]/15 bg-[#4DA34D]/5">
                         <CardContent className="p-4 space-y-1.5">
                             {treatments.map((tr, i) => (
                                 <div key={i} className="flex items-start gap-2">
-                                    <span className="shrink-0 w-5 h-5 rounded-full bg-green-800/50 text-green-400 flex items-center justify-center text-[10px] font-bold">
+                                    <span className="shrink-0 w-5 h-5 rounded-full bg-[#4DA34D]/20 text-[#4DA34D] flex items-center justify-center text-[10px] font-bold">
                                         {i + 1}
                                     </span>
-                                    <p className="text-sm text-green-300">
+                                    <p className="text-sm text-[#4DA34D]">
                                         {localize(tr, lang)}
                                     </p>
                                 </div>

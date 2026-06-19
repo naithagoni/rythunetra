@@ -38,29 +38,29 @@ const severityConfig: Record<
     { color: string; bg: string; border: string }
 > = {
     low: {
-        color: 'text-green-400',
-        bg: 'bg-green-950/50',
-        border: 'border-green-800/40',
+        color: 'text-[#4DA34D]',
+        bg: 'bg-[#4DA34D]/10',
+        border: 'border-[#4DA34D]/20',
     },
     moderate: {
-        color: 'text-amber-400',
-        bg: 'bg-amber-950/50',
-        border: 'border-amber-800/40',
+        color: 'text-[#D4A72C]',
+        bg: 'bg-[#D4A72C]/10',
+        border: 'border-[#D4A72C]/20',
     },
     high: {
-        color: 'text-orange-400',
-        bg: 'bg-orange-950/50',
-        border: 'border-orange-800/40',
+        color: 'text-[#F2994A]',
+        bg: 'bg-[#F2994A]/10',
+        border: 'border-[#F2994A]/20',
     },
     critical: {
-        color: 'text-red-400',
-        bg: 'bg-red-950/50',
-        border: 'border-red-800/40',
+        color: 'text-[#D94F4F]',
+        bg: 'bg-[#D94F4F]/10',
+        border: 'border-[#D94F4F]/20',
     },
     none: {
-        color: 'text-green-400',
-        bg: 'bg-green-950/50',
-        border: 'border-green-800/40',
+        color: 'text-[#4DA34D]',
+        bg: 'bg-[#4DA34D]/10',
+        border: 'border-[#4DA34D]/20',
     },
 }
 
@@ -148,7 +148,7 @@ export function ScannerPage() {
             <div className="page-header-banner rounded-2xl">
                 <div className="relative text-center space-y-2">
                     <div className="page-header-icon">
-                        <Camera className="h-6 w-6 text-primary-400" />
+                        <Camera className="h-6 w-6 text-neutral-400" />
                     </div>
                     <h1 className="page-title">{t('scanner.title')}</h1>
                     <p className="page-subtitle">{t('scanner.subtitle')}</p>
@@ -157,7 +157,7 @@ export function ScannerPage() {
 
             {/* Upload area */}
             <div
-                className="border-2 border-dashed border-white/10 rounded-xl p-8 text-center cursor-pointer hover:border-primary-400 hover:bg-primary-500/10 transition-all duration-200 group"
+                className="border-2 border-dashed border-white/[0.06] rounded-xl p-8 text-center cursor-pointer hover:border-white/[0.12] hover:bg-white/[0.04] transition-all duration-200 group"
                 onClick={() => fileInputRef.current?.click()}
             >
                 <input
@@ -176,7 +176,7 @@ export function ScannerPage() {
                     />
                 ) : (
                     <div className="space-y-3">
-                        <div className="w-16 h-16 rounded-xl bg-white/[0.06] flex items-center justify-center mx-auto group-hover:scale-105 transition-transform duration-200">
+                        <div className="w-16 h-16 rounded-xl bg-[#161618] flex items-center justify-center mx-auto group-hover:scale-105 transition-transform duration-200">
                             <Upload className="h-8 w-8 text-neutral-500" />
                         </div>
                         <p className="font-medium">
@@ -203,7 +203,7 @@ export function ScannerPage() {
             {/* Scanning indicator */}
             {scanning && (
                 <div className="flex flex-col items-center gap-3 py-8">
-                    <Loader2 className="h-8 w-8 animate-spin text-primary-400" />
+                    <Loader2 className="h-8 w-8 animate-spin text-neutral-400" />
                     <p className="font-medium">{t('scanner.analyzing')}</p>
                     <p className="text-sm text-neutral-400">
                         {t('scanner.wait')}
@@ -213,13 +213,13 @@ export function ScannerPage() {
 
             {/* Error */}
             {error && (
-                <div className="bg-red-950/50 border border-red-800/40 rounded-xl p-4 flex gap-3">
-                    <AlertTriangle className="h-5 w-5 text-red-400 shrink-0 mt-0.5" />
+                <div className="bg-[#D94F4F]/10 border border-[#D94F4F]/20 rounded-xl p-4 flex gap-3">
+                    <AlertTriangle className="h-5 w-5 text-[#D94F4F] shrink-0 mt-0.5" />
                     <div>
-                        <p className="font-medium text-red-300">
+                        <p className="font-medium text-[#D94F4F]">
                             {t('scanner.errorTitle')}
                         </p>
-                        <p className="text-sm text-red-400">{error}</p>
+                        <p className="text-sm text-[#D94F4F]">{error}</p>
                     </div>
                 </div>
             )}
@@ -228,9 +228,9 @@ export function ScannerPage() {
             {result && !scanning && (
                 <div className="space-y-4">
                     {!result.isPlant ? (
-                        <div className="bg-amber-950/50 border border-amber-800/40 rounded-xl p-4 flex gap-3">
-                            <AlertTriangle className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
-                            <p className="text-amber-300">
+                        <div className="bg-[#D4A72C]/10 border border-[#D4A72C]/20 rounded-xl p-4 flex gap-3">
+                            <AlertTriangle className="h-5 w-5 text-[#D4A72C] shrink-0 mt-0.5" />
+                            <p className="text-[#D4A72C]">
                                 {t('scanner.notPlant')}
                             </p>
                         </div>
@@ -258,7 +258,7 @@ export function ScannerPage() {
                                                 {result.diseaseName}
                                             </h2>
                                         ) : (
-                                            <h2 className="text-lg font-bold text-green-400">
+                                            <h2 className="text-lg font-bold text-[#4DA34D]">
                                                 <CheckCircle className="inline h-5 w-5 mr-1" />
                                                 {t('scanner.healthy')}
                                             </h2>
@@ -285,7 +285,7 @@ export function ScannerPage() {
 
                             {/* Symptoms */}
                             {result.symptoms.length > 0 && (
-                                <div className="bg-white/[0.06] border border-white/10 rounded-xl p-4">
+                                <div className="bg-[#161618] border border-white/[0.06] rounded-xl p-4">
                                     <h3 className="font-semibold mb-2 text-white">
                                         {t('scanner.symptoms')}
                                     </h3>
@@ -307,7 +307,7 @@ export function ScannerPage() {
 
                             {/* Causes */}
                             {result.causes.length > 0 && (
-                                <div className="bg-white/[0.06] border border-white/10 rounded-xl p-4">
+                                <div className="bg-[#161618] border border-white/[0.06] rounded-xl p-4">
                                     <h3 className="font-semibold mb-2 text-white">
                                         {t('scanner.causes')}
                                     </h3>
@@ -329,7 +329,7 @@ export function ScannerPage() {
 
                             {/* Remedies */}
                             {result.remedies.length > 0 && (
-                                <div className="bg-white/[0.06] border border-white/10 rounded-xl p-4">
+                                <div className="bg-[#161618] border border-white/[0.06] rounded-xl p-4">
                                     <button
                                         onClick={() =>
                                             setShowRemedies(!showRemedies)
@@ -337,7 +337,7 @@ export function ScannerPage() {
                                         className="flex items-center justify-between w-full"
                                     >
                                         <h3 className="font-semibold flex items-center gap-2 text-white">
-                                            <Leaf className="h-4 w-4 text-green-400" />
+                                            <Leaf className="h-4 w-4 text-[#4DA34D]" />
                                             {t('scanner.remedies')} (
                                             {result.remedies.length})
                                         </h3>
@@ -357,7 +357,7 @@ export function ScannerPage() {
                                                     <span
                                                         className={`shrink-0 px-1.5 py-0.5 rounded text-xs font-medium ${
                                                             r.type === 'organic'
-                                                                ? 'bg-green-500/15 text-green-400'
+                                                                ? 'bg-[#4DA34D]/10 text-[#4DA34D]'
                                                                 : r.type ===
                                                                     'biological'
                                                                   ? 'bg-blue-500/15 text-blue-400'
@@ -378,7 +378,7 @@ export function ScannerPage() {
 
                             {/* Preventions */}
                             {result.preventions.length > 0 && (
-                                <div className="bg-white/[0.06] border border-white/10 rounded-xl p-4">
+                                <div className="bg-[#161618] border border-white/[0.06] rounded-xl p-4">
                                     <h3 className="font-semibold mb-2 text-white">
                                         {t('scanner.preventions')}
                                     </h3>
@@ -450,7 +450,7 @@ export function ScannerPage() {
 
                                     {/* DB Remedies */}
                                     {result.dbMatch.remedies.length > 0 && (
-                                        <div className="bg-white/[0.06] border border-indigo-800/40 rounded-xl p-4">
+                                        <div className="bg-[#161618] border border-indigo-800/40 rounded-xl p-4">
                                             <button
                                                 onClick={() =>
                                                     setShowDbRemedies(
@@ -513,11 +513,11 @@ export function ScannerPage() {
                                                                             className={`px-1.5 py-0.5 rounded text-xs font-medium ${
                                                                                 remedy.effectiveness ===
                                                                                 'High'
-                                                                                    ? 'bg-green-500/15 text-green-400'
+                                                                                    ? 'bg-[#4DA34D]/10 text-[#4DA34D]'
                                                                                     : remedy.effectiveness ===
                                                                                         'Moderate'
-                                                                                      ? 'bg-amber-500/15 text-amber-400'
-                                                                                      : 'bg-white/[0.06] text-neutral-400'
+                                                                                      ? 'bg-[#D4A72C]/10 text-[#D4A72C]'
+                                                                                      : 'bg-[#161618] text-neutral-400'
                                                                             }`}
                                                                         >
                                                                             {t(
@@ -611,7 +611,7 @@ export function ScannerPage() {
 
                                     {/* DB Treatments */}
                                     {result.dbMatch.treatments.length > 0 && (
-                                        <div className="bg-white/[0.06] border border-indigo-800/40 rounded-xl p-4">
+                                        <div className="bg-[#161618] border border-indigo-800/40 rounded-xl p-4">
                                             <h3 className="font-semibold mb-2 flex items-center gap-2 text-indigo-300">
                                                 <Leaf className="h-4 w-4 text-indigo-400" />
                                                 {t(
@@ -647,10 +647,10 @@ export function ScannerPage() {
 
             {/* History toggle (logged-in users only) */}
             {user && (
-                <div className="border-t border-white/10 pt-4">
+                <div className="border-t border-white/[0.06] pt-4">
                     <button
                         onClick={() => setShowHistory(!showHistory)}
-                        className="flex items-center gap-2 text-sm font-medium text-primary-400 hover:underline"
+                        className="flex items-center gap-2 text-sm font-medium text-[#5E6AD2] hover:underline"
                     >
                         <History className="h-4 w-4" />
                         {showHistory
@@ -670,7 +670,7 @@ export function ScannerPage() {
                                 history.map((row) => (
                                     <div
                                         key={row.id}
-                                        className="flex items-center justify-between bg-white/[0.06] border border-white/10 rounded-xl p-3 cursor-pointer hover:bg-white/[0.06] transition-all duration-200"
+                                        className="flex items-center justify-between bg-[#161618] border border-white/[0.06] rounded-xl p-3 cursor-pointer hover:bg-[#161618] transition-all duration-200"
                                         onClick={() => loadHistoryResult(row)}
                                     >
                                         <div>
@@ -694,7 +694,7 @@ export function ScannerPage() {
                                                 e.stopPropagation()
                                                 handleDeleteHistory(row.id)
                                             }}
-                                            className="p-1 text-red-400 hover:text-red-400"
+                                            className="p-1 text-[#D94F4F] hover:text-[#D94F4F]"
                                         >
                                             <Trash2 className="h-4 w-4" />
                                         </button>

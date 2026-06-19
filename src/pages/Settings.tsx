@@ -121,11 +121,11 @@ export function SettingsPage() {
                             <Card className="hover:border-amber-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
                                 <CardContent className="p-4 flex items-center justify-between">
                                     <div className="flex items-center gap-3">
-                                        <div className="p-2.5 rounded-lg bg-amber-950/50">
-                                            <Shield className="h-5 w-5 text-amber-400" />
+                                        <div className="p-2.5 rounded-lg bg-[#D4A72C]/10">
+                                            <Shield className="h-5 w-5 text-[#D4A72C]" />
                                         </div>
                                         <div>
-                                            <p className="font-semibold text-sm text-amber-300">
+                                            <p className="font-semibold text-sm text-[#D4A72C]">
                                                 {t('common.admin')}
                                             </p>
                                             <p className="text-xs text-muted-foreground">

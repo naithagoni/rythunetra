@@ -84,7 +84,7 @@ export function AdminDashboardPage() {
                     <Link
                         key={card.to}
                         to={card.to}
-                        className="group relative bg-white/[0.06] rounded-2xl border border-white/10 p-5 shadow-sm hover:shadow-md hover:-translate-y-1.5 transition-all duration-200 overflow-hidden"
+                        className="group relative bg-[#161618] rounded-2xl border border-white/[0.06] p-5 shadow-sm hover:shadow-md hover:-translate-y-1.5 transition-all duration-200 overflow-hidden"
                     >
                         {/* Gradient accent bar */}
                         <div

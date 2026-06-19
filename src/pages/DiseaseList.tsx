@@ -44,29 +44,29 @@ const severityConfig: Record<
     { color: string; bg: string; border: string }
 > = {
     low: {
-        color: 'text-green-400',
-        bg: 'bg-green-950/50',
-        border: 'border-green-800/40',
+        color: 'text-[#4DA34D]',
+        bg: 'bg-[#4DA34D]/10',
+        border: 'border-[#4DA34D]/20',
     },
     moderate: {
-        color: 'text-amber-400',
-        bg: 'bg-amber-950/50',
-        border: 'border-amber-800/40',
+        color: 'text-[#D4A72C]',
+        bg: 'bg-[#D4A72C]/10',
+        border: 'border-[#D4A72C]/20',
     },
     high: {
-        color: 'text-orange-400',
-        bg: 'bg-orange-950/50',
-        border: 'border-orange-800/40',
+        color: 'text-[#F2994A]',
+        bg: 'bg-[#F2994A]/10',
+        border: 'border-[#F2994A]/20',
     },
     critical: {
-        color: 'text-red-400',
-        bg: 'bg-red-950/50',
-        border: 'border-red-800/40',
+        color: 'text-[#D94F4F]',
+        bg: 'bg-[#D94F4F]/10',
+        border: 'border-[#D94F4F]/20',
     },
     none: {
-        color: 'text-green-400',
-        bg: 'bg-green-950/50',
-        border: 'border-green-800/40',
+        color: 'text-[#4DA34D]',
+        bg: 'bg-[#4DA34D]/10',
+        border: 'border-[#4DA34D]/20',
     },
 }
 
@@ -216,13 +216,13 @@ export function DiseaseListPage() {
                     onClick={() => setShowFilters(!showFilters)}
                     className={`inline-flex items-center gap-1.5 px-3 py-2.5 rounded-lg border text-sm font-medium transition-colors ${
                         hasActiveFilters
-                            ? 'border-primary-500/30 bg-primary-500/10 text-primary-400'
-                            : 'border-white/10 text-neutral-400 hover:bg-white/[0.06]'
+                            ? 'border-white/[0.12] bg-white/[0.06] text-white'
+                            : 'border-white/[0.06] text-neutral-400 hover:bg-[#161618]'
                     }`}
                 >
                     <Filter className="h-4 w-4" />
                     {hasActiveFilters && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-primary-500" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-white" />
                     )}
                 </button>
                 <div className="relative group">
@@ -233,10 +233,10 @@ export function DiseaseListPage() {
                         disabled={!AI_ENABLED}
                         className={`inline-flex items-center gap-1.5 px-3 py-2.5 rounded-lg border text-sm font-medium transition-colors ${
                             !AI_ENABLED
-                                ? 'border-white/10 bg-white/[0.03] text-neutral-500 cursor-not-allowed'
+                                ? 'border-white/[0.06] bg-[#111113] text-neutral-500 cursor-not-allowed'
                                 : showScanner
-                                  ? 'border-primary-500/30 bg-primary-500/10 text-primary-400'
-                                  : 'border-white/10 text-neutral-400 hover:bg-white/[0.06]'
+                                  ? 'border-white/[0.12] bg-white/[0.06] text-white'
+                                  : 'border-white/[0.06] text-neutral-400 hover:bg-[#161618]'
                         }`}
                     >
                         <Camera className="h-4 w-4" />
@@ -255,7 +255,7 @@ export function DiseaseListPage() {
 
             {/* Filter dropdowns */}
             {showFilters && (
-                <div className="flex flex-wrap items-center gap-3 mb-6 p-3 bg-white/[0.03] rounded-xl border border-white/10 animate-fade-in">
+                <div className="flex flex-wrap items-center gap-3 mb-6 p-3 bg-[#111113] rounded-xl border border-white/[0.06] animate-fade-in">
                     <div>
                         <label className="text-xs font-semibold text-neutral-400 mb-1 block">
                             {t('diseases.filterBySeverity')}
@@ -266,7 +266,7 @@ export function DiseaseListPage() {
                                 setSeverityFilter(e.target.value || undefined)
                                 setPage(1)
                             }}
-                            className="flex h-9 w-full rounded-md border border-input bg-[#0a1a12] px-3 py-1.5 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                            className="flex h-9 w-full rounded-md border border-input bg-[#161618] px-3 py-1.5 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
                         >
                             <option value="">{t('common.all')}</option>
                             {SEVERITY_OPTIONS.map((s) => (
@@ -282,7 +282,7 @@ export function DiseaseListPage() {
                                 setSeverityFilter(undefined)
                                 setPage(1)
                             }}
-                            className="text-xs text-red-400 hover:text-red-300 font-medium mt-4"
+                            className="text-xs text-[#D94F4F] hover:text-[#D94F4F] font-medium mt-4"
                         >
                             {t('common.cancel')}
                         </button>
@@ -292,15 +292,15 @@ export function DiseaseListPage() {
 
             {/* Inline Scanner Panel */}
             {showScanner && (
-                <div className="mb-6 border border-primary-500/30 bg-primary-500/10 rounded-xl p-4 space-y-4 animate-fade-in">
+                <div className="mb-6 border border-white/[0.08] bg-white/[0.04] rounded-xl p-4 space-y-4 animate-fade-in">
                     <div className="flex items-center justify-between">
                         <h2 className="font-semibold flex items-center gap-2">
-                            <Camera className="h-5 w-5 text-primary-400" />
+                            <Camera className="h-5 w-5 text-neutral-400" />
                             {t('scanner.title')}
                         </h2>
                         <button
                             onClick={closeScanner}
-                            className="p-1 rounded-lg hover:bg-white/[0.06]"
+                            className="p-1 rounded-lg hover:bg-[#161618]"
                         >
                             <X className="h-4 w-4" />
                         </button>
@@ -308,7 +308,7 @@ export function DiseaseListPage() {
 
                     {/* Upload area */}
                     <div
-                        className="border-2 border-dashed border-white/10 rounded-xl p-6 text-center cursor-pointer hover:border-primary-400 transition-colors duration-200 bg-white/[0.06]"
+                        className="border-2 border-dashed border-white/[0.06] rounded-xl p-6 text-center cursor-pointer hover:border-white/[0.12] transition-colors duration-200 bg-[#161618]"
                         onClick={() => fileInputRef.current?.click()}
                     >
                         <input
@@ -350,7 +350,7 @@ export function DiseaseListPage() {
                     {/* Scanning indicator */}
                     {scanning && (
                         <div className="flex flex-col items-center gap-2 py-6">
-                            <Loader2 className="h-7 w-7 animate-spin text-primary-400" />
+                            <Loader2 className="h-7 w-7 animate-spin text-neutral-400" />
                             <p className="font-medium text-sm">
                                 {t('scanner.analyzing')}
                             </p>
@@ -362,13 +362,13 @@ export function DiseaseListPage() {
 
                     {/* Error */}
                     {scanError && (
-                        <div className="bg-red-950/50 border border-red-800/40 rounded-xl p-3 flex gap-3">
-                            <AlertTriangle className="h-5 w-5 text-red-400 shrink-0 mt-0.5" />
+                        <div className="bg-[#D94F4F]/10 border border-[#D94F4F]/20 rounded-xl p-3 flex gap-3">
+                            <AlertTriangle className="h-5 w-5 text-[#D94F4F] shrink-0 mt-0.5" />
                             <div>
-                                <p className="font-medium text-red-300 text-sm">
+                                <p className="font-medium text-[#D94F4F] text-sm">
                                     {t('scanner.errorTitle')}
                                 </p>
-                                <p className="text-xs text-red-400">
+                                <p className="text-xs text-[#D94F4F]">
                                     {scanError}
                                 </p>
                             </div>
@@ -379,9 +379,9 @@ export function DiseaseListPage() {
                     {scanResult && !scanning && (
                         <div className="space-y-3">
                             {!scanResult.isPlant ? (
-                                <div className="bg-amber-950/50 border border-amber-800/40 rounded-xl p-3 flex gap-3">
-                                    <AlertTriangle className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
-                                    <p className="text-sm text-amber-300">
+                                <div className="bg-[#D4A72C]/10 border border-[#D4A72C]/20 rounded-xl p-3 flex gap-3">
+                                    <AlertTriangle className="h-5 w-5 text-[#D4A72C] shrink-0 mt-0.5" />
+                                    <p className="text-sm text-[#D4A72C]">
                                         {t('scanner.notPlant')}
                                     </p>
                                 </div>
@@ -411,7 +411,7 @@ export function DiseaseListPage() {
                                                         {scanResult.diseaseName}
                                                     </h3>
                                                 ) : (
-                                                    <h3 className="text-base font-bold text-green-400">
+                                                    <h3 className="text-base font-bold text-[#4DA34D]">
                                                         <CheckCircle className="inline h-4 w-4 mr-1" />
                                                         {t('scanner.healthy')}
                                                     </h3>
@@ -437,7 +437,7 @@ export function DiseaseListPage() {
 
                                     {/* Symptoms */}
                                     {scanResult.symptoms.length > 0 && (
-                                        <div className="bg-white/[0.06] border border-white/10 rounded-xl p-3">
+                                        <div className="bg-[#161618] border border-white/[0.06] rounded-xl p-3">
                                             <h4 className="font-semibold text-sm mb-1.5">
                                                 {t('scanner.symptoms')}
                                             </h4>
@@ -461,7 +461,7 @@ export function DiseaseListPage() {
 
                                     {/* Causes */}
                                     {scanResult.causes.length > 0 && (
-                                        <div className="bg-white/[0.06] border border-white/10 rounded-xl p-3">
+                                        <div className="bg-[#161618] border border-white/[0.06] rounded-xl p-3">
                                             <h4 className="font-semibold text-sm mb-1.5">
                                                 {t('scanner.causes')}
                                             </h4>
@@ -485,7 +485,7 @@ export function DiseaseListPage() {
 
                                     {/* Remedies */}
                                     {scanResult.remedies.length > 0 && (
-                                        <div className="bg-white/[0.06] border border-white/10 rounded-xl p-3">
+                                        <div className="bg-[#161618] border border-white/[0.06] rounded-xl p-3">
                                             <button
                                                 onClick={() =>
                                                     setShowRemedies(
@@ -495,7 +495,7 @@ export function DiseaseListPage() {
                                                 className="flex items-center justify-between w-full"
                                             >
                                                 <h4 className="font-semibold text-sm flex items-center gap-2">
-                                                    <Leaf className="h-3.5 w-3.5 text-green-400" />
+                                                    <Leaf className="h-3.5 w-3.5 text-[#4DA34D]" />
                                                     {t('scanner.remedies')} (
                                                     {scanResult.remedies.length}
                                                     )
@@ -518,7 +518,7 @@ export function DiseaseListPage() {
                                                                     className={`shrink-0 px-1.5 py-0.5 rounded text-xs font-medium ${
                                                                         r.type ===
                                                                         'organic'
-                                                                            ? 'bg-green-500/15 text-green-400'
+                                                                            ? 'bg-[#4DA34D]/10 text-[#4DA34D]'
                                                                             : r.type ===
                                                                                 'biological'
                                                                               ? 'bg-blue-500/15 text-blue-400'
@@ -544,7 +544,7 @@ export function DiseaseListPage() {
 
                                     {/* Preventions */}
                                     {scanResult.preventions.length > 0 && (
-                                        <div className="bg-white/[0.06] border border-white/10 rounded-xl p-3">
+                                        <div className="bg-[#161618] border border-white/[0.06] rounded-xl p-3">
                                             <h4 className="font-semibold text-sm mb-1.5">
                                                 {t('scanner.preventions')}
                                             </h4>
@@ -572,10 +572,10 @@ export function DiseaseListPage() {
 
                     {/* History toggle (logged-in users only) */}
                     {user && (
-                        <div className="border-t border-white/10 pt-3">
+                        <div className="border-t border-white/[0.06] pt-3">
                             <button
                                 onClick={() => setShowHistory(!showHistory)}
-                                className="flex items-center gap-2 text-xs font-medium text-primary-400 hover:underline"
+                                className="flex items-center gap-2 text-xs font-medium text-[#5E6AD2] hover:underline"
                             >
                                 <History className="h-3.5 w-3.5" />
                                 {showHistory
@@ -595,7 +595,7 @@ export function DiseaseListPage() {
                                         history.map((row) => (
                                             <div
                                                 key={row.id}
-                                                className={`flex items-center justify-between bg-white/[0.06] border border-white/10 rounded-lg p-2.5 cursor-pointer hover:bg-white/[0.06]`}
+                                                className={`flex items-center justify-between bg-[#161618] border border-white/[0.06] rounded-lg p-2.5 cursor-pointer hover:bg-[#161618]`}
                                                 onClick={() =>
                                                     loadHistoryResult(row)
                                                 }
@@ -625,7 +625,7 @@ export function DiseaseListPage() {
                                                             row.id,
                                                         )
                                                     }}
-                                                    className="p-1 text-red-400 hover:text-red-400"
+                                                    className="p-1 text-[#D94F4F] hover:text-[#D94F4F]"
                                                 >
                                                     <Trash2 className="h-3.5 w-3.5" />
                                                 </button>
@@ -652,7 +652,7 @@ export function DiseaseListPage() {
                     <button
                         onClick={() => setPage((p) => Math.max(1, p - 1))}
                         disabled={page === 1}
-                        className="px-5 py-2.5 rounded-lg bg-white/[0.06] font-medium text-sm disabled:opacity-30 transition-colors duration-200 inline-flex items-center gap-1 hover:bg-white/[0.06]"
+                        className="px-5 py-2.5 rounded-lg bg-[#161618] font-medium text-sm disabled:opacity-30 transition-colors duration-200 inline-flex items-center gap-1 hover:bg-[#161618]"
                     >
                         <ChevronLeft className="h-5 w-5" />
                         {t('common.previous')}
@@ -665,7 +665,7 @@ export function DiseaseListPage() {
                             setPage((p) => Math.min(totalPages, p + 1))
                         }
                         disabled={page === totalPages}
-                        className="px-5 py-2.5 rounded-lg bg-white/[0.06] font-medium text-sm disabled:opacity-30 transition-colors duration-200 inline-flex items-center gap-1 hover:bg-white/[0.06]"
+                        className="px-5 py-2.5 rounded-lg bg-[#161618] font-medium text-sm disabled:opacity-30 transition-colors duration-200 inline-flex items-center gap-1 hover:bg-[#161618]"
                     >
                         {t('common.next')}
                         <ChevronRight className="h-4 w-4" />

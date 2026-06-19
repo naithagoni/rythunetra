@@ -70,7 +70,7 @@ export function CropDetailPage() {
                 <div className="relative">
                     <button
                         onClick={() => navigate(-1)}
-                        className="inline-flex items-center gap-1.5 text-sm text-primary-400 hover:text-primary-300 font-medium transition-colors"
+                        className="inline-flex items-center gap-1.5 text-sm text-[#5E6AD2] hover:text-[#5E6AD2] font-medium transition-colors"
                     >
                         <ArrowLeft className="h-4 w-4" />
                         {t('common.back')}
@@ -217,7 +217,7 @@ function VarietyCard({
                         {variety.recommendedSeasons.map((s, i) => (
                             <span
                                 key={i}
-                                className="text-xs px-2 py-0.5 rounded-full bg-primary-500/10 text-primary-300"
+                                className="text-xs px-2 py-0.5 rounded-full bg-white/[0.06] text-neutral-300"
                             >
                                 {localize(s.name, lang)} (
                                 {s.durationInDays.join('–')}{' '}
@@ -258,7 +258,7 @@ function VarietyCard({
                         {grainChars.map((g, i) => (
                             <span
                                 key={i}
-                                className="text-xs px-2 py-0.5 rounded-full bg-amber-950/50 text-amber-400"
+                                className="text-xs px-2 py-0.5 rounded-full bg-[#D4A72C]/10 text-[#D4A72C]"
                             >
                                 {g}
                             </span>

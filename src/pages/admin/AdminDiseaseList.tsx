@@ -38,7 +38,7 @@ export function AdminDiseaseListPage() {
                 <div>
                     <Link
                         to="/admin"
-                        className="text-sm text-primary-400 hover:underline mb-1 inline-block"
+                        className="text-sm text-[#5E6AD2] hover:underline mb-1 inline-block"
                     >
                         ← {t('admin.dashboard')}
                     </Link>
@@ -57,9 +57,9 @@ export function AdminDiseaseListPage() {
                 </Button>
             </div>
 
-            <div className="bg-white/[0.06] rounded-xl border border-white/10 overflow-hidden">
+            <div className="bg-[#161618] rounded-xl border border-white/[0.06] overflow-hidden">
                 <table className="w-full text-sm">
-                    <thead className="bg-white/[0.03] border-b border-white/10">
+                    <thead className="bg-white/[0.03] border-b border-white/[0.06]">
                         <tr>
                             <th className="text-left px-4 py-3 font-semibold">
                                 ID
@@ -76,7 +76,7 @@ export function AdminDiseaseListPage() {
                             <th className="px-4 py-3"></th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-surface-100">
+                    <tbody className="divide-y divide-neutral-100">
                         {diseases.map((d: Record<string, unknown>) => {
                             const name = d.name as
                                 | { en: string; te: string }
@@ -92,7 +92,7 @@ export function AdminDiseaseListPage() {
                             return (
                                 <tr
                                     key={d.id as string}
-                                    className="hover:bg-white/[0.06]"
+                                    className="hover:bg-white/[0.04]"
                                 >
                                     <td className="px-4 py-3 text-xs text-neutral-400 font-mono">
                                         {(d.id as string).slice(0, 8)}
@@ -117,7 +117,7 @@ export function AdminDiseaseListPage() {
                                         <div className="inline-flex items-center gap-3">
                                             <Link
                                                 to={`/admin/diseases/${d.id}`}
-                                                className="text-primary-400 hover:underline inline-flex items-center gap-1 text-sm"
+                                                className="text-[#5E6AD2] hover:underline inline-flex items-center gap-1 text-sm"
                                             >
                                                 <Edit className="h-3.5 w-3.5" />
                                                 {t('common.edit')}
@@ -127,7 +127,7 @@ export function AdminDiseaseListPage() {
                                                 onClick={() =>
                                                     handleDelete(d.id as string)
                                                 }
-                                                className="text-red-500 hover:text-red-400 inline-flex items-center gap-1 text-sm cursor-pointer"
+                                                className="text-[#D94F4F] hover:text-[#D94F4F] inline-flex items-center gap-1 text-sm cursor-pointer"
                                             >
                                                 <Trash2 className="h-3.5 w-3.5" />
                                                 {t('common.delete')}
@@ -157,7 +157,7 @@ export function AdminDiseaseListPage() {
                     <button
                         onClick={() => setPage((p) => Math.max(1, p - 1))}
                         disabled={page === 1}
-                        className="px-4 py-2 rounded-lg bg-white/[0.06] text-sm font-medium disabled:opacity-30 inline-flex items-center gap-1"
+                        className="px-4 py-2 rounded-lg bg-[#161618] text-sm font-medium disabled:opacity-30 inline-flex items-center gap-1"
                     >
                         <ChevronLeft className="h-4 w-4" />
                         {t('common.previous')}
@@ -170,7 +170,7 @@ export function AdminDiseaseListPage() {
                             setPage((p) => Math.min(totalPages, p + 1))
                         }
                         disabled={page === totalPages}
-                        className="px-4 py-2 rounded-lg bg-white/[0.06] text-sm font-medium disabled:opacity-30 inline-flex items-center gap-1"
+                        className="px-4 py-2 rounded-lg bg-[#161618] text-sm font-medium disabled:opacity-30 inline-flex items-center gap-1"
                     >
                         {t('common.next')}
                         <ChevronRight className="h-4 w-4" />

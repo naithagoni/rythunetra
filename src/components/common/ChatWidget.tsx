@@ -215,7 +215,7 @@ export function ChatWidget() {
                             >
                                 <Bot className="h-6 w-6 group-hover:scale-110 transition-transform" />
                                 {AI_ENABLED && (
-                                    <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-background" />
+                                    <span className="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full border-2 border-background" />
                                 )}
                             </Button>
                         </TooltipTrigger>

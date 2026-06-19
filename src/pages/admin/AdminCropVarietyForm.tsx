@@ -373,7 +373,7 @@ export function AdminCropVarietyFormPage() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <Link
                 to={`/admin/crops/${cropId}/varieties`}
-                className="text-sm text-primary-400 hover:underline mb-1 inline-block"
+                className="text-sm text-[#5E6AD2] hover:underline mb-1 inline-block"
             >
                 ← {cropName} – {t('admin.varieties')}
             </Link>
@@ -384,7 +384,7 @@ export function AdminCropVarietyFormPage() {
                 {!isNew && (
                     <button
                         onClick={handleDelete}
-                        className="text-red-400 hover:text-red-400 p-2 rounded-lg hover:bg-red-950/50"
+                        className="text-[#D94F4F] hover:text-[#D94F4F] p-2 rounded-lg hover:bg-[#D94F4F]/10"
                     >
                         <Trash2 className="h-5 w-5" />
                     </button>
@@ -393,7 +393,7 @@ export function AdminCropVarietyFormPage() {
 
             <form onSubmit={handleSave} className="space-y-6">
                 {/* ── Core Fields ────────────────────────── */}
-                <div className="bg-white/[0.06] rounded-xl border border-white/10 p-5 space-y-4">
+                <div className="bg-[#161618] rounded-xl border border-white/[0.06] p-5 space-y-4">
                     <h2 className="font-semibold text-lg">
                         {t('admin.coreFields')}
                     </h2>
@@ -439,7 +439,7 @@ export function AdminCropVarietyFormPage() {
                                 type="button"
                                 onClick={() => fileInputRef.current?.click()}
                                 disabled={uploadingImage}
-                                className="flex items-center gap-2 px-4 py-3 border-2 border-dashed border-white/10 rounded-lg text-sm text-neutral-400 hover:border-primary-400 hover:text-primary-400 transition-colors disabled:opacity-50"
+                                className="flex items-center gap-2 px-4 py-3 border-2 border-dashed border-white/[0.06] rounded-lg text-sm text-neutral-400 hover:border-white/[0.12] hover:text-white transition-colors disabled:opacity-50"
                             >
                                 {uploadingImage ? (
                                     <>
@@ -482,7 +482,7 @@ export function AdminCropVarietyFormPage() {
                                 type="button"
                                 onClick={handleTranslate}
                                 disabled={translating || !enName.trim()}
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-amber-950/50 text-amber-400 border border-amber-800/40 hover:bg-amber-900/50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-[#D4A72C]/10 text-[#D4A72C] border border-[#D4A72C]/20 hover:bg-[#D4A72C]/15 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                             >
                                 <Languages className="h-3.5 w-3.5" />
                                 {translating
@@ -501,7 +501,7 @@ export function AdminCropVarietyFormPage() {
                 </div>
 
                 {/* ── Districts ───────────────────────────── */}
-                <div className="bg-white/[0.06] rounded-xl border border-white/10 p-5 space-y-4">
+                <div className="bg-[#161618] rounded-xl border border-white/[0.06] p-5 space-y-4">
                     <h2 className="font-semibold text-lg">
                         {t('admin.districts')}
                     </h2>
@@ -518,7 +518,7 @@ export function AdminCropVarietyFormPage() {
                 </div>
 
                 {/* ── Recommended Seasons ─────────────────── */}
-                <div className="bg-white/[0.06] rounded-xl border border-white/10 p-5 space-y-4">
+                <div className="bg-[#161618] rounded-xl border border-white/[0.06] p-5 space-y-4">
                     <div className="flex items-center justify-between">
                         <div>
                             <h2 className="font-semibold text-lg">
@@ -533,7 +533,7 @@ export function AdminCropVarietyFormPage() {
                             onClick={() =>
                                 setSeasons((p) => [...p, emptySeasonState()])
                             }
-                            className="text-sm text-primary-400 hover:text-primary-400 inline-flex items-center gap-1"
+                            className="text-sm text-[#5E6AD2] hover:text-[#5E6AD2] inline-flex items-center gap-1"
                         >
                             <Plus className="h-4 w-4" />
                             {t('admin.addSeason')}
@@ -543,7 +543,7 @@ export function AdminCropVarietyFormPage() {
                     {seasons.map((season, idx) => (
                         <div
                             key={idx}
-                            className="border border-white/10 rounded-lg p-4 space-y-3 bg-white/[0.03]"
+                            className="border border-white/[0.06] rounded-lg p-4 space-y-3 bg-white/[0.03]"
                         >
                             <div className="flex items-center justify-between">
                                 <span className="text-sm font-medium">
@@ -552,7 +552,7 @@ export function AdminCropVarietyFormPage() {
                                 <button
                                     type="button"
                                     onClick={() => removeSeason(idx)}
-                                    className="text-red-500 hover:text-red-400 text-xs inline-flex items-center gap-1"
+                                    className="text-[#D94F4F] hover:text-[#D94F4F] text-xs inline-flex items-center gap-1"
                                 >
                                     <X className="h-3.5 w-3.5" />
                                     {t('admin.removeSeason')}
@@ -664,7 +664,7 @@ export function AdminCropVarietyFormPage() {
                 </div>
 
                 {/* ── Grain Character ─────────────────────── */}
-                <div className="bg-white/[0.06] rounded-xl border border-white/10 p-5 space-y-4">
+                <div className="bg-[#161618] rounded-xl border border-white/[0.06] p-5 space-y-4">
                     <div>
                         <h2 className="font-semibold text-lg">
                             {t('admin.grainCharacter')}
@@ -701,7 +701,7 @@ export function AdminCropVarietyFormPage() {
                                             p.filter((_, j) => j !== i),
                                         )
                                     }}
-                                    className="text-red-500 hover:text-red-400 p-1"
+                                    className="text-[#D94F4F] hover:text-[#D94F4F] p-1"
                                 >
                                     <X className="h-4 w-4" />
                                 </button>
@@ -713,7 +713,7 @@ export function AdminCropVarietyFormPage() {
                                 setGrainCharEn((p) => [...p, ''])
                                 setGrainCharTe((p) => [...p, ''])
                             }}
-                            className="text-xs text-primary-400 hover:text-primary-400 inline-flex items-center gap-1"
+                            className="text-xs text-[#5E6AD2] hover:text-[#5E6AD2] inline-flex items-center gap-1"
                         >
                             <Plus className="h-3.5 w-3.5" /> Add
                         </button>
@@ -746,7 +746,7 @@ export function AdminCropVarietyFormPage() {
                                             p.filter((_, j) => j !== i),
                                         )
                                     }}
-                                    className="text-red-500 hover:text-red-400 p-1"
+                                    className="text-[#D94F4F] hover:text-[#D94F4F] p-1"
                                 >
                                     <X className="h-4 w-4" />
                                 </button>
@@ -756,7 +756,7 @@ export function AdminCropVarietyFormPage() {
                 </div>
 
                 {/* ── Special Characteristics ────────────── */}
-                <div className="bg-white/[0.06] rounded-xl border border-white/10 p-5 space-y-4">
+                <div className="bg-[#161618] rounded-xl border border-white/[0.06] p-5 space-y-4">
                     <div className="flex items-center justify-between">
                         <div>
                             <h2 className="font-semibold text-lg">
@@ -774,7 +774,7 @@ export function AdminCropVarietyFormPage() {
                                     { en: '', te: '' },
                                 ])
                             }
-                            className="text-sm text-primary-400 hover:text-primary-400 inline-flex items-center gap-1"
+                            className="text-sm text-[#5E6AD2] hover:text-[#5E6AD2] inline-flex items-center gap-1"
                         >
                             <Plus className="h-4 w-4" />
                             {t('admin.addCharacteristic')}
@@ -784,7 +784,7 @@ export function AdminCropVarietyFormPage() {
                     {specialChars.map((c, i) => (
                         <div
                             key={i}
-                            className="border border-white/10 rounded-lg p-3 space-y-2 bg-white/[0.03]"
+                            className="border border-white/[0.06] rounded-lg p-3 space-y-2 bg-white/[0.03]"
                         >
                             <div className="flex items-center justify-between">
                                 <span className="text-xs font-medium">
@@ -797,7 +797,7 @@ export function AdminCropVarietyFormPage() {
                                             p.filter((_, j) => j !== i),
                                         )
                                     }
-                                    className="text-red-500 hover:text-red-400 p-1"
+                                    className="text-[#D94F4F] hover:text-[#D94F4F] p-1"
                                 >
                                     <X className="h-3.5 w-3.5" />
                                 </button>
@@ -835,7 +835,7 @@ export function AdminCropVarietyFormPage() {
                 </div>
 
                 {/* ── Linked Diseases ─────────────────────── */}
-                <div className="bg-white/[0.06] rounded-xl border border-white/10 p-5 space-y-4">
+                <div className="bg-[#161618] rounded-xl border border-white/[0.06] p-5 space-y-4">
                     <h2 className="font-semibold text-lg">
                         {t('admin.linkedDiseases')}
                     </h2>
@@ -854,7 +854,7 @@ export function AdminCropVarietyFormPage() {
                 {/* ── Actions ─────────────────────────────── */}
                 {message && (
                     <p
-                        className={`text-sm font-medium ${message === t('admin.saved') ? 'text-green-400' : 'text-red-400'}`}
+                        className={`text-sm font-medium ${message === t('admin.saved') ? 'text-[#4DA34D]' : 'text-[#D94F4F]'}`}
                     >
                         {message}
                     </p>

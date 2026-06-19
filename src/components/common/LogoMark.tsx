@@ -25,7 +25,7 @@ export function LogoMark({
             className={cn(
                 box,
                 'relative flex items-center justify-center',
-                variant === 'light' ? 'bg-white/10' : 'bg-primary-600',
+                variant === 'light' ? 'bg-white/[0.08]' : 'bg-[#27272A]',
                 className,
             )}
         >

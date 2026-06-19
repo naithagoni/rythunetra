@@ -21,8 +21,8 @@ interface LinkedRemediesProps {
 }
 
 const effectivenessColor = {
-    High: 'bg-green-950/50 text-green-400 hover:bg-green-950/50',
-    Moderate: 'bg-amber-950/50 text-amber-400 hover:bg-amber-950/50',
+    High: 'bg-[#4DA34D]/10 text-[#4DA34D] hover:bg-[#4DA34D]/10',
+    Moderate: 'bg-[#D4A72C]/10 text-[#D4A72C] hover:bg-[#D4A72C]/10',
     Low: 'bg-blue-950/50 text-blue-400 hover:bg-blue-950/50',
 }
 

@@ -285,7 +285,7 @@ export function AdminRemedyFormPage() {
                             <button
                                 type="button"
                                 onClick={() => removeListItem(setter, i)}
-                                className="text-red-400 hover:text-red-400 pt-2"
+                                className="text-[#D94F4F] hover:text-[#D94F4F] pt-2"
                             >
                                 <X className="h-4 w-4" />
                             </button>
@@ -296,7 +296,7 @@ export function AdminRemedyFormPage() {
             <button
                 type="button"
                 onClick={() => addListItem(setter)}
-                className="text-sm text-primary-400 hover:underline mt-1 inline-flex items-center gap-1"
+                className="text-sm text-[#5E6AD2] hover:underline mt-1 inline-flex items-center gap-1"
             >
                 <Plus className="h-3 w-3" /> Add step
             </button>
@@ -318,7 +318,7 @@ export function AdminRemedyFormPage() {
                 {items.map((s, i) => (
                     <span
                         key={i}
-                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-white/[0.06] text-sm"
+                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#161618] text-sm"
                     >
                         {s}
                         <button
@@ -371,7 +371,7 @@ export function AdminRemedyFormPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <Link
                 to="/admin/remedies"
-                className="text-sm text-primary-400 hover:underline mb-2 inline-block"
+                className="text-sm text-[#5E6AD2] hover:underline mb-2 inline-block"
             >
                 ← {t('admin.remedies')}
             </Link>
@@ -393,7 +393,7 @@ export function AdminRemedyFormPage() {
 
             <form onSubmit={handleSave} className="space-y-8">
                 {/* Core Fields */}
-                <section className="bg-white/[0.06] rounded-xl border border-white/10 p-6 space-y-4">
+                <section className="bg-[#161618] rounded-xl border border-white/[0.06] p-6 space-y-4">
                     <h2 className="text-lg font-bold">
                         {t('admin.coreFields')}
                     </h2>
@@ -435,7 +435,7 @@ export function AdminRemedyFormPage() {
                 </section>
 
                 {/* English */}
-                <section className="bg-white/[0.06] rounded-xl border border-white/10 p-6 space-y-4">
+                <section className="bg-[#161618] rounded-xl border border-white/[0.06] p-6 space-y-4">
                     <h2 className="text-lg font-bold">English</h2>
 
                     <div>
@@ -493,14 +493,14 @@ export function AdminRemedyFormPage() {
                 </section>
 
                 {/* Telugu */}
-                <section className="bg-white/[0.06] rounded-xl border border-white/10 p-6 space-y-4">
+                <section className="bg-[#161618] rounded-xl border border-white/[0.06] p-6 space-y-4">
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg font-bold">తెలుగు (Telugu)</h2>
                         <button
                             type="button"
                             onClick={handleTranslateToTelugu}
                             disabled={translating || !enName}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg bg-amber-950/50 text-amber-400 border border-amber-800/40 hover:bg-amber-900/50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg bg-[#D4A72C]/10 text-[#D4A72C] border border-[#D4A72C]/20 hover:bg-[#D4A72C]/15 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
                             <Languages className="h-4 w-4" />
                             {translating
@@ -566,7 +566,7 @@ export function AdminRemedyFormPage() {
                 {/* Actions */}
                 {message && (
                     <p
-                        className={`text-sm font-medium ${message === t('admin.saved') ? 'text-green-400' : 'text-red-400'}`}
+                        className={`text-sm font-medium ${message === t('admin.saved') ? 'text-[#4DA34D]' : 'text-[#D94F4F]'}`}
                     >
                         {message}
                     </p>

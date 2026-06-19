@@ -412,7 +412,7 @@ export function AdminDiseaseFormPage() {
                 {items.map((s, i) => (
                     <span
                         key={i}
-                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-white/[0.06] text-sm"
+                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-[#161618] text-sm"
                     >
                         {s}
                         <button
@@ -452,7 +452,7 @@ export function AdminDiseaseFormPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <Link
                 to="/admin/diseases"
-                className="text-sm text-primary-400 hover:underline mb-2 inline-block"
+                className="text-sm text-[#5E6AD2] hover:underline mb-2 inline-block"
             >
                 ← {t('admin.diseases')}
             </Link>
@@ -474,7 +474,7 @@ export function AdminDiseaseFormPage() {
 
             <form onSubmit={handleSave} className="space-y-8">
                 {/* Core Fields */}
-                <section className="bg-white/[0.06] rounded-xl border border-white/10 p-5 space-y-4">
+                <section className="bg-[#161618] rounded-xl border border-white/[0.06] p-5 space-y-4">
                     <h2 className="font-semibold text-lg">
                         {t('admin.coreFields')}
                     </h2>
@@ -627,7 +627,7 @@ export function AdminDiseaseFormPage() {
                             type="button"
                             onClick={() => fileInputRef.current?.click()}
                             disabled={uploadingImages}
-                            className="flex items-center gap-2 px-4 py-3 border-2 border-dashed border-white/10 rounded-lg text-sm text-neutral-400 hover:border-primary-400 hover:text-primary-400 transition-colors disabled:opacity-50"
+                            className="flex items-center gap-2 px-4 py-3 border-2 border-dashed border-white/[0.06] rounded-lg text-sm text-neutral-400 hover:border-white/[0.12] hover:text-white transition-colors disabled:opacity-50"
                         >
                             {uploadingImages ? (
                                 <>
@@ -649,13 +649,13 @@ export function AdminDiseaseFormPage() {
                             {t('admin.linkedVarieties')}
                         </label>
                         {varietyOptions.length === 0 ? (
-                            <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-950/50 border border-amber-800/40 text-amber-300 text-sm">
+                            <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-[#D4A72C]/10 border border-[#D4A72C]/20 text-[#D4A72C] text-sm">
                                 <AlertTriangle className="h-4 w-4 shrink-0" />
                                 <span>
                                     {t('admin.noVarietiesYet')}{' '}
                                     <Link
                                         to="/admin/varieties"
-                                        className="font-medium underline hover:text-amber-900"
+                                        className="font-medium underline hover:text-[#D4A72C]/80"
                                     >
                                         {t('admin.addVariety')}
                                     </Link>
@@ -678,13 +678,13 @@ export function AdminDiseaseFormPage() {
                             {t('admin.linkedRemedies')}
                         </label>
                         {remedyOptions.length === 0 ? (
-                            <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-950/50 border border-amber-800/40 text-amber-300 text-sm">
+                            <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-[#D4A72C]/10 border border-[#D4A72C]/20 text-[#D4A72C] text-sm">
                                 <AlertTriangle className="h-4 w-4 shrink-0" />
                                 <span>
                                     {t('admin.noRemediesYet')}{' '}
                                     <Link
                                         to="/admin/remedies/add"
-                                        className="font-medium underline hover:text-amber-900"
+                                        className="font-medium underline hover:text-[#D4A72C]/80"
                                     >
                                         {t('admin.addRemedy')}
                                     </Link>
@@ -703,7 +703,7 @@ export function AdminDiseaseFormPage() {
                 </section>
 
                 {/* English */}
-                <section className="bg-white/[0.06] rounded-xl border border-white/10 p-6 space-y-4">
+                <section className="bg-[#161618] rounded-xl border border-white/[0.06] p-6 space-y-4">
                     <h2 className="text-lg font-bold">English</h2>
 
                     <div>
@@ -773,14 +773,14 @@ export function AdminDiseaseFormPage() {
                 </section>
 
                 {/* Telugu */}
-                <section className="bg-white/[0.06] rounded-xl border border-white/10 p-6 space-y-4">
+                <section className="bg-[#161618] rounded-xl border border-white/[0.06] p-6 space-y-4">
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg font-bold">తెలుగు (Telugu)</h2>
                         <button
                             type="button"
                             onClick={handleTranslateToTelugu}
                             disabled={translating || !enName}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg bg-amber-950/50 text-amber-400 border border-amber-800/40 hover:bg-amber-900/50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg bg-[#D4A72C]/10 text-[#D4A72C] border border-[#D4A72C]/20 hover:bg-[#D4A72C]/15 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
                             <Languages className="h-4 w-4" />
                             {translating
@@ -858,7 +858,7 @@ export function AdminDiseaseFormPage() {
                 {/* Actions */}
                 {message && (
                     <p
-                        className={`text-sm font-medium ${message === t('admin.saved') ? 'text-green-400' : 'text-red-400'}`}
+                        className={`text-sm font-medium ${message === t('admin.saved') ? 'text-[#4DA34D]' : 'text-[#D94F4F]'}`}
                     >
                         {message}
                     </p>

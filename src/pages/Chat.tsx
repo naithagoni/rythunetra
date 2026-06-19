@@ -185,11 +185,11 @@ export function ChatPage() {
             <div
                 className={`${
                     showSidebar
-                        ? 'fixed inset-0 z-50 bg-[#0a1a12] md:static md:z-auto'
+                        ? 'fixed inset-0 z-50 bg-[#161618] md:static md:z-auto'
                         : 'hidden'
-                } md:block w-full md:w-64 border-r border-white/10 flex flex-col shrink-0`}
+                } md:block w-full md:w-64 border-r border-white/[0.06] flex flex-col shrink-0`}
             >
-                <div className="p-3 border-b border-white/10 flex items-center justify-between">
+                <div className="p-3 border-b border-white/[0.06] flex items-center justify-between">
                     <h2 className="font-semibold text-sm">
                         {t('chat.history')}
                     </h2>
@@ -197,14 +197,14 @@ export function ChatPage() {
                         <button
                             onClick={handleNewChat}
                             disabled={initializing}
-                            className="p-1.5 rounded-lg hover:bg-white/[0.06] text-primary-400"
+                            className="p-1.5 rounded-lg hover:bg-[#161618] text-neutral-400"
                             title={t('chat.newChat')}
                         >
                             <Plus className="h-4 w-4" />
                         </button>
                         <button
                             onClick={() => setShowSidebar(false)}
-                            className="p-1.5 rounded-lg hover:bg-white/[0.06] md:hidden"
+                            className="p-1.5 rounded-lg hover:bg-[#161618] md:hidden"
                         >
                             <ChevronLeft className="h-4 w-4" />
                         </button>
@@ -219,9 +219,9 @@ export function ChatPage() {
                         sessions.map((s) => (
                             <div
                                 key={s.id}
-                                className={`flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-white/[0.06] text-sm ${
+                                className={`flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-[#161618] text-sm ${
                                     activeSessionId === s.id
-                                        ? 'bg-primary-500/10 border-l-2 border-primary-300'
+                                        ? 'bg-white/[0.06] border-l-2 border-white/20'
                                         : ''
                                 }`}
                                 onClick={() => {
@@ -237,7 +237,7 @@ export function ChatPage() {
                                         e.stopPropagation()
                                         handleDeleteSession(s.id)
                                     }}
-                                    className="p-1 text-red-400 hover:text-red-400 shrink-0"
+                                    className="p-1 text-[#D94F4F] hover:text-[#D94F4F] shrink-0"
                                 >
                                     <Trash2 className="h-3.5 w-3.5" />
                                 </button>
@@ -250,15 +250,15 @@ export function ChatPage() {
             {/* Main chat area */}
             <div className="flex-1 flex flex-col min-w-0">
                 {/* Chat header */}
-                <div className="flex items-center gap-2 px-4 py-3 bg-white/[0.06] backdrop-blur-sm border-b border-white/[0.06]">
+                <div className="flex items-center gap-2 px-4 py-3 bg-[#161618] border-b border-white/[0.06]">
                     <button
                         onClick={() => setShowSidebar(true)}
-                        className="md:hidden p-1 rounded-lg hover:bg-white/[0.06]"
+                        className="md:hidden p-1 rounded-lg hover:bg-[#161618]"
                     >
                         <MessageCircle className="h-5 w-5" />
                     </button>
-                    <div className="w-8 h-8 rounded-xl bg-primary-500/15 flex items-center justify-center shadow-sm">
-                        <Bot className="h-4 w-4 text-primary-400" />
+                    <div className="w-8 h-8 rounded-xl bg-white/[0.06] flex items-center justify-center shadow-sm">
+                        <Bot className="h-4 w-4 text-neutral-400" />
                     </div>
                     <h1 className="font-semibold text-white">
                         {t('chat.title')}
@@ -269,8 +269,8 @@ export function ChatPage() {
                 <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
                     {messages.length === 0 ? (
                         <div className="flex flex-col items-center justify-center h-full text-center space-y-6">
-                            <div className="w-16 h-16 rounded-2xl bg-primary-500/15 flex items-center justify-center shadow-sm">
-                                <Bot className="h-8 w-8 text-primary-400" />
+                            <div className="w-16 h-16 rounded-2xl bg-white/[0.06] flex items-center justify-center shadow-sm">
+                                <Bot className="h-8 w-8 text-neutral-400" />
                             </div>
                             <div>
                                 <h2 className="text-lg font-semibold text-white">
@@ -285,7 +285,7 @@ export function ChatPage() {
                                     <button
                                         key={i}
                                         onClick={() => setInput(s)}
-                                        className="text-left text-sm px-3.5 py-2.5 rounded-xl border border-white/10 hover:bg-primary-500/10 hover:border-primary-500/30 transition-all duration-200"
+                                        className="text-left text-sm px-3.5 py-2.5 rounded-xl border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12] transition-all duration-200"
                                     >
                                         {s}
                                     </button>
@@ -299,15 +299,15 @@ export function ChatPage() {
                                 className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : ''}`}
                             >
                                 {message.role === 'assistant' && (
-                                    <div className="w-7 h-7 rounded-full bg-primary-500/15 flex items-center justify-center shrink-0">
-                                        <Bot className="h-4 w-4 text-primary-400" />
+                                    <div className="w-7 h-7 rounded-full bg-white/[0.06] flex items-center justify-center shrink-0">
+                                        <Bot className="h-4 w-4 text-neutral-400" />
                                     </div>
                                 )}
                                 <div
                                     className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm whitespace-pre-wrap ${
                                         message.role === 'user'
-                                            ? 'bg-primary-600 text-white'
-                                            : 'bg-white/[0.03] text-white border border-white/10'
+                                            ? 'bg-[#27272A] text-white'
+                                            : 'bg-[#111113] text-white border border-white/[0.06]'
                                     }`}
                                 >
                                     {getMessageText(message)}
@@ -322,10 +322,10 @@ export function ChatPage() {
                     )}
                     {isLoading && (
                         <div className="flex gap-3">
-                            <div className="w-7 h-7 rounded-full bg-primary-500/15 flex items-center justify-center shrink-0">
-                                <Bot className="h-4 w-4 text-primary-400" />
+                            <div className="w-7 h-7 rounded-full bg-white/[0.06] flex items-center justify-center shrink-0">
+                                <Bot className="h-4 w-4 text-neutral-400" />
                             </div>
-                            <div className="bg-white/[0.06] rounded-xl px-4 py-2.5">
+                            <div className="bg-[#161618] rounded-xl px-4 py-2.5">
                                 <Loader2 className="h-4 w-4 animate-spin text-neutral-500" />
                             </div>
                         </div>
@@ -336,7 +336,7 @@ export function ChatPage() {
                 {/* Input */}
                 <form
                     onSubmit={onSubmit}
-                    className="px-4 py-3 border-t border-white/10"
+                    className="px-4 py-3 border-t border-white/[0.06]"
                 >
                     <div className="flex gap-2">
                         <Input

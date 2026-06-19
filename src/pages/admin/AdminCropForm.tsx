@@ -239,7 +239,7 @@ export function AdminCropFormPage() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <Link
                 to="/admin/crops"
-                className="text-sm text-primary-400 hover:underline mb-1 inline-block"
+                className="text-sm text-[#5E6AD2] hover:underline mb-1 inline-block"
             >
                 ← {t('admin.crops')}
             </Link>
@@ -250,7 +250,7 @@ export function AdminCropFormPage() {
                 {!isNew && (
                     <button
                         onClick={handleDelete}
-                        className="text-red-400 hover:text-red-400 p-2 rounded-lg hover:bg-red-950/50"
+                        className="text-[#D94F4F] hover:text-[#D94F4F] p-2 rounded-lg hover:bg-[#D94F4F]/10"
                     >
                         <Trash2 className="h-5 w-5" />
                     </button>
@@ -259,7 +259,7 @@ export function AdminCropFormPage() {
 
             <form onSubmit={handleSave} className="space-y-6">
                 {/* Core Fields */}
-                <div className="bg-white/[0.06] rounded-xl border border-white/10 p-5 space-y-4">
+                <div className="bg-[#161618] rounded-xl border border-white/[0.06] p-5 space-y-4">
                     <h2 className="font-semibold text-lg">
                         {t('admin.coreFields')}
                     </h2>
@@ -306,7 +306,7 @@ export function AdminCropFormPage() {
                                 type="button"
                                 onClick={() => fileInputRef.current?.click()}
                                 disabled={uploadingImage}
-                                className="flex items-center gap-2 px-4 py-3 border-2 border-dashed border-white/10 rounded-lg text-sm text-neutral-400 hover:border-primary-400 hover:text-primary-400 transition-colors disabled:opacity-50"
+                                className="flex items-center gap-2 px-4 py-3 border-2 border-dashed border-white/[0.06] rounded-lg text-sm text-neutral-400 hover:border-white/[0.12] hover:text-white transition-colors disabled:opacity-50"
                             >
                                 {uploadingImage ? (
                                     <>
@@ -365,7 +365,7 @@ export function AdminCropFormPage() {
                 </div>
 
                 {/* English */}
-                <div className="bg-white/[0.06] rounded-xl border border-white/10 p-5 space-y-4">
+                <div className="bg-[#161618] rounded-xl border border-white/[0.06] p-5 space-y-4">
                     <h2 className="font-semibold text-lg">English</h2>
                     <div>
                         <label className="block text-sm font-medium mb-1">
@@ -409,7 +409,7 @@ export function AdminCropFormPage() {
                                             prev.filter((_, j) => j !== i),
                                         )
                                     }}
-                                    className="text-red-500 hover:text-red-400 p-1"
+                                    className="text-[#D94F4F] hover:text-[#D94F4F] p-1"
                                 >
                                     <X className="h-4 w-4" />
                                 </button>
@@ -421,7 +421,7 @@ export function AdminCropFormPage() {
                                 setAliasesEn((prev) => [...prev, ''])
                                 setAliasesTe((prev) => [...prev, ''])
                             }}
-                            className="text-xs text-primary-400 hover:text-primary-400 inline-flex items-center gap-1"
+                            className="text-xs text-[#5E6AD2] hover:text-[#5E6AD2] inline-flex items-center gap-1"
                         >
                             <Plus className="h-3.5 w-3.5" />{' '}
                             {t('admin.addAlias')}
@@ -430,7 +430,7 @@ export function AdminCropFormPage() {
                 </div>
 
                 {/* Telugu */}
-                <div className="bg-white/[0.06] rounded-xl border border-white/10 p-5 space-y-4">
+                <div className="bg-[#161618] rounded-xl border border-white/[0.06] p-5 space-y-4">
                     <div className="flex items-center justify-between">
                         <h2 className="font-semibold text-lg">
                             తెలుగు (Telugu)
@@ -439,7 +439,7 @@ export function AdminCropFormPage() {
                             type="button"
                             onClick={handleTranslate}
                             disabled={translating || !enName.trim()}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg bg-amber-950/50 text-amber-400 border border-amber-800/40 hover:bg-amber-900/50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg bg-[#D4A72C]/10 text-[#D4A72C] border border-[#D4A72C]/20 hover:bg-[#D4A72C]/15 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
                             <Languages className="h-4 w-4" />
                             {translating
@@ -489,7 +489,7 @@ export function AdminCropFormPage() {
                                             prev.filter((_, j) => j !== i),
                                         )
                                     }}
-                                    className="text-red-500 hover:text-red-400 p-1"
+                                    className="text-[#D94F4F] hover:text-[#D94F4F] p-1"
                                 >
                                     <X className="h-4 w-4" />
                                 </button>
@@ -501,7 +501,7 @@ export function AdminCropFormPage() {
                                 setAliasesEn((prev) => [...prev, ''])
                                 setAliasesTe((prev) => [...prev, ''])
                             }}
-                            className="text-xs text-primary-400 hover:text-primary-400 inline-flex items-center gap-1"
+                            className="text-xs text-[#5E6AD2] hover:text-[#5E6AD2] inline-flex items-center gap-1"
                         >
                             <Plus className="h-3.5 w-3.5" />{' '}
                             {t('admin.addAlias')}
@@ -512,7 +512,7 @@ export function AdminCropFormPage() {
                 {/* Actions */}
                 {message && (
                     <p
-                        className={`text-sm font-medium ${message === t('admin.saved') ? 'text-green-400' : 'text-red-400'}`}
+                        className={`text-sm font-medium ${message === t('admin.saved') ? 'text-[#4DA34D]' : 'text-[#D94F4F]'}`}
                     >
                         {message}
                     </p>
@@ -530,7 +530,7 @@ export function AdminCropFormPage() {
                 {!isNew && (
                     <Link
                         to={`/admin/crops/${id}/varieties`}
-                        className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-xl border border-white/10 bg-white/[0.06] hover:bg-white/[0.08] transition-colors"
+                        className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-xl border border-white/[0.06] bg-[#161618] hover:bg-white/[0.08] transition-colors"
                     >
                         <List className="h-4 w-4" />
                         {t('admin.manageVarieties')}

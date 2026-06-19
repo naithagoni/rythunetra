@@ -28,7 +28,7 @@ export function LoadingSpinner({
             <div className="relative">
                 <Loader2
                     className={cn(
-                        'animate-spin text-primary-500',
+                        'animate-spin text-neutral-400',
                         sizeClasses[size],
                     )}
                 />

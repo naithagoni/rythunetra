@@ -3,7 +3,14 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 import { usePageTitle } from '@/hooks/usePageTitle'
 import { AI_ENABLED } from '@/config/env'
-import { motion, type Variants } from 'motion/react'
+import {
+    motion,
+    useMotionValue,
+    useTransform,
+    animate,
+    type Variants,
+} from 'motion/react'
+import { useEffect, useRef } from 'react'
 import {
     Bug,
     Sprout,
@@ -12,60 +19,50 @@ import {
     MessageSquare,
     MapPin,
     ArrowRight,
-    ShieldCheck,
-    Sparkles,
     Wheat,
-    Cloud,
+    Globe,
 } from 'lucide-react'
-import { GlowyWavesHero } from '@/components/landing/GlowyWavesHero'
-import { TiltCard } from '@/components/landing/TiltCard'
+import { SectionLabel } from '@/components/landing/SectionLabel'
 import { Button } from '@/components/ui/button'
-
-const containerVariants: Variants = {
-    hidden: { opacity: 0, y: 24 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.8, staggerChildren: 0.12 },
-    },
-}
-
-const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 24 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.6, ease: 'easeOut' },
-    },
-}
-
-const statsVariants: Variants = {
-    hidden: { opacity: 0, scale: 0.95 },
-    visible: {
-        opacity: 1,
-        scale: 1,
-        transition: { duration: 0.6, ease: 'easeOut', staggerChildren: 0.08 },
-    },
-}
 
 const ease = [0.16, 1, 0.3, 1] as const
 
-const fadeUp = {
-    hidden: { opacity: 0, y: 32 },
+const fadeUp: Variants = {
+    hidden: { opacity: 0, y: 24 },
     visible: { opacity: 1, y: 0 },
 }
 
-const stagger = {
+const stagger: Variants = {
     hidden: {},
     visible: { transition: { staggerChildren: 0.06 } },
 }
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
-    return (
-        <span className="inline-block mb-3 text-[11px] font-semibold uppercase tracking-[0.15em] text-primary-400 bg-primary-500/10 px-3 py-1 rounded-full">
-            {children}
-        </span>
-    )
+function AnimatedCounter({
+    target,
+    suffix = '',
+}: {
+    target: number
+    suffix?: string
+}) {
+    const count = useMotionValue(0)
+    const rounded = useTransform(count, (v) => Math.round(v))
+    const ref = useRef<HTMLSpanElement>(null)
+
+    useEffect(() => {
+        const unsubscribe = rounded.on('change', (v) => {
+            if (ref.current) ref.current.textContent = `${v}${suffix}`
+        })
+        const controls = animate(count, target, {
+            duration: 1.8,
+            ease: [0.16, 1, 0.3, 1],
+        })
+        return () => {
+            controls.stop()
+            unsubscribe()
+        }
+    }, [count, rounded, target, suffix])
+
+    return <span ref={ref}>0{suffix}</span>
 }
 
 export function LandingPage() {
@@ -74,10 +71,10 @@ export function LandingPage() {
     usePageTitle('Organic Farming Platform for Telangana')
 
     const stats = [
-        { value: '30+', label: t('landing.stats.crops') },
-        { value: '100+', label: t('landing.stats.diseases') },
-        { value: '200+', label: t('landing.stats.remedies') },
-        { value: '33', label: t('landing.stats.districts') },
+        { value: 30, suffix: '+', label: t('landing.stats.crops') },
+        { value: 100, suffix: '+', label: t('landing.stats.diseases') },
+        { value: 200, suffix: '+', label: t('landing.stats.remedies') },
+        { value: 33, suffix: '', label: t('landing.stats.districts') },
     ]
 
     const features = [
@@ -123,184 +120,151 @@ export function LandingPage() {
             : []),
     ]
 
-    const highlights = [
+    const steps = [
         {
-            icon: ShieldCheck,
-            title: t('landing.highlights.organic'),
-            desc: t('landing.highlights.organicDesc'),
+            num: t('landing.process.step1Number'),
+            title: t('landing.process.step1Title'),
+            desc: t('landing.process.step1Desc'),
         },
         {
-            icon: Cloud,
-            title: t('landing.highlights.weather'),
-            desc: t('landing.highlights.weatherDesc'),
+            num: t('landing.process.step2Number'),
+            title: t('landing.process.step2Title'),
+            desc: t('landing.process.step2Desc'),
         },
         {
-            icon: Sparkles,
-            title: t('landing.highlights.ai'),
-            desc: t('landing.highlights.aiDesc'),
-        },
-        {
-            icon: MapPin,
-            title: t('landing.highlights.community'),
-            desc: t('landing.highlights.communityDesc'),
+            num: t('landing.process.step3Number'),
+            title: t('landing.process.step3Title'),
+            desc: t('landing.process.step3Desc'),
         },
     ]
 
-    const highlightPills = [
-        t('landing.hero.badge'),
-        'AI Powered',
-        'Bilingual',
-    ] as const
+    const metrics = [
+        {
+            icon: MapPin,
+            num: '01',
+            title: t('landing.telangana.districts'),
+            desc: t('landing.telangana.districtsDesc'),
+        },
+        {
+            icon: Globe,
+            num: '02',
+            title: t('landing.telangana.telugu'),
+            desc: t('landing.telangana.teluguDesc'),
+        },
+        {
+            icon: Wheat,
+            num: '03',
+            title: t('landing.telangana.crops'),
+            desc: t('landing.telangana.cropsDesc'),
+        },
+    ]
 
     return (
-        <main className="flex flex-col">
-            <GlowyWavesHero>
-                <motion.div
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="visible"
-                    className="w-full"
-                >
+        <main className="flex flex-col bg-[#19191b]">
+            {/* ── HERO ── */}
+            <section className="relative flex min-h-[100svh] items-center justify-center px-6 sm:px-8 border-b border-[#323439]">
+                <div className="mx-auto flex w-full max-w-3xl flex-col items-center text-center pt-24 pb-20">
                     <motion.div
-                        variants={itemVariants}
-                        className="mb-6 inline-flex items-center gap-2 rounded-full border border-[rgba(212,165,116,0.25)] bg-white/6 backdrop-blur-md px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#f5e6c8] shadow-[0_0_20px_rgba(212,165,116,0.12)]"
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, ease }}
+                        className="mb-8 inline-flex items-center gap-2 rounded-full border border-[#37393e] bg-[#ffffff0d] px-4 py-2 text-xs font-medium text-[#9c9da1]"
                     >
-                        <Sparkles
-                            className="h-4 w-4 text-[#d4a574]"
-                            aria-hidden="true"
-                        />
+                        <span className="relative flex h-2 w-2">
+                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
+                            <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+                        </span>
                         {t('landing.hero.badge')}
                     </motion.div>
 
                     <motion.h1
-                        variants={itemVariants}
-                        className="mb-6 text-4xl font-semibold tracking-tight text-white md:text-6xl lg:text-7xl"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: 0.15, ease }}
+                        className="text-[40px] md:text-7xl lg:text-[72px] font-bold text-[#e4e5e9] tracking-[-0.04em] leading-[1.05]"
                     >
                         {t('landing.hero.title')}{' '}
-                        <span
-                            className="bg-clip-text text-transparent bg-size-[200%_100%]"
-                            style={{
-                                backgroundImage:
-                                    'linear-gradient(90deg, #f5e6c8, #d4a574, #c9956b, #d4a574, #f5e6c8)',
-                                animation:
-                                    'headline-shimmer 4s ease-in-out infinite',
-                            }}
-                        >
+                        <span className="bg-gradient-to-r from-white to-[#9c9da1] bg-clip-text text-transparent">
                             {t('landing.hero.titleHighlight')}
                         </span>
                     </motion.h1>
 
                     <motion.p
-                        variants={itemVariants}
-                        className="mx-auto mb-10 max-w-3xl text-lg text-[rgba(200,195,185,0.7)] md:text-2xl"
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.35, ease }}
+                        className="mt-6 max-w-xl text-lg text-[#9c9da1] leading-relaxed"
                     >
                         {t('landing.hero.subtitle')}
                     </motion.p>
 
                     <motion.div
-                        variants={itemVariants}
-                        className="mb-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.5, ease }}
+                        className="mt-10"
                     >
                         <Button
                             asChild
                             size="lg"
-                            className="group gap-2 rounded-full px-8 text-base uppercase tracking-[0.2em] bg-[#d4a574] text-[#0f0e17] hover:bg-[#e0b88a] shadow-[0_0_30px_rgba(212,165,116,0.35),0_4px_16px_rgba(0,0,0,0.3)] hover:shadow-[0_0_40px_rgba(212,165,116,0.5)] hover:-translate-y-0.5 transition-all"
+                            className="gap-2 rounded-lg px-6 py-3 text-base font-semibold bg-[#5E6AD2] text-white hover:bg-[#5361C7] transition-colors duration-200"
                         >
                             <Link to="/crops">
                                 {t('landing.hero.cta')}
-                                <ArrowRight
-                                    className="h-4 w-4 transition-transform group-hover:translate-x-1"
-                                    aria-hidden="true"
-                                />
-                            </Link>
-                        </Button>
-                        <Button
-                            asChild
-                            size="lg"
-                            variant="outline"
-                            className="rounded-full border-[rgba(212,165,116,0.2)] bg-white/5 backdrop-blur-sm px-8 text-base text-[rgba(245,230,200,0.8)] hover:bg-white/10 hover:border-[rgba(212,165,116,0.35)] hover:-translate-y-0.5 transition-all"
-                        >
-                            <Link to="/diseases">
-                                {t('landing.hero.secondary')}
+                                <ArrowRight className="h-4 w-4" />
                             </Link>
                         </Button>
                     </motion.div>
-
-                    <motion.ul
-                        variants={itemVariants}
-                        className="mb-12 flex flex-wrap items-center justify-center gap-3 text-xs uppercase tracking-[0.2em] text-[rgba(200,195,185,0.7)]"
-                    >
-                        {highlightPills.map((pill) => (
-                            <li
-                                key={pill}
-                                className="rounded-full border border-[rgba(212,165,116,0.15)] bg-white/5 px-4 py-2 backdrop-blur"
-                            >
-                                {pill}
-                            </li>
-                        ))}
-                    </motion.ul>
 
                     <motion.div
-                        variants={statsVariants}
-                        className="grid gap-4 rounded-2xl border border-[rgba(212,165,116,0.12)] bg-white/[0.03] backdrop-blur-sm p-6 shadow-[0_4px_32px_rgba(0,0,0,0.3)] sm:grid-cols-4"
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: 0.7, ease }}
+                        className="mt-16 flex w-full max-w-lg"
                     >
-                        {stats.map((s) => (
-                            <motion.div
+                        {stats.map((s, i) => (
+                            <div
                                 key={s.label}
-                                variants={itemVariants}
-                                className="space-y-1"
+                                className={`flex-1 text-center ${i < stats.length - 1 ? 'border-r border-[#323439]' : ''}`}
                             >
-                                <div className="text-xs uppercase tracking-[0.3em] text-[rgba(200,195,185,0.5)]">
+                                <div className="text-3xl sm:text-4xl font-bold text-[#e4e5e9] tracking-[-0.02em]">
+                                    <AnimatedCounter
+                                        target={s.value}
+                                        suffix={s.suffix}
+                                    />
+                                </div>
+                                <div className="mt-1.5 text-[11px] text-[#636467] uppercase tracking-[0.12em] font-medium">
                                     {s.label}
                                 </div>
-                                <div className="text-3xl font-semibold text-[#f5e6c8]">
-                                    {s.value}
-                                </div>
-                            </motion.div>
+                            </div>
                         ))}
                     </motion.div>
-                </motion.div>
-            </GlowyWavesHero>
-
-            {/* Features with 3D Tilt Cards */}
-            <section
-                aria-label="Features"
-                className="relative py-20 sm:py-28 px-4 sm:px-6 bg-[#030b07] overflow-hidden"
-            >
-                <div className="pointer-events-none absolute inset-0">
-                    <div className="absolute top-0 left-1/2 h-80 w-150 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-500/8 blur-[100px]" />
-                    <div className="absolute bottom-0 right-1/4 h-60 w-100 rounded-full bg-emerald-500/5 blur-[80px]" />
                 </div>
+            </section>
 
-                <div className="relative mx-auto max-w-5xl">
+            {/* ── 1.0 EXPLORE ── */}
+            <section className="py-28 sm:py-36 px-6 sm:px-8">
+                <div className="mx-auto max-w-6xl">
                     <motion.div
                         variants={fadeUp}
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{ once: true, margin: '-60px' }}
+                        viewport={{ once: true, margin: '-100px' }}
                         transition={{ duration: 0.6, ease }}
-                        className="text-center mb-12"
                     >
-                        <SectionLabel>
-                            {t('landing.features.title')
-                                .split(' ')
-                                .slice(0, 2)
-                                .join(' ')}
-                        </SectionLabel>
-                        <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-                            {t('landing.features.title')}
-                        </h2>
-                        <p className="mt-2.5 text-neutral-400 text-sm sm:text-base max-w-md mx-auto">
-                            {t('landing.features.subtitle')}
-                        </p>
+                        <SectionLabel
+                            number={t('landing.features.sectionNumber')}
+                            title={t('landing.features.sectionTitle')}
+                            subtitle={t('landing.features.sectionSubtitle')}
+                        />
                     </motion.div>
 
                     <motion.div
-                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+                        className={`grid grid-cols-1 sm:grid-cols-2 ${features.length > 3 ? 'lg:grid-cols-3' : ''} gap-px rounded-xl overflow-hidden bg-[#323439]`}
                         variants={stagger}
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{ once: true, margin: '-40px' }}
+                        viewport={{ once: true, margin: '-80px' }}
                     >
                         {features.map((f, i) => (
                             <motion.div
@@ -308,65 +272,134 @@ export function LandingPage() {
                                 variants={fadeUp}
                                 transition={{ duration: 0.5, ease }}
                             >
-                                <TiltCard
-                                    title={f.title}
-                                    description={f.desc}
-                                    icon={f.icon}
-                                    href={f.to}
-                                />
+                                <Link
+                                    to={f.to}
+                                    className="group block bg-[#19191b] p-8 hover:bg-[#1e2022] transition-colors duration-200"
+                                >
+                                    <f.icon className="h-6 w-6 text-[#9c9da1] mb-4 transition-transform duration-200 group-hover:-translate-y-0.5" />
+                                    <h3 className="text-[15px] font-semibold text-[#e4e5e9] mb-1.5 tracking-[-0.02em]">
+                                        {f.title}
+                                    </h3>
+                                    <p className="text-sm text-[#9c9da1] leading-relaxed">
+                                        {f.desc}
+                                    </p>
+                                </Link>
                             </motion.div>
                         ))}
                     </motion.div>
                 </div>
             </section>
 
-            {/* Highlights */}
-            <section
-                aria-label="Highlights"
-                className="relative py-20 sm:py-28 px-4 sm:px-6 overflow-hidden"
-            >
-                <div className="mx-auto max-w-5xl">
+            {/* ── 2.0 HOW IT WORKS ── */}
+            <section className="py-28 sm:py-36 px-6 sm:px-8">
+                <div className="mx-auto max-w-6xl">
                     <motion.div
                         variants={fadeUp}
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{ once: true, margin: '-60px' }}
+                        viewport={{ once: true, margin: '-100px' }}
                         transition={{ duration: 0.6, ease }}
-                        className="text-center mb-14"
                     >
-                        <SectionLabel>
-                            {t('landing.highlights.title').replace('?', '')}
-                        </SectionLabel>
-                        <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-                            {t('landing.highlights.title')}
-                        </h2>
-                        <p className="mt-2.5 text-neutral-400 text-sm sm:text-base max-w-md mx-auto">
-                            {t('landing.highlights.subtitle')}
+                        <SectionLabel
+                            number={t('landing.process.sectionNumber')}
+                            title={t('landing.process.sectionTitle')}
+                            subtitle={t('landing.process.sectionSubtitle')}
+                        />
+                    </motion.div>
+
+                    <motion.div
+                        className="grid grid-cols-1 lg:grid-cols-3 gap-6"
+                        variants={stagger}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: '-80px' }}
+                    >
+                        {steps.map((step, i) => (
+                            <motion.div
+                                key={step.num}
+                                variants={fadeUp}
+                                transition={{ duration: 0.5, ease }}
+                                className="relative"
+                            >
+                                {i < steps.length - 1 && (
+                                    <div className="hidden lg:block absolute top-1/2 -right-3 w-6 border-t border-dashed border-[#37393e]" />
+                                )}
+                                <div className="border border-[#323439] bg-[#1e2022] rounded-xl p-6">
+                                    <span className="font-mono text-[13px] font-semibold text-[#636467] tracking-[0.08em]">
+                                        {step.num}
+                                    </span>
+                                    <h3 className="mt-3 text-lg font-semibold text-[#e4e5e9] tracking-[-0.02em]">
+                                        {step.title}
+                                    </h3>
+                                    <p className="mt-2 text-sm text-[#9c9da1] leading-relaxed">
+                                        {step.desc}
+                                    </p>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                </div>
+            </section>
+
+            {/* ── 3.0 BUILT FOR TELANGANA ── */}
+            <section className="py-28 sm:py-36 px-6 sm:px-8">
+                <div className="mx-auto max-w-6xl">
+                    <motion.div
+                        variants={fadeUp}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: '-100px' }}
+                        transition={{ duration: 0.6, ease }}
+                    >
+                        <SectionLabel
+                            number={t('landing.telangana.sectionNumber')}
+                            title={t('landing.telangana.sectionTitle')}
+                            subtitle={t('landing.telangana.sectionSubtitle')}
+                        />
+                    </motion.div>
+
+                    <motion.div
+                        variants={fadeUp}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: '-80px' }}
+                        transition={{ duration: 0.6, ease }}
+                        className="border border-[#323439] bg-[#1e2022] rounded-xl p-8 sm:p-10 mb-6"
+                    >
+                        <span className="font-mono text-[10px] text-[#636467] uppercase tracking-widest">
+                            {t('landing.telangana.figLabel')}
+                        </span>
+                        <h3 className="mt-4 text-2xl sm:text-3xl font-bold text-[#e4e5e9] tracking-[-0.03em] max-w-lg">
+                            {t('landing.telangana.highlightTitle')}
+                        </h3>
+                        <p className="mt-3 text-[#9c9da1] text-base leading-relaxed max-w-lg">
+                            {t('landing.telangana.highlightDesc')}
                         </p>
                     </motion.div>
 
                     <motion.div
-                        className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+                        className="grid grid-cols-1 sm:grid-cols-3 gap-6"
                         variants={stagger}
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{ once: true, margin: '-40px' }}
+                        viewport={{ once: true, margin: '-60px' }}
                     >
-                        {highlights.map((h, i) => (
+                        {metrics.map((m) => (
                             <motion.div
-                                key={i}
+                                key={m.num}
                                 variants={fadeUp}
                                 transition={{ duration: 0.5, ease }}
-                                className="group rounded-2xl border border-white/10 bg-white/[0.04] p-6 sm:p-7 transition-all duration-300 hover:border-primary-500/30 hover:shadow-lg hover:shadow-primary-500/10 backdrop-blur-sm"
+                                className="relative border border-[#323439] bg-[#1e2022] rounded-xl p-6 overflow-hidden"
                             >
-                                <div className="mb-4 inline-flex items-center justify-center w-10 h-10 rounded-xl bg-primary-500/10 border border-primary-500/20">
-                                    <h.icon className="h-4.5 w-4.5 text-primary-400" />
-                                </div>
-                                <h3 className="text-[15px] font-semibold text-white mb-1.5">
-                                    {h.title}
+                                <span className="absolute -right-2 -top-4 font-mono text-[80px] font-black text-[#ffffff05] leading-none select-none pointer-events-none">
+                                    {m.num}
+                                </span>
+                                <m.icon className="h-5 w-5 text-[#9c9da1] mb-4" />
+                                <h3 className="text-base font-semibold text-[#e4e5e9] tracking-[-0.02em]">
+                                    {m.title}
                                 </h3>
-                                <p className="text-sm text-neutral-400 leading-relaxed">
-                                    {h.desc}
+                                <p className="mt-1.5 text-sm text-[#9c9da1] leading-relaxed">
+                                    {m.desc}
                                 </p>
                             </motion.div>
                         ))}
@@ -374,35 +407,32 @@ export function LandingPage() {
                 </div>
             </section>
 
-            {/* CTA */}
-            <section
-                aria-label="Call to action"
-                className="pt-10 sm:pt-14 pb-10 sm:pb-14 px-4 sm:px-6"
-            >
+            {/* ── CTA ── */}
+            <section className="py-28 sm:py-36 px-6 sm:px-8 border-t border-[#323439]">
                 <motion.div
-                    className="mx-auto max-w-xl text-center"
+                    className="mx-auto max-w-md text-center"
                     variants={fadeUp}
                     initial="hidden"
                     whileInView="visible"
-                    viewport={{ once: true, margin: '-60px' }}
+                    viewport={{ once: true, margin: '-80px' }}
                     transition={{ duration: 0.6, ease }}
                 >
-                    <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                    <h2 className="text-3xl sm:text-4xl font-bold text-[#e4e5e9] tracking-[-0.03em]">
                         {t('landing.cta.title')}
                     </h2>
-                    <p className="mt-3 text-neutral-400 text-sm sm:text-base max-w-sm mx-auto">
+                    <p className="mt-4 text-[#9c9da1] text-base leading-relaxed">
                         {t('landing.cta.subtitle')}
                     </p>
-                    <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+                    <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3">
                         {!user && (
                             <Button
                                 asChild
                                 size="lg"
-                                className="rounded-full w-full sm:w-auto"
+                                className="group rounded-lg w-full sm:w-auto px-6 font-semibold bg-[#5E6AD2] text-white hover:bg-[#5361C7] transition-colors duration-200"
                             >
                                 <Link to="/register" className="gap-2">
                                     {t('landing.cta.register')}
-                                    <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
                                 </Link>
                             </Button>
                         )}
@@ -410,7 +440,11 @@ export function LandingPage() {
                             asChild
                             variant={user ? 'default' : 'outline'}
                             size="lg"
-                            className="rounded-full w-full sm:w-auto"
+                            className={`rounded-lg w-full sm:w-auto px-6 ${
+                                user
+                                    ? 'bg-[#5E6AD2] text-white hover:bg-[#5361C7]'
+                                    : 'border-[#37393e] text-[#e4e5e9] hover:bg-[#1e2022] hover:border-[#424449]'
+                            } transition-colors duration-200`}
                         >
                             <Link to="/crops">{t('landing.cta.explore')}</Link>
                         </Button>

@@ -53,7 +53,7 @@ export function AdminVarietyListPage() {
                 <div>
                     <Link
                         to="/admin"
-                        className="text-sm text-primary-400 hover:underline mb-1 inline-block"
+                        className="text-sm text-[#5E6AD2] hover:underline mb-1 inline-block"
                     >
                         ← {t('admin.dashboard')}
                     </Link>
@@ -65,13 +65,13 @@ export function AdminVarietyListPage() {
                     </p>
                 </div>
                 {crops.length === 0 ? (
-                    <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-950/50 border border-amber-800/40 text-amber-300 text-sm">
+                    <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-[#D4A72C]/10 border border-[#D4A72C]/20 text-[#D4A72C] text-sm">
                         <AlertTriangle className="h-4 w-4 shrink-0" />
                         <span>
                             {t('admin.noCropsYet')}{' '}
                             <Link
                                 to="/admin/crops/add"
-                                className="font-medium underline hover:text-amber-900"
+                                className="font-medium underline hover:text-[#D4A72C]/80"
                             >
                                 {t('admin.addCrop')}
                             </Link>
@@ -102,9 +102,9 @@ export function AdminVarietyListPage() {
                 )}
             </div>
 
-            <div className="bg-white/[0.06] rounded-xl border border-white/10 overflow-hidden">
+            <div className="bg-[#161618] rounded-xl border border-white/[0.06] overflow-hidden">
                 <table className="w-full text-sm">
-                    <thead className="bg-white/[0.03] border-b border-white/10">
+                    <thead className="bg-white/[0.03] border-b border-white/[0.06]">
                         <tr>
                             <th className="text-left px-4 py-3 font-semibold">
                                 ID
@@ -127,7 +127,7 @@ export function AdminVarietyListPage() {
                             return (
                                 <tr
                                     key={v.id}
-                                    className="border-b border-white/10 last:border-0 hover:bg-white/[0.06]"
+                                    className="border-b border-white/[0.06] last:border-0 hover:bg-white/[0.04]"
                                 >
                                     <td className="px-4 py-3 text-xs text-neutral-400 font-mono">
                                         {v.id.slice(0, 8)}
@@ -149,7 +149,7 @@ export function AdminVarietyListPage() {
                                     <td className="px-4 py-3 text-right">
                                         <Link
                                             to={`/admin/crops/${v.major_crop}/varieties/${v.id}`}
-                                            className="text-primary-400 hover:underline inline-flex items-center gap-1"
+                                            className="text-[#5E6AD2] hover:underline inline-flex items-center gap-1"
                                         >
                                             <Edit className="h-3.5 w-3.5" />
                                             {t('common.edit')}

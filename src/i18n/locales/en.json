@@ -569,8 +569,7 @@
             "title": "Grow Smarter with",
             "titleHighlight": "Nature's Wisdom",
             "subtitle": "Identify crop diseases, discover traditional organic remedies, and get AI-powered weather-aware farming advice — all in one place.",
-            "cta": "Explore Crops",
-            "secondary": "Browse Diseases"
+            "cta": "Get Started"
         },
         "stats": {
             "crops": "Crops",
@@ -579,8 +578,9 @@
             "districts": "Districts"
         },
         "features": {
-            "title": "Everything You Need",
-            "subtitle": "A comprehensive toolkit for organic farming in Telangana",
+            "sectionNumber": "1.0",
+            "sectionTitle": "Explore",
+            "sectionSubtitle": "Everything you need to protect your crops and farm smarter.",
             "crops": "Crop Library",
             "cropsDesc": "Browse 30+ crops with varieties, growing seasons, and soil type recommendations tailored for Telangana.",
             "diseases": "Disease Encyclopedia",
@@ -594,17 +594,33 @@
             "remedies": "Organic Remedies",
             "remediesDesc": "Discover 200+ traditional organic remedies made from natural ingredients for effective crop protection."
         },
-        "highlights": {
-            "title": "Why RythuNetra?",
-            "subtitle": "Built for Telangana's farmers, powered by modern technology",
-            "organic": "100% Organic Focus",
-            "organicDesc": "Every remedy is natural and organic — no synthetic chemicals. Protect your crops and the environment.",
-            "weather": "Weather-Aware Advice",
-            "weatherDesc": "Mandal-level weather data powers precise advisory — rain alerts, pest warnings, and seasonal tips.",
-            "ai": "AI-Powered Intelligence",
-            "aiDesc": "From disease scanning to crop recommendations, AI helps you make informed farming decisions.",
-            "community": "Local Knowledge",
-            "communityDesc": "Built with data specific to Telangana — local crops, soil types, districts, and farming practices."
+        "process": {
+            "sectionNumber": "2.0",
+            "sectionTitle": "How It Works",
+            "sectionSubtitle": "Three simple steps to healthier crops.",
+            "step1Number": "01",
+            "step1Title": "Identify",
+            "step1Desc": "Browse our crop library or scan a leaf photo to identify the disease affecting your plants.",
+            "step2Number": "02",
+            "step2Title": "Understand",
+            "step2Desc": "Get detailed information about symptoms, causes, severity, and prevention strategies.",
+            "step3Number": "03",
+            "step3Title": "Treat",
+            "step3Desc": "Discover proven organic remedies with step-by-step preparation instructions."
+        },
+        "telangana": {
+            "sectionNumber": "3.0",
+            "sectionTitle": "Built for Telangana",
+            "sectionSubtitle": "Every feature is tailored to Telangana's soil, climate, and farming practices.",
+            "figLabel": "Highlight",
+            "highlightTitle": "Organic Farming, Rooted in Local Wisdom",
+            "highlightDesc": "RythuNetra combines traditional knowledge with modern technology to help Telangana's farmers protect crops naturally — in Telugu and English.",
+            "districts": "33 Districts Covered",
+            "districtsDesc": "Localized data for every district in Telangana with mandal-level weather integration.",
+            "telugu": "Full Telugu Support",
+            "teluguDesc": "Every feature works in Telugu — from disease names to remedy instructions.",
+            "crops": "Regional Crop Data",
+            "cropsDesc": "Crop varieties, soil types, and growing seasons specific to Telangana."
         },
         "cta": {
             "title": "Ready to Farm Smarter?",

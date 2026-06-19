@@ -22,7 +22,7 @@ export function LanguageToggle() {
             variant="ghost"
             size="sm"
             onClick={toggleLanguage}
-            className="rounded-full gap-1.5 border text-neutral-300 hover:text-white bg-white/8 border-white/12 hover:bg-white/14 hover:border-white/20"
+            className="rounded-full gap-1.5 border text-[#8B8B8D] hover:text-white bg-[#161618] border-white/[0.06] hover:bg-white/[0.08] hover:border-white/[0.12]"
             aria-label={t('common.language')}
             title={t(`languages.${nextLang}`)}
         >

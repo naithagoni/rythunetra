@@ -37,7 +37,7 @@ export function AdminCropVarietyListPage() {
                 <div>
                     <Link
                         to={`/admin/crops/${cropId}`}
-                        className="text-sm text-primary-400 hover:underline mb-1 inline-block"
+                        className="text-sm text-[#5E6AD2] hover:underline mb-1 inline-block"
                     >
                         ← {cropName}
                     </Link>
@@ -56,9 +56,9 @@ export function AdminCropVarietyListPage() {
                 </Button>
             </div>
 
-            <div className="bg-white/[0.06] rounded-xl border border-white/10 overflow-hidden">
+            <div className="bg-[#161618] rounded-xl border border-white/[0.06] overflow-hidden">
                 <table className="w-full text-sm">
-                    <thead className="bg-white/[0.03] border-b border-white/10">
+                    <thead className="bg-white/[0.03] border-b border-white/[0.06]">
                         <tr>
                             <th className="text-left px-4 py-3 font-semibold">
                                 ID
@@ -86,7 +86,7 @@ export function AdminCropVarietyListPage() {
                             return (
                                 <tr
                                     key={v.id}
-                                    className="border-b border-white/10 last:border-0 hover:bg-white/[0.06]"
+                                    className="border-b border-white/[0.06] last:border-0 hover:bg-white/[0.04]"
                                 >
                                     <td className="px-4 py-3 text-xs text-neutral-400 font-mono">
                                         {v.id.slice(0, 8)}
@@ -110,7 +110,7 @@ export function AdminCropVarietyListPage() {
                                     <td className="px-4 py-3 text-right">
                                         <Link
                                             to={`/admin/crops/${cropId}/varieties/${v.id}`}
-                                            className="text-primary-400 hover:underline inline-flex items-center gap-1"
+                                            className="text-[#5E6AD2] hover:underline inline-flex items-center gap-1"
                                         >
                                             <Edit className="h-3.5 w-3.5" />
                                             {t('common.edit')}

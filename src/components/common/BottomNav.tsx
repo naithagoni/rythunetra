@@ -76,7 +76,7 @@ export function BottomNav() {
                     <rect
                         width="100%"
                         height="100%"
-                        fill="#030b07"
+                        fill="#09090B"
                         mask="url(#mnav-mask)"
                     />
                 </svg>

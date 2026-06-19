@@ -17,10 +17,10 @@ interface DiseaseCardProps {
 }
 
 const severityVariant: Record<string, string> = {
-    low: 'bg-green-950/50 text-green-400 hover:bg-green-950/50',
-    moderate: 'bg-amber-950/50 text-amber-400 hover:bg-amber-950/50',
-    high: 'bg-orange-950/50 text-orange-400 hover:bg-orange-950/50',
-    critical: 'bg-red-950/50 text-red-400 hover:bg-red-950/50',
+    low: 'bg-[#4DA34D]/10 text-[#4DA34D] hover:bg-[#4DA34D]/10',
+    moderate: 'bg-[#D4A72C]/10 text-[#D4A72C] hover:bg-[#D4A72C]/10',
+    high: 'bg-[#F2994A]/10 text-[#F2994A] hover:bg-[#F2994A]/10',
+    critical: 'bg-[#D94F4F]/10 text-[#D94F4F] hover:bg-[#D94F4F]/10',
 }
 
 export function DiseaseCard({ disease, language }: DiseaseCardProps) {

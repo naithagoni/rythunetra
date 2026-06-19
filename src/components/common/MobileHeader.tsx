@@ -5,16 +5,15 @@ import { LogoMark } from './LogoMark'
 export function MobileHeader() {
     return (
         <header className="sticky top-0 z-50 md:hidden">
-            <div className="backdrop-blur-xl bg-[#030b07]/80 transition-all duration-300 relative">
-                <div className="absolute bottom-0 inset-x-0 h-px bg-linear-to-r from-transparent via-primary-400/40 to-transparent" />
+            <div className="bg-[#09090B]/95 backdrop-blur-sm border-b border-white/[0.06] transition-all duration-150 relative">
                 <div className="flex items-center justify-between px-4 h-14">
                     <Link to="/" className="flex items-center gap-2.5 group">
-                        <LogoMark size="sm" className="shadow-btn-primary" />
+                        <LogoMark size="sm" />
                         <span className="text-base font-bold font-heading tracking-tight select-none">
                             <span className="text-white group-hover:text-neutral-200 transition-colors">
                                 Rythu
                             </span>
-                            <span className="text-primary-300 group-hover:text-primary-200 transition-colors">
+                            <span className="text-neutral-400 group-hover:text-neutral-300 transition-colors">
                                 Netra
                             </span>
                         </span>

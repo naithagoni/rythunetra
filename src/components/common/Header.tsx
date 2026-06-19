@@ -46,28 +46,24 @@ export function Header() {
 
     return (
         <header className="sticky top-0 z-50 hidden md:block">
-            <div className="backdrop-blur-xl bg-[#030b07]/80 transition-all duration-300 relative">
-                <div className="absolute bottom-0 inset-x-0 h-px bg-linear-to-r from-transparent via-primary-400/40 to-transparent" />
+            <div className="bg-[#09090B]/95 backdrop-blur-sm border-b border-white/[0.06] transition-all duration-150 relative">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         {/* Logo */}
                         <Link to="/" className="flex items-center gap-3 group">
-                            <LogoMark
-                                size="md"
-                                className="shadow-btn-primary"
-                            />
+                            <LogoMark size="md" />
                             <span className="text-lg font-bold font-heading tracking-tight select-none">
                                     <span className="text-white group-hover:text-neutral-200 transition-colors">
                                     Rythu
                                 </span>
-                                <span className="text-primary-300 group-hover:text-primary-200 transition-colors">
+                                <span className="text-neutral-400 group-hover:text-neutral-300 transition-colors">
                                     Netra
                                 </span>
                             </span>
                         </Link>
 
                         {/* Desktop Navigation — pill container */}
-                        <nav className="flex items-center rounded-full p-1 gap-0.5 bg-white/8 border border-white/8">
+                        <nav className="flex items-center rounded-full p-1 gap-0.5 bg-white/[0.04] border border-white/[0.06]">
                             {navLinks.map((link) => (
                                 <NavLink
                                     key={link.to}
@@ -76,8 +72,8 @@ export function Header() {
                                         cn(
                                             'px-3 lg:px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 inline-flex items-center gap-1.5 whitespace-nowrap',
                                             isActive
-                                                ? 'text-white bg-white/14 shadow-sm'
-                                                : 'text-neutral-400 hover:text-white hover:bg-white/8',
+                                                ? 'text-white bg-white/[0.08]'
+                                                : 'text-[#8B8B8D] hover:text-white hover:bg-white/[0.04]',
                                         )
                                     }
                                 >
@@ -92,8 +88,8 @@ export function Header() {
                                         cn(
                                             'px-3 lg:px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 inline-flex items-center gap-1.5 whitespace-nowrap',
                                             isActive
-                                                ? 'text-white bg-white/14 shadow-sm'
-                                                : 'text-neutral-400 hover:text-white hover:bg-white/8',
+                                                ? 'text-white bg-white/[0.08]'
+                                                : 'text-[#8B8B8D] hover:text-white hover:bg-white/[0.04]',
                                         )
                                     }
                                 >
@@ -112,10 +108,10 @@ export function Header() {
                                     <DropdownMenuTrigger asChild>
                                         <Button
                                             variant="ghost"
-                                            className="gap-2 pl-1.5 pr-2.5 py-1.5 rounded-full border bg-white/8 border-white/12 hover:bg-white/14 hover:border-white/20 text-white"
+                                            className="gap-2 pl-1.5 pr-2.5 py-1.5 rounded-full border bg-white/[0.04] border-white/[0.06] hover:bg-white/[0.08] hover:border-white/[0.12] text-white"
                                         >
                                             <Avatar size="sm">
-                                                <AvatarFallback className="bg-linear-to-br from-primary-500 to-primary-700 text-white text-xs">
+                                                <AvatarFallback className="bg-linear-to-br from-[#3F3F46] to-[#27272A] text-white text-xs">
                                                     <User className="h-3.5 w-3.5" />
                                                 </AvatarFallback>
                                             </Avatar>
@@ -140,7 +136,7 @@ export function Header() {
                                                     onClick={() =>
                                                         navigate('/admin')
                                                     }
-                                                    className="text-amber-400 focus:text-amber-400"
+                                                    className="text-[#D4A72C] focus:text-[#D4A72C]"
                                                 >
                                                     <Shield className="h-4 w-4" />
                                                     {t('common.admin')}

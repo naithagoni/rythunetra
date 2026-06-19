@@ -31,7 +31,7 @@ export function AdminCropListPage() {
                 <div>
                     <Link
                         to="/admin"
-                        className="text-sm text-primary-400 hover:underline mb-1 inline-block"
+                        className="text-sm text-[#5E6AD2] hover:underline mb-1 inline-block"
                     >
                         ← {t('admin.dashboard')}
                     </Link>
@@ -50,9 +50,9 @@ export function AdminCropListPage() {
                 </Button>
             </div>
 
-            <div className="bg-white/[0.06] rounded-xl border border-white/10 overflow-hidden">
+            <div className="bg-[#161618] rounded-xl border border-white/[0.06] overflow-hidden">
                 <table className="w-full text-sm">
-                    <thead className="bg-white/[0.03] border-b border-white/10">
+                    <thead className="bg-white/[0.03] border-b border-white/[0.06]">
                         <tr>
                             <th className="text-left px-4 py-3 font-semibold">
                                 ID
@@ -74,7 +74,7 @@ export function AdminCropListPage() {
                             return (
                                 <tr
                                     key={crop.id}
-                                    className="border-b border-white/10 last:border-0 hover:bg-white/[0.06]"
+                                    className="border-b border-white/[0.06] last:border-0 hover:bg-white/[0.04]"
                                 >
                                     <td className="px-4 py-3 text-xs text-neutral-400 font-mono">
                                         {crop.id.slice(0, 8)}
@@ -99,7 +99,7 @@ export function AdminCropListPage() {
                                     <td className="px-4 py-3 text-right">
                                         <Link
                                             to={`/admin/crops/${crop.id}`}
-                                            className="text-primary-400 hover:underline inline-flex items-center gap-1"
+                                            className="text-[#5E6AD2] hover:underline inline-flex items-center gap-1"
                                         >
                                             <Edit className="h-3.5 w-3.5" />
                                             {t('common.edit')}
@@ -128,7 +128,7 @@ export function AdminCropListPage() {
                     <button
                         onClick={() => setPage((p) => Math.max(1, p - 1))}
                         disabled={page === 1}
-                        className="p-2 rounded-lg hover:bg-white/[0.06] disabled:opacity-30"
+                        className="p-2 rounded-lg hover:bg-white/[0.04] disabled:opacity-30"
                     >
                         <ChevronLeft className="h-5 w-5" />
                     </button>
@@ -140,7 +140,7 @@ export function AdminCropListPage() {
                             setPage((p) => Math.min(totalPages, p + 1))
                         }
                         disabled={page === totalPages}
-                        className="p-2 rounded-lg hover:bg-white/[0.06] disabled:opacity-30"
+                        className="p-2 rounded-lg hover:bg-white/[0.04] disabled:opacity-30"
                     >
                         <ChevronRight className="h-5 w-5" />
                     </button>

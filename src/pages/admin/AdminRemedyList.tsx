@@ -37,7 +37,7 @@ export function AdminRemedyListPage() {
                 <div>
                     <Link
                         to="/admin"
-                        className="text-sm text-primary-400 hover:underline mb-1 inline-block"
+                        className="text-sm text-[#5E6AD2] hover:underline mb-1 inline-block"
                     >
                         ← {t('admin.dashboard')}
                     </Link>
@@ -56,9 +56,9 @@ export function AdminRemedyListPage() {
                 </Button>
             </div>
 
-            <div className="bg-white/[0.06] rounded-xl border border-white/10 overflow-hidden">
+            <div className="bg-[#161618] rounded-xl border border-white/[0.06] overflow-hidden">
                 <table className="w-full text-sm">
-                    <thead className="bg-white/[0.03] border-b border-white/10">
+                    <thead className="bg-white/[0.03] border-b border-white/[0.06]">
                         <tr>
                             <th className="text-left px-4 py-3 font-semibold">
                                 ID
@@ -72,7 +72,7 @@ export function AdminRemedyListPage() {
                             <th className="px-4 py-3"></th>
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-surface-100">
+                    <tbody className="divide-y divide-neutral-100">
                         {remedies.map((r: Record<string, unknown>) => {
                             const name = r.name as
                                 | { en: string; te: string }
@@ -83,7 +83,7 @@ export function AdminRemedyListPage() {
                             return (
                                 <tr
                                     key={r.id as string}
-                                    className="hover:bg-white/[0.06]"
+                                    className="hover:bg-white/[0.04]"
                                 >
                                     <td className="px-4 py-3 text-xs text-neutral-400 font-mono">
                                         {(r.id as string).slice(0, 8)}
@@ -102,11 +102,11 @@ export function AdminRemedyListPage() {
                                         <span
                                             className={`text-xs px-2 py-0.5 rounded-full font-medium ${
                                                 r.effectiveness === 'high'
-                                                    ? 'bg-green-950/50 text-green-400'
+                                                    ? 'bg-[#4DA34D]/10 text-[#4DA34D]'
                                                     : r.effectiveness ===
                                                         'medium'
-                                                      ? 'bg-amber-950/50 text-amber-400'
-                                                      : 'bg-white/[0.06] text-neutral-400'
+                                                      ? 'bg-[#D4A72C]/10 text-[#D4A72C]'
+                                                      : 'bg-[#161618] text-neutral-400'
                                             }`}
                                         >
                                             {t(
@@ -118,7 +118,7 @@ export function AdminRemedyListPage() {
                                         <div className="inline-flex items-center gap-3">
                                             <Link
                                                 to={`/admin/remedies/${r.id}`}
-                                                className="text-primary-400 hover:underline inline-flex items-center gap-1 text-sm"
+                                                className="text-[#5E6AD2] hover:underline inline-flex items-center gap-1 text-sm"
                                             >
                                                 <Edit className="h-3.5 w-3.5" />
                                                 {t('common.edit')}
@@ -128,7 +128,7 @@ export function AdminRemedyListPage() {
                                                 onClick={() =>
                                                     handleDelete(r.id as string)
                                                 }
-                                                className="text-red-500 hover:text-red-400 inline-flex items-center gap-1 text-sm cursor-pointer"
+                                                className="text-[#D94F4F] hover:text-[#D94F4F] inline-flex items-center gap-1 text-sm cursor-pointer"
                                             >
                                                 <Trash2 className="h-3.5 w-3.5" />
                                                 {t('common.delete')}
@@ -158,7 +158,7 @@ export function AdminRemedyListPage() {
                     <button
                         onClick={() => setPage((p) => Math.max(1, p - 1))}
                         disabled={page === 1}
-                        className="px-4 py-2 rounded-lg bg-white/[0.06] text-sm font-medium disabled:opacity-30 inline-flex items-center gap-1"
+                        className="px-4 py-2 rounded-lg bg-[#161618] text-sm font-medium disabled:opacity-30 inline-flex items-center gap-1"
                     >
                         <ChevronLeft className="h-4 w-4" />
                         {t('common.previous')}
@@ -171,7 +171,7 @@ export function AdminRemedyListPage() {
                             setPage((p) => Math.min(totalPages, p + 1))
                         }
                         disabled={page === totalPages}
-                        className="px-4 py-2 rounded-lg bg-white/[0.06] text-sm font-medium disabled:opacity-30 inline-flex items-center gap-1"
+                        className="px-4 py-2 rounded-lg bg-[#161618] text-sm font-medium disabled:opacity-30 inline-flex items-center gap-1"
                     >
                         {t('common.next')}
                         <ChevronRight className="h-4 w-4" />
