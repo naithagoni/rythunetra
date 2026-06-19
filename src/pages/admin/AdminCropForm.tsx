@@ -15,6 +15,8 @@ import { LoadingSpinner } from '@/components/common/LoadingSpinner'
 import { CustomDropdown } from '@/components/common/CustomDropdown'
 import { MultiSelectDropdown } from '@/components/common/MultiSelectDropdown'
 import { Save, Trash2, Languages, X, ImageIcon, Plus, List } from 'lucide-react'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 import { translateText } from '@/services/translateService'
 import type { LocalizedText, LocalizedTextArray } from '@/types/i18n'
 import { CROP_TYPE_KEYS } from '@/config/cropTypes'
@@ -237,18 +239,18 @@ export function AdminCropFormPage() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <Link
                 to="/admin/crops"
-                className="text-sm text-primary-600 hover:underline mb-1 inline-block"
+                className="text-sm text-primary-400 hover:underline mb-1 inline-block"
             >
                 ← {t('admin.crops')}
             </Link>
             <div className="flex items-center justify-between mb-6">
-                <h1 className="text-2xl font-bold text-neutral-900">
+                <h1 className="text-2xl font-bold text-white">
                     {isNew ? t('admin.addCrop') : t('admin.editCrop')}
                 </h1>
                 {!isNew && (
                     <button
                         onClick={handleDelete}
-                        className="text-red-600 hover:text-red-700 p-2 rounded-lg hover:bg-red-50"
+                        className="text-red-400 hover:text-red-400 p-2 rounded-lg hover:bg-red-950/50"
                     >
                         <Trash2 className="h-5 w-5" />
                     </button>
@@ -257,7 +259,7 @@ export function AdminCropFormPage() {
 
             <form onSubmit={handleSave} className="space-y-6">
                 {/* Core Fields */}
-                <div className="bg-white rounded-xl border border-neutral-200 p-5 space-y-4">
+                <div className="bg-white/[0.06] rounded-xl border border-white/10 p-5 space-y-4">
                     <h2 className="font-semibold text-lg">
                         {t('admin.coreFields')}
                     </h2>
@@ -304,7 +306,7 @@ export function AdminCropFormPage() {
                                 type="button"
                                 onClick={() => fileInputRef.current?.click()}
                                 disabled={uploadingImage}
-                                className="flex items-center gap-2 px-4 py-3 border-2 border-dashed border-neutral-200 rounded-lg text-sm text-neutral-400 hover:border-primary-400 hover:text-primary-600 transition-colors disabled:opacity-50"
+                                className="flex items-center gap-2 px-4 py-3 border-2 border-dashed border-white/10 rounded-lg text-sm text-neutral-400 hover:border-primary-400 hover:text-primary-400 transition-colors disabled:opacity-50"
                             >
                                 {uploadingImage ? (
                                     <>
@@ -363,18 +365,17 @@ export function AdminCropFormPage() {
                 </div>
 
                 {/* English */}
-                <div className="bg-white rounded-xl border border-neutral-200 p-5 space-y-4">
+                <div className="bg-white/[0.06] rounded-xl border border-white/10 p-5 space-y-4">
                     <h2 className="font-semibold text-lg">English</h2>
                     <div>
                         <label className="block text-sm font-medium mb-1">
                             {t('admin.name')}{' '}
                             <span className="text-red-500">*</span>
                         </label>
-                        <input
+                        <Input
                             type="text"
                             value={enName}
                             onChange={(e) => setEnName(e.target.value)}
-                            className="input"
                             placeholder="e.g., Rice"
                             required
                         />
@@ -387,7 +388,7 @@ export function AdminCropFormPage() {
                         </label>
                         {aliasesEn.map((a, i) => (
                             <div key={i} className="flex gap-2 mb-2">
-                                <input
+                                <Input
                                     type="text"
                                     value={a}
                                     onChange={(e) => {
@@ -395,7 +396,7 @@ export function AdminCropFormPage() {
                                         updated[i] = e.target.value
                                         setAliasesEn(updated)
                                     }}
-                                    className="input flex-1"
+                                    className="flex-1"
                                     placeholder={`Alias ${i + 1}`}
                                 />
                                 <button
@@ -408,7 +409,7 @@ export function AdminCropFormPage() {
                                             prev.filter((_, j) => j !== i),
                                         )
                                     }}
-                                    className="text-red-500 hover:text-red-600 p-1"
+                                    className="text-red-500 hover:text-red-400 p-1"
                                 >
                                     <X className="h-4 w-4" />
                                 </button>
@@ -420,7 +421,7 @@ export function AdminCropFormPage() {
                                 setAliasesEn((prev) => [...prev, ''])
                                 setAliasesTe((prev) => [...prev, ''])
                             }}
-                            className="text-xs text-primary-600 hover:text-primary-700 inline-flex items-center gap-1"
+                            className="text-xs text-primary-400 hover:text-primary-400 inline-flex items-center gap-1"
                         >
                             <Plus className="h-3.5 w-3.5" />{' '}
                             {t('admin.addAlias')}
@@ -429,7 +430,7 @@ export function AdminCropFormPage() {
                 </div>
 
                 {/* Telugu */}
-                <div className="bg-white rounded-xl border border-neutral-200 p-5 space-y-4">
+                <div className="bg-white/[0.06] rounded-xl border border-white/10 p-5 space-y-4">
                     <div className="flex items-center justify-between">
                         <h2 className="font-semibold text-lg">
                             తెలుగు (Telugu)
@@ -438,7 +439,7 @@ export function AdminCropFormPage() {
                             type="button"
                             onClick={handleTranslate}
                             disabled={translating || !enName.trim()}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg bg-amber-950/50 text-amber-400 border border-amber-800/40 hover:bg-amber-900/50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
                             <Languages className="h-4 w-4" />
                             {translating
@@ -451,11 +452,10 @@ export function AdminCropFormPage() {
                             {t('admin.name')}{' '}
                             <span className="text-red-500">*</span>
                         </label>
-                        <input
+                        <Input
                             type="text"
                             value={teName}
                             onChange={(e) => setTeName(e.target.value)}
-                            className="input"
                             placeholder="e.g., వరి"
                             required
                         />
@@ -468,7 +468,7 @@ export function AdminCropFormPage() {
                         </label>
                         {aliasesTe.map((a, i) => (
                             <div key={i} className="flex gap-2 mb-2">
-                                <input
+                                <Input
                                     type="text"
                                     value={a}
                                     onChange={(e) => {
@@ -476,7 +476,7 @@ export function AdminCropFormPage() {
                                         updated[i] = e.target.value
                                         setAliasesTe(updated)
                                     }}
-                                    className="input flex-1"
+                                    className="flex-1"
                                     placeholder={`మారుపేరు ${i + 1}`}
                                 />
                                 <button
@@ -489,7 +489,7 @@ export function AdminCropFormPage() {
                                             prev.filter((_, j) => j !== i),
                                         )
                                     }}
-                                    className="text-red-500 hover:text-red-600 p-1"
+                                    className="text-red-500 hover:text-red-400 p-1"
                                 >
                                     <X className="h-4 w-4" />
                                 </button>
@@ -501,7 +501,7 @@ export function AdminCropFormPage() {
                                 setAliasesEn((prev) => [...prev, ''])
                                 setAliasesTe((prev) => [...prev, ''])
                             }}
-                            className="text-xs text-primary-600 hover:text-primary-700 inline-flex items-center gap-1"
+                            className="text-xs text-primary-400 hover:text-primary-400 inline-flex items-center gap-1"
                         >
                             <Plus className="h-3.5 w-3.5" />{' '}
                             {t('admin.addAlias')}
@@ -512,25 +512,25 @@ export function AdminCropFormPage() {
                 {/* Actions */}
                 {message && (
                     <p
-                        className={`text-sm font-medium ${message === t('admin.saved') ? 'text-green-600' : 'text-red-600'}`}
+                        className={`text-sm font-medium ${message === t('admin.saved') ? 'text-green-400' : 'text-red-400'}`}
                     >
                         {message}
                     </p>
                 )}
 
-                <button
+                <Button
                     type="submit"
                     disabled={saveDisabled}
-                    className="btn-primary w-full inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     <Save className="h-4 w-4" />
                     {saving ? t('common.saving') : t('common.save')}
-                </button>
+                </Button>
 
                 {!isNew && (
                     <Link
                         to={`/admin/crops/${id}/varieties`}
-                        className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-xl border border-neutral-200 bg-white hover:bg-neutral-50 transition-colors"
+                        className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-xl border border-white/10 bg-white/[0.06] hover:bg-white/[0.08] transition-colors"
                     >
                         <List className="h-4 w-4" />
                         {t('admin.manageVarieties')}

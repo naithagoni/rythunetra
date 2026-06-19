@@ -28,6 +28,9 @@ import {
     AlertTriangle,
 } from 'lucide-react'
 import { translateText, translateBatch } from '@/services/translateService'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Button } from '@/components/ui/button'
 import { DISEASE_TYPE_KEYS } from '@/config/diseaseTypes'
 import type { LocalizedText, LocalizedTextArray } from '@/types/i18n'
 
@@ -409,7 +412,7 @@ export function AdminDiseaseFormPage() {
                 {items.map((s, i) => (
                     <span
                         key={i}
-                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-neutral-100 text-sm"
+                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-white/[0.06] text-sm"
                     >
                         {s}
                         <button
@@ -422,7 +425,7 @@ export function AdminDiseaseFormPage() {
                 ))}
             </div>
             <div className="flex gap-2">
-                <input
+                <Input
                     type="text"
                     value={inputVal}
                     onChange={(e) => inputSetter(e.target.value)}
@@ -431,16 +434,16 @@ export function AdminDiseaseFormPage() {
                         (e.preventDefault(),
                         addArrayItem(setter, inputSetter, inputVal))
                     }
-                    className="input flex-1"
+                    className="flex-1"
                     placeholder={placeholder}
                 />
-                <button
+                <Button
                     type="button"
                     onClick={() => addArrayItem(setter, inputSetter, inputVal)}
-                    className="btn-primary px-3"
+                    className="px-3"
                 >
                     <Plus className="h-4 w-4" />
-                </button>
+                </Button>
             </div>
         </div>
     )
@@ -449,28 +452,29 @@ export function AdminDiseaseFormPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <Link
                 to="/admin/diseases"
-                className="text-sm text-primary-600 hover:underline mb-2 inline-block"
+                className="text-sm text-primary-400 hover:underline mb-2 inline-block"
             >
                 ← {t('admin.diseases')}
             </Link>
             <div className="flex items-center justify-between mb-6">
-                <h1 className="text-2xl font-bold text-neutral-900">
+                <h1 className="text-2xl font-bold text-white">
                     {isNew ? t('admin.addDisease') : t('admin.editDisease')}
                 </h1>
                 {!isNew && (
-                    <button
+                    <Button
+                        variant="destructive"
                         onClick={handleDelete}
                         disabled={saving}
-                        className="btn-danger inline-flex items-center gap-1.5 text-sm"
+                        className="inline-flex items-center gap-1.5 text-sm"
                     >
                         <Trash2 className="h-4 w-4" /> {t('common.delete')}
-                    </button>
+                    </Button>
                 )}
             </div>
 
             <form onSubmit={handleSave} className="space-y-8">
                 {/* Core Fields */}
-                <section className="bg-white rounded-xl border border-neutral-200 p-5 space-y-4">
+                <section className="bg-white/[0.06] rounded-xl border border-white/10 p-5 space-y-4">
                     <h2 className="font-semibold text-lg">
                         {t('admin.coreFields')}
                     </h2>
@@ -623,7 +627,7 @@ export function AdminDiseaseFormPage() {
                             type="button"
                             onClick={() => fileInputRef.current?.click()}
                             disabled={uploadingImages}
-                            className="flex items-center gap-2 px-4 py-3 border-2 border-dashed border-neutral-200 rounded-lg text-sm text-neutral-400 hover:border-primary-400 hover:text-primary-600 transition-colors disabled:opacity-50"
+                            className="flex items-center gap-2 px-4 py-3 border-2 border-dashed border-white/10 rounded-lg text-sm text-neutral-400 hover:border-primary-400 hover:text-primary-400 transition-colors disabled:opacity-50"
                         >
                             {uploadingImages ? (
                                 <>
@@ -645,7 +649,7 @@ export function AdminDiseaseFormPage() {
                             {t('admin.linkedVarieties')}
                         </label>
                         {varietyOptions.length === 0 ? (
-                            <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm">
+                            <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-950/50 border border-amber-800/40 text-amber-300 text-sm">
                                 <AlertTriangle className="h-4 w-4 shrink-0" />
                                 <span>
                                     {t('admin.noVarietiesYet')}{' '}
@@ -674,7 +678,7 @@ export function AdminDiseaseFormPage() {
                             {t('admin.linkedRemedies')}
                         </label>
                         {remedyOptions.length === 0 ? (
-                            <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm">
+                            <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-950/50 border border-amber-800/40 text-amber-300 text-sm">
                                 <AlertTriangle className="h-4 w-4 shrink-0" />
                                 <span>
                                     {t('admin.noRemediesYet')}{' '}
@@ -699,7 +703,7 @@ export function AdminDiseaseFormPage() {
                 </section>
 
                 {/* English */}
-                <section className="bg-white rounded-xl border border-neutral-200 p-6 space-y-4">
+                <section className="bg-white/[0.06] rounded-xl border border-white/10 p-6 space-y-4">
                     <h2 className="text-lg font-bold">English</h2>
 
                     <div>
@@ -707,11 +711,10 @@ export function AdminDiseaseFormPage() {
                             {t('admin.name')}{' '}
                             <span className="text-red-500">*</span>
                         </label>
-                        <input
+                        <Input
                             type="text"
                             value={enName}
                             onChange={(e) => setEnName(e.target.value)}
-                            className="input"
                             required
                         />
                     </div>
@@ -720,10 +723,10 @@ export function AdminDiseaseFormPage() {
                         <label className="block text-sm font-medium mb-1">
                             {t('diseases.primaryCause')}
                         </label>
-                        <textarea
+                        <Textarea
                             value={enPrimaryCause}
                             onChange={(e) => setEnPrimaryCause(e.target.value)}
-                            className="input min-h-16"
+                            className="min-h-16"
                         />
                     </div>
 
@@ -770,14 +773,14 @@ export function AdminDiseaseFormPage() {
                 </section>
 
                 {/* Telugu */}
-                <section className="bg-white rounded-xl border border-neutral-200 p-6 space-y-4">
+                <section className="bg-white/[0.06] rounded-xl border border-white/10 p-6 space-y-4">
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg font-bold">తెలుగు (Telugu)</h2>
                         <button
                             type="button"
                             onClick={handleTranslateToTelugu}
                             disabled={translating || !enName}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg bg-amber-950/50 text-amber-400 border border-amber-800/40 hover:bg-amber-900/50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
                             <Languages className="h-4 w-4" />
                             {translating
@@ -791,11 +794,10 @@ export function AdminDiseaseFormPage() {
                             {t('admin.name')}{' '}
                             <span className="text-red-500">*</span>
                         </label>
-                        <input
+                        <Input
                             type="text"
                             value={teName}
                             onChange={(e) => setTeName(e.target.value)}
-                            className="input"
                             required
                         />
                     </div>
@@ -804,10 +806,10 @@ export function AdminDiseaseFormPage() {
                         <label className="block text-sm font-medium mb-1">
                             {t('diseases.primaryCause')}
                         </label>
-                        <textarea
+                        <Textarea
                             value={tePrimaryCause}
                             onChange={(e) => setTePrimaryCause(e.target.value)}
-                            className="input min-h-16"
+                            className="min-h-16"
                         />
                     </div>
 
@@ -856,16 +858,16 @@ export function AdminDiseaseFormPage() {
                 {/* Actions */}
                 {message && (
                     <p
-                        className={`text-sm font-medium ${message === t('admin.saved') ? 'text-green-600' : 'text-red-600'}`}
+                        className={`text-sm font-medium ${message === t('admin.saved') ? 'text-green-400' : 'text-red-400'}`}
                     >
                         {message}
                     </p>
                 )}
                 <div className="flex items-center gap-3">
-                    <button
+                    <Button
                         type="submit"
                         disabled={saveDisabled}
-                        className="btn-primary inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         <Save className="h-4 w-4" />
                         {saving
@@ -873,7 +875,7 @@ export function AdminDiseaseFormPage() {
                             : isNew
                               ? t('common.save')
                               : t('common.update')}
-                    </button>
+                    </Button>
                 </div>
             </form>
         </div>

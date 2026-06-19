@@ -12,6 +12,9 @@ import {
 import { CustomDropdown } from '@/components/common/CustomDropdown'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
 import { Save, Plus, X, Languages, Trash2 } from 'lucide-react'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Button } from '@/components/ui/button'
 import { translateText, translateBatch } from '@/services/translateService'
 import { REMEDY_TYPE_KEYS } from '@/config/remedyTypes'
 import type { LocalizedText, LocalizedTextArray } from '@/types/i18n'
@@ -269,20 +272,20 @@ export function AdminRemedyFormPage() {
                         <span className="text-sm text-neutral-400 pt-2 w-6 text-right shrink-0">
                             {i + 1}.
                         </span>
-                        <input
+                        <Input
                             type="text"
                             value={item}
                             onChange={(e) =>
                                 updateListItem(setter, i, e.target.value)
                             }
-                            className="input flex-1"
+                            className="flex-1"
                             placeholder={placeholder}
                         />
                         {items.length > 1 && (
                             <button
                                 type="button"
                                 onClick={() => removeListItem(setter, i)}
-                                className="text-red-400 hover:text-red-600 pt-2"
+                                className="text-red-400 hover:text-red-400 pt-2"
                             >
                                 <X className="h-4 w-4" />
                             </button>
@@ -293,7 +296,7 @@ export function AdminRemedyFormPage() {
             <button
                 type="button"
                 onClick={() => addListItem(setter)}
-                className="text-sm text-primary-600 hover:underline mt-1 inline-flex items-center gap-1"
+                className="text-sm text-primary-400 hover:underline mt-1 inline-flex items-center gap-1"
             >
                 <Plus className="h-3 w-3" /> Add step
             </button>
@@ -315,7 +318,7 @@ export function AdminRemedyFormPage() {
                 {items.map((s, i) => (
                     <span
                         key={i}
-                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-neutral-100 text-sm"
+                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-white/[0.06] text-sm"
                     >
                         {s}
                         <button
@@ -330,7 +333,7 @@ export function AdminRemedyFormPage() {
                 ))}
             </div>
             <div className="flex gap-2">
-                <input
+                <Input
                     type="text"
                     value={inputVal}
                     onChange={(e) => inputSetter(e.target.value)}
@@ -343,10 +346,10 @@ export function AdminRemedyFormPage() {
                             }
                         }
                     }}
-                    className="input flex-1"
+                    className="flex-1"
                     placeholder={placeholder}
                 />
-                <button
+                <Button
                     type="button"
                     onClick={() => {
                         if (inputVal.trim()) {
@@ -354,10 +357,10 @@ export function AdminRemedyFormPage() {
                             inputSetter('')
                         }
                     }}
-                    className="btn-primary px-3"
+                    className="px-3"
                 >
                     <Plus className="h-4 w-4" />
-                </button>
+                </Button>
             </div>
         </div>
     )
@@ -368,28 +371,29 @@ export function AdminRemedyFormPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <Link
                 to="/admin/remedies"
-                className="text-sm text-primary-600 hover:underline mb-2 inline-block"
+                className="text-sm text-primary-400 hover:underline mb-2 inline-block"
             >
                 ← {t('admin.remedies')}
             </Link>
             <div className="flex items-center justify-between mb-6">
-                <h1 className="text-2xl font-bold text-neutral-900">
+                <h1 className="text-2xl font-bold text-white">
                     {isNew ? t('admin.addRemedy') : t('admin.editRemedy')}
                 </h1>
                 {!isNew && (
-                    <button
+                    <Button
+                        variant="destructive"
                         onClick={handleDelete}
                         disabled={saving}
-                        className="btn-danger inline-flex items-center gap-1.5 text-sm"
+                        className="inline-flex items-center gap-1.5 text-sm"
                     >
                         <Trash2 className="h-4 w-4" /> {t('common.delete')}
-                    </button>
+                    </Button>
                 )}
             </div>
 
             <form onSubmit={handleSave} className="space-y-8">
                 {/* Core Fields */}
-                <section className="bg-white rounded-xl border border-neutral-200 p-6 space-y-4">
+                <section className="bg-white/[0.06] rounded-xl border border-white/10 p-6 space-y-4">
                     <h2 className="text-lg font-bold">
                         {t('admin.coreFields')}
                     </h2>
@@ -431,7 +435,7 @@ export function AdminRemedyFormPage() {
                 </section>
 
                 {/* English */}
-                <section className="bg-white rounded-xl border border-neutral-200 p-6 space-y-4">
+                <section className="bg-white/[0.06] rounded-xl border border-white/10 p-6 space-y-4">
                     <h2 className="text-lg font-bold">English</h2>
 
                     <div>
@@ -439,11 +443,10 @@ export function AdminRemedyFormPage() {
                             {t('admin.name')}{' '}
                             <span className="text-red-500">*</span>
                         </label>
-                        <input
+                        <Input
                             type="text"
                             value={enName}
                             onChange={(e) => setEnName(e.target.value)}
-                            className="input"
                             required
                         />
                     </div>
@@ -452,10 +455,10 @@ export function AdminRemedyFormPage() {
                         <label className="block text-sm font-medium mb-1">
                             {t('remedies.howItWorks')}
                         </label>
-                        <textarea
+                        <Textarea
                             value={enHowItWorks}
                             onChange={(e) => setEnHowItWorks(e.target.value)}
-                            className="input min-h-20"
+                            className="min-h-20"
                         />
                     </div>
 
@@ -490,14 +493,14 @@ export function AdminRemedyFormPage() {
                 </section>
 
                 {/* Telugu */}
-                <section className="bg-white rounded-xl border border-neutral-200 p-6 space-y-4">
+                <section className="bg-white/[0.06] rounded-xl border border-white/10 p-6 space-y-4">
                     <div className="flex items-center justify-between">
                         <h2 className="text-lg font-bold">తెలుగు (Telugu)</h2>
                         <button
                             type="button"
                             onClick={handleTranslateToTelugu}
                             disabled={translating || !enName}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg bg-amber-950/50 text-amber-400 border border-amber-800/40 hover:bg-amber-900/50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
                             <Languages className="h-4 w-4" />
                             {translating
@@ -511,11 +514,10 @@ export function AdminRemedyFormPage() {
                             {t('admin.name')}{' '}
                             <span className="text-red-500">*</span>
                         </label>
-                        <input
+                        <Input
                             type="text"
                             value={teName}
                             onChange={(e) => setTeName(e.target.value)}
-                            className="input"
                             required
                         />
                     </div>
@@ -524,10 +526,10 @@ export function AdminRemedyFormPage() {
                         <label className="block text-sm font-medium mb-1">
                             {t('remedies.howItWorks')}
                         </label>
-                        <textarea
+                        <Textarea
                             value={teHowItWorks}
                             onChange={(e) => setTeHowItWorks(e.target.value)}
-                            className="input min-h-20"
+                            className="min-h-20"
                         />
                     </div>
 
@@ -564,16 +566,16 @@ export function AdminRemedyFormPage() {
                 {/* Actions */}
                 {message && (
                     <p
-                        className={`text-sm font-medium ${message === t('admin.saved') ? 'text-green-600' : 'text-red-600'}`}
+                        className={`text-sm font-medium ${message === t('admin.saved') ? 'text-green-400' : 'text-red-400'}`}
                     >
                         {message}
                     </p>
                 )}
                 <div className="flex items-center gap-3">
-                    <button
+                    <Button
                         type="submit"
                         disabled={saveDisabled}
-                        className="btn-primary inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         <Save className="h-4 w-4" />
                         {saving
@@ -581,7 +583,7 @@ export function AdminRemedyFormPage() {
                             : isNew
                               ? t('common.save')
                               : t('common.update')}
-                    </button>
+                    </Button>
                 </div>
             </form>
         </div>

@@ -10,7 +10,7 @@ export function Footer({ className }: { className?: string }) {
 
     return (
         <footer
-            className={cn('bg-neutral-900 text-neutral-400 mt-auto', className)}
+            className={cn('bg-[#030b07] text-neutral-400 mt-auto border-t border-white/10', className)}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -70,7 +70,7 @@ export function Footer({ className }: { className?: string }) {
                     </div>
                 </div>
 
-                <div className="border-t border-neutral-800 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
+                <div className="border-t border-white/10 mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
                     <p className="text-xs text-neutral-500">
                         &copy; {currentYear} {t('common.appName')}. All rights
                         reserved.

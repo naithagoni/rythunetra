@@ -50,7 +50,7 @@ export function DiseaseDetailPage() {
                 <div className="relative">
                     <Link
                         to="/diseases"
-                        className="inline-flex items-center gap-1.5 text-sm text-primary-600 hover:text-primary-700 font-medium transition-colors"
+                        className="inline-flex items-center gap-1.5 text-sm text-primary-400 hover:text-primary-300 font-medium transition-colors"
                     >
                         ← {t('diseases.title')}
                     </Link>

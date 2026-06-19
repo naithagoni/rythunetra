@@ -7,6 +7,17 @@ import { X, ImagePlus, Video, Trash2, Loader2 } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { uploadPreparationFile } from '@/services/preparationService'
 import type { Preparation } from '@/types/preparation'
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 
 const MAX_IMAGES = 5
 const MAX_IMAGE_SIZE_MB = 5
@@ -44,7 +55,6 @@ export function PreparationForm({
     const [uploading, setUploading] = useState(false)
     const isEditing = !!editingPreparation
 
-    // Media state
     const [imageUrls, setImageUrls] = useState<string[]>(
         editingPreparation?.image_urls ?? [],
     )
@@ -68,8 +78,6 @@ export function PreparationForm({
             preparation_notes: editingPreparation?.preparation_notes ?? '',
         },
     })
-
-    // ─── Image upload ─────────────────────────────────
 
     async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
         const files = e.target.files
@@ -106,7 +114,6 @@ export function PreparationForm({
             setMediaError(t('preparations.media.uploadFailed'))
         } finally {
             setUploading(false)
-            // Reset input so same file can be re-selected
             if (imageInputRef.current) imageInputRef.current.value = ''
         }
     }
@@ -114,8 +121,6 @@ export function PreparationForm({
     function removeImage(index: number) {
         setImageUrls((prev) => prev.filter((_, i) => i !== index))
     }
-
-    // ─── Video upload ─────────────────────────────────
 
     async function handleVideoUpload(e: React.ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0]
@@ -151,8 +156,6 @@ export function PreparationForm({
         setVideoUrl(null)
     }
 
-    // ─── Submit ───────────────────────────────────────
-
     const handleFormSubmit = async (data: PreparationFormData) => {
         setSubmitting(true)
         try {
@@ -170,88 +173,79 @@ export function PreparationForm({
     }
 
     return (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-xl border border-neutral-200 shadow-lg w-full max-w-md animate-slide-up max-h-[90vh] overflow-y-auto">
-                <div className="flex items-center justify-between p-4 border-b border-neutral-200 sticky top-0 bg-white z-10">
-                    <h2 className="text-h4">
+        <Dialog open onOpenChange={(open) => !open && onClose()}>
+            <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
+                <DialogHeader>
+                    <DialogTitle>
                         {isEditing
                             ? t('common.edit')
                             : t('preparations.addNew')}
-                    </h2>
-                    <button
-                        onClick={onClose}
-                        className="p-1 rounded-md hover:bg-neutral-100"
-                    >
-                        <X className="h-5 w-5" />
-                    </button>
-                </div>
+                    </DialogTitle>
+                </DialogHeader>
 
                 <form
                     onSubmit={handleSubmit(handleFormSubmit)}
-                    className="p-4 space-y-4"
+                    className="space-y-4"
                 >
                     {/* Remedy Name */}
-                    <div>
-                        <label className="block text-sm font-medium text-neutral-900 mb-1">
+                    <div className="space-y-1.5">
+                        <Label htmlFor="remedy_name">
                             {t('preparations.remedyName')}
-                        </label>
-                        <input
-                            type="text"
+                        </Label>
+                        <Input
+                            id="remedy_name"
                             {...register('remedy_name')}
-                            className="input"
                             placeholder={t(
                                 'preparations.remedyNamePlaceholder',
                             )}
                         />
                         {errors.remedy_name && (
-                            <p className="text-sm text-red-500 mt-1">
+                            <p className="text-sm text-destructive">
                                 {errors.remedy_name.message}
                             </p>
                         )}
                     </div>
 
                     {/* Quantity */}
-                    <div>
-                        <label className="block text-sm font-medium text-neutral-900 mb-1">
+                    <div className="space-y-1.5">
+                        <Label htmlFor="quantity">
                             {t('preparations.quantity')}
-                        </label>
-                        <input
-                            type="text"
+                        </Label>
+                        <Input
+                            id="quantity"
                             {...register('quantity')}
-                            className="input"
                             placeholder={t('preparations.quantityPlaceholder')}
                         />
                     </div>
 
                     {/* Notes */}
-                    <div>
-                        <label className="block text-sm font-medium text-neutral-900 mb-1">
+                    <div className="space-y-1.5">
+                        <Label htmlFor="preparation_notes">
                             {t('preparations.notes')}
-                        </label>
-                        <textarea
+                        </Label>
+                        <Textarea
+                            id="preparation_notes"
                             {...register('preparation_notes')}
-                            className="input"
                             rows={3}
                             placeholder={t('preparations.notesPlaceholder')}
                         />
                     </div>
 
-                    {/* ─── Images ─────────────────────────── */}
-                    <div>
-                        <label className="block text-sm font-medium text-neutral-900 mb-1">
+                    {/* Images */}
+                    <div className="space-y-1.5">
+                        <Label>
                             {t('preparations.media.images')}{' '}
-                            <span className="text-neutral-400 font-normal">
+                            <span className="text-muted-foreground font-normal">
                                 ({imageUrls.length}/{MAX_IMAGES})
                             </span>
-                        </label>
+                        </Label>
 
-                        {/* Image previews */}
                         {imageUrls.length > 0 && (
                             <div className="flex flex-wrap gap-2 mb-2">
                                 {imageUrls.map((url, i) => (
                                     <div
                                         key={i}
-                                        className="relative w-20 h-20 rounded-lg overflow-hidden border border-neutral-200 group"
+                                        className="relative w-20 h-20 rounded-lg overflow-hidden border border-border group"
                                     >
                                         <img
                                             src={url}
@@ -261,7 +255,7 @@ export function PreparationForm({
                                         <button
                                             type="button"
                                             onClick={() => removeImage(i)}
-                                            className="absolute top-0.5 right-0.5 p-0.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                                            className="absolute top-0.5 right-0.5 p-0.5 bg-destructive text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                                         >
                                             <X className="h-3 w-3" />
                                         </button>
@@ -270,7 +264,6 @@ export function PreparationForm({
                             </div>
                         )}
 
-                        {/* Add image button */}
                         {imageUrls.length < MAX_IMAGES && (
                             <>
                                 <input
@@ -281,13 +274,15 @@ export function PreparationForm({
                                     className="hidden"
                                     onChange={handleImageUpload}
                                 />
-                                <button
+                                <Button
                                     type="button"
+                                    variant="outline"
+                                    size="sm"
                                     onClick={() =>
                                         imageInputRef.current?.click()
                                     }
                                     disabled={uploading}
-                                    className="flex items-center gap-2 text-sm text-primary-600 hover:text-primary-700 border border-dashed border-primary-300 rounded-lg px-3 py-2 hover:bg-primary-50 transition-colors disabled:opacity-50"
+                                    className="gap-2 border-dashed"
                                 >
                                     {uploading ? (
                                         <Loader2 className="h-4 w-4 animate-spin" />
@@ -295,36 +290,38 @@ export function PreparationForm({
                                         <ImagePlus className="h-4 w-4" />
                                     )}
                                     {t('preparations.media.addImages')}
-                                </button>
+                                </Button>
                             </>
                         )}
-                        <p className="text-xs text-neutral-400 mt-1">
+                        <p className="text-xs text-muted-foreground">
                             {t('preparations.media.imageHint', {
                                 max: MAX_IMAGE_SIZE_MB,
                             })}
                         </p>
                     </div>
 
-                    {/* ─── Video ──────────────────────────── */}
-                    <div>
-                        <label className="block text-sm font-medium text-neutral-900 mb-1">
+                    {/* Video */}
+                    <div className="space-y-1.5">
+                        <Label>
                             {t('preparations.media.video')}
-                        </label>
+                        </Label>
 
                         {videoUrl ? (
-                            <div className="relative rounded-lg overflow-hidden border border-neutral-200">
+                            <div className="relative rounded-lg overflow-hidden border border-border">
                                 <video
                                     src={videoUrl}
                                     className="w-full max-h-48 object-contain bg-black"
                                     controls
                                 />
-                                <button
+                                <Button
                                     type="button"
+                                    variant="destructive"
+                                    size="icon-xs"
                                     onClick={removeVideo}
-                                    className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                                    className="absolute top-2 right-2"
                                 >
                                     <Trash2 className="h-3.5 w-3.5" />
-                                </button>
+                                </Button>
                             </div>
                         ) : (
                             <>
@@ -335,13 +332,15 @@ export function PreparationForm({
                                     className="hidden"
                                     onChange={handleVideoUpload}
                                 />
-                                <button
+                                <Button
                                     type="button"
+                                    variant="outline"
+                                    size="sm"
                                     onClick={() =>
                                         videoInputRef.current?.click()
                                     }
                                     disabled={uploading}
-                                    className="flex items-center gap-2 text-sm text-primary-600 hover:text-primary-700 border border-dashed border-primary-300 rounded-lg px-3 py-2 hover:bg-primary-50 transition-colors disabled:opacity-50"
+                                    className="gap-2 border-dashed"
                                 >
                                     {uploading ? (
                                         <Loader2 className="h-4 w-4 animate-spin" />
@@ -349,10 +348,10 @@ export function PreparationForm({
                                         <Video className="h-4 w-4" />
                                     )}
                                     {t('preparations.media.addVideo')}
-                                </button>
+                                </Button>
                             </>
                         )}
-                        <p className="text-xs text-neutral-400 mt-1">
+                        <p className="text-xs text-muted-foreground">
                             {t('preparations.media.videoHint', {
                                 max: MAX_VIDEO_SIZE_MB,
                             })}
@@ -361,30 +360,33 @@ export function PreparationForm({
 
                     {/* Media error */}
                     {mediaError && (
-                        <p className="text-sm text-red-500">{mediaError}</p>
+                        <Alert variant="destructive">
+                            <AlertDescription>{mediaError}</AlertDescription>
+                        </Alert>
                     )}
 
                     {/* Actions */}
                     <div className="flex gap-3 pt-2">
-                        <button
+                        <Button
                             type="button"
+                            variant="outline"
                             onClick={onClose}
-                            className="btn-secondary flex-1"
+                            className="flex-1"
                         >
                             {t('common.cancel')}
-                        </button>
-                        <button
+                        </Button>
+                        <Button
                             type="submit"
                             disabled={submitting || uploading}
-                            className="btn-primary flex-1"
+                            className="flex-1"
                         >
                             {submitting
                                 ? t('common.loading')
                                 : t('common.save')}
-                        </button>
+                        </Button>
                     </div>
                 </form>
-            </div>
-        </div>
+            </DialogContent>
+        </Dialog>
     )
 }

@@ -11,8 +11,9 @@ import { LinkedRemedies } from './LinkedRemedies'
 import { localize, localizeArray } from '@/types/i18n'
 import type { LanguageCode } from '@/types/i18n'
 import { cn } from '@/utils/cn'
+import { Badge } from '@/components/ui/badge'
+import { Card, CardContent } from '@/components/ui/card'
 
-/** Render *text* as <em>text</em> for scientific names */
 function renderInlineItalics(text: string) {
     const parts = text.split(/\*([^*]+)\*/g)
     if (parts.length === 1) return text
@@ -27,10 +28,10 @@ interface DiseaseDetailProps {
 }
 
 const severityConfig = {
-    low: { color: 'bg-green-100 text-green-700', label: 'low' },
-    moderate: { color: 'bg-amber-100 text-amber-700', label: 'moderate' },
-    high: { color: 'bg-orange-100 text-orange-700', label: 'high' },
-    critical: { color: 'bg-red-100 text-red-700', label: 'critical' },
+    low: { color: 'bg-green-950/50 text-green-400 hover:bg-green-950/50', label: 'low' },
+    moderate: { color: 'bg-amber-950/50 text-amber-400 hover:bg-amber-950/50', label: 'moderate' },
+    high: { color: 'bg-orange-950/50 text-orange-400 hover:bg-orange-950/50', label: 'high' },
+    critical: { color: 'bg-red-950/50 text-red-400 hover:bg-red-950/50', label: 'critical' },
 }
 
 export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
@@ -58,23 +59,22 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
             {/* Header */}
             <div>
                 <h1 className="text-2xl font-bold mb-2">{title}</h1>
-
-                {/* Severity + Type badges */}
                 <div className="flex flex-wrap gap-2 mb-3">
-                    <span
-                        className={cn(
-                            'inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium',
-                            sevConf.color,
-                        )}
+                    <Badge
+                        variant="secondary"
+                        className={cn('gap-1', sevConf.color)}
                     >
                         <Thermometer className="h-3 w-3" />
                         {t(`diseases.${sevConf.label}`)}{' '}
                         {t('diseases.severity')}
-                    </span>
+                    </Badge>
                     {diseaseType && (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700">
+                        <Badge
+                            variant="secondary"
+                            className="bg-purple-950/50 text-purple-400 hover:bg-purple-950/50 gap-1"
+                        >
                             {diseaseType}
-                        </span>
+                        </Badge>
                     )}
                 </div>
             </div>
@@ -100,16 +100,13 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
                         <Bug className="h-4 w-4 inline mr-1.5" />
                         {t('diseases.primaryCause')}
                     </h3>
-                    <div
-                        className="bg-amber-50/60 border border-amber-200/30 rounded-2xl p-4"
-                        style={{
-                            boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.5)',
-                        }}
-                    >
-                        <p className="text-base text-amber-800">
-                            {renderInlineItalics(localize(primaryCause, lang))}
-                        </p>
-                    </div>
+                    <Card className="border-amber-800/30 bg-amber-950/30">
+                        <CardContent className="p-4">
+                            <p className="text-base text-amber-300">
+                                {renderInlineItalics(localize(primaryCause, lang))}
+                            </p>
+                        </CardContent>
+                    </Card>
                 </div>
             )}
 
@@ -119,21 +116,18 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
                     <h3 className="text-lg font-semibold mb-2">
                         🔍 {t('diseases.symptoms')}
                     </h3>
-                    <div
-                        className="bg-red-50/60 border border-red-200/30 rounded-2xl p-4 space-y-2"
-                        style={{
-                            boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.5)',
-                        }}
-                    >
-                        {symptoms.map((s, i) => (
-                            <div key={i} className="flex items-start gap-2">
-                                <span className="text-red-400 mt-0.5">•</span>
-                                <p className="text-sm text-red-800">
-                                    {localize(s, lang)}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
+                    <Card className="border-red-800/30 bg-red-950/30">
+                        <CardContent className="p-4 space-y-2">
+                            {symptoms.map((s, i) => (
+                                <div key={i} className="flex items-start gap-2">
+                                    <span className="text-red-400 mt-0.5">•</span>
+                                    <p className="text-sm text-red-300">
+                                        {localize(s, lang)}
+                                    </p>
+                                </div>
+                            ))}
+                        </CardContent>
+                    </Card>
                 </div>
             )}
 
@@ -144,23 +138,20 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
                         <AlertTriangle className="h-4 w-4 inline mr-1.5 text-amber-500" />
                         {t('diseases.favorableConditions')}
                     </h3>
-                    <div
-                        className="bg-yellow-50/60 border border-yellow-200/30 rounded-2xl p-4 space-y-1.5"
-                        style={{
-                            boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.5)',
-                        }}
-                    >
-                        {favorableConditions.map((fc, i) => (
-                            <div key={i} className="flex items-start gap-2">
-                                <span className="text-yellow-500 mt-0.5">
-                                    ⚠
-                                </span>
-                                <p className="text-sm text-yellow-800">
-                                    {localize(fc, lang)}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
+                    <Card className="border-yellow-800/30 bg-yellow-950/30">
+                        <CardContent className="p-4 space-y-1.5">
+                            {favorableConditions.map((fc, i) => (
+                                <div key={i} className="flex items-start gap-2">
+                                    <span className="text-yellow-500 mt-0.5">
+                                        ⚠
+                                    </span>
+                                    <p className="text-sm text-yellow-300">
+                                        {localize(fc, lang)}
+                                    </p>
+                                </div>
+                            ))}
+                        </CardContent>
+                    </Card>
                 </div>
             )}
 
@@ -171,21 +162,18 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
                         <Shield className="h-4 w-4 inline mr-1.5 text-blue-500" />
                         {t('diseases.preventions')}
                     </h3>
-                    <div
-                        className="bg-blue-50/60 border border-blue-200/30 rounded-2xl p-4 space-y-1.5"
-                        style={{
-                            boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.5)',
-                        }}
-                    >
-                        {preventions.map((p, i) => (
-                            <div key={i} className="flex items-start gap-2">
-                                <span className="text-blue-500 mt-0.5">✓</span>
-                                <p className="text-sm text-blue-800">
-                                    {localize(p, lang)}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
+                    <Card className="border-blue-800/30 bg-blue-950/30">
+                        <CardContent className="p-4 space-y-1.5">
+                            {preventions.map((p, i) => (
+                                <div key={i} className="flex items-start gap-2">
+                                    <span className="text-blue-400 mt-0.5">✓</span>
+                                    <p className="text-sm text-blue-300">
+                                        {localize(p, lang)}
+                                    </p>
+                                </div>
+                            ))}
+                        </CardContent>
+                    </Card>
                 </div>
             )}
 
@@ -196,23 +184,20 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
                         <LeafIcon className="h-4 w-4 inline mr-1.5 text-green-500" />
                         {t('diseases.treatments')}
                     </h3>
-                    <div
-                        className="bg-green-50/60 border border-green-200/30 rounded-2xl p-4 space-y-1.5"
-                        style={{
-                            boxShadow: 'inset 0 1px 0 0 rgba(255,255,255,0.5)',
-                        }}
-                    >
-                        {treatments.map((tr, i) => (
-                            <div key={i} className="flex items-start gap-2">
-                                <span className="shrink-0 w-5 h-5 rounded-full bg-green-200 text-green-700 flex items-center justify-center text-[10px] font-bold">
-                                    {i + 1}
-                                </span>
-                                <p className="text-sm text-green-800">
-                                    {localize(tr, lang)}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
+                    <Card className="border-green-800/30 bg-green-950/30">
+                        <CardContent className="p-4 space-y-1.5">
+                            {treatments.map((tr, i) => (
+                                <div key={i} className="flex items-start gap-2">
+                                    <span className="shrink-0 w-5 h-5 rounded-full bg-green-800/50 text-green-400 flex items-center justify-center text-[10px] font-bold">
+                                        {i + 1}
+                                    </span>
+                                    <p className="text-sm text-green-300">
+                                        {localize(tr, lang)}
+                                    </p>
+                                </div>
+                            ))}
+                        </CardContent>
+                    </Card>
                 </div>
             )}
 
@@ -237,12 +222,9 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
                     </h3>
                     <div className="flex flex-wrap gap-2">
                         {aliases.map((alias, i) => (
-                            <span
-                                key={i}
-                                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-neutral-100 text-neutral-600"
-                            >
+                            <Badge key={i} variant="secondary">
                                 {alias}
-                            </span>
+                            </Badge>
                         ))}
                     </div>
                 </div>

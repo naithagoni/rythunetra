@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { adminGetRemedies, adminDeleteRemedy } from '@/services/adminService'
 import { Plus, Edit, Trash2, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
 import { ADMIN_PAGE_SIZE } from '@/config/env'
 
@@ -36,29 +37,28 @@ export function AdminRemedyListPage() {
                 <div>
                     <Link
                         to="/admin"
-                        className="text-sm text-primary-600 hover:underline mb-1 inline-block"
+                        className="text-sm text-primary-400 hover:underline mb-1 inline-block"
                     >
                         ← {t('admin.dashboard')}
                     </Link>
-                    <h1 className="text-2xl font-bold text-neutral-900">
+                    <h1 className="text-2xl font-bold text-white">
                         {t('admin.remedies')}
                     </h1>
                     <p className="text-sm text-neutral-400">
                         {totalCount} {t('common.total')}
                     </p>
                 </div>
-                <Link
-                    to="/admin/remedies/add"
-                    className="btn-primary inline-flex items-center gap-2"
-                >
-                    <Plus className="h-4 w-4" />
-                    {t('admin.addRemedy')}
-                </Link>
+                <Button asChild className="gap-2">
+                    <Link to="/admin/remedies/add">
+                        <Plus className="h-4 w-4" />
+                        {t('admin.addRemedy')}
+                    </Link>
+                </Button>
             </div>
 
-            <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
+            <div className="bg-white/[0.06] rounded-xl border border-white/10 overflow-hidden">
                 <table className="w-full text-sm">
-                    <thead className="bg-neutral-50 border-b border-neutral-200">
+                    <thead className="bg-white/[0.03] border-b border-white/10">
                         <tr>
                             <th className="text-left px-4 py-3 font-semibold">
                                 ID
@@ -83,7 +83,7 @@ export function AdminRemedyListPage() {
                             return (
                                 <tr
                                     key={r.id as string}
-                                    className="hover:bg-neutral-50"
+                                    className="hover:bg-white/[0.06]"
                                 >
                                     <td className="px-4 py-3 text-xs text-neutral-400 font-mono">
                                         {(r.id as string).slice(0, 8)}
@@ -102,11 +102,11 @@ export function AdminRemedyListPage() {
                                         <span
                                             className={`text-xs px-2 py-0.5 rounded-full font-medium ${
                                                 r.effectiveness === 'high'
-                                                    ? 'bg-green-100 text-green-700'
+                                                    ? 'bg-green-950/50 text-green-400'
                                                     : r.effectiveness ===
                                                         'medium'
-                                                      ? 'bg-amber-100 text-amber-700'
-                                                      : 'bg-neutral-100 text-neutral-600'
+                                                      ? 'bg-amber-950/50 text-amber-400'
+                                                      : 'bg-white/[0.06] text-neutral-400'
                                             }`}
                                         >
                                             {t(
@@ -118,7 +118,7 @@ export function AdminRemedyListPage() {
                                         <div className="inline-flex items-center gap-3">
                                             <Link
                                                 to={`/admin/remedies/${r.id}`}
-                                                className="text-primary-600 hover:underline inline-flex items-center gap-1 text-sm"
+                                                className="text-primary-400 hover:underline inline-flex items-center gap-1 text-sm"
                                             >
                                                 <Edit className="h-3.5 w-3.5" />
                                                 {t('common.edit')}
@@ -128,7 +128,7 @@ export function AdminRemedyListPage() {
                                                 onClick={() =>
                                                     handleDelete(r.id as string)
                                                 }
-                                                className="text-red-500 hover:text-red-700 inline-flex items-center gap-1 text-sm cursor-pointer"
+                                                className="text-red-500 hover:text-red-400 inline-flex items-center gap-1 text-sm cursor-pointer"
                                             >
                                                 <Trash2 className="h-3.5 w-3.5" />
                                                 {t('common.delete')}
@@ -158,12 +158,12 @@ export function AdminRemedyListPage() {
                     <button
                         onClick={() => setPage((p) => Math.max(1, p - 1))}
                         disabled={page === 1}
-                        className="px-4 py-2 rounded-lg bg-neutral-100 text-sm font-medium disabled:opacity-30 inline-flex items-center gap-1"
+                        className="px-4 py-2 rounded-lg bg-white/[0.06] text-sm font-medium disabled:opacity-30 inline-flex items-center gap-1"
                     >
                         <ChevronLeft className="h-4 w-4" />
                         {t('common.previous')}
                     </button>
-                    <span className="text-sm font-medium text-neutral-600">
+                    <span className="text-sm font-medium text-neutral-400">
                         {page} / {totalPages}
                     </span>
                     <button
@@ -171,7 +171,7 @@ export function AdminRemedyListPage() {
                             setPage((p) => Math.min(totalPages, p + 1))
                         }
                         disabled={page === totalPages}
-                        className="px-4 py-2 rounded-lg bg-neutral-100 text-sm font-medium disabled:opacity-30 inline-flex items-center gap-1"
+                        className="px-4 py-2 rounded-lg bg-white/[0.06] text-sm font-medium disabled:opacity-30 inline-flex items-center gap-1"
                     >
                         {t('common.next')}
                         <ChevronRight className="h-4 w-4" />

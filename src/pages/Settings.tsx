@@ -19,6 +19,11 @@ import {
     ChevronRight,
     MapPin,
 } from 'lucide-react'
+import { Card, CardContent } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 
 export function SettingsPage() {
     const { t } = useTranslation()
@@ -53,7 +58,7 @@ export function SettingsPage() {
 
     const handleDistrictChange = (value: string) => {
         setDistrict(value)
-        setMandal('') // Reset mandal when district changes
+        setMandal('')
     }
 
     const handleUpdateProfile = async (e: React.SyntheticEvent) => {
@@ -81,180 +86,211 @@ export function SettingsPage() {
 
     return (
         <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            {/* Header Banner */}
-            <div className="page-header-banner rounded-2xl mb-8">
-                <div className="relative">
-                    <h1 className="page-title">{t('settings.title')}</h1>
-                </div>
+            <div className="mb-8">
+                <h1 className="text-2xl font-bold text-foreground">
+                    {t('settings.title')}
+                </h1>
             </div>
 
             <div className="space-y-5">
-                {/* Quick Links — My Preparations & Admin */}
+                {/* Quick Links */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <Link
-                        to="/my-preparations"
-                        className="bg-white rounded-2xl border border-neutral-200 p-4 flex items-center justify-between hover:border-neutral-300 transition-all duration-200 shadow-card hover:shadow-card-hover hover:-translate-y-0.5"
-                    >
-                        <div className="flex items-center gap-3">
-                            <div className="p-2.5 rounded-lg bg-violet-50">
-                                <FlaskConical className="h-5 w-5 text-violet-600" />
-                            </div>
-                            <div>
-                                <p className="font-semibold text-sm">
-                                    {t('common.myPreparations')}
-                                </p>
-                                <p className="text-xs text-neutral-500">
-                                    {t('settings.myPrepsDesc')}
-                                </p>
-                            </div>
-                        </div>
-                        <ChevronRight className="h-4 w-4 text-neutral-400" />
+                    <Link to="/my-preparations">
+                        <Card className="hover:border-primary/30 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+                            <CardContent className="p-4 flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <div className="p-2.5 rounded-lg bg-violet-950/50">
+                                        <FlaskConical className="h-5 w-5 text-violet-400" />
+                                    </div>
+                                    <div>
+                                        <p className="font-semibold text-sm">
+                                            {t('common.myPreparations')}
+                                        </p>
+                                        <p className="text-xs text-muted-foreground">
+                                            {t('settings.myPrepsDesc')}
+                                        </p>
+                                    </div>
+                                </div>
+                                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                            </CardContent>
+                        </Card>
                     </Link>
 
                     {isAdmin && (
-                        <Link
-                            to="/admin"
-                            className="bg-white rounded-2xl border border-neutral-200 p-4 flex items-center justify-between hover:border-neutral-300 transition-all duration-200 shadow-card hover:shadow-card-hover hover:-translate-y-0.5"
-                        >
-                            <div className="flex items-center gap-3">
-                                <div className="p-2.5 rounded-lg bg-amber-50">
-                                    <Shield className="h-5 w-5 text-amber-600" />
-                                </div>
-                                <div>
-                                    <p className="font-semibold text-sm text-amber-800">
-                                        {t('common.admin')}
-                                    </p>
-                                    <p className="text-xs text-neutral-500">
-                                        {t('settings.adminDesc')}
-                                    </p>
-                                </div>
-                            </div>
-                            <ChevronRight className="h-4 w-4 text-neutral-400" />
+                        <Link to="/admin">
+                            <Card className="hover:border-amber-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+                                <CardContent className="p-4 flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <div className="p-2.5 rounded-lg bg-amber-950/50">
+                                            <Shield className="h-5 w-5 text-amber-400" />
+                                        </div>
+                                        <div>
+                                            <p className="font-semibold text-sm text-amber-300">
+                                                {t('common.admin')}
+                                            </p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {t('settings.adminDesc')}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                                </CardContent>
+                            </Card>
                         </Link>
                     )}
                 </div>
 
-                {/* Profile Section */}
-                <div className="bg-white rounded-2xl border border-neutral-200 p-6 shadow-card">
-                    <div className="flex items-center gap-3 mb-4">
-                        <User className="h-5 w-5 text-primary-600" />
-                        <h2 className="text-h4">{t('settings.profile')}</h2>
-                    </div>
-
-                    <form onSubmit={handleUpdateProfile} className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-neutral-900 mb-1">
-                                {t('auth.name')}
-                            </label>
-                            <input
-                                type="text"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                className="input"
-                            />
+                {/* Profile */}
+                <Card>
+                    <CardContent className="p-6">
+                        <div className="flex items-center gap-3 mb-4">
+                            <User className="h-5 w-5 text-primary" />
+                            <h2 className="text-lg font-semibold">
+                                {t('settings.profile')}
+                            </h2>
                         </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-neutral-900 mb-1">
-                                {t('auth.email')}
-                            </label>
-                            <input
-                                type="email"
-                                value={user?.email || ''}
-                                className="input bg-neutral-50"
-                                disabled
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-neutral-900 mb-1">
-                                <span className="flex items-center gap-1.5">
-                                    <MapPin className="h-4 w-4" />
-                                    {t('settings.district')}{' '}
-                                    <span className="text-red-500">*</span>
-                                </span>
-                            </label>
-                            <CustomDropdown
-                                options={districtOptions}
-                                value={district}
-                                onChange={handleDistrictChange}
-                                placeholder={t('settings.selectDistrict')}
-                                ariaLabel={t('settings.district')}
-                                variant="form"
-                            />
-                            <p className="text-xs text-neutral-500 mt-1">
-                                {t('settings.districtDesc')}
-                            </p>
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-neutral-900 mb-1">
-                                <span className="flex items-center gap-1.5">
-                                    <MapPin className="h-4 w-4" />
-                                    {t('settings.mandal')}{' '}
-                                    <span className="text-red-500">*</span>
-                                </span>
-                            </label>
-                            <CustomDropdown
-                                options={mandalOptions}
-                                value={mandal}
-                                onChange={setMandal}
-                                placeholder={
-                                    district
-                                        ? t('settings.selectMandal')
-                                        : t('settings.selectDistrictFirst')
-                                }
-                                ariaLabel={t('settings.mandal')}
-                                variant="form"
-                            />
-                        </div>
-
-                        {message && (
-                            <p
-                                className={`text-sm ${message === t('settings.saved') ? 'text-green-600' : 'text-red-600'}`}
-                            >
-                                {message}
-                            </p>
-                        )}
-
-                        <button
-                            type="submit"
-                            disabled={saving || !district || !mandal}
-                            className="btn-primary"
+                        <form
+                            onSubmit={handleUpdateProfile}
+                            className="space-y-4"
                         >
-                            {saving ? t('common.loading') : t('common.save')}
-                        </button>
-                    </form>
-                </div>
+                            <div className="space-y-1.5">
+                                <Label htmlFor="settings-name">
+                                    {t('auth.name')}
+                                </Label>
+                                <Input
+                                    id="settings-name"
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                />
+                            </div>
 
-                {/* Language Section */}
-                <div className="bg-white rounded-2xl border border-neutral-200 p-6 shadow-card">
-                    <div className="flex items-center gap-3 mb-4">
-                        <Globe className="h-5 w-5 text-primary-600" />
-                        <h2 className="text-h4">{t('settings.language')}</h2>
-                    </div>
-                    <div className="flex items-center justify-between">
-                        <p className="text-sm text-neutral-500">
-                            {t('settings.languageDesc')}
-                        </p>
-                        <LanguageToggle />
-                    </div>
-                </div>
+                            <div className="space-y-1.5">
+                                <Label htmlFor="settings-email">
+                                    {t('auth.email')}
+                                </Label>
+                                <Input
+                                    id="settings-email"
+                                    type="email"
+                                    value={user?.email || ''}
+                                    disabled
+                                    className="bg-muted"
+                                />
+                            </div>
 
-                {/* Account Section */}
-                <div className="bg-white rounded-2xl border border-neutral-200 p-6 shadow-card">
-                    <div className="flex items-center gap-3 mb-4">
-                        <Shield className="h-5 w-5 text-primary-600" />
-                        <h2 className="text-h4">{t('settings.account')}</h2>
-                    </div>
-                    <button
-                        onClick={handleSignOut}
-                        className="btn-danger inline-flex items-center gap-2"
-                    >
-                        <LogOut className="h-4 w-4" />
-                        {t('auth.signOut')}
-                    </button>
-                </div>
+                            <div className="space-y-1.5">
+                                <Label>
+                                    <span className="flex items-center gap-1.5">
+                                        <MapPin className="h-4 w-4" />
+                                        {t('settings.district')}{' '}
+                                        <span className="text-destructive">
+                                            *
+                                        </span>
+                                    </span>
+                                </Label>
+                                <CustomDropdown
+                                    options={districtOptions}
+                                    value={district}
+                                    onChange={handleDistrictChange}
+                                    placeholder={t('settings.selectDistrict')}
+                                    ariaLabel={t('settings.district')}
+                                    variant="form"
+                                />
+                                <p className="text-xs text-muted-foreground">
+                                    {t('settings.districtDesc')}
+                                </p>
+                            </div>
+
+                            <div className="space-y-1.5">
+                                <Label>
+                                    <span className="flex items-center gap-1.5">
+                                        <MapPin className="h-4 w-4" />
+                                        {t('settings.mandal')}{' '}
+                                        <span className="text-destructive">
+                                            *
+                                        </span>
+                                    </span>
+                                </Label>
+                                <CustomDropdown
+                                    options={mandalOptions}
+                                    value={mandal}
+                                    onChange={setMandal}
+                                    placeholder={
+                                        district
+                                            ? t('settings.selectMandal')
+                                            : t(
+                                                  'settings.selectDistrictFirst',
+                                              )
+                                    }
+                                    ariaLabel={t('settings.mandal')}
+                                    variant="form"
+                                />
+                            </div>
+
+                            {message && (
+                                <Alert
+                                    variant={
+                                        message === t('settings.saved')
+                                            ? 'default'
+                                            : 'destructive'
+                                    }
+                                >
+                                    <AlertDescription>
+                                        {message}
+                                    </AlertDescription>
+                                </Alert>
+                            )}
+
+                            <Button
+                                type="submit"
+                                disabled={saving || !district || !mandal}
+                            >
+                                {saving
+                                    ? t('common.loading')
+                                    : t('common.save')}
+                            </Button>
+                        </form>
+                    </CardContent>
+                </Card>
+
+                {/* Language */}
+                <Card>
+                    <CardContent className="p-6">
+                        <div className="flex items-center gap-3 mb-4">
+                            <Globe className="h-5 w-5 text-primary" />
+                            <h2 className="text-lg font-semibold">
+                                {t('settings.language')}
+                            </h2>
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <p className="text-sm text-muted-foreground">
+                                {t('settings.languageDesc')}
+                            </p>
+                            <LanguageToggle />
+                        </div>
+                    </CardContent>
+                </Card>
+
+                {/* Account */}
+                <Card>
+                    <CardContent className="p-6">
+                        <div className="flex items-center gap-3 mb-4">
+                            <Shield className="h-5 w-5 text-primary" />
+                            <h2 className="text-lg font-semibold">
+                                {t('settings.account')}
+                            </h2>
+                        </div>
+                        <Button
+                            variant="destructive"
+                            onClick={handleSignOut}
+                            className="gap-2"
+                        >
+                            <LogOut className="h-4 w-4" />
+                            {t('auth.signOut')}
+                        </Button>
+                    </CardContent>
+                </Card>
             </div>
         </div>
     )

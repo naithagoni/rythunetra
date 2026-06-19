@@ -24,6 +24,8 @@ import {
     Leaf,
     Sparkles,
 } from 'lucide-react'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 // ─── Types ────────────────────────────────────────────
 
@@ -57,10 +59,10 @@ const SEASONS = ['kharif', 'rabi', 'zaid'] as const
 const IRRIGATION_OPTIONS = ['full', 'limited', 'rainfed'] as const
 
 const scoreColor = (score: number) => {
-    if (score >= 85) return 'text-green-700 bg-green-50 border-green-200'
-    if (score >= 70) return 'text-emerald-700 bg-emerald-50 border-emerald-200'
-    if (score >= 50) return 'text-amber-700 bg-amber-50 border-amber-200'
-    return 'text-orange-700 bg-orange-50 border-orange-200'
+    if (score >= 85) return 'text-green-400 bg-green-950/50 border-green-800/40'
+    if (score >= 70) return 'text-emerald-400 bg-emerald-950/50 border-emerald-800/40'
+    if (score >= 50) return 'text-amber-400 bg-amber-950/50 border-amber-800/40'
+    return 'text-orange-400 bg-orange-950/50 border-orange-800/40'
 }
 
 const waterIcon: Record<string, string> = {
@@ -70,9 +72,9 @@ const waterIcon: Record<string, string> = {
 }
 
 const demandBadge: Record<string, string> = {
-    low: 'bg-neutral-100 text-neutral-600',
-    moderate: 'bg-amber-100 text-amber-700',
-    high: 'bg-green-100 text-green-700',
+    low: 'bg-white/[0.06] text-neutral-400',
+    moderate: 'bg-amber-950/50 text-amber-400',
+    high: 'bg-green-950/50 text-green-400',
 }
 
 // ─── Component ────────────────────────────────────────
@@ -193,13 +195,13 @@ export function SoilRecommenderPage() {
     if (!AI_ENABLED) {
         return (
             <div className="max-w-3xl mx-auto px-4 py-16 text-center space-y-4">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-50">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-950/50">
                     <Sparkles className="h-8 w-8 text-amber-500" />
                 </div>
-                <h2 className="text-xl font-bold text-neutral-900">
+                <h2 className="text-xl font-bold text-white">
                     {t('settings.aiFeatures')}
                 </h2>
-                <p className="text-sm text-neutral-500 max-w-md mx-auto">
+                <p className="text-sm text-neutral-400 max-w-md mx-auto">
                     {t('settings.aiDisabledMessage')}
                 </p>
             </div>
@@ -212,7 +214,7 @@ export function SoilRecommenderPage() {
             <div className="page-header-banner rounded-2xl">
                 <div className="relative text-center space-y-2">
                     <div className="page-header-icon">
-                        <Sprout className="h-6 w-6 text-primary-600" />
+                        <Sprout className="h-6 w-6 text-primary-400" />
                     </div>
                     <h1 className="page-title">{t('recommend.title')}</h1>
                     <p className="page-subtitle">{t('recommend.subtitle')}</p>
@@ -243,7 +245,7 @@ export function SoilRecommenderPage() {
                         <label className="block text-sm font-semibold mb-1">
                             {t('recommend.phLevel')}
                         </label>
-                        <input
+                        <Input
                             type="number"
                             step="0.1"
                             min="0"
@@ -251,9 +253,8 @@ export function SoilRecommenderPage() {
                             value={phLevel}
                             onChange={(e) => setPhLevel(e.target.value)}
                             placeholder={t('recommend.phPlaceholder')}
-                            className="input"
                         />
-                        <p className="text-xs text-neutral-500 mt-0.5">
+                        <p className="text-xs text-neutral-400 mt-0.5">
                             {t('recommend.phHint')}
                         </p>
                     </div>
@@ -305,10 +306,11 @@ export function SoilRecommenderPage() {
                     </div>
 
                     {/* Submit */}
-                    <button
+                    <Button
                         type="submit"
                         disabled={loading || !soilType || !season}
-                        className="w-full btn-primary py-3 rounded-xl flex items-center justify-center gap-2 disabled:opacity-50"
+                        size="lg"
+                        className="w-full gap-2"
                     >
                         {loading ? (
                             <>
@@ -321,19 +323,19 @@ export function SoilRecommenderPage() {
                                 {t('recommend.getRecommendations')}
                             </>
                         )}
-                    </button>
+                    </Button>
                 </form>
             )}
 
             {/* Error */}
             {error && (
-                <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex gap-3">
-                    <AlertTriangle className="h-5 w-5 text-red-600 shrink-0 mt-0.5" />
+                <div className="bg-red-950/50 border border-red-800/40 rounded-xl p-4 flex gap-3">
+                    <AlertTriangle className="h-5 w-5 text-red-400 shrink-0 mt-0.5" />
                     <div>
-                        <p className="font-medium text-red-800">
+                        <p className="font-medium text-red-300">
                             {t('recommend.errorTitle')}
                         </p>
-                        <p className="text-sm text-red-600">{error}</p>
+                        <p className="text-sm text-red-400">{error}</p>
                     </div>
                 </div>
             )}
@@ -342,18 +344,18 @@ export function SoilRecommenderPage() {
             {result && (
                 <div className="space-y-4 animate-fade-in">
                     {/* Soil Analysis */}
-                    <div className="bg-amber-50/60 border border-amber-200/30 rounded-xl p-5">
-                        <h3 className="font-semibold text-sm flex items-center gap-2 text-amber-800">
+                    <div className="bg-amber-950/40 border border-amber-800/30 rounded-xl p-5">
+                        <h3 className="font-semibold text-sm flex items-center gap-2 text-amber-300">
                             <Leaf className="h-4 w-4" />
                             {t('recommend.soilAnalysis')}
                         </h3>
-                        <p className="text-sm mt-1 text-amber-900">
+                        <p className="text-sm mt-1 text-amber-200">
                             {isTe ? result.soilAnalysisTe : result.soilAnalysis}
                         </p>
                     </div>
 
                     {/* Crop Cards */}
-                    <h3 className="font-semibold text-lg text-neutral-900">
+                    <h3 className="font-semibold text-lg text-white">
                         {t('recommend.recommendedCrops')} (
                         {result.recommendations.length})
                     </h3>
@@ -364,7 +366,7 @@ export function SoilRecommenderPage() {
                             return (
                                 <div
                                     key={i}
-                                    className="bg-white border border-neutral-200 rounded-xl overflow-hidden transition-all duration-200 hover:shadow-sm"
+                                    className="bg-white/[0.06] border border-white/10 rounded-xl overflow-hidden transition-all duration-200 hover:shadow-sm"
                                 >
                                     {/* Crop header */}
                                     <button
@@ -376,7 +378,7 @@ export function SoilRecommenderPage() {
                                         className="w-full text-left px-4 py-3 flex items-center gap-3"
                                     >
                                         {/* Rank */}
-                                        <span className="w-7 h-7 rounded-full bg-primary-100 text-primary-600 font-bold text-sm flex items-center justify-center shrink-0">
+                                        <span className="w-7 h-7 rounded-full bg-primary-500/15 text-primary-400 font-bold text-sm flex items-center justify-center shrink-0">
                                             {i + 1}
                                         </span>
 
@@ -387,12 +389,12 @@ export function SoilRecommenderPage() {
                                                     ? crop.cropNameTe
                                                     : crop.cropName}
                                                 {isTe && (
-                                                    <span className="text-xs text-neutral-400 ml-1">
+                                                    <span className="text-xs text-neutral-500 ml-1">
                                                         ({crop.cropName})
                                                     </span>
                                                 )}
                                             </p>
-                                            <p className="text-xs text-neutral-500 capitalize">
+                                            <p className="text-xs text-neutral-400 capitalize">
                                                 {t(
                                                     `recommend.categories.${crop.category}`,
                                                 )}
@@ -407,18 +409,18 @@ export function SoilRecommenderPage() {
                                         </span>
 
                                         {isExpanded ? (
-                                            <ChevronUp className="h-4 w-4 text-neutral-400 shrink-0" />
+                                            <ChevronUp className="h-4 w-4 text-neutral-500 shrink-0" />
                                         ) : (
-                                            <ChevronDown className="h-4 w-4 text-neutral-400 shrink-0" />
+                                            <ChevronDown className="h-4 w-4 text-neutral-500 shrink-0" />
                                         )}
                                     </button>
 
                                     {/* Expanded details */}
                                     {isExpanded && (
-                                        <div className="px-4 pb-4 space-y-3 border-t border-neutral-100 pt-3">
+                                        <div className="px-4 pb-4 space-y-3 border-t border-white/[0.06] pt-3">
                                             {/* Stat pills */}
                                             <div className="flex flex-wrap gap-2">
-                                                <span className="inline-flex items-center gap-1 text-xs px-2 py-1 bg-blue-50 text-blue-700 rounded-full">
+                                                <span className="inline-flex items-center gap-1 text-xs px-2 py-1 bg-blue-950/50 text-blue-400 rounded-full">
                                                     <Droplets className="h-3 w-3" />
                                                     {
                                                         waterIcon[
@@ -430,7 +432,7 @@ export function SoilRecommenderPage() {
                                                         `recommend.water.${crop.waterRequirement}`,
                                                     )}
                                                 </span>
-                                                <span className="inline-flex items-center gap-1 text-xs px-2 py-1 bg-neutral-100 text-neutral-600 rounded-full">
+                                                <span className="inline-flex items-center gap-1 text-xs px-2 py-1 bg-white/[0.06] text-neutral-400 rounded-full">
                                                     <Clock className="h-3 w-3" />
                                                     {isTe
                                                         ? crop.growingDurationTe
@@ -462,7 +464,7 @@ export function SoilRecommenderPage() {
                                             {/* Tips */}
                                             {crop.tips.length > 0 && (
                                                 <div>
-                                                    <p className="text-xs font-semibold text-neutral-600 mb-1 flex items-center gap-1">
+                                                    <p className="text-xs font-semibold text-neutral-400 mb-1 flex items-center gap-1">
                                                         <Lightbulb className="h-3 w-3" />
                                                         {t(
                                                             'recommend.growingTips',
@@ -494,12 +496,12 @@ export function SoilRecommenderPage() {
                     </div>
 
                     {/* General Advice */}
-                    <div className="bg-green-50/80 border border-green-200/40 rounded-xl p-4">
-                        <h3 className="font-semibold text-sm flex items-center gap-2 text-green-800">
+                    <div className="bg-green-950/40 border border-green-800/30 rounded-xl p-4">
+                        <h3 className="font-semibold text-sm flex items-center gap-2 text-green-300">
                             <Lightbulb className="h-4 w-4" />
                             {t('recommend.generalAdvice')}
                         </h3>
-                        <p className="text-sm mt-1 text-green-900">
+                        <p className="text-sm mt-1 text-green-200">
                             {isTe
                                 ? result.generalAdviceTe
                                 : result.generalAdvice}
@@ -509,7 +511,7 @@ export function SoilRecommenderPage() {
                     {/* Try Again */}
                     <button
                         onClick={resetForm}
-                        className="w-full border border-neutral-200 py-2.5 rounded-xl text-sm font-medium hover:bg-primary-50/50 hover:border-primary-200 transition-all duration-200"
+                        className="w-full border border-white/10 py-2.5 rounded-xl text-sm font-medium hover:bg-primary-500/10 hover:border-primary-500/30 transition-all duration-200"
                     >
                         {t('recommend.tryAgain')}
                     </button>

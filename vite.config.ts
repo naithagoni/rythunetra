@@ -48,6 +48,9 @@ export default defineConfig({
                         }
                     }
 
+                    if (id.includes('/src/components/ui/')) {
+                        return 'vendor-ui-primitives'
+                    }
                     if (id.includes('/src/pages/admin/')) {
                         return 'app-admin-pages'
                     }

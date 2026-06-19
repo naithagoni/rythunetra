@@ -18,6 +18,9 @@ import {
     Tag,
     Bug,
 } from 'lucide-react'
+import { Card } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 
 export function CropDetailPage() {
     const { id } = useParams<{ id: string }>()
@@ -67,7 +70,7 @@ export function CropDetailPage() {
                 <div className="relative">
                     <button
                         onClick={() => navigate(-1)}
-                        className="inline-flex items-center gap-1.5 text-sm text-primary-600 hover:text-primary-700 font-medium transition-colors"
+                        className="inline-flex items-center gap-1.5 text-sm text-primary-400 hover:text-primary-300 font-medium transition-colors"
                     >
                         <ArrowLeft className="h-4 w-4" />
                         {t('common.back')}
@@ -76,41 +79,40 @@ export function CropDetailPage() {
             </div>
 
             {/* Hero */}
-            <div className="relative rounded-2xl overflow-hidden mb-8 border border-neutral-200 shadow-card">
-                <img
-                    src={imgSrc}
-                    alt={cropName}
-                    className="w-full h-52 sm:h-72 object-cover"
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 px-6 pb-6">
-                    {cropType && (
-                        <span className="badge-info text-[11px] mb-1.5 inline-block">
-                            {cropType}
-                        </span>
-                    )}
-                    <h1 className="text-2xl sm:text-3xl font-bold text-white">
-                        {cropName}
-                    </h1>
+            <Card className="overflow-hidden mb-8">
+                <div className="relative">
+                    <img
+                        src={imgSrc}
+                        alt={cropName}
+                        className="w-full h-52 sm:h-72 object-cover"
+                    />
+                    <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 px-6 pb-6">
+                        {cropType && (
+                            <Badge className="mb-1.5 bg-blue-950/50 text-blue-400 hover:bg-blue-950/50 text-[11px]">
+                                {cropType}
+                            </Badge>
+                        )}
+                        <h1 className="text-2xl sm:text-3xl font-bold text-white">
+                            {cropName}
+                        </h1>
+                    </div>
                 </div>
-            </div>
+            </Card>
 
             <div className="space-y-6">
                 {/* Aliases */}
                 {aliases.length > 0 && (
                     <div>
-                        <h3 className="text-lg font-semibold mb-2 text-neutral-900">
+                        <h3 className="text-lg font-semibold mb-2 text-white">
                             <Tag className="h-4 w-4 inline mr-1.5" />
                             {t('cropDetail.aliases')}
                         </h3>
                         <div className="flex flex-wrap gap-2">
                             {aliases.map((alias) => (
-                                <span
-                                    key={alias}
-                                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-neutral-100 text-neutral-700"
-                                >
+                                <Badge key={alias} variant="secondary">
                                     {alias}
-                                </span>
+                                </Badge>
                             ))}
                         </div>
                     </div>
@@ -119,19 +121,16 @@ export function CropDetailPage() {
                 {/* Suitable Soil Types */}
                 {soilTypeLabels.length > 0 && (
                     <div>
-                        <h3 className="text-lg font-semibold mb-2 text-neutral-900">
+                        <h3 className="text-lg font-semibold mb-2 text-white">
                             <MapPin className="h-4 w-4 inline mr-1.5" />
                             {t('cropDetail.suitableSoilTypes')}
                         </h3>
                         <div className="flex flex-wrap gap-2">
                             {soilTypeLabels.map(({ key, label }) => (
-                                <span
-                                    key={key}
-                                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700"
-                                >
-                                    <MapPin className="h-3 w-3 mr-1" />
+                                <Badge key={key} variant="secondary" className="gap-1 bg-emerald-950/50 text-emerald-400 hover:bg-emerald-950/50">
+                                    <MapPin className="h-3 w-3" />
                                     {label}
-                                </span>
+                                </Badge>
                             ))}
                         </div>
                     </div>
@@ -140,7 +139,7 @@ export function CropDetailPage() {
                 {/* Crop Varieties */}
                 {varieties.length > 0 && (
                     <div>
-                        <h3 className="text-lg font-semibold mb-3 text-neutral-900">
+                        <h3 className="text-lg font-semibold mb-3 text-white">
                             <Sprout className="h-4 w-4 inline mr-1.5" />
                             {t('cropDetail.varieties')}
                         </h3>
@@ -157,17 +156,18 @@ export function CropDetailPage() {
                 )}
 
                 {/* View Diseases CTA */}
-                <button
+                <Button
                     onClick={() =>
                         navigate(
                             `/diseases?crop=${localize(crop.name, 'en' as LanguageCode)}`,
                         )
                     }
-                    className="w-full btn-primary py-3.5 rounded-xl text-base inline-flex items-center justify-center gap-2"
+                    size="lg"
+                    className="w-full gap-2"
                 >
                     <Bug className="h-5 w-5" />
                     {t('cropDetail.viewDiseases')}
-                </button>
+                </Button>
             </div>
         </div>
     )
@@ -192,7 +192,7 @@ function VarietyCard({
     )
 
     return (
-        <div className="bg-white rounded-xl border border-neutral-200 p-4 space-y-3">
+        <Card className="p-4 space-y-3">
             <div className="flex items-center gap-3">
                 {variety.imageUrl && (
                     <img
@@ -201,7 +201,7 @@ function VarietyCard({
                         className="h-12 w-12 rounded-lg object-cover"
                     />
                 )}
-                <h4 className="font-semibold text-base text-neutral-900">
+                <h4 className="font-semibold text-base text-white">
                     {varietyName}
                 </h4>
             </div>
@@ -209,7 +209,7 @@ function VarietyCard({
             {/* Seasons */}
             {variety.recommendedSeasons.length > 0 && (
                 <div>
-                    <p className="text-xs font-semibold text-neutral-500 mb-1">
+                    <p className="text-xs font-semibold text-neutral-400 mb-1">
                         <Calendar className="h-3 w-3 inline mr-1" />
                         {t('cropDetail.seasons')}
                     </p>
@@ -217,7 +217,7 @@ function VarietyCard({
                         {variety.recommendedSeasons.map((s, i) => (
                             <span
                                 key={i}
-                                className="text-xs px-2 py-0.5 rounded-full bg-primary-50 text-primary-700"
+                                className="text-xs px-2 py-0.5 rounded-full bg-primary-500/10 text-primary-300"
                             >
                                 {localize(s.name, lang)} (
                                 {s.durationInDays.join('–')}{' '}
@@ -231,7 +231,7 @@ function VarietyCard({
             {/* Districts */}
             {variety.districts.length > 0 && (
                 <div>
-                    <p className="text-xs font-semibold text-neutral-500 mb-1">
+                    <p className="text-xs font-semibold text-neutral-400 mb-1">
                         <MapPin className="h-3 w-3 inline mr-1" />
                         {t('cropDetail.districts')}
                     </p>
@@ -239,7 +239,7 @@ function VarietyCard({
                         {variety.districts.map((d) => (
                             <span
                                 key={d}
-                                className="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-700"
+                                className="text-xs px-2 py-0.5 rounded-full bg-blue-950/50 text-blue-400"
                             >
                                 {t(`districts.${d}`, d)}
                             </span>
@@ -251,14 +251,14 @@ function VarietyCard({
             {/* Grain Character */}
             {grainChars.length > 0 && (
                 <div>
-                    <p className="text-xs font-semibold text-neutral-500 mb-1">
+                    <p className="text-xs font-semibold text-neutral-400 mb-1">
                         {t('cropDetail.grainCharacter', 'Grain Character')}
                     </p>
                     <div className="flex flex-wrap gap-1.5">
                         {grainChars.map((g, i) => (
                             <span
                                 key={i}
-                                className="text-xs px-2 py-0.5 rounded-full bg-amber-50 text-amber-700"
+                                className="text-xs px-2 py-0.5 rounded-full bg-amber-950/50 text-amber-400"
                             >
                                 {g}
                             </span>
@@ -270,19 +270,19 @@ function VarietyCard({
             {/* Special Characteristics */}
             {specialChars.length > 0 && (
                 <div>
-                    <p className="text-xs font-semibold text-neutral-500 mb-1">
+                    <p className="text-xs font-semibold text-neutral-400 mb-1">
                         {t(
                             'cropDetail.specialCharacteristics',
                             'Special Characteristics',
                         )}
                     </p>
-                    <ul className="list-disc list-inside text-sm text-neutral-600 space-y-0.5">
+                    <ul className="list-disc list-inside text-sm text-neutral-400 space-y-0.5">
                         {specialChars.map((sc, i) => (
                             <li key={i}>{sc}</li>
                         ))}
                     </ul>
                 </div>
             )}
-        </div>
+        </Card>
     )
 }

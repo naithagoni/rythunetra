@@ -14,6 +14,8 @@ import { PreparationList } from '@/components/preparation/PreparationList'
 import { PreparationForm } from '@/components/preparation/PreparationForm'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
 import type { Preparation, CreatePreparationInput } from '@/types/preparation'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 
 export function MyPreparationsPage() {
     const { t } = useTranslation()
@@ -25,8 +27,6 @@ export function MyPreparationsPage() {
     const [editingPreparation, setEditingPreparation] =
         useState<Preparation | null>(null)
 
-    // ─── Queries ──────────────────────────────────────
-
     const { data: prepsResult, isLoading: prepsLoading } = useQuery({
         queryKey: ['preparations', user?.id],
         queryFn: () => getPreparations(user!.id),
@@ -35,8 +35,6 @@ export function MyPreparationsPage() {
 
     const preparations: Preparation[] =
         (prepsResult?.data as Preparation[] | null) ?? []
-
-    // ─── Mutations ────────────────────────────────────
 
     const invalidate = () =>
         queryClient.invalidateQueries({ queryKey: ['preparations', user?.id] })
@@ -71,8 +69,6 @@ export function MyPreparationsPage() {
         onSuccess: invalidate,
     })
 
-    // ─── Handlers ─────────────────────────────────────
-
     const handleAdd = async (data: CreatePreparationInput) => {
         await addMutation.mutateAsync(data)
     }
@@ -102,35 +98,30 @@ export function MyPreparationsPage() {
 
     return (
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            {/* Header Banner */}
-            <div className="page-header-banner rounded-2xl mb-6">
-                <div className="relative flex items-center justify-between">
-                    <div>
-                        <h1 className="page-title">
-                            {t('preparations.title')}
-                        </h1>
-                        <p className="text-sm text-neutral-500 mt-1.5">
-                            {preparations.length} {t('common.total')}
-                        </p>
-                    </div>
-                    <button
-                        onClick={() => setShowForm(true)}
-                        className="btn-primary inline-flex items-center gap-2"
-                    >
-                        <Plus className="h-4 w-4" />
-                        {t('preparations.addNew')}
-                    </button>
+            <div className="flex items-center justify-between mb-6">
+                <div>
+                    <h1 className="text-2xl font-bold text-foreground">
+                        {t('preparations.title')}
+                    </h1>
+                    <Badge variant="secondary" className="mt-1.5">
+                        {preparations.length} {t('common.total')}
+                    </Badge>
                 </div>
+                <Button
+                    onClick={() => setShowForm(true)}
+                    className="gap-2"
+                >
+                    <Plus className="h-4 w-4" />
+                    {t('preparations.addNew')}
+                </Button>
             </div>
 
-            {/* Preparations Grid */}
             <PreparationList
                 preparations={preparations}
                 onDelete={(id) => deleteMutation.mutate(id)}
                 onEdit={handleEdit}
             />
 
-            {/* Add/Edit Preparation Form */}
             {showForm && (
                 <PreparationForm
                     onSubmit={editingPreparation ? handleEditSubmit : handleAdd}

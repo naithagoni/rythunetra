@@ -75,7 +75,7 @@ export function AdminDashboardPage() {
 
     return (
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <h1 className="text-2xl font-bold mb-6 text-neutral-900">
+            <h1 className="text-2xl font-bold mb-6 text-white">
                 {t('admin.dashboard')}
             </h1>
 
@@ -84,7 +84,7 @@ export function AdminDashboardPage() {
                     <Link
                         key={card.to}
                         to={card.to}
-                        className="group relative bg-white rounded-2xl border border-neutral-200 p-5 shadow-card hover:shadow-card-hover hover:-translate-y-1.5 transition-all duration-200 overflow-hidden"
+                        className="group relative bg-white/[0.06] rounded-2xl border border-white/10 p-5 shadow-sm hover:shadow-md hover:-translate-y-1.5 transition-all duration-200 overflow-hidden"
                     >
                         {/* Gradient accent bar */}
                         <div
@@ -97,9 +97,9 @@ export function AdminDashboardPage() {
                             >
                                 {card.icon}
                             </div>
-                            <ArrowUpRight className="h-4 w-4 text-neutral-300 group-hover:text-neutral-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-200" />
+                            <ArrowUpRight className="h-4 w-4 text-neutral-500 group-hover:text-neutral-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-200" />
                         </div>
-                        <p className="text-3xl font-extrabold text-neutral-900 tracking-tight leading-none">
+                        <p className="text-3xl font-extrabold text-white tracking-tight leading-none">
                             {card.count}
                         </p>
                         <p className="text-xs font-semibold text-neutral-400 mt-1.5 uppercase tracking-wider">

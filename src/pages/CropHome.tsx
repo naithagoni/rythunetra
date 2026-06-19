@@ -7,6 +7,7 @@ import { LoadingSpinner } from '@/components/common/LoadingSpinner'
 import { getCropImage, HERO_IMAGE } from '@/utils/cropImages'
 import { localize } from '@/types/i18n'
 import type { LanguageCode } from '@/types/i18n'
+import { Button } from '@/components/ui/button'
 
 export function CropHomePage() {
     const { t, i18n } = useTranslation()
@@ -43,27 +44,24 @@ export function CropHomePage() {
                 </div>
             </div>
 
-            {/* Crop Grid — image cards */}
+            {/* Crop Grid */}
             <div className="px-3 sm:px-4 -mt-6 relative z-10 flex-1">
                 {isLoading ? (
                     <LoadingSpinner />
                 ) : isError || crops.length === 0 ? (
                     <div className="flex flex-col items-center justify-center py-14 text-center">
-                        <div className="w-16 h-16 rounded-2xl bg-neutral-100 flex items-center justify-center mb-4 shadow-sm">
+                        <div className="w-16 h-16 rounded-2xl bg-muted flex items-center justify-center mb-4 shadow-sm">
                             <span className="text-3xl">🌱</span>
                         </div>
-                        <p className="text-lg font-semibold text-neutral-900 mb-1">
+                        <p className="text-lg font-semibold text-foreground mb-1">
                             {t('cropHome.cropsUnavailable')}
                         </p>
-                        <p className="text-sm text-neutral-500 mb-5">
+                        <p className="text-sm text-muted-foreground mb-5">
                             {t('cropHome.cropsUnavailableHint')}
                         </p>
-                        <button
-                            onClick={() => navigate('/diseases')}
-                            className="btn-primary px-6 py-2.5 rounded-xl"
-                        >
+                        <Button onClick={() => navigate('/diseases')}>
                             🔍 {t('cropHome.allDiseases')}
-                        </button>
+                        </Button>
                     </div>
                 ) : (
                     <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3">
@@ -75,7 +73,7 @@ export function CropHomePage() {
                                 <button
                                     key={crop.id}
                                     onClick={() => handleCropSelect(crop.id)}
-                                    className="group relative aspect-square rounded-2xl overflow-hidden active:scale-[0.97] transition-all duration-200 border border-neutral-200 shadow-card hover:shadow-card-hover hover:-translate-y-0.5"
+                                    className="group relative aspect-square rounded-2xl overflow-hidden active:scale-[0.97] transition-all duration-200 border border-border shadow-sm hover:shadow-md hover:-translate-y-0.5"
                                 >
                                     <img
                                         src={imgSrc}

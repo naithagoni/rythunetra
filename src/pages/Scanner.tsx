@@ -18,6 +18,7 @@ import {
     FlaskConical,
     BookOpen,
 } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import imageCompression from 'browser-image-compression'
 import { useAuth } from '@/hooks/useAuth'
 import { useLanguage } from '@/hooks/useLanguage'
@@ -37,29 +38,29 @@ const severityConfig: Record<
     { color: string; bg: string; border: string }
 > = {
     low: {
-        color: 'text-green-700',
-        bg: 'bg-green-50',
-        border: 'border-green-200',
+        color: 'text-green-400',
+        bg: 'bg-green-950/50',
+        border: 'border-green-800/40',
     },
     moderate: {
-        color: 'text-amber-700',
-        bg: 'bg-amber-50',
-        border: 'border-amber-200',
+        color: 'text-amber-400',
+        bg: 'bg-amber-950/50',
+        border: 'border-amber-800/40',
     },
     high: {
-        color: 'text-orange-700',
-        bg: 'bg-orange-50',
-        border: 'border-orange-200',
+        color: 'text-orange-400',
+        bg: 'bg-orange-950/50',
+        border: 'border-orange-800/40',
     },
     critical: {
-        color: 'text-red-700',
-        bg: 'bg-red-50',
-        border: 'border-red-200',
+        color: 'text-red-400',
+        bg: 'bg-red-950/50',
+        border: 'border-red-800/40',
     },
     none: {
-        color: 'text-green-700',
-        bg: 'bg-green-50',
-        border: 'border-green-200',
+        color: 'text-green-400',
+        bg: 'bg-green-950/50',
+        border: 'border-green-800/40',
     },
 }
 
@@ -147,7 +148,7 @@ export function ScannerPage() {
             <div className="page-header-banner rounded-2xl">
                 <div className="relative text-center space-y-2">
                     <div className="page-header-icon">
-                        <Camera className="h-6 w-6 text-primary-600" />
+                        <Camera className="h-6 w-6 text-primary-400" />
                     </div>
                     <h1 className="page-title">{t('scanner.title')}</h1>
                     <p className="page-subtitle">{t('scanner.subtitle')}</p>
@@ -156,7 +157,7 @@ export function ScannerPage() {
 
             {/* Upload area */}
             <div
-                className="border-2 border-dashed border-neutral-200 rounded-xl p-8 text-center cursor-pointer hover:border-primary-400 hover:bg-primary-50/20 transition-all duration-200 group"
+                className="border-2 border-dashed border-white/10 rounded-xl p-8 text-center cursor-pointer hover:border-primary-400 hover:bg-primary-500/10 transition-all duration-200 group"
                 onClick={() => fileInputRef.current?.click()}
             >
                 <input
@@ -175,13 +176,13 @@ export function ScannerPage() {
                     />
                 ) : (
                     <div className="space-y-3">
-                        <div className="w-16 h-16 rounded-xl bg-neutral-100 flex items-center justify-center mx-auto group-hover:scale-105 transition-transform duration-200">
-                            <Upload className="h-8 w-8 text-neutral-400" />
+                        <div className="w-16 h-16 rounded-xl bg-white/[0.06] flex items-center justify-center mx-auto group-hover:scale-105 transition-transform duration-200">
+                            <Upload className="h-8 w-8 text-neutral-500" />
                         </div>
                         <p className="font-medium">
                             {t('scanner.uploadPrompt')}
                         </p>
-                        <p className="text-sm text-neutral-500">
+                        <p className="text-sm text-neutral-400">
                             {t('scanner.uploadHint')}
                         </p>
                     </div>
@@ -190,21 +191,21 @@ export function ScannerPage() {
 
             {/* Scan button */}
             {preview && !scanning && (
-                <button
+                <Button
                     onClick={() => fileInputRef.current?.click()}
-                    className="w-full btn-primary flex items-center justify-center gap-2 py-3 rounded-xl"
+                    className="w-full gap-2"
                 >
                     <Camera className="h-5 w-5" />
                     {t('scanner.scanAnother')}
-                </button>
+                </Button>
             )}
 
             {/* Scanning indicator */}
             {scanning && (
                 <div className="flex flex-col items-center gap-3 py-8">
-                    <Loader2 className="h-8 w-8 animate-spin text-primary-600" />
+                    <Loader2 className="h-8 w-8 animate-spin text-primary-400" />
                     <p className="font-medium">{t('scanner.analyzing')}</p>
-                    <p className="text-sm text-neutral-500">
+                    <p className="text-sm text-neutral-400">
                         {t('scanner.wait')}
                     </p>
                 </div>
@@ -212,13 +213,13 @@ export function ScannerPage() {
 
             {/* Error */}
             {error && (
-                <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex gap-3">
-                    <AlertTriangle className="h-5 w-5 text-red-600 shrink-0 mt-0.5" />
+                <div className="bg-red-950/50 border border-red-800/40 rounded-xl p-4 flex gap-3">
+                    <AlertTriangle className="h-5 w-5 text-red-400 shrink-0 mt-0.5" />
                     <div>
-                        <p className="font-medium text-red-800">
+                        <p className="font-medium text-red-300">
                             {t('scanner.errorTitle')}
                         </p>
-                        <p className="text-sm text-red-600">{error}</p>
+                        <p className="text-sm text-red-400">{error}</p>
                     </div>
                 </div>
             )}
@@ -227,9 +228,9 @@ export function ScannerPage() {
             {result && !scanning && (
                 <div className="space-y-4">
                     {!result.isPlant ? (
-                        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3">
-                            <AlertTriangle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
-                            <p className="text-amber-800">
+                        <div className="bg-amber-950/50 border border-amber-800/40 rounded-xl p-4 flex gap-3">
+                            <AlertTriangle className="h-5 w-5 text-amber-400 shrink-0 mt-0.5" />
+                            <p className="text-amber-300">
                                 {t('scanner.notPlant')}
                             </p>
                         </div>
@@ -242,9 +243,9 @@ export function ScannerPage() {
                                 <div className="flex items-start justify-between">
                                     <div>
                                         {result.cropName && (
-                                            <p className="text-sm text-neutral-500">
+                                            <p className="text-sm text-neutral-400">
                                                 {t('scanner.crop')}:{' '}
-                                                <span className="font-medium text-neutral-900">
+                                                <span className="font-medium text-white">
                                                     {result.cropName}
                                                 </span>
                                             </p>
@@ -257,7 +258,7 @@ export function ScannerPage() {
                                                 {result.diseaseName}
                                             </h2>
                                         ) : (
-                                            <h2 className="text-lg font-bold text-green-700">
+                                            <h2 className="text-lg font-bold text-green-400">
                                                 <CheckCircle className="inline h-5 w-5 mr-1" />
                                                 {t('scanner.healthy')}
                                             </h2>
@@ -284,8 +285,8 @@ export function ScannerPage() {
 
                             {/* Symptoms */}
                             {result.symptoms.length > 0 && (
-                                <div className="bg-white border border-neutral-200 rounded-xl p-4">
-                                    <h3 className="font-semibold mb-2 text-neutral-900">
+                                <div className="bg-white/[0.06] border border-white/10 rounded-xl p-4">
+                                    <h3 className="font-semibold mb-2 text-white">
                                         {t('scanner.symptoms')}
                                     </h3>
                                     <ul className="space-y-1">
@@ -306,8 +307,8 @@ export function ScannerPage() {
 
                             {/* Causes */}
                             {result.causes.length > 0 && (
-                                <div className="bg-white border border-neutral-200 rounded-xl p-4">
-                                    <h3 className="font-semibold mb-2 text-neutral-900">
+                                <div className="bg-white/[0.06] border border-white/10 rounded-xl p-4">
+                                    <h3 className="font-semibold mb-2 text-white">
                                         {t('scanner.causes')}
                                     </h3>
                                     <ul className="space-y-1">
@@ -328,15 +329,15 @@ export function ScannerPage() {
 
                             {/* Remedies */}
                             {result.remedies.length > 0 && (
-                                <div className="bg-white border border-neutral-200 rounded-xl p-4">
+                                <div className="bg-white/[0.06] border border-white/10 rounded-xl p-4">
                                     <button
                                         onClick={() =>
                                             setShowRemedies(!showRemedies)
                                         }
                                         className="flex items-center justify-between w-full"
                                     >
-                                        <h3 className="font-semibold flex items-center gap-2 text-neutral-900">
-                                            <Leaf className="h-4 w-4 text-green-600" />
+                                        <h3 className="font-semibold flex items-center gap-2 text-white">
+                                            <Leaf className="h-4 w-4 text-green-400" />
                                             {t('scanner.remedies')} (
                                             {result.remedies.length})
                                         </h3>
@@ -356,11 +357,11 @@ export function ScannerPage() {
                                                     <span
                                                         className={`shrink-0 px-1.5 py-0.5 rounded text-xs font-medium ${
                                                             r.type === 'organic'
-                                                                ? 'bg-green-100 text-green-700'
+                                                                ? 'bg-green-500/15 text-green-400'
                                                                 : r.type ===
                                                                     'biological'
-                                                                  ? 'bg-blue-100 text-blue-700'
-                                                                  : 'bg-purple-100 text-purple-700'
+                                                                  ? 'bg-blue-500/15 text-blue-400'
+                                                                  : 'bg-purple-500/15 text-purple-400'
                                                         }`}
                                                     >
                                                         {t(
@@ -377,8 +378,8 @@ export function ScannerPage() {
 
                             {/* Preventions */}
                             {result.preventions.length > 0 && (
-                                <div className="bg-white border border-neutral-200 rounded-xl p-4">
-                                    <h3 className="font-semibold mb-2 text-neutral-900">
+                                <div className="bg-white/[0.06] border border-white/10 rounded-xl p-4">
+                                    <h3 className="font-semibold mb-2 text-white">
                                         {t('scanner.preventions')}
                                     </h3>
                                     <ul className="space-y-1">
@@ -401,20 +402,20 @@ export function ScannerPage() {
                             {result.dbMatch && (
                                 <div className="space-y-4">
                                     {/* DB Match Header Card */}
-                                    <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-4">
+                                    <div className="bg-indigo-950/50 border border-indigo-800/40 rounded-xl p-4">
                                         <div className="flex items-start gap-3">
-                                            <Database className="h-5 w-5 text-indigo-600 shrink-0 mt-0.5" />
+                                            <Database className="h-5 w-5 text-indigo-400 shrink-0 mt-0.5" />
                                             <div className="flex-1">
-                                                <h3 className="font-semibold text-indigo-900 flex items-center gap-2">
+                                                <h3 className="font-semibold text-indigo-300 flex items-center gap-2">
                                                     {t('scanner.dbMatch.title')}
                                                 </h3>
-                                                <p className="text-sm text-indigo-700 mt-1">
+                                                <p className="text-sm text-indigo-400 mt-1">
                                                     {t(
                                                         'scanner.dbMatch.description',
                                                     )}
                                                 </p>
                                                 <div className="mt-3 flex items-center gap-3">
-                                                    <span className="text-sm font-medium text-indigo-800">
+                                                    <span className="text-sm font-medium text-indigo-300">
                                                         {currentLanguage ===
                                                         'te'
                                                             ? result.dbMatch
@@ -423,7 +424,7 @@ export function ScannerPage() {
                                                                   .name.en}
                                                     </span>
                                                     {result.dbMatch.type && (
-                                                        <span className="px-2 py-0.5 rounded-full text-xs bg-indigo-100 text-indigo-700 border border-indigo-200">
+                                                        <span className="px-2 py-0.5 rounded-full text-xs bg-indigo-500/15 text-indigo-400 border border-indigo-800/40">
                                                             {currentLanguage ===
                                                             'te'
                                                                 ? result.dbMatch
@@ -435,7 +436,7 @@ export function ScannerPage() {
                                                 </div>
                                                 <Link
                                                     to={`/diseases/${result.dbMatch.id}`}
-                                                    className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-indigo-700 hover:text-indigo-900 hover:underline"
+                                                    className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-indigo-400 hover:text-indigo-300 hover:underline"
                                                 >
                                                     <BookOpen className="h-4 w-4" />
                                                     {t(
@@ -449,7 +450,7 @@ export function ScannerPage() {
 
                                     {/* DB Remedies */}
                                     {result.dbMatch.remedies.length > 0 && (
-                                        <div className="bg-white border border-indigo-200 rounded-xl p-4">
+                                        <div className="bg-white/[0.06] border border-indigo-800/40 rounded-xl p-4">
                                             <button
                                                 onClick={() =>
                                                     setShowDbRemedies(
@@ -458,8 +459,8 @@ export function ScannerPage() {
                                                 }
                                                 className="flex items-center justify-between w-full"
                                             >
-                                                <h3 className="font-semibold flex items-center gap-2 text-indigo-800">
-                                                    <FlaskConical className="h-4 w-4 text-indigo-600" />
+                                                <h3 className="font-semibold flex items-center gap-2 text-indigo-300">
+                                                    <FlaskConical className="h-4 w-4 text-indigo-400" />
                                                     {t(
                                                         'scanner.dbMatch.remedies',
                                                     )}{' '}
@@ -471,9 +472,9 @@ export function ScannerPage() {
                                                     )
                                                 </h3>
                                                 {showDbRemedies ? (
-                                                    <ChevronUp className="h-4 w-4 text-indigo-600" />
+                                                    <ChevronUp className="h-4 w-4 text-indigo-400" />
                                                 ) : (
-                                                    <ChevronDown className="h-4 w-4 text-indigo-600" />
+                                                    <ChevronDown className="h-4 w-4 text-indigo-400" />
                                                 )}
                                             </button>
                                             {showDbRemedies && (
@@ -482,7 +483,7 @@ export function ScannerPage() {
                                                         (remedy) => (
                                                             <div
                                                                 key={remedy.id}
-                                                                className="border border-indigo-100 rounded-lg p-3 space-y-2"
+                                                                className="border border-indigo-800/30 rounded-lg p-3 space-y-2"
                                                             >
                                                                 <div className="flex items-center gap-2">
                                                                     <span className="font-medium text-sm">
@@ -496,7 +497,7 @@ export function ScannerPage() {
                                                                                   .en}
                                                                     </span>
                                                                     {remedy.type && (
-                                                                        <span className="px-1.5 py-0.5 rounded text-xs bg-indigo-50 text-indigo-700">
+                                                                        <span className="px-1.5 py-0.5 rounded text-xs bg-indigo-950/50 text-indigo-400">
                                                                             {currentLanguage ===
                                                                             'te'
                                                                                 ? remedy
@@ -512,11 +513,11 @@ export function ScannerPage() {
                                                                             className={`px-1.5 py-0.5 rounded text-xs font-medium ${
                                                                                 remedy.effectiveness ===
                                                                                 'High'
-                                                                                    ? 'bg-green-100 text-green-700'
+                                                                                    ? 'bg-green-500/15 text-green-400'
                                                                                     : remedy.effectiveness ===
                                                                                         'Moderate'
-                                                                                      ? 'bg-amber-100 text-amber-700'
-                                                                                      : 'bg-neutral-100 text-neutral-600'
+                                                                                      ? 'bg-amber-500/15 text-amber-400'
+                                                                                      : 'bg-white/[0.06] text-neutral-400'
                                                                             }`}
                                                                         >
                                                                             {t(
@@ -526,7 +527,7 @@ export function ScannerPage() {
                                                                     )}
                                                                 </div>
                                                                 {remedy.how_it_works && (
-                                                                    <p className="text-xs text-neutral-500">
+                                                                    <p className="text-xs text-neutral-400">
                                                                         {currentLanguage ===
                                                                         'te'
                                                                             ? remedy
@@ -543,7 +544,7 @@ export function ScannerPage() {
                                                                         .length >
                                                                         0 && (
                                                                         <div className="text-xs">
-                                                                            <span className="font-medium text-neutral-500">
+                                                                            <span className="font-medium text-neutral-400">
                                                                                 {t(
                                                                                     'scanner.dbMatch.ingredients',
                                                                                 )}
@@ -571,7 +572,7 @@ export function ScannerPage() {
                                                                         .length >
                                                                         0 && (
                                                                         <div className="text-xs">
-                                                                            <span className="font-medium text-neutral-500">
+                                                                            <span className="font-medium text-neutral-400">
                                                                                 {t(
                                                                                     'scanner.dbMatch.usage',
                                                                                 )}
@@ -610,9 +611,9 @@ export function ScannerPage() {
 
                                     {/* DB Treatments */}
                                     {result.dbMatch.treatments.length > 0 && (
-                                        <div className="bg-white border border-indigo-200 rounded-xl p-4">
-                                            <h3 className="font-semibold mb-2 flex items-center gap-2 text-indigo-800">
-                                                <Leaf className="h-4 w-4 text-indigo-600" />
+                                        <div className="bg-white/[0.06] border border-indigo-800/40 rounded-xl p-4">
+                                            <h3 className="font-semibold mb-2 flex items-center gap-2 text-indigo-300">
+                                                <Leaf className="h-4 w-4 text-indigo-400" />
                                                 {t(
                                                     'scanner.dbMatch.treatments',
                                                 )}
@@ -646,10 +647,10 @@ export function ScannerPage() {
 
             {/* History toggle (logged-in users only) */}
             {user && (
-                <div className="border-t border-neutral-200 pt-4">
+                <div className="border-t border-white/10 pt-4">
                     <button
                         onClick={() => setShowHistory(!showHistory)}
-                        className="flex items-center gap-2 text-sm font-medium text-primary-600 hover:underline"
+                        className="flex items-center gap-2 text-sm font-medium text-primary-400 hover:underline"
                     >
                         <History className="h-4 w-4" />
                         {showHistory
@@ -662,14 +663,14 @@ export function ScannerPage() {
                             {historyLoading ? (
                                 <LoadingSpinner />
                             ) : history.length === 0 ? (
-                                <p className="text-sm text-neutral-500">
+                                <p className="text-sm text-neutral-400">
                                     {t('scanner.noHistory')}
                                 </p>
                             ) : (
                                 history.map((row) => (
                                     <div
                                         key={row.id}
-                                        className="flex items-center justify-between bg-white border border-neutral-200 rounded-xl p-3 cursor-pointer hover:bg-neutral-50 transition-all duration-200"
+                                        className="flex items-center justify-between bg-white/[0.06] border border-white/10 rounded-xl p-3 cursor-pointer hover:bg-white/[0.06] transition-all duration-200"
                                         onClick={() => loadHistoryResult(row)}
                                     >
                                         <div>
@@ -677,7 +678,7 @@ export function ScannerPage() {
                                                 {row.disease_name ||
                                                     t('scanner.healthy')}
                                             </p>
-                                            <p className="text-xs text-neutral-500">
+                                            <p className="text-xs text-neutral-400">
                                                 {row.crop_name ??
                                                     t(
                                                         'scanner.unknownCrop',
@@ -693,7 +694,7 @@ export function ScannerPage() {
                                                 e.stopPropagation()
                                                 handleDeleteHistory(row.id)
                                             }}
-                                            className="p-1 text-red-400 hover:text-red-600"
+                                            className="p-1 text-red-400 hover:text-red-400"
                                         >
                                             <Trash2 className="h-4 w-4" />
                                         </button>

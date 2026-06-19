@@ -26,14 +26,14 @@ export function EmptyState({
                 className,
             )}
         >
-            <div className="mb-5 w-16 h-16 rounded-xl bg-neutral-100 flex items-center justify-center text-neutral-400">
+            <div className="mb-5 w-16 h-16 rounded-xl bg-white/[0.06] flex items-center justify-center text-neutral-500">
                 {icon || <SearchX className="h-8 w-8" />}
             </div>
-            <h3 className="text-lg font-semibold text-neutral-900 mb-2 tracking-tight">
+            <h3 className="text-lg font-semibold text-white mb-2 tracking-tight">
                 {title || t('common.noResults')}
             </h3>
             {description && (
-                <p className="text-sm text-neutral-500 max-w-md mb-6 leading-relaxed">
+                <p className="text-sm text-neutral-400 max-w-md mb-6 leading-relaxed">
                     {description}
                 </p>
             )}

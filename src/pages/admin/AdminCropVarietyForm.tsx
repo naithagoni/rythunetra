@@ -16,6 +16,8 @@ import {
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
 import { MultiSelectDropdown } from '@/components/common/MultiSelectDropdown'
 import { Save, Trash2, Languages, X, ImageIcon, Plus } from 'lucide-react'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 import { translateText } from '@/services/translateService'
 import { DISTRICT_KEYS } from '@/config/districts'
 import type { LocalizedText, LocalizedTextArray } from '@/types/i18n'
@@ -371,18 +373,18 @@ export function AdminCropVarietyFormPage() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <Link
                 to={`/admin/crops/${cropId}/varieties`}
-                className="text-sm text-primary-600 hover:underline mb-1 inline-block"
+                className="text-sm text-primary-400 hover:underline mb-1 inline-block"
             >
                 ← {cropName} – {t('admin.varieties')}
             </Link>
             <div className="flex items-center justify-between mb-6">
-                <h1 className="text-2xl font-bold text-neutral-900">
+                <h1 className="text-2xl font-bold text-white">
                     {isNew ? t('admin.addVariety') : t('admin.editVariety')}
                 </h1>
                 {!isNew && (
                     <button
                         onClick={handleDelete}
-                        className="text-red-600 hover:text-red-700 p-2 rounded-lg hover:bg-red-50"
+                        className="text-red-400 hover:text-red-400 p-2 rounded-lg hover:bg-red-950/50"
                     >
                         <Trash2 className="h-5 w-5" />
                     </button>
@@ -391,7 +393,7 @@ export function AdminCropVarietyFormPage() {
 
             <form onSubmit={handleSave} className="space-y-6">
                 {/* ── Core Fields ────────────────────────── */}
-                <div className="bg-white rounded-xl border border-neutral-200 p-5 space-y-4">
+                <div className="bg-white/[0.06] rounded-xl border border-white/10 p-5 space-y-4">
                     <h2 className="font-semibold text-lg">
                         {t('admin.coreFields')}
                     </h2>
@@ -437,7 +439,7 @@ export function AdminCropVarietyFormPage() {
                                 type="button"
                                 onClick={() => fileInputRef.current?.click()}
                                 disabled={uploadingImage}
-                                className="flex items-center gap-2 px-4 py-3 border-2 border-dashed border-neutral-200 rounded-lg text-sm text-neutral-400 hover:border-primary-400 hover:text-primary-600 transition-colors disabled:opacity-50"
+                                className="flex items-center gap-2 px-4 py-3 border-2 border-dashed border-white/10 rounded-lg text-sm text-neutral-400 hover:border-primary-400 hover:text-primary-400 transition-colors disabled:opacity-50"
                             >
                                 {uploadingImage ? (
                                     <>
@@ -460,11 +462,10 @@ export function AdminCropVarietyFormPage() {
                             {t('admin.varietyName')} (EN){' '}
                             <span className="text-red-500">*</span>
                         </label>
-                        <input
+                        <Input
                             type="text"
                             value={enName}
                             onChange={(e) => setEnName(e.target.value)}
-                            className="input"
                             placeholder="e.g., BPT 5204 (Samba Mahsuri)"
                             required
                         />
@@ -481,7 +482,7 @@ export function AdminCropVarietyFormPage() {
                                 type="button"
                                 onClick={handleTranslate}
                                 disabled={translating || !enName.trim()}
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-amber-950/50 text-amber-400 border border-amber-800/40 hover:bg-amber-900/50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                             >
                                 <Languages className="h-3.5 w-3.5" />
                                 {translating
@@ -489,11 +490,10 @@ export function AdminCropVarietyFormPage() {
                                     : t('admin.translateFromEnglish')}
                             </button>
                         </div>
-                        <input
+                        <Input
                             type="text"
                             value={teName}
                             onChange={(e) => setTeName(e.target.value)}
-                            className="input"
                             placeholder="ఉదా., బీపీటీ 5204 (సాంబ మహసూరి)"
                             required
                         />
@@ -501,7 +501,7 @@ export function AdminCropVarietyFormPage() {
                 </div>
 
                 {/* ── Districts ───────────────────────────── */}
-                <div className="bg-white rounded-xl border border-neutral-200 p-5 space-y-4">
+                <div className="bg-white/[0.06] rounded-xl border border-white/10 p-5 space-y-4">
                     <h2 className="font-semibold text-lg">
                         {t('admin.districts')}
                     </h2>
@@ -518,7 +518,7 @@ export function AdminCropVarietyFormPage() {
                 </div>
 
                 {/* ── Recommended Seasons ─────────────────── */}
-                <div className="bg-white rounded-xl border border-neutral-200 p-5 space-y-4">
+                <div className="bg-white/[0.06] rounded-xl border border-white/10 p-5 space-y-4">
                     <div className="flex items-center justify-between">
                         <div>
                             <h2 className="font-semibold text-lg">
@@ -533,7 +533,7 @@ export function AdminCropVarietyFormPage() {
                             onClick={() =>
                                 setSeasons((p) => [...p, emptySeasonState()])
                             }
-                            className="text-sm text-primary-600 hover:text-primary-700 inline-flex items-center gap-1"
+                            className="text-sm text-primary-400 hover:text-primary-400 inline-flex items-center gap-1"
                         >
                             <Plus className="h-4 w-4" />
                             {t('admin.addSeason')}
@@ -543,7 +543,7 @@ export function AdminCropVarietyFormPage() {
                     {seasons.map((season, idx) => (
                         <div
                             key={idx}
-                            className="border border-neutral-200 rounded-lg p-4 space-y-3 bg-neutral-50"
+                            className="border border-white/10 rounded-lg p-4 space-y-3 bg-white/[0.03]"
                         >
                             <div className="flex items-center justify-between">
                                 <span className="text-sm font-medium">
@@ -552,7 +552,7 @@ export function AdminCropVarietyFormPage() {
                                 <button
                                     type="button"
                                     onClick={() => removeSeason(idx)}
-                                    className="text-red-500 hover:text-red-600 text-xs inline-flex items-center gap-1"
+                                    className="text-red-500 hover:text-red-400 text-xs inline-flex items-center gap-1"
                                 >
                                     <X className="h-3.5 w-3.5" />
                                     {t('admin.removeSeason')}
@@ -565,7 +565,7 @@ export function AdminCropVarietyFormPage() {
                                     <label className="block text-xs font-medium mb-1">
                                         {t('admin.seasonName')} (EN)
                                     </label>
-                                    <input
+                                    <Input
                                         type="text"
                                         value={season.nameEn}
                                         onChange={(e) =>
@@ -573,7 +573,7 @@ export function AdminCropVarietyFormPage() {
                                                 nameEn: e.target.value,
                                             })
                                         }
-                                        className="input text-sm"
+                                        className="text-sm"
                                         placeholder="e.g., Kharif"
                                     />
                                 </div>
@@ -581,7 +581,7 @@ export function AdminCropVarietyFormPage() {
                                     <label className="block text-xs font-medium mb-1">
                                         {t('admin.seasonName')} (TE)
                                     </label>
-                                    <input
+                                    <Input
                                         type="text"
                                         value={season.nameTe}
                                         onChange={(e) =>
@@ -589,7 +589,7 @@ export function AdminCropVarietyFormPage() {
                                                 nameTe: e.target.value,
                                             })
                                         }
-                                        className="input text-sm"
+                                        className="text-sm"
                                         placeholder="ఉదా., ఖరీఫ్"
                                     />
                                 </div>
@@ -601,7 +601,7 @@ export function AdminCropVarietyFormPage() {
                                     <label className="block text-xs font-medium mb-1">
                                         {t('admin.durationMin')}
                                     </label>
-                                    <input
+                                    <Input
                                         type="number"
                                         min={1}
                                         value={season.durationMin}
@@ -610,7 +610,7 @@ export function AdminCropVarietyFormPage() {
                                                 durationMin: e.target.value,
                                             })
                                         }
-                                        className="input text-sm"
+                                        className="text-sm"
                                         placeholder="e.g., 120"
                                     />
                                 </div>
@@ -618,7 +618,7 @@ export function AdminCropVarietyFormPage() {
                                     <label className="block text-xs font-medium mb-1">
                                         {t('admin.durationMax')}
                                     </label>
-                                    <input
+                                    <Input
                                         type="number"
                                         min={1}
                                         value={season.durationMax}
@@ -627,7 +627,7 @@ export function AdminCropVarietyFormPage() {
                                                 durationMax: e.target.value,
                                             })
                                         }
-                                        className="input text-sm"
+                                        className="text-sm"
                                         placeholder="e.g., 150"
                                     />
                                 </div>
@@ -664,7 +664,7 @@ export function AdminCropVarietyFormPage() {
                 </div>
 
                 {/* ── Grain Character ─────────────────────── */}
-                <div className="bg-white rounded-xl border border-neutral-200 p-5 space-y-4">
+                <div className="bg-white/[0.06] rounded-xl border border-white/10 p-5 space-y-4">
                     <div>
                         <h2 className="font-semibold text-lg">
                             {t('admin.grainCharacter')}
@@ -680,7 +680,7 @@ export function AdminCropVarietyFormPage() {
                         </label>
                         {grainCharEn.map((v, i) => (
                             <div key={i} className="flex gap-2 mb-2">
-                                <input
+                                <Input
                                     type="text"
                                     value={v}
                                     onChange={(e) => {
@@ -688,7 +688,7 @@ export function AdminCropVarietyFormPage() {
                                         u[i] = e.target.value
                                         setGrainCharEn(u)
                                     }}
-                                    className="input flex-1 text-sm"
+                                    className="flex-1 text-sm"
                                     placeholder={`Grain character ${i + 1}`}
                                 />
                                 <button
@@ -701,7 +701,7 @@ export function AdminCropVarietyFormPage() {
                                             p.filter((_, j) => j !== i),
                                         )
                                     }}
-                                    className="text-red-500 hover:text-red-600 p-1"
+                                    className="text-red-500 hover:text-red-400 p-1"
                                 >
                                     <X className="h-4 w-4" />
                                 </button>
@@ -713,7 +713,7 @@ export function AdminCropVarietyFormPage() {
                                 setGrainCharEn((p) => [...p, ''])
                                 setGrainCharTe((p) => [...p, ''])
                             }}
-                            className="text-xs text-primary-600 hover:text-primary-700 inline-flex items-center gap-1"
+                            className="text-xs text-primary-400 hover:text-primary-400 inline-flex items-center gap-1"
                         >
                             <Plus className="h-3.5 w-3.5" /> Add
                         </button>
@@ -725,7 +725,7 @@ export function AdminCropVarietyFormPage() {
                         </label>
                         {grainCharTe.map((v, i) => (
                             <div key={i} className="flex gap-2 mb-2">
-                                <input
+                                <Input
                                     type="text"
                                     value={v}
                                     onChange={(e) => {
@@ -733,7 +733,7 @@ export function AdminCropVarietyFormPage() {
                                         u[i] = e.target.value
                                         setGrainCharTe(u)
                                     }}
-                                    className="input flex-1 text-sm"
+                                    className="flex-1 text-sm"
                                     placeholder={`గింజ లక్షణం ${i + 1}`}
                                 />
                                 <button
@@ -746,7 +746,7 @@ export function AdminCropVarietyFormPage() {
                                             p.filter((_, j) => j !== i),
                                         )
                                     }}
-                                    className="text-red-500 hover:text-red-600 p-1"
+                                    className="text-red-500 hover:text-red-400 p-1"
                                 >
                                     <X className="h-4 w-4" />
                                 </button>
@@ -756,7 +756,7 @@ export function AdminCropVarietyFormPage() {
                 </div>
 
                 {/* ── Special Characteristics ────────────── */}
-                <div className="bg-white rounded-xl border border-neutral-200 p-5 space-y-4">
+                <div className="bg-white/[0.06] rounded-xl border border-white/10 p-5 space-y-4">
                     <div className="flex items-center justify-between">
                         <div>
                             <h2 className="font-semibold text-lg">
@@ -774,7 +774,7 @@ export function AdminCropVarietyFormPage() {
                                     { en: '', te: '' },
                                 ])
                             }
-                            className="text-sm text-primary-600 hover:text-primary-700 inline-flex items-center gap-1"
+                            className="text-sm text-primary-400 hover:text-primary-400 inline-flex items-center gap-1"
                         >
                             <Plus className="h-4 w-4" />
                             {t('admin.addCharacteristic')}
@@ -784,7 +784,7 @@ export function AdminCropVarietyFormPage() {
                     {specialChars.map((c, i) => (
                         <div
                             key={i}
-                            className="border border-neutral-200 rounded-lg p-3 space-y-2 bg-neutral-50"
+                            className="border border-white/10 rounded-lg p-3 space-y-2 bg-white/[0.03]"
                         >
                             <div className="flex items-center justify-between">
                                 <span className="text-xs font-medium">
@@ -797,12 +797,12 @@ export function AdminCropVarietyFormPage() {
                                             p.filter((_, j) => j !== i),
                                         )
                                     }
-                                    className="text-red-500 hover:text-red-600 p-1"
+                                    className="text-red-500 hover:text-red-400 p-1"
                                 >
                                     <X className="h-3.5 w-3.5" />
                                 </button>
                             </div>
-                            <input
+                            <Input
                                 type="text"
                                 value={c.en}
                                 onChange={(e) => {
@@ -810,10 +810,10 @@ export function AdminCropVarietyFormPage() {
                                     u[i] = { ...u[i], en: e.target.value }
                                     setSpecialChars(u)
                                 }}
-                                className="input text-sm"
+                                className="text-sm"
                                 placeholder="English description"
                             />
-                            <input
+                            <Input
                                 type="text"
                                 value={c.te}
                                 onChange={(e) => {
@@ -821,7 +821,7 @@ export function AdminCropVarietyFormPage() {
                                     u[i] = { ...u[i], te: e.target.value }
                                     setSpecialChars(u)
                                 }}
-                                className="input text-sm"
+                                className="text-sm"
                                 placeholder="తెలుగు వివరణ"
                             />
                         </div>
@@ -835,7 +835,7 @@ export function AdminCropVarietyFormPage() {
                 </div>
 
                 {/* ── Linked Diseases ─────────────────────── */}
-                <div className="bg-white rounded-xl border border-neutral-200 p-5 space-y-4">
+                <div className="bg-white/[0.06] rounded-xl border border-white/10 p-5 space-y-4">
                     <h2 className="font-semibold text-lg">
                         {t('admin.linkedDiseases')}
                     </h2>
@@ -854,20 +854,20 @@ export function AdminCropVarietyFormPage() {
                 {/* ── Actions ─────────────────────────────── */}
                 {message && (
                     <p
-                        className={`text-sm font-medium ${message === t('admin.saved') ? 'text-green-600' : 'text-red-600'}`}
+                        className={`text-sm font-medium ${message === t('admin.saved') ? 'text-green-400' : 'text-red-400'}`}
                     >
                         {message}
                     </p>
                 )}
 
-                <button
+                <Button
                     type="submit"
                     disabled={saveDisabled}
-                    className="btn-primary w-full inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     <Save className="h-4 w-4" />
                     {saving ? t('common.saving') : t('common.save')}
-                </button>
+                </Button>
             </form>
         </div>
     )

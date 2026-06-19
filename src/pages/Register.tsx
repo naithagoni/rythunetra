@@ -8,6 +8,12 @@ import { CustomDropdown } from '@/components/common/CustomDropdown'
 import { DISTRICT_KEYS } from '@/config/districts'
 import { getMandalsForDistrict } from '@/config/mandals'
 import { Mail, Lock, User, UserPlus, MapPin } from 'lucide-react'
+import { Card, CardContent } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Separator } from '@/components/ui/separator'
 
 export function RegisterPage() {
     const { t } = useTranslation()
@@ -42,7 +48,7 @@ export function RegisterPage() {
 
     const handleDistrictChange = (value: string) => {
         setDistrict(value)
-        setMandal('') // Reset mandal when district changes
+        setMandal('')
     }
 
     const handleSubmit = async (e: React.SyntheticEvent) => {
@@ -74,172 +80,182 @@ export function RegisterPage() {
     return (
         <div className="min-h-[60vh] flex items-center justify-center px-4 py-12">
             <div className="w-full max-w-md">
-                <div className="page-header-banner rounded-2xl mb-6">
-                    <div className="relative text-center">
-                        <div className="page-header-icon">
-                            <UserPlus className="h-6 w-6 text-primary-600" />
-                        </div>
-                        <h1 className="page-title">
-                            {t('auth.registerTitle')}
-                        </h1>
-                        <p className="page-subtitle">
-                            {t('home.heroSubtitle')}
-                        </p>
+                <div className="text-center mb-6">
+                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 mb-3">
+                        <UserPlus className="h-6 w-6 text-primary" />
                     </div>
+                    <h1 className="text-2xl font-bold text-foreground">
+                        {t('auth.registerTitle')}
+                    </h1>
+                    <p className="text-sm text-muted-foreground mt-1">
+                        {t('home.heroSubtitle')}
+                    </p>
                 </div>
 
-                <div className="bg-white rounded-2xl border border-neutral-200 p-6 sm:p-8 shadow-card">
-                    {error && (
-                        <div className="bg-red-50 text-red-700 text-sm p-3 rounded-lg mb-4">
-                            {error}
-                        </div>
-                    )}
+                <Card>
+                    <CardContent className="p-6 sm:p-8">
+                        {error && (
+                            <Alert variant="destructive" className="mb-4">
+                                <AlertDescription>{error}</AlertDescription>
+                            </Alert>
+                        )}
 
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-neutral-900 mb-1">
-                                {t('auth.name')}{' '}
-                                <span className="text-red-500">*</span>
-                            </label>
-                            <div className="relative">
-                                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" />
-                                <input
-                                    type="text"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    className="input pl-10"
-                                    placeholder={t('auth.name')}
-                                    required
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div className="space-y-1.5">
+                                <Label htmlFor="name">
+                                    {t('auth.name')}{' '}
+                                    <span className="text-destructive">*</span>
+                                </Label>
+                                <div className="relative">
+                                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input
+                                        id="name"
+                                        type="text"
+                                        value={name}
+                                        onChange={(e) =>
+                                            setName(e.target.value)
+                                        }
+                                        className="pl-10"
+                                        placeholder={t('auth.name')}
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="space-y-1.5">
+                                <Label htmlFor="email">
+                                    {t('auth.email')}{' '}
+                                    <span className="text-destructive">*</span>
+                                </Label>
+                                <div className="relative">
+                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input
+                                        id="email"
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) =>
+                                            setEmail(e.target.value)
+                                        }
+                                        className="pl-10"
+                                        placeholder="you@example.com"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="space-y-1.5">
+                                <Label htmlFor="password">
+                                    {t('auth.password')}{' '}
+                                    <span className="text-destructive">*</span>
+                                </Label>
+                                <div className="relative">
+                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input
+                                        id="password"
+                                        type="password"
+                                        value={password}
+                                        onChange={(e) =>
+                                            setPassword(e.target.value)
+                                        }
+                                        className="pl-10"
+                                        placeholder="••••••••"
+                                        required
+                                        minLength={6}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="space-y-1.5">
+                                <Label>
+                                    <span className="flex items-center gap-1.5">
+                                        <MapPin className="h-4 w-4" />
+                                        {t('settings.district')}{' '}
+                                        <span className="text-destructive">
+                                            *
+                                        </span>
+                                    </span>
+                                </Label>
+                                <CustomDropdown
+                                    options={districtOptions}
+                                    value={district}
+                                    onChange={handleDistrictChange}
+                                    placeholder={t('settings.selectDistrict')}
+                                    ariaLabel={t('settings.district')}
+                                    variant="form"
                                 />
                             </div>
-                        </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-neutral-900 mb-1">
-                                {t('auth.email')}{' '}
-                                <span className="text-red-500">*</span>
-                            </label>
-                            <div className="relative">
-                                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" />
-                                <input
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="input pl-10"
-                                    placeholder="you@example.com"
-                                    required
-                                />
-                            </div>
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-neutral-900 mb-1">
-                                {t('auth.password')}{' '}
-                                <span className="text-red-500">*</span>
-                            </label>
-                            <div className="relative">
-                                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400" />
-                                <input
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) =>
-                                        setPassword(e.target.value)
+                            <div className="space-y-1.5">
+                                <Label>
+                                    <span className="flex items-center gap-1.5">
+                                        <MapPin className="h-4 w-4" />
+                                        {t('settings.mandal')}{' '}
+                                        <span className="text-destructive">
+                                            *
+                                        </span>
+                                    </span>
+                                </Label>
+                                <CustomDropdown
+                                    options={mandalOptions}
+                                    value={mandal}
+                                    onChange={setMandal}
+                                    placeholder={
+                                        district
+                                            ? t('settings.selectMandal')
+                                            : t(
+                                                  'settings.selectDistrictFirst',
+                                              )
                                     }
-                                    className="input pl-10"
-                                    placeholder="••••••••"
-                                    required
-                                    minLength={6}
+                                    ariaLabel={t('settings.mandal')}
+                                    variant="form"
                                 />
                             </div>
-                        </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-neutral-900 mb-1">
-                                <span className="flex items-center gap-1.5">
-                                    <MapPin className="h-4 w-4" />
-                                    {t('settings.district')}{' '}
-                                    <span className="text-red-500">*</span>
-                                </span>
-                            </label>
-                            <CustomDropdown
-                                options={districtOptions}
-                                value={district}
-                                onChange={handleDistrictChange}
-                                placeholder={t('settings.selectDistrict')}
-                                ariaLabel={t('settings.district')}
-                                variant="form"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-neutral-900 mb-1">
-                                <span className="flex items-center gap-1.5">
-                                    <MapPin className="h-4 w-4" />
-                                    {t('settings.mandal')}{' '}
-                                    <span className="text-red-500">*</span>
-                                </span>
-                            </label>
-                            <CustomDropdown
-                                options={mandalOptions}
-                                value={mandal}
-                                onChange={setMandal}
-                                placeholder={
-                                    district
-                                        ? t('settings.selectMandal')
-                                        : t('settings.selectDistrictFirst')
+                            <Button
+                                type="submit"
+                                disabled={
+                                    loading ||
+                                    !name.trim() ||
+                                    !email.trim() ||
+                                    !password ||
+                                    !district ||
+                                    !mandal
                                 }
-                                ariaLabel={t('settings.mandal')}
-                                variant="form"
-                            />
-                        </div>
+                                className="w-full"
+                            >
+                                {loading
+                                    ? t('common.loading')
+                                    : t('auth.registerTitle')}
+                            </Button>
+                        </form>
 
-                        <button
-                            type="submit"
-                            disabled={
-                                loading ||
-                                !name.trim() ||
-                                !email.trim() ||
-                                !password ||
-                                !district ||
-                                !mandal
-                            }
-                            className="btn-primary w-full"
-                        >
-                            {loading
-                                ? t('common.loading')
-                                : t('auth.registerTitle')}
-                        </button>
-                    </form>
-
-                    <div className="relative my-6">
-                        <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-neutral-200" />
-                        </div>
-                        <div className="relative flex justify-center text-sm">
-                            <span className="bg-white px-2 text-neutral-400">
+                        <div className="relative my-6">
+                            <Separator />
+                            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-sm text-muted-foreground">
                                 {t('auth.orContinueWith')}
                             </span>
                         </div>
-                    </div>
 
-                    <button
-                        onClick={handleGoogleSignUp}
-                        className="btn-secondary w-full flex items-center justify-center gap-2"
-                    >
-                        <GoogleIcon />
-                        Google
-                    </button>
-
-                    <p className="text-center text-sm text-neutral-500 mt-6">
-                        {t('auth.hasAccount')}{' '}
-                        <Link
-                            to="/login"
-                            className="text-primary-600 hover:text-primary-700 font-medium"
+                        <Button
+                            variant="outline"
+                            onClick={handleGoogleSignUp}
+                            className="w-full gap-2"
                         >
-                            {t('auth.loginTitle')}
-                        </Link>
-                    </p>
-                </div>
+                            <GoogleIcon />
+                            Google
+                        </Button>
+
+                        <p className="text-center text-sm text-muted-foreground mt-6">
+                            {t('auth.hasAccount')}{' '}
+                            <Link
+                                to="/login"
+                                className="text-primary hover:text-primary/80 font-medium"
+                            >
+                                {t('auth.loginTitle')}
+                            </Link>
+                        </p>
+                    </CardContent>
+                </Card>
             </div>
         </div>
     )

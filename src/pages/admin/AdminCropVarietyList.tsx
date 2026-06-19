@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { adminGetCropVarieties, adminGetCrop } from '@/services/adminService'
 import { Plus, Edit } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
 import type { CropVarietyRow } from '@/types/crop'
 import type { LocalizedText } from '@/types/i18n'
@@ -36,29 +37,28 @@ export function AdminCropVarietyListPage() {
                 <div>
                     <Link
                         to={`/admin/crops/${cropId}`}
-                        className="text-sm text-primary-600 hover:underline mb-1 inline-block"
+                        className="text-sm text-primary-400 hover:underline mb-1 inline-block"
                     >
                         ← {cropName}
                     </Link>
-                    <h1 className="text-2xl font-bold text-neutral-900">
+                    <h1 className="text-2xl font-bold text-white">
                         {t('admin.varieties')}
                     </h1>
                     <p className="text-sm text-neutral-400">
                         {varieties.length} {t('common.total')}
                     </p>
                 </div>
-                <Link
-                    to={`/admin/crops/${cropId}/varieties/add`}
-                    className="btn-primary inline-flex items-center gap-2"
-                >
-                    <Plus className="h-4 w-4" />
-                    {t('admin.addVariety')}
-                </Link>
+                <Button asChild className="gap-2">
+                    <Link to={`/admin/crops/${cropId}/varieties/add`}>
+                        <Plus className="h-4 w-4" />
+                        {t('admin.addVariety')}
+                    </Link>
+                </Button>
             </div>
 
-            <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
+            <div className="bg-white/[0.06] rounded-xl border border-white/10 overflow-hidden">
                 <table className="w-full text-sm">
-                    <thead className="bg-neutral-50 border-b border-neutral-200">
+                    <thead className="bg-white/[0.03] border-b border-white/10">
                         <tr>
                             <th className="text-left px-4 py-3 font-semibold">
                                 ID
@@ -86,7 +86,7 @@ export function AdminCropVarietyListPage() {
                             return (
                                 <tr
                                     key={v.id}
-                                    className="border-b border-neutral-200 last:border-0 hover:bg-neutral-50"
+                                    className="border-b border-white/10 last:border-0 hover:bg-white/[0.06]"
                                 >
                                     <td className="px-4 py-3 text-xs text-neutral-400 font-mono">
                                         {v.id.slice(0, 8)}
@@ -110,7 +110,7 @@ export function AdminCropVarietyListPage() {
                                     <td className="px-4 py-3 text-right">
                                         <Link
                                             to={`/admin/crops/${cropId}/varieties/${v.id}`}
-                                            className="text-primary-600 hover:underline inline-flex items-center gap-1"
+                                            className="text-primary-400 hover:underline inline-flex items-center gap-1"
                                         >
                                             <Edit className="h-3.5 w-3.5" />
                                             {t('common.edit')}
