@@ -19,11 +19,16 @@ import {
     ChevronRight,
     MapPin,
 } from 'lucide-react'
+import { toast } from 'sonner'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import {
+    Field,
+    FieldDescription,
+    FieldGroup,
+    FieldLabel,
+} from '@/components/ui/field'
 
 export function SettingsPage() {
     const { t } = useTranslation()
@@ -36,7 +41,6 @@ export function SettingsPage() {
     const [district, setDistrict] = useState(user?.district || '')
     const [mandal, setMandal] = useState(user?.mandal || '')
     const [saving, setSaving] = useState(false)
-    const [message, setMessage] = useState('')
 
     const districtOptions = useMemo(
         () =>
@@ -64,16 +68,15 @@ export function SettingsPage() {
     const handleUpdateProfile = async (e: React.SyntheticEvent) => {
         e.preventDefault()
         setSaving(true)
-        setMessage('')
         try {
             await updateUserProfile(
                 user!.id,
                 { name, district, mandal },
                 currentLanguage,
             )
-            setMessage(t('settings.saved'))
+            toast.success(t('settings.saved'))
         } catch {
-            setMessage(t('errors.generic'))
+            toast.error(t('errors.generic'))
         } finally {
             setSaving(false)
         }
@@ -92,7 +95,7 @@ export function SettingsPage() {
                 </h1>
             </div>
 
-            <div className="space-y-5">
+            <div className="flex flex-col gap-5">
                 {/* Quick Links */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <Link to="/my-preparations">
@@ -100,7 +103,7 @@ export function SettingsPage() {
                             <CardContent className="p-4 flex items-center justify-between">
                                 <div className="flex items-center gap-3">
                                     <div className="p-2.5 rounded-lg bg-violet-950/50">
-                                        <FlaskConical className="h-5 w-5 text-violet-400" />
+                                        <FlaskConical className="size-5 text-violet-400" />
                                     </div>
                                     <div>
                                         <p className="font-semibold text-sm">
@@ -111,7 +114,7 @@ export function SettingsPage() {
                                         </p>
                                     </div>
                                 </div>
-                                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                                <ChevronRight className="size-4 text-muted-foreground" />
                             </CardContent>
                         </Card>
                     </Link>
@@ -122,7 +125,7 @@ export function SettingsPage() {
                                 <CardContent className="p-4 flex items-center justify-between">
                                     <div className="flex items-center gap-3">
                                         <div className="p-2.5 rounded-lg bg-[#D4A72C]/10">
-                                            <Shield className="h-5 w-5 text-[#D4A72C]" />
+                                            <Shield className="size-5 text-[#D4A72C]" />
                                         </div>
                                         <div>
                                             <p className="font-semibold text-sm text-[#D4A72C]">
@@ -133,7 +136,7 @@ export function SettingsPage() {
                                             </p>
                                         </div>
                                     </div>
-                                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                                    <ChevronRight className="size-4 text-muted-foreground" />
                                 </CardContent>
                             </Card>
                         </Link>
@@ -144,112 +147,94 @@ export function SettingsPage() {
                 <Card>
                     <CardContent className="p-6">
                         <div className="flex items-center gap-3 mb-4">
-                            <User className="h-5 w-5 text-primary" />
+                            <User className="size-5 text-primary" />
                             <h2 className="text-lg font-semibold">
                                 {t('settings.profile')}
                             </h2>
                         </div>
 
-                        <form
-                            onSubmit={handleUpdateProfile}
-                            className="space-y-4"
-                        >
-                            <div className="space-y-1.5">
-                                <Label htmlFor="settings-name">
-                                    {t('auth.name')}
-                                </Label>
-                                <Input
-                                    id="settings-name"
-                                    type="text"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                />
-                            </div>
+                        <form onSubmit={handleUpdateProfile}>
+                            <FieldGroup>
+                                <Field>
+                                    <FieldLabel htmlFor="settings-name">
+                                        {t('auth.name')}
+                                    </FieldLabel>
+                                    <Input
+                                        id="settings-name"
+                                        type="text"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                    />
+                                </Field>
 
-                            <div className="space-y-1.5">
-                                <Label htmlFor="settings-email">
-                                    {t('auth.email')}
-                                </Label>
-                                <Input
-                                    id="settings-email"
-                                    type="email"
-                                    value={user?.email || ''}
-                                    disabled
-                                    className="bg-muted"
-                                />
-                            </div>
+                                <Field>
+                                    <FieldLabel htmlFor="settings-email">
+                                        {t('auth.email')}
+                                    </FieldLabel>
+                                    <Input
+                                        id="settings-email"
+                                        type="email"
+                                        value={user?.email || ''}
+                                        disabled
+                                    />
+                                </Field>
 
-                            <div className="space-y-1.5">
-                                <Label>
-                                    <span className="flex items-center gap-1.5">
-                                        <MapPin className="h-4 w-4" />
+                                <Field>
+                                    <FieldLabel htmlFor="settings-district">
+                                        <MapPin className="size-4" />
                                         {t('settings.district')}{' '}
                                         <span className="text-destructive">
                                             *
                                         </span>
-                                    </span>
-                                </Label>
-                                <CustomDropdown
-                                    options={districtOptions}
-                                    value={district}
-                                    onChange={handleDistrictChange}
-                                    placeholder={t('settings.selectDistrict')}
-                                    ariaLabel={t('settings.district')}
-                                    variant="form"
-                                />
-                                <p className="text-xs text-muted-foreground">
-                                    {t('settings.districtDesc')}
-                                </p>
-                            </div>
+                                    </FieldLabel>
+                                    <CustomDropdown
+                                        options={districtOptions}
+                                        value={district}
+                                        onChange={handleDistrictChange}
+                                        placeholder={t(
+                                            'settings.selectDistrict',
+                                        )}
+                                        ariaLabel={t('settings.district')}
+                                        variant="form"
+                                    />
+                                    <FieldDescription>
+                                        {t('settings.districtDesc')}
+                                    </FieldDescription>
+                                </Field>
 
-                            <div className="space-y-1.5">
-                                <Label>
-                                    <span className="flex items-center gap-1.5">
-                                        <MapPin className="h-4 w-4" />
+                                <Field>
+                                    <FieldLabel htmlFor="settings-mandal">
+                                        <MapPin className="size-4" />
                                         {t('settings.mandal')}{' '}
                                         <span className="text-destructive">
                                             *
                                         </span>
-                                    </span>
-                                </Label>
-                                <CustomDropdown
-                                    options={mandalOptions}
-                                    value={mandal}
-                                    onChange={setMandal}
-                                    placeholder={
-                                        district
-                                            ? t('settings.selectMandal')
-                                            : t(
-                                                  'settings.selectDistrictFirst',
-                                              )
-                                    }
-                                    ariaLabel={t('settings.mandal')}
-                                    variant="form"
-                                />
-                            </div>
+                                    </FieldLabel>
+                                    <CustomDropdown
+                                        options={mandalOptions}
+                                        value={mandal}
+                                        onChange={setMandal}
+                                        placeholder={
+                                            district
+                                                ? t('settings.selectMandal')
+                                                : t(
+                                                      'settings.selectDistrictFirst',
+                                                  )
+                                        }
+                                        ariaLabel={t('settings.mandal')}
+                                        variant="form"
+                                    />
+                                </Field>
 
-                            {message && (
-                                <Alert
-                                    variant={
-                                        message === t('settings.saved')
-                                            ? 'default'
-                                            : 'destructive'
-                                    }
+                                <Button
+                                    type="submit"
+                                    disabled={saving || !district || !mandal}
                                 >
-                                    <AlertDescription>
-                                        {message}
-                                    </AlertDescription>
-                                </Alert>
-                            )}
-
-                            <Button
-                                type="submit"
-                                disabled={saving || !district || !mandal}
-                            >
-                                {saving
-                                    ? t('common.loading')
-                                    : t('common.save')}
-                            </Button>
+                                    {saving
+                                        ? t('common.loading')
+                                        : t('common.save')}
+                                </Button>
+                            </FieldGroup>
                         </form>
                     </CardContent>
                 </Card>
@@ -258,7 +243,7 @@ export function SettingsPage() {
                 <Card>
                     <CardContent className="p-6">
                         <div className="flex items-center gap-3 mb-4">
-                            <Globe className="h-5 w-5 text-primary" />
+                            <Globe className="size-5 text-primary" />
                             <h2 className="text-lg font-semibold">
                                 {t('settings.language')}
                             </h2>
@@ -276,7 +261,7 @@ export function SettingsPage() {
                 <Card>
                     <CardContent className="p-6">
                         <div className="flex items-center gap-3 mb-4">
-                            <Shield className="h-5 w-5 text-primary" />
+                            <Shield className="size-5 text-primary" />
                             <h2 className="text-lg font-semibold">
                                 {t('settings.account')}
                             </h2>
@@ -286,7 +271,7 @@ export function SettingsPage() {
                             onClick={handleSignOut}
                             className="gap-2"
                         >
-                            <LogOut className="h-4 w-4" />
+                            <LogOut className="size-4" />
                             {t('auth.signOut')}
                         </Button>
                     </CardContent>

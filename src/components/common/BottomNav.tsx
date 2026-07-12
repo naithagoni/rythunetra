@@ -100,7 +100,7 @@ export function BottomNav() {
                                 <li key={tab.to} className="mnav-tab">
                                     <div className="mnav-tab-inner mnav-tab-inner--disabled">
                                         <span className="mnav-tab-icon">
-                                            <Lock className="h-6 w-6" />
+                                            <Lock className="size-6" />
                                         </span>
                                     </div>
                                 </li>
@@ -122,7 +122,7 @@ export function BottomNav() {
                                 >
                                     <span className="mnav-tab-icon">
                                         <tab.icon
-                                            className="h-6 w-6"
+                                            className="size-6"
                                             strokeWidth={isActive ? 2.4 : 1.7}
                                         />
                                     </span>

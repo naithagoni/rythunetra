@@ -8,6 +8,7 @@ import {
     adminGetCropVarietyCount,
 } from '@/services/adminService'
 import { Bug, FlaskConical, Sprout, Wheat, ArrowUpRight } from 'lucide-react'
+import { Card, CardContent } from '@/components/ui/card'
 
 interface DashboardCounts {
     diseases: number
@@ -41,7 +42,7 @@ export function AdminDashboardPage() {
     const cards = [
         {
             to: '/admin/diseases',
-            icon: <Bug className="h-5 w-5" />,
+            icon: <Bug className="size-5" />,
             label: t('admin.diseases'),
             count: counts?.diseases ?? 0,
             gradient: 'from-red-500 to-rose-600',
@@ -49,7 +50,7 @@ export function AdminDashboardPage() {
         },
         {
             to: '/admin/remedies',
-            icon: <FlaskConical className="h-5 w-5" />,
+            icon: <FlaskConical className="size-5" />,
             label: t('admin.remedies'),
             count: counts?.remedies ?? 0,
             gradient: 'from-emerald-500 to-green-600',
@@ -57,7 +58,7 @@ export function AdminDashboardPage() {
         },
         {
             to: '/admin/crops',
-            icon: <Sprout className="h-5 w-5" />,
+            icon: <Sprout className="size-5" />,
             label: t('admin.crops'),
             count: counts?.crops ?? 0,
             gradient: 'from-amber-500 to-orange-600',
@@ -65,7 +66,7 @@ export function AdminDashboardPage() {
         },
         {
             to: '/admin/varieties',
-            icon: <Wheat className="h-5 w-5" />,
+            icon: <Wheat className="size-5" />,
             label: t('admin.varieties'),
             count: counts?.varieties ?? 0,
             gradient: 'from-violet-500 to-purple-600',
@@ -81,30 +82,30 @@ export function AdminDashboardPage() {
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {cards.map((card) => (
-                    <Link
-                        key={card.to}
-                        to={card.to}
-                        className="group relative bg-[#161618] rounded-2xl border border-white/[0.06] p-5 shadow-sm hover:shadow-md hover:-translate-y-1.5 transition-all duration-200 overflow-hidden"
-                    >
-                        {/* Gradient accent bar */}
-                        <div
-                            className={`absolute top-0 left-0 right-0 h-1 bg-linear-to-r ${card.gradient}`}
-                        />
-
-                        <div className="flex items-center justify-between mb-4">
+                    <Link key={card.to} to={card.to} className="group">
+                        <Card className="relative p-5 transition-all duration-200 hover:-translate-y-1.5 hover:shadow-md">
+                            {/* Gradient accent bar */}
                             <div
-                                className={`w-10 h-10 rounded-xl bg-linear-to-br ${card.gradient} flex items-center justify-center text-white shadow-lg ${card.glow} group-hover:scale-110 transition-transform duration-200`}
-                            >
-                                {card.icon}
-                            </div>
-                            <ArrowUpRight className="h-4 w-4 text-neutral-500 group-hover:text-neutral-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-200" />
-                        </div>
-                        <p className="text-3xl font-extrabold text-white tracking-tight leading-none">
-                            {card.count}
-                        </p>
-                        <p className="text-xs font-semibold text-neutral-400 mt-1.5 uppercase tracking-wider">
-                            {card.label}
-                        </p>
+                                className={`absolute top-0 left-0 right-0 h-1 bg-linear-to-r ${card.gradient}`}
+                            />
+
+                            <CardContent className="p-0">
+                                <div className="flex items-center justify-between mb-4">
+                                    <div
+                                        className={`size-10 rounded-xl bg-linear-to-br ${card.gradient} flex items-center justify-center text-white shadow-lg ${card.glow} group-hover:scale-110 transition-transform duration-200`}
+                                    >
+                                        {card.icon}
+                                    </div>
+                                    <ArrowUpRight className="size-4 text-muted-foreground group-hover:text-neutral-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-200" />
+                                </div>
+                                <p className="text-3xl font-extrabold text-foreground tracking-tight leading-none">
+                                    {card.count}
+                                </p>
+                                <p className="text-xs font-semibold text-muted-foreground mt-1.5 uppercase tracking-wider">
+                                    {card.label}
+                                </p>
+                            </CardContent>
+                        </Card>
                     </Link>
                 ))}
             </div>

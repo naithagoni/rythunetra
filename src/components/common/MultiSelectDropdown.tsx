@@ -90,13 +90,13 @@ export function MultiSelectDropdown({
                                         onClick={(e) => removeValue(val, e)}
                                         className="rounded-full hover:bg-muted-foreground/20 p-0.5"
                                     >
-                                        <X className="h-3 w-3" />
+                                        <X className="size-3" />
                                     </button>
                                 </Badge>
                             ))
                         )}
                     </div>
-                    <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
+                    <ChevronsUpDown className="size-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-(--radix-popover-trigger-width) p-0">
@@ -118,14 +118,14 @@ export function MultiSelectDropdown({
                                     >
                                         <div
                                             className={cn(
-                                                'mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary',
+                                                'mr-2 flex size-4 items-center justify-center rounded-sm border border-primary',
                                                 isSelected
                                                     ? 'bg-primary text-primary-foreground'
                                                     : 'opacity-50',
                                             )}
                                         >
                                             {isSelected && (
-                                                <Check className="h-3 w-3" />
+                                                <Check className="size-3" />
                                             )}
                                         </div>
                                         <span className="truncate">

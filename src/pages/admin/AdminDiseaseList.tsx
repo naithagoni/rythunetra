@@ -5,6 +5,15 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { adminGetDiseases, adminDeleteDisease } from '@/services/adminService'
 import { Plus, Edit, Trash2, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import {
+    Table,
+    TableHeader,
+    TableBody,
+    TableRow,
+    TableHead,
+    TableCell,
+} from '@/components/ui/table'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
 import { ADMIN_PAGE_SIZE } from '@/config/env'
 
@@ -38,45 +47,39 @@ export function AdminDiseaseListPage() {
                 <div>
                     <Link
                         to="/admin"
-                        className="text-sm text-[#5E6AD2] hover:underline mb-1 inline-block"
+                        className="text-sm text-primary hover:underline mb-1 inline-block"
                     >
                         ← {t('admin.dashboard')}
                     </Link>
-                    <h1 className="text-2xl font-bold text-white">
+                    <h1 className="text-2xl font-bold text-foreground">
                         {t('admin.diseases')}
                     </h1>
-                    <p className="text-sm text-neutral-400">
+                    <p className="text-sm text-muted-foreground">
                         {totalCount} {t('common.total')}
                     </p>
                 </div>
                 <Button asChild className="gap-2">
                     <Link to="/admin/diseases/add">
-                        <Plus className="h-4 w-4" />
+                        <Plus data-icon="inline-start" />
                         {t('admin.addDisease')}
                     </Link>
                 </Button>
             </div>
 
-            <div className="bg-[#161618] rounded-xl border border-white/[0.06] overflow-hidden">
-                <table className="w-full text-sm">
-                    <thead className="bg-white/[0.03] border-b border-white/[0.06]">
-                        <tr>
-                            <th className="text-left px-4 py-3 font-semibold">
-                                ID
-                            </th>
-                            <th className="text-left px-4 py-3 font-semibold">
-                                {t('admin.name')}
-                            </th>
-                            <th className="text-center px-4 py-3 font-semibold">
-                                Images
-                            </th>
-                            <th className="text-center px-4 py-3 font-semibold">
+            <Card className="p-0 overflow-hidden">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>ID</TableHead>
+                            <TableHead>{t('admin.name')}</TableHead>
+                            <TableHead className="text-center">Images</TableHead>
+                            <TableHead className="text-center">
                                 {t('admin.remedyCount')}
-                            </th>
-                            <th className="px-4 py-3"></th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-neutral-100">
+                            </TableHead>
+                            <TableHead></TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
                         {diseases.map((d: Record<string, unknown>) => {
                             const name = d.name as
                                 | { en: string; te: string }
@@ -90,91 +93,97 @@ export function AdminDiseaseListPage() {
                             const remedyCount = 0 // Not fetched in list view
 
                             return (
-                                <tr
-                                    key={d.id as string}
-                                    className="hover:bg-white/[0.04]"
-                                >
-                                    <td className="px-4 py-3 text-xs text-neutral-400 font-mono">
+                                <TableRow key={d.id as string}>
+                                    <TableCell className="text-xs text-muted-foreground font-mono">
                                         {(d.id as string).slice(0, 8)}
-                                    </td>
-                                    <td className="px-4 py-3">
+                                    </TableCell>
+                                    <TableCell>
                                         <div className="font-medium">
                                             {enName}
                                         </div>
                                         {teName && (
-                                            <div className="text-xs text-neutral-400">
+                                            <div className="text-xs text-muted-foreground">
                                                 {teName}
                                             </div>
                                         )}
-                                    </td>
-                                    <td className="px-4 py-3 text-center">
+                                    </TableCell>
+                                    <TableCell className="text-center">
                                         {imageCount}
-                                    </td>
-                                    <td className="px-4 py-3 text-center">
+                                    </TableCell>
+                                    <TableCell className="text-center">
                                         {remedyCount}
-                                    </td>
-                                    <td className="px-4 py-3 text-right">
-                                        <div className="inline-flex items-center gap-3">
-                                            <Link
-                                                to={`/admin/diseases/${d.id}`}
-                                                className="text-[#5E6AD2] hover:underline inline-flex items-center gap-1 text-sm"
+                                    </TableCell>
+                                    <TableCell className="text-right">
+                                        <div className="inline-flex items-center gap-1">
+                                            <Button
+                                                asChild
+                                                variant="ghost"
+                                                size="sm"
                                             >
-                                                <Edit className="h-3.5 w-3.5" />
-                                                {t('common.edit')}
-                                            </Link>
-                                            <button
+                                                <Link
+                                                    to={`/admin/diseases/${d.id}`}
+                                                >
+                                                    <Edit data-icon="inline-start" />
+                                                    {t('common.edit')}
+                                                </Link>
+                                            </Button>
+                                            <Button
                                                 type="button"
+                                                variant="ghost"
+                                                size="sm"
+                                                className="text-destructive hover:text-destructive"
                                                 onClick={() =>
                                                     handleDelete(d.id as string)
                                                 }
-                                                className="text-[#D94F4F] hover:text-[#D94F4F] inline-flex items-center gap-1 text-sm cursor-pointer"
                                             >
-                                                <Trash2 className="h-3.5 w-3.5" />
+                                                <Trash2 data-icon="inline-start" />
                                                 {t('common.delete')}
-                                            </button>
+                                            </Button>
                                         </div>
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             )
                         })}
                         {diseases.length === 0 && (
-                            <tr>
-                                <td
+                            <TableRow>
+                                <TableCell
                                     colSpan={5}
-                                    className="px-4 py-8 text-center text-neutral-400"
+                                    className="py-8 text-center text-muted-foreground"
                                 >
                                     {t('common.noResults')}
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         )}
-                    </tbody>
-                </table>
-            </div>
+                    </TableBody>
+                </Table>
+            </Card>
 
             {/* Pagination */}
             {totalPages > 1 && (
                 <div className="flex items-center justify-center gap-4 mt-6">
-                    <button
+                    <Button
+                        variant="outline"
+                        size="sm"
                         onClick={() => setPage((p) => Math.max(1, p - 1))}
                         disabled={page === 1}
-                        className="px-4 py-2 rounded-lg bg-[#161618] text-sm font-medium disabled:opacity-30 inline-flex items-center gap-1"
                     >
-                        <ChevronLeft className="h-4 w-4" />
+                        <ChevronLeft data-icon="inline-start" />
                         {t('common.previous')}
-                    </button>
-                    <span className="text-sm font-medium text-neutral-400">
+                    </Button>
+                    <span className="text-sm font-medium text-muted-foreground">
                         {page} / {totalPages}
                     </span>
-                    <button
+                    <Button
+                        variant="outline"
+                        size="sm"
                         onClick={() =>
                             setPage((p) => Math.min(totalPages, p + 1))
                         }
                         disabled={page === totalPages}
-                        className="px-4 py-2 rounded-lg bg-[#161618] text-sm font-medium disabled:opacity-30 inline-flex items-center gap-1"
                     >
                         {t('common.next')}
-                        <ChevronRight className="h-4 w-4" />
-                    </button>
+                        <ChevronRight data-icon="inline-end" />
+                    </Button>
                 </div>
             )}
         </div>

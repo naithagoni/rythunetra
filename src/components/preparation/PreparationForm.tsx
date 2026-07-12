@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { X, ImagePlus, Video, Trash2, Loader2 } from 'lucide-react'
+import { X, ImagePlus, Video, Trash2 } from 'lucide-react'
+import { toast } from 'sonner'
 import { useAuth } from '@/hooks/useAuth'
 import { uploadPreparationFile } from '@/services/preparationService'
 import type { Preparation } from '@/types/preparation'
@@ -15,9 +16,15 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
-import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Spinner } from '@/components/ui/spinner'
+import {
+    Field,
+    FieldDescription,
+    FieldError,
+    FieldGroup,
+    FieldLabel,
+} from '@/components/ui/field'
 
 const MAX_IMAGES = 5
 const MAX_IMAGE_SIZE_MB = 5
@@ -61,7 +68,6 @@ export function PreparationForm({
     const [videoUrl, setVideoUrl] = useState<string | null>(
         editingPreparation?.video_url ?? null,
     )
-    const [mediaError, setMediaError] = useState<string | null>(null)
 
     const imageInputRef = useRef<HTMLInputElement>(null)
     const videoInputRef = useRef<HTMLInputElement>(null)
@@ -82,18 +88,17 @@ export function PreparationForm({
     async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
         const files = e.target.files
         if (!files || !user) return
-        setMediaError(null)
 
         const remaining = MAX_IMAGES - imageUrls.length
         const filesToUpload = Array.from(files).slice(0, remaining)
 
         for (const file of filesToUpload) {
             if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
-                setMediaError(t('preparations.media.invalidImageType'))
+                toast.error(t('preparations.media.invalidImageType'))
                 return
             }
             if (file.size > MAX_IMAGE_SIZE_MB * 1024 * 1024) {
-                setMediaError(
+                toast.error(
                     t('preparations.media.imageTooLarge', {
                         max: MAX_IMAGE_SIZE_MB,
                     }),
@@ -111,7 +116,7 @@ export function PreparationForm({
             }
             setImageUrls((prev) => [...prev, ...urls])
         } catch {
-            setMediaError(t('preparations.media.uploadFailed'))
+            toast.error(t('preparations.media.uploadFailed'))
         } finally {
             setUploading(false)
             if (imageInputRef.current) imageInputRef.current.value = ''
@@ -125,14 +130,13 @@ export function PreparationForm({
     async function handleVideoUpload(e: React.ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0]
         if (!file || !user) return
-        setMediaError(null)
 
         if (!ACCEPTED_VIDEO_TYPES.includes(file.type)) {
-            setMediaError(t('preparations.media.invalidVideoType'))
+            toast.error(t('preparations.media.invalidVideoType'))
             return
         }
         if (file.size > MAX_VIDEO_SIZE_MB * 1024 * 1024) {
-            setMediaError(
+            toast.error(
                 t('preparations.media.videoTooLarge', {
                     max: MAX_VIDEO_SIZE_MB,
                 }),
@@ -145,7 +149,7 @@ export function PreparationForm({
             const url = await uploadPreparationFile(user.id, file, 'videos')
             setVideoUrl(url)
         } catch {
-            setMediaError(t('preparations.media.uploadFailed'))
+            toast.error(t('preparations.media.uploadFailed'))
         } finally {
             setUploading(false)
             if (videoInputRef.current) videoInputRef.current.value = ''
@@ -183,208 +187,203 @@ export function PreparationForm({
                     </DialogTitle>
                 </DialogHeader>
 
-                <form
-                    onSubmit={handleSubmit(handleFormSubmit)}
-                    className="space-y-4"
-                >
-                    {/* Remedy Name */}
-                    <div className="space-y-1.5">
-                        <Label htmlFor="remedy_name">
-                            {t('preparations.remedyName')}
-                        </Label>
-                        <Input
-                            id="remedy_name"
-                            {...register('remedy_name')}
-                            placeholder={t(
-                                'preparations.remedyNamePlaceholder',
+                <form onSubmit={handleSubmit(handleFormSubmit)}>
+                    <FieldGroup>
+                        {/* Remedy Name */}
+                        <Field data-invalid={!!errors.remedy_name || undefined}>
+                            <FieldLabel htmlFor="remedy_name">
+                                {t('preparations.remedyName')}
+                            </FieldLabel>
+                            <Input
+                                id="remedy_name"
+                                {...register('remedy_name')}
+                                aria-invalid={!!errors.remedy_name || undefined}
+                                placeholder={t(
+                                    'preparations.remedyNamePlaceholder',
+                                )}
+                            />
+                            {errors.remedy_name && (
+                                <FieldError>
+                                    {errors.remedy_name.message}
+                                </FieldError>
                             )}
-                        />
-                        {errors.remedy_name && (
-                            <p className="text-sm text-destructive">
-                                {errors.remedy_name.message}
-                            </p>
-                        )}
-                    </div>
+                        </Field>
 
-                    {/* Quantity */}
-                    <div className="space-y-1.5">
-                        <Label htmlFor="quantity">
-                            {t('preparations.quantity')}
-                        </Label>
-                        <Input
-                            id="quantity"
-                            {...register('quantity')}
-                            placeholder={t('preparations.quantityPlaceholder')}
-                        />
-                    </div>
+                        {/* Quantity */}
+                        <Field>
+                            <FieldLabel htmlFor="quantity">
+                                {t('preparations.quantity')}
+                            </FieldLabel>
+                            <Input
+                                id="quantity"
+                                {...register('quantity')}
+                                placeholder={t(
+                                    'preparations.quantityPlaceholder',
+                                )}
+                            />
+                        </Field>
 
-                    {/* Notes */}
-                    <div className="space-y-1.5">
-                        <Label htmlFor="preparation_notes">
-                            {t('preparations.notes')}
-                        </Label>
-                        <Textarea
-                            id="preparation_notes"
-                            {...register('preparation_notes')}
-                            rows={3}
-                            placeholder={t('preparations.notesPlaceholder')}
-                        />
-                    </div>
+                        {/* Notes */}
+                        <Field>
+                            <FieldLabel htmlFor="preparation_notes">
+                                {t('preparations.notes')}
+                            </FieldLabel>
+                            <Textarea
+                                id="preparation_notes"
+                                {...register('preparation_notes')}
+                                rows={3}
+                                placeholder={t('preparations.notesPlaceholder')}
+                            />
+                        </Field>
 
-                    {/* Images */}
-                    <div className="space-y-1.5">
-                        <Label>
-                            {t('preparations.media.images')}{' '}
-                            <span className="text-muted-foreground font-normal">
-                                ({imageUrls.length}/{MAX_IMAGES})
-                            </span>
-                        </Label>
+                        {/* Images */}
+                        <Field>
+                            <FieldLabel>
+                                {t('preparations.media.images')}{' '}
+                                <span className="text-muted-foreground font-normal">
+                                    ({imageUrls.length}/{MAX_IMAGES})
+                                </span>
+                            </FieldLabel>
 
-                        {imageUrls.length > 0 && (
-                            <div className="flex flex-wrap gap-2 mb-2">
-                                {imageUrls.map((url, i) => (
-                                    <div
-                                        key={i}
-                                        className="relative w-20 h-20 rounded-lg overflow-hidden border border-border group"
-                                    >
-                                        <img
-                                            src={url}
-                                            alt={`Image ${i + 1}`}
-                                            className="w-full h-full object-cover"
-                                        />
-                                        <button
-                                            type="button"
-                                            onClick={() => removeImage(i)}
-                                            className="absolute top-0.5 right-0.5 p-0.5 bg-destructive text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                            {imageUrls.length > 0 && (
+                                <div className="flex flex-wrap gap-2 mb-2">
+                                    {imageUrls.map((url, i) => (
+                                        <div
+                                            key={i}
+                                            className="relative size-20 rounded-lg overflow-hidden border border-border group"
                                         >
-                                            <X className="h-3 w-3" />
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
+                                            <img
+                                                src={url}
+                                                alt={`Image ${i + 1}`}
+                                                className="size-full object-cover"
+                                            />
+                                            <button
+                                                type="button"
+                                                onClick={() => removeImage(i)}
+                                                className="absolute top-0.5 right-0.5 p-0.5 bg-destructive text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                                            >
+                                                <X className="size-3" />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
 
-                        {imageUrls.length < MAX_IMAGES && (
-                            <>
-                                <input
-                                    ref={imageInputRef}
-                                    type="file"
-                                    accept={ACCEPTED_IMAGE_TYPES.join(',')}
-                                    multiple
-                                    className="hidden"
-                                    onChange={handleImageUpload}
-                                />
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() =>
-                                        imageInputRef.current?.click()
-                                    }
-                                    disabled={uploading}
-                                    className="gap-2 border-dashed"
-                                >
-                                    {uploading ? (
-                                        <Loader2 className="h-4 w-4 animate-spin" />
-                                    ) : (
-                                        <ImagePlus className="h-4 w-4" />
-                                    )}
-                                    {t('preparations.media.addImages')}
-                                </Button>
-                            </>
-                        )}
-                        <p className="text-xs text-muted-foreground">
-                            {t('preparations.media.imageHint', {
-                                max: MAX_IMAGE_SIZE_MB,
-                            })}
-                        </p>
-                    </div>
+                            {imageUrls.length < MAX_IMAGES && (
+                                <>
+                                    <input
+                                        ref={imageInputRef}
+                                        type="file"
+                                        accept={ACCEPTED_IMAGE_TYPES.join(',')}
+                                        multiple
+                                        className="hidden"
+                                        onChange={handleImageUpload}
+                                    />
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() =>
+                                            imageInputRef.current?.click()
+                                        }
+                                        disabled={uploading}
+                                        className="w-fit border-dashed"
+                                    >
+                                        {uploading ? (
+                                            <Spinner data-icon="inline-start" />
+                                        ) : (
+                                            <ImagePlus data-icon="inline-start" />
+                                        )}
+                                        {t('preparations.media.addImages')}
+                                    </Button>
+                                </>
+                            )}
+                            <FieldDescription>
+                                {t('preparations.media.imageHint', {
+                                    max: MAX_IMAGE_SIZE_MB,
+                                })}
+                            </FieldDescription>
+                        </Field>
 
-                    {/* Video */}
-                    <div className="space-y-1.5">
-                        <Label>
-                            {t('preparations.media.video')}
-                        </Label>
+                        {/* Video */}
+                        <Field>
+                            <FieldLabel>
+                                {t('preparations.media.video')}
+                            </FieldLabel>
 
-                        {videoUrl ? (
-                            <div className="relative rounded-lg overflow-hidden border border-border">
-                                <video
-                                    src={videoUrl}
-                                    className="w-full max-h-48 object-contain bg-black"
-                                    controls
-                                />
-                                <Button
-                                    type="button"
-                                    variant="destructive"
-                                    size="icon-xs"
-                                    onClick={removeVideo}
-                                    className="absolute top-2 right-2"
-                                >
-                                    <Trash2 className="h-3.5 w-3.5" />
-                                </Button>
-                            </div>
-                        ) : (
-                            <>
-                                <input
-                                    ref={videoInputRef}
-                                    type="file"
-                                    accept={ACCEPTED_VIDEO_TYPES.join(',')}
-                                    className="hidden"
-                                    onChange={handleVideoUpload}
-                                />
-                                <Button
-                                    type="button"
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() =>
-                                        videoInputRef.current?.click()
-                                    }
-                                    disabled={uploading}
-                                    className="gap-2 border-dashed"
-                                >
-                                    {uploading ? (
-                                        <Loader2 className="h-4 w-4 animate-spin" />
-                                    ) : (
-                                        <Video className="h-4 w-4" />
-                                    )}
-                                    {t('preparations.media.addVideo')}
-                                </Button>
-                            </>
-                        )}
-                        <p className="text-xs text-muted-foreground">
-                            {t('preparations.media.videoHint', {
-                                max: MAX_VIDEO_SIZE_MB,
-                            })}
-                        </p>
-                    </div>
+                            {videoUrl ? (
+                                <div className="relative rounded-lg overflow-hidden border border-border">
+                                    <video
+                                        src={videoUrl}
+                                        className="w-full max-h-48 object-contain bg-black"
+                                        controls
+                                    />
+                                    <Button
+                                        type="button"
+                                        variant="destructive"
+                                        size="icon-xs"
+                                        onClick={removeVideo}
+                                        className="absolute top-2 right-2"
+                                    >
+                                        <Trash2 />
+                                    </Button>
+                                </div>
+                            ) : (
+                                <>
+                                    <input
+                                        ref={videoInputRef}
+                                        type="file"
+                                        accept={ACCEPTED_VIDEO_TYPES.join(',')}
+                                        className="hidden"
+                                        onChange={handleVideoUpload}
+                                    />
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() =>
+                                            videoInputRef.current?.click()
+                                        }
+                                        disabled={uploading}
+                                        className="w-fit border-dashed"
+                                    >
+                                        {uploading ? (
+                                            <Spinner data-icon="inline-start" />
+                                        ) : (
+                                            <Video data-icon="inline-start" />
+                                        )}
+                                        {t('preparations.media.addVideo')}
+                                    </Button>
+                                </>
+                            )}
+                            <FieldDescription>
+                                {t('preparations.media.videoHint', {
+                                    max: MAX_VIDEO_SIZE_MB,
+                                })}
+                            </FieldDescription>
+                        </Field>
 
-                    {/* Media error */}
-                    {mediaError && (
-                        <Alert variant="destructive">
-                            <AlertDescription>{mediaError}</AlertDescription>
-                        </Alert>
-                    )}
-
-                    {/* Actions */}
-                    <div className="flex gap-3 pt-2">
-                        <Button
-                            type="button"
-                            variant="outline"
-                            onClick={onClose}
-                            className="flex-1"
-                        >
-                            {t('common.cancel')}
-                        </Button>
-                        <Button
-                            type="submit"
-                            disabled={submitting || uploading}
-                            className="flex-1"
-                        >
-                            {submitting
-                                ? t('common.loading')
-                                : t('common.save')}
-                        </Button>
-                    </div>
+                        {/* Actions */}
+                        <div className="flex gap-3 pt-2">
+                            <Button
+                                type="button"
+                                variant="outline"
+                                onClick={onClose}
+                                className="flex-1"
+                            >
+                                {t('common.cancel')}
+                            </Button>
+                            <Button
+                                type="submit"
+                                disabled={submitting || uploading}
+                                className="flex-1"
+                            >
+                                {submitting
+                                    ? t('common.loading')
+                                    : t('common.save')}
+                            </Button>
+                        </div>
+                    </FieldGroup>
                 </form>
             </DialogContent>
         </Dialog>

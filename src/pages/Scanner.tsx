@@ -19,6 +19,7 @@ import {
     BookOpen,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 import imageCompression from 'browser-image-compression'
 import { useAuth } from '@/hooks/useAuth'
 import { useLanguage } from '@/hooks/useLanguage'
@@ -53,9 +54,9 @@ const severityConfig: Record<
         border: 'border-[#F2994A]/20',
     },
     critical: {
-        color: 'text-[#D94F4F]',
-        bg: 'bg-[#D94F4F]/10',
-        border: 'border-[#D94F4F]/20',
+        color: 'text-destructive',
+        bg: 'bg-destructive/10',
+        border: 'border-destructive/20',
     },
     none: {
         color: 'text-[#4DA34D]',
@@ -143,12 +144,12 @@ export function ScannerPage() {
         : null
 
     return (
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+        <div className="flex flex-col max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-6 gap-6">
             {/* Header Banner */}
             <div className="page-header-banner rounded-2xl">
-                <div className="relative text-center space-y-2">
+                <div className="flex flex-col relative text-center gap-2">
                     <div className="page-header-icon">
-                        <Camera className="h-6 w-6 text-neutral-400" />
+                        <Camera className="size-6 text-neutral-400" />
                     </div>
                     <h1 className="page-title">{t('scanner.title')}</h1>
                     <p className="page-subtitle">{t('scanner.subtitle')}</p>
@@ -175,9 +176,9 @@ export function ScannerPage() {
                         className="max-h-64 mx-auto rounded-lg object-contain"
                     />
                 ) : (
-                    <div className="space-y-3">
-                        <div className="w-16 h-16 rounded-xl bg-[#161618] flex items-center justify-center mx-auto group-hover:scale-105 transition-transform duration-200">
-                            <Upload className="h-8 w-8 text-neutral-500" />
+                    <div className="flex flex-col gap-3">
+                        <div className="size-16 rounded-xl bg-[#161618] flex items-center justify-center mx-auto group-hover:scale-105 transition-transform duration-200">
+                            <Upload className="size-8 text-neutral-500" />
                         </div>
                         <p className="font-medium">
                             {t('scanner.uploadPrompt')}
@@ -195,7 +196,7 @@ export function ScannerPage() {
                     onClick={() => fileInputRef.current?.click()}
                     className="w-full gap-2"
                 >
-                    <Camera className="h-5 w-5" />
+                    <Camera className="size-5" />
                     {t('scanner.scanAnother')}
                 </Button>
             )}
@@ -203,7 +204,7 @@ export function ScannerPage() {
             {/* Scanning indicator */}
             {scanning && (
                 <div className="flex flex-col items-center gap-3 py-8">
-                    <Loader2 className="h-8 w-8 animate-spin text-neutral-400" />
+                    <Loader2 className="size-8 animate-spin text-neutral-400" />
                     <p className="font-medium">{t('scanner.analyzing')}</p>
                     <p className="text-sm text-neutral-400">
                         {t('scanner.wait')}
@@ -213,23 +214,23 @@ export function ScannerPage() {
 
             {/* Error */}
             {error && (
-                <div className="bg-[#D94F4F]/10 border border-[#D94F4F]/20 rounded-xl p-4 flex gap-3">
-                    <AlertTriangle className="h-5 w-5 text-[#D94F4F] shrink-0 mt-0.5" />
+                <div className="bg-destructive/10 border border-destructive/20 rounded-xl p-4 flex gap-3">
+                    <AlertTriangle className="size-5 text-destructive shrink-0 mt-0.5" />
                     <div>
-                        <p className="font-medium text-[#D94F4F]">
+                        <p className="font-medium text-destructive">
                             {t('scanner.errorTitle')}
                         </p>
-                        <p className="text-sm text-[#D94F4F]">{error}</p>
+                        <p className="text-sm text-destructive">{error}</p>
                     </div>
                 </div>
             )}
 
             {/* Results */}
             {result && !scanning && (
-                <div className="space-y-4">
+                <div className="flex flex-col gap-4">
                     {!result.isPlant ? (
                         <div className="bg-[#D4A72C]/10 border border-[#D4A72C]/20 rounded-xl p-4 flex gap-3">
-                            <AlertTriangle className="h-5 w-5 text-[#D4A72C] shrink-0 mt-0.5" />
+                            <AlertTriangle className="size-5 text-[#D4A72C] shrink-0 mt-0.5" />
                             <p className="text-[#D4A72C]">
                                 {t('scanner.notPlant')}
                             </p>
@@ -238,7 +239,7 @@ export function ScannerPage() {
                         <>
                             {/* Summary card */}
                             <div
-                                className={`${sev!.bg} border ${sev!.border} rounded-xl p-4 space-y-3`}
+                                className={`${sev!.bg} border ${sev!.border} rounded-xl p-4 flex flex-col gap-3`}
                             >
                                 <div className="flex items-start justify-between">
                                     <div>
@@ -254,12 +255,12 @@ export function ScannerPage() {
                                             <h2
                                                 className={`text-lg font-bold ${sev!.color}`}
                                             >
-                                                <ShieldAlert className="inline h-5 w-5 mr-1" />
+                                                <ShieldAlert className="inline size-5 mr-1" />
                                                 {result.diseaseName}
                                             </h2>
                                         ) : (
                                             <h2 className="text-lg font-bold text-[#4DA34D]">
-                                                <CheckCircle className="inline h-5 w-5 mr-1" />
+                                                <CheckCircle className="inline size-5 mr-1" />
                                                 {t('scanner.healthy')}
                                             </h2>
                                         )}
@@ -285,11 +286,11 @@ export function ScannerPage() {
 
                             {/* Symptoms */}
                             {result.symptoms.length > 0 && (
-                                <div className="bg-[#161618] border border-white/[0.06] rounded-xl p-4">
-                                    <h3 className="font-semibold mb-2 text-white">
+                                <Card className="p-4">
+                                    <h3 className="font-semibold mb-2 text-foreground">
                                         {t('scanner.symptoms')}
                                     </h3>
-                                    <ul className="space-y-1">
+                                    <ul className="flex flex-col gap-1">
                                         {result.symptoms.map((s, i) => (
                                             <li
                                                 key={i}
@@ -302,16 +303,16 @@ export function ScannerPage() {
                                             </li>
                                         ))}
                                     </ul>
-                                </div>
+                                </Card>
                             )}
 
                             {/* Causes */}
                             {result.causes.length > 0 && (
-                                <div className="bg-[#161618] border border-white/[0.06] rounded-xl p-4">
-                                    <h3 className="font-semibold mb-2 text-white">
+                                <Card className="p-4">
+                                    <h3 className="font-semibold mb-2 text-foreground">
                                         {t('scanner.causes')}
                                     </h3>
-                                    <ul className="space-y-1">
+                                    <ul className="flex flex-col gap-1">
                                         {result.causes.map((c, i) => (
                                             <li
                                                 key={i}
@@ -324,31 +325,31 @@ export function ScannerPage() {
                                             </li>
                                         ))}
                                     </ul>
-                                </div>
+                                </Card>
                             )}
 
                             {/* Remedies */}
                             {result.remedies.length > 0 && (
-                                <div className="bg-[#161618] border border-white/[0.06] rounded-xl p-4">
+                                <Card className="p-4">
                                     <button
                                         onClick={() =>
                                             setShowRemedies(!showRemedies)
                                         }
                                         className="flex items-center justify-between w-full"
                                     >
-                                        <h3 className="font-semibold flex items-center gap-2 text-white">
-                                            <Leaf className="h-4 w-4 text-[#4DA34D]" />
+                                        <h3 className="font-semibold flex items-center gap-2 text-foreground">
+                                            <Leaf className="size-4 text-[#4DA34D]" />
                                             {t('scanner.remedies')} (
                                             {result.remedies.length})
                                         </h3>
                                         {showRemedies ? (
-                                            <ChevronUp className="h-4 w-4" />
+                                            <ChevronUp className="size-4" />
                                         ) : (
-                                            <ChevronDown className="h-4 w-4" />
+                                            <ChevronDown className="size-4" />
                                         )}
                                     </button>
                                     {showRemedies && (
-                                        <div className="mt-3 space-y-2">
+                                        <div className="flex flex-col mt-3 gap-2">
                                             {result.remedies.map((r, i) => (
                                                 <div
                                                     key={i}
@@ -373,16 +374,16 @@ export function ScannerPage() {
                                             ))}
                                         </div>
                                     )}
-                                </div>
+                                </Card>
                             )}
 
                             {/* Preventions */}
                             {result.preventions.length > 0 && (
-                                <div className="bg-[#161618] border border-white/[0.06] rounded-xl p-4">
-                                    <h3 className="font-semibold mb-2 text-white">
+                                <Card className="p-4">
+                                    <h3 className="font-semibold mb-2 text-foreground">
                                         {t('scanner.preventions')}
                                     </h3>
-                                    <ul className="space-y-1">
+                                    <ul className="flex flex-col gap-1">
                                         {result.preventions.map((p, i) => (
                                             <li
                                                 key={i}
@@ -395,16 +396,16 @@ export function ScannerPage() {
                                             </li>
                                         ))}
                                     </ul>
-                                </div>
+                                </Card>
                             )}
 
                             {/* ── DB Match Section ── */}
                             {result.dbMatch && (
-                                <div className="space-y-4">
+                                <div className="flex flex-col gap-4">
                                     {/* DB Match Header Card */}
                                     <div className="bg-indigo-950/50 border border-indigo-800/40 rounded-xl p-4">
                                         <div className="flex items-start gap-3">
-                                            <Database className="h-5 w-5 text-indigo-400 shrink-0 mt-0.5" />
+                                            <Database className="size-5 text-indigo-400 shrink-0 mt-0.5" />
                                             <div className="flex-1">
                                                 <h3 className="font-semibold text-indigo-300 flex items-center gap-2">
                                                     {t('scanner.dbMatch.title')}
@@ -438,11 +439,11 @@ export function ScannerPage() {
                                                     to={`/diseases/${result.dbMatch.id}`}
                                                     className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-indigo-400 hover:text-indigo-300 hover:underline"
                                                 >
-                                                    <BookOpen className="h-4 w-4" />
+                                                    <BookOpen className="size-4" />
                                                     {t(
                                                         'scanner.dbMatch.viewDetails',
                                                     )}
-                                                    <ExternalLink className="h-3 w-3" />
+                                                    <ExternalLink className="size-3" />
                                                 </Link>
                                             </div>
                                         </div>
@@ -450,7 +451,7 @@ export function ScannerPage() {
 
                                     {/* DB Remedies */}
                                     {result.dbMatch.remedies.length > 0 && (
-                                        <div className="bg-[#161618] border border-indigo-800/40 rounded-xl p-4">
+                                        <Card className="p-4 border border-indigo-800/40">
                                             <button
                                                 onClick={() =>
                                                     setShowDbRemedies(
@@ -460,7 +461,7 @@ export function ScannerPage() {
                                                 className="flex items-center justify-between w-full"
                                             >
                                                 <h3 className="font-semibold flex items-center gap-2 text-indigo-300">
-                                                    <FlaskConical className="h-4 w-4 text-indigo-400" />
+                                                    <FlaskConical className="size-4 text-indigo-400" />
                                                     {t(
                                                         'scanner.dbMatch.remedies',
                                                     )}{' '}
@@ -472,18 +473,18 @@ export function ScannerPage() {
                                                     )
                                                 </h3>
                                                 {showDbRemedies ? (
-                                                    <ChevronUp className="h-4 w-4 text-indigo-400" />
+                                                    <ChevronUp className="size-4 text-indigo-400" />
                                                 ) : (
-                                                    <ChevronDown className="h-4 w-4 text-indigo-400" />
+                                                    <ChevronDown className="size-4 text-indigo-400" />
                                                 )}
                                             </button>
                                             {showDbRemedies && (
-                                                <div className="mt-3 space-y-3">
+                                                <div className="flex flex-col mt-3 gap-3">
                                                     {result.dbMatch.remedies.map(
                                                         (remedy) => (
                                                             <div
                                                                 key={remedy.id}
-                                                                className="border border-indigo-800/30 rounded-lg p-3 space-y-2"
+                                                                className="flex flex-col border border-indigo-800/30 rounded-lg p-3 gap-2"
                                                             >
                                                                 <div className="flex items-center gap-2">
                                                                     <span className="font-medium text-sm">
@@ -579,7 +580,7 @@ export function ScannerPage() {
 
                                                                                 :
                                                                             </span>
-                                                                            <ul className="mt-1 space-y-0.5 ml-3">
+                                                                            <ul className="flex flex-col mt-1 gap-0.5 ml-3">
                                                                                 {remedy.usage_instructions.map(
                                                                                     (
                                                                                         inst,
@@ -606,19 +607,19 @@ export function ScannerPage() {
                                                     )}
                                                 </div>
                                             )}
-                                        </div>
+                                        </Card>
                                     )}
 
                                     {/* DB Treatments */}
                                     {result.dbMatch.treatments.length > 0 && (
-                                        <div className="bg-[#161618] border border-indigo-800/40 rounded-xl p-4">
+                                        <Card className="p-4 border border-indigo-800/40">
                                             <h3 className="font-semibold mb-2 flex items-center gap-2 text-indigo-300">
-                                                <Leaf className="h-4 w-4 text-indigo-400" />
+                                                <Leaf className="size-4 text-indigo-400" />
                                                 {t(
                                                     'scanner.dbMatch.treatments',
                                                 )}
                                             </h3>
-                                            <ul className="space-y-1">
+                                            <ul className="flex flex-col gap-1">
                                                 {result.dbMatch.treatments.map(
                                                     (treatment, i) => (
                                                         <li
@@ -636,7 +637,7 @@ export function ScannerPage() {
                                                     ),
                                                 )}
                                             </ul>
-                                        </div>
+                                        </Card>
                                     )}
                                 </div>
                             )}
@@ -648,18 +649,20 @@ export function ScannerPage() {
             {/* History toggle (logged-in users only) */}
             {user && (
                 <div className="border-t border-white/[0.06] pt-4">
-                    <button
+                    <Button
+                        type="button"
+                        variant="link"
                         onClick={() => setShowHistory(!showHistory)}
-                        className="flex items-center gap-2 text-sm font-medium text-[#5E6AD2] hover:underline"
+                        className="px-0 text-primary"
                     >
-                        <History className="h-4 w-4" />
+                        <History data-icon="inline-start" />
                         {showHistory
                             ? t('scanner.hideHistory')
                             : t('scanner.showHistory')}
-                    </button>
+                    </Button>
 
                     {showHistory && (
-                        <div className="mt-3 space-y-2">
+                        <div className="flex flex-col mt-3 gap-2">
                             {historyLoading ? (
                                 <LoadingSpinner />
                             ) : history.length === 0 ? (
@@ -689,15 +692,19 @@ export function ScannerPage() {
                                                 ).toLocaleDateString()}
                                             </p>
                                         </div>
-                                        <button
+                                        <Button
+                                            type="button"
+                                            variant="ghost"
+                                            size="icon-sm"
                                             onClick={(e) => {
                                                 e.stopPropagation()
                                                 handleDeleteHistory(row.id)
                                             }}
-                                            className="p-1 text-[#D94F4F] hover:text-[#D94F4F]"
+                                            className="text-destructive hover:text-destructive"
+                                            aria-label={t('common.delete')}
                                         >
-                                            <Trash2 className="h-4 w-4" />
-                                        </button>
+                                            <Trash2 />
+                                        </Button>
                                     </div>
                                 ))
                             )}

@@ -37,7 +37,7 @@ export function DiseaseDetailPage() {
         return (
             <div className="max-w-4xl mx-auto px-4 py-16">
                 <EmptyState
-                    icon={<AlertTriangle className="h-12 w-12" />}
+                    icon={<AlertTriangle className="size-12" />}
                     title={t('errors.notFound')}
                 />
             </div>
@@ -50,7 +50,7 @@ export function DiseaseDetailPage() {
                 <div className="relative">
                     <Link
                         to="/diseases"
-                        className="inline-flex items-center gap-1.5 text-sm text-[#5E6AD2] hover:text-[#5E6AD2] font-medium transition-colors"
+                        className="inline-flex items-center gap-1.5 text-sm text-primary hover:text-primary font-medium transition-colors"
                     >
                         ← {t('diseases.title')}
                     </Link>

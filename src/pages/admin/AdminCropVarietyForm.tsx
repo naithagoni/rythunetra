@@ -16,8 +16,22 @@ import {
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
 import { MultiSelectDropdown } from '@/components/common/MultiSelectDropdown'
 import { Save, Trash2, Languages, X, ImageIcon, Plus } from 'lucide-react'
+import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Spinner } from '@/components/ui/spinner'
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card'
+import {
+    Field,
+    FieldDescription,
+    FieldGroup,
+    FieldLabel,
+} from '@/components/ui/field'
 import { translateText } from '@/services/translateService'
 import { DISTRICT_KEYS } from '@/config/districts'
 import type { LocalizedText, LocalizedTextArray } from '@/types/i18n'
@@ -129,7 +143,6 @@ export function AdminCropVarietyFormPage() {
 
     // UI state
     const [saving, setSaving] = useState(false)
-    const [message, setMessage] = useState('')
     const [translating, setTranslating] = useState(false)
 
     // Validation
@@ -230,7 +243,7 @@ export function AdminCropVarietyFormPage() {
             const translated = await translateText(enName, 'en', 'te')
             setTeName(translated)
         } catch {
-            setMessage(t('admin.translateFailed'))
+            toast.error(t('admin.translateFailed'))
         } finally {
             setTranslating(false)
         }
@@ -270,7 +283,6 @@ export function AdminCropVarietyFormPage() {
     const handleSave = async (e: React.SyntheticEvent) => {
         e.preventDefault()
         setSaving(true)
-        setMessage('')
 
         try {
             // Upload image if new file
@@ -342,13 +354,13 @@ export function AdminCropVarietyFormPage() {
             queryClient.invalidateQueries({
                 queryKey: ['admin-crop-variety'],
             })
-            setMessage(t('admin.saved'))
+            toast.success(t('admin.saved'))
 
             if (isNew) {
                 navigate(`/admin/crops/${cropId}/varieties`, { replace: true })
             }
         } catch {
-            setMessage(t('errors.generic'))
+            toast.error(t('errors.generic'))
         } finally {
             setSaving(false)
         }
@@ -358,7 +370,7 @@ export function AdminCropVarietyFormPage() {
         if (!confirm(t('admin.deleteConfirm'))) return
         const { error } = await adminDeleteCropVariety(id!)
         if (error) {
-            setMessage(t('errors.generic'))
+            toast.error(t('errors.generic'))
             return
         }
         queryClient.invalidateQueries({
@@ -373,499 +385,541 @@ export function AdminCropVarietyFormPage() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <Link
                 to={`/admin/crops/${cropId}/varieties`}
-                className="text-sm text-[#5E6AD2] hover:underline mb-1 inline-block"
+                className="text-sm text-primary hover:underline mb-1 inline-block"
             >
                 ← {cropName} – {t('admin.varieties')}
             </Link>
             <div className="flex items-center justify-between mb-6">
-                <h1 className="text-2xl font-bold text-white">
+                <h1 className="text-2xl font-bold text-foreground">
                     {isNew ? t('admin.addVariety') : t('admin.editVariety')}
                 </h1>
                 {!isNew && (
-                    <button
+                    <Button
+                        type="button"
+                        variant="destructive"
+                        size="icon"
                         onClick={handleDelete}
-                        className="text-[#D94F4F] hover:text-[#D94F4F] p-2 rounded-lg hover:bg-[#D94F4F]/10"
+                        aria-label={t('common.delete')}
                     >
-                        <Trash2 className="h-5 w-5" />
-                    </button>
+                        <Trash2 />
+                    </Button>
                 )}
             </div>
 
-            <form onSubmit={handleSave} className="space-y-6">
+            <form onSubmit={handleSave} className="flex flex-col gap-6">
                 {/* ── Core Fields ────────────────────────── */}
-                <div className="bg-[#161618] rounded-xl border border-white/[0.06] p-5 space-y-4">
-                    <h2 className="font-semibold text-lg">
-                        {t('admin.coreFields')}
-                    </h2>
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-lg">
+                            {t('admin.coreFields')}
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <FieldGroup>
+                            {/* Image Upload */}
+                            <Field>
+                                <FieldLabel>
+                                    {t('admin.varietyImage')}
+                                </FieldLabel>
+                                <FieldDescription>
+                                    {t('admin.varietyImageHint')}
+                                </FieldDescription>
 
-                    {/* Image Upload */}
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('admin.varietyImage')}
-                        </label>
-                        <p className="text-xs text-neutral-400 mb-2">
-                            {t('admin.varietyImageHint')}
-                        </p>
-
-                        <input
-                            ref={fileInputRef}
-                            type="file"
-                            accept="image/*"
-                            className="hidden"
-                            onChange={(e) => {
-                                const file = e.target.files?.[0]
-                                if (file) handleImageSelect(file)
-                            }}
-                        />
-
-                        {imagePreview ? (
-                            <div className="relative inline-block">
-                                <img
-                                    src={imagePreview}
-                                    alt="Preview"
-                                    className="h-32 w-48 object-cover rounded-lg border"
+                                <input
+                                    ref={fileInputRef}
+                                    type="file"
+                                    accept="image/*"
+                                    className="hidden"
+                                    onChange={(e) => {
+                                        const file = e.target.files?.[0]
+                                        if (file) handleImageSelect(file)
+                                    }}
                                 />
-                                <button
-                                    type="button"
-                                    onClick={handleRemoveImage}
-                                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 shadow"
-                                    title={t('admin.removeImage')}
-                                >
-                                    <X className="h-3.5 w-3.5" />
-                                </button>
-                            </div>
-                        ) : (
-                            <button
-                                type="button"
-                                onClick={() => fileInputRef.current?.click()}
-                                disabled={uploadingImage}
-                                className="flex items-center gap-2 px-4 py-3 border-2 border-dashed border-white/[0.06] rounded-lg text-sm text-neutral-400 hover:border-white/[0.12] hover:text-white transition-colors disabled:opacity-50"
-                            >
-                                {uploadingImage ? (
-                                    <>
-                                        <LoadingSpinner />
-                                        {t('admin.uploadingImage')}
-                                    </>
+
+                                {imagePreview ? (
+                                    <div className="relative inline-block">
+                                        <img
+                                            src={imagePreview}
+                                            alt="Preview"
+                                            className="h-32 w-48 object-cover rounded-lg border"
+                                        />
+                                        <Button
+                                            type="button"
+                                            variant="destructive"
+                                            size="icon-xs"
+                                            onClick={handleRemoveImage}
+                                            className="absolute -top-2 -right-2 rounded-full"
+                                            aria-label={t('admin.removeImage')}
+                                        >
+                                            <X />
+                                        </Button>
+                                    </div>
                                 ) : (
-                                    <>
-                                        <ImageIcon className="h-5 w-5" />
-                                        {t('admin.uploadImage')}
-                                    </>
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        onClick={() =>
+                                            fileInputRef.current?.click()
+                                        }
+                                        disabled={uploadingImage}
+                                        className="w-fit border-dashed"
+                                    >
+                                        {uploadingImage ? (
+                                            <Spinner data-icon="inline-start" />
+                                        ) : (
+                                            <ImageIcon data-icon="inline-start" />
+                                        )}
+                                        {uploadingImage
+                                            ? t('admin.uploadingImage')
+                                            : t('admin.uploadImage')}
+                                    </Button>
                                 )}
-                            </button>
-                        )}
-                    </div>
+                            </Field>
 
-                    {/* Name EN */}
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('admin.varietyName')} (EN){' '}
-                            <span className="text-red-500">*</span>
-                        </label>
-                        <Input
-                            type="text"
-                            value={enName}
-                            onChange={(e) => setEnName(e.target.value)}
-                            placeholder="e.g., BPT 5204 (Samba Mahsuri)"
-                            required
-                        />
-                    </div>
+                            {/* Name EN */}
+                            <Field>
+                                <FieldLabel htmlFor="variety-en-name">
+                                    {t('admin.varietyName')} (EN){' '}
+                                    <span className="text-destructive">*</span>
+                                </FieldLabel>
+                                <Input
+                                    id="variety-en-name"
+                                    type="text"
+                                    value={enName}
+                                    onChange={(e) => setEnName(e.target.value)}
+                                    placeholder="e.g., BPT 5204 (Samba Mahsuri)"
+                                    required
+                                />
+                            </Field>
 
-                    {/* Name TE */}
-                    <div>
-                        <div className="flex items-center justify-between mb-1">
-                            <label className="block text-sm font-medium">
-                                {t('admin.varietyName')} (TE){' '}
-                                <span className="text-red-500">*</span>
-                            </label>
-                            <button
-                                type="button"
-                                onClick={handleTranslate}
-                                disabled={translating || !enName.trim()}
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-[#D4A72C]/10 text-[#D4A72C] border border-[#D4A72C]/20 hover:bg-[#D4A72C]/15 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                            >
-                                <Languages className="h-3.5 w-3.5" />
-                                {translating
-                                    ? t('admin.translating')
-                                    : t('admin.translateFromEnglish')}
-                            </button>
-                        </div>
-                        <Input
-                            type="text"
-                            value={teName}
-                            onChange={(e) => setTeName(e.target.value)}
-                            placeholder="ఉదా., బీపీటీ 5204 (సాంబ మహసూరి)"
-                            required
-                        />
-                    </div>
-                </div>
+                            {/* Name TE */}
+                            <Field>
+                                <div className="flex items-center justify-between">
+                                    <FieldLabel htmlFor="variety-te-name">
+                                        {t('admin.varietyName')} (TE){' '}
+                                        <span className="text-destructive">
+                                            *
+                                        </span>
+                                    </FieldLabel>
+                                    <Button
+                                        type="button"
+                                        size="sm"
+                                        onClick={handleTranslate}
+                                        disabled={translating || !enName.trim()}
+                                        className="bg-[#D4A72C]/10 text-[#D4A72C] hover:bg-[#D4A72C]/15"
+                                    >
+                                        <Languages data-icon="inline-start" />
+                                        {translating
+                                            ? t('admin.translating')
+                                            : t('admin.translateFromEnglish')}
+                                    </Button>
+                                </div>
+                                <Input
+                                    id="variety-te-name"
+                                    type="text"
+                                    value={teName}
+                                    onChange={(e) => setTeName(e.target.value)}
+                                    placeholder="ఉదా., బీపీటీ 5204 (సాంబ మహసూరి)"
+                                    required
+                                />
+                            </Field>
+                        </FieldGroup>
+                    </CardContent>
+                </Card>
 
                 {/* ── Districts ───────────────────────────── */}
-                <div className="bg-[#161618] rounded-xl border border-white/[0.06] p-5 space-y-4">
-                    <h2 className="font-semibold text-lg">
-                        {t('admin.districts')}
-                    </h2>
-                    <MultiSelectDropdown
-                        options={DISTRICT_KEYS.map((key) => ({
-                            value: key,
-                            label: t(`districts.${key}`),
-                        }))}
-                        values={selectedDistricts}
-                        onChange={setSelectedDistricts}
-                        placeholder={t('admin.selectDistricts')}
-                        ariaLabel={t('admin.districts')}
-                    />
-                </div>
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-lg">
+                            {t('admin.districts')}
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <MultiSelectDropdown
+                            options={DISTRICT_KEYS.map((key) => ({
+                                value: key,
+                                label: t(`districts.${key}`),
+                            }))}
+                            values={selectedDistricts}
+                            onChange={setSelectedDistricts}
+                            placeholder={t('admin.selectDistricts')}
+                            ariaLabel={t('admin.districts')}
+                        />
+                    </CardContent>
+                </Card>
 
                 {/* ── Recommended Seasons ─────────────────── */}
-                <div className="bg-[#161618] rounded-xl border border-white/[0.06] p-5 space-y-4">
-                    <div className="flex items-center justify-between">
+                <Card>
+                    <CardHeader className="flex-row items-center justify-between">
                         <div>
-                            <h2 className="font-semibold text-lg">
+                            <CardTitle className="text-lg">
                                 {t('admin.recommendedSeasons')}
-                            </h2>
-                            <p className="text-xs text-neutral-400">
+                            </CardTitle>
+                            <FieldDescription>
                                 {t('admin.recommendedSeasonsHint')}
-                            </p>
+                            </FieldDescription>
                         </div>
-                        <button
+                        <Button
                             type="button"
+                            variant="link"
+                            size="sm"
                             onClick={() =>
                                 setSeasons((p) => [...p, emptySeasonState()])
                             }
-                            className="text-sm text-[#5E6AD2] hover:text-[#5E6AD2] inline-flex items-center gap-1"
+                            className="w-fit px-0"
                         >
-                            <Plus className="h-4 w-4" />
+                            <Plus data-icon="inline-start" />
                             {t('admin.addSeason')}
-                        </button>
-                    </div>
-
-                    {seasons.map((season, idx) => (
-                        <div
-                            key={idx}
-                            className="border border-white/[0.06] rounded-lg p-4 space-y-3 bg-white/[0.03]"
-                        >
-                            <div className="flex items-center justify-between">
-                                <span className="text-sm font-medium">
-                                    {t('admin.seasonName')} #{idx + 1}
-                                </span>
-                                <button
-                                    type="button"
-                                    onClick={() => removeSeason(idx)}
-                                    className="text-[#D94F4F] hover:text-[#D94F4F] text-xs inline-flex items-center gap-1"
-                                >
-                                    <X className="h-3.5 w-3.5" />
-                                    {t('admin.removeSeason')}
-                                </button>
-                            </div>
-
-                            {/* Season name EN / TE */}
-                            <div className="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label className="block text-xs font-medium mb-1">
-                                        {t('admin.seasonName')} (EN)
-                                    </label>
-                                    <Input
-                                        type="text"
-                                        value={season.nameEn}
-                                        onChange={(e) =>
-                                            updateSeason(idx, {
-                                                nameEn: e.target.value,
-                                            })
-                                        }
-                                        className="text-sm"
-                                        placeholder="e.g., Kharif"
-                                    />
+                        </Button>
+                    </CardHeader>
+                    <CardContent className="flex flex-col gap-4">
+                        {seasons.map((season, idx) => (
+                            <div
+                                key={idx}
+                                className="flex flex-col border border-white/[0.06] rounded-lg p-4 gap-3 bg-white/[0.03]"
+                            >
+                                <div className="flex items-center justify-between">
+                                    <span className="text-sm font-medium">
+                                        {t('admin.seasonName')} #{idx + 1}
+                                    </span>
+                                    <Button
+                                        type="button"
+                                        variant="link"
+                                        size="sm"
+                                        onClick={() => removeSeason(idx)}
+                                        className="w-fit px-0 text-destructive"
+                                    >
+                                        <X data-icon="inline-start" />
+                                        {t('admin.removeSeason')}
+                                    </Button>
                                 </div>
-                                <div>
-                                    <label className="block text-xs font-medium mb-1">
-                                        {t('admin.seasonName')} (TE)
-                                    </label>
-                                    <Input
-                                        type="text"
-                                        value={season.nameTe}
-                                        onChange={(e) =>
-                                            updateSeason(idx, {
-                                                nameTe: e.target.value,
-                                            })
-                                        }
-                                        className="text-sm"
-                                        placeholder="ఉదా., ఖరీఫ్"
-                                    />
-                                </div>
-                            </div>
 
-                            {/* Duration */}
-                            <div className="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label className="block text-xs font-medium mb-1">
-                                        {t('admin.durationMin')}
-                                    </label>
-                                    <Input
-                                        type="number"
-                                        min={1}
-                                        value={season.durationMin}
-                                        onChange={(e) =>
-                                            updateSeason(idx, {
-                                                durationMin: e.target.value,
-                                            })
-                                        }
-                                        className="text-sm"
-                                        placeholder="e.g., 120"
-                                    />
+                                {/* Season name EN / TE */}
+                                <div className="grid grid-cols-2 gap-3">
+                                    <Field>
+                                        <FieldLabel
+                                            htmlFor={`season-name-en-${idx}`}
+                                        >
+                                            {t('admin.seasonName')} (EN)
+                                        </FieldLabel>
+                                        <Input
+                                            id={`season-name-en-${idx}`}
+                                            type="text"
+                                            value={season.nameEn}
+                                            onChange={(e) =>
+                                                updateSeason(idx, {
+                                                    nameEn: e.target.value,
+                                                })
+                                            }
+                                            className="text-sm"
+                                            placeholder="e.g., Kharif"
+                                        />
+                                    </Field>
+                                    <Field>
+                                        <FieldLabel
+                                            htmlFor={`season-name-te-${idx}`}
+                                        >
+                                            {t('admin.seasonName')} (TE)
+                                        </FieldLabel>
+                                        <Input
+                                            id={`season-name-te-${idx}`}
+                                            type="text"
+                                            value={season.nameTe}
+                                            onChange={(e) =>
+                                                updateSeason(idx, {
+                                                    nameTe: e.target.value,
+                                                })
+                                            }
+                                            className="text-sm"
+                                            placeholder="ఉదా., ఖరీఫ్"
+                                        />
+                                    </Field>
                                 </div>
-                                <div>
-                                    <label className="block text-xs font-medium mb-1">
-                                        {t('admin.durationMax')}
-                                    </label>
-                                    <Input
-                                        type="number"
-                                        min={1}
-                                        value={season.durationMax}
-                                        onChange={(e) =>
-                                            updateSeason(idx, {
-                                                durationMax: e.target.value,
-                                            })
-                                        }
-                                        className="text-sm"
-                                        placeholder="e.g., 150"
-                                    />
+
+                                {/* Duration */}
+                                <div className="grid grid-cols-2 gap-3">
+                                    <Field>
+                                        <FieldLabel
+                                            htmlFor={`season-duration-min-${idx}`}
+                                        >
+                                            {t('admin.durationMin')}
+                                        </FieldLabel>
+                                        <Input
+                                            id={`season-duration-min-${idx}`}
+                                            type="number"
+                                            min={1}
+                                            value={season.durationMin}
+                                            onChange={(e) =>
+                                                updateSeason(idx, {
+                                                    durationMin: e.target.value,
+                                                })
+                                            }
+                                            className="text-sm"
+                                            placeholder="e.g., 120"
+                                        />
+                                    </Field>
+                                    <Field>
+                                        <FieldLabel
+                                            htmlFor={`season-duration-max-${idx}`}
+                                        >
+                                            {t('admin.durationMax')}
+                                        </FieldLabel>
+                                        <Input
+                                            id={`season-duration-max-${idx}`}
+                                            type="number"
+                                            min={1}
+                                            value={season.durationMax}
+                                            onChange={(e) =>
+                                                updateSeason(idx, {
+                                                    durationMax: e.target.value,
+                                                })
+                                            }
+                                            className="text-sm"
+                                            placeholder="e.g., 150"
+                                        />
+                                    </Field>
                                 </div>
-                            </div>
 
-                            {/* Months multi-select */}
-                            <div>
-                                <label className="block text-xs font-medium mb-1">
-                                    {t('admin.monthsEn')}
-                                </label>
-                                <MultiSelectDropdown
-                                    options={MONTH_KEYS.map((k) => ({
-                                        value: k,
-                                        label: t(`months.${k}`, {
-                                            lng: 'en',
-                                        }),
-                                    }))}
-                                    values={getSeasonMonthKeys(season)}
-                                    onChange={(keys) =>
-                                        handleSeasonMonthsChange(idx, keys)
-                                    }
-                                    placeholder="Select months..."
-                                    ariaLabel="Months"
-                                />
+                                {/* Months multi-select */}
+                                <Field>
+                                    <FieldLabel>
+                                        {t('admin.monthsEn')}
+                                    </FieldLabel>
+                                    <MultiSelectDropdown
+                                        options={MONTH_KEYS.map((k) => ({
+                                            value: k,
+                                            label: t(`months.${k}`, {
+                                                lng: 'en',
+                                            }),
+                                        }))}
+                                        values={getSeasonMonthKeys(season)}
+                                        onChange={(keys) =>
+                                            handleSeasonMonthsChange(idx, keys)
+                                        }
+                                        placeholder="Select months..."
+                                        ariaLabel="Months"
+                                    />
+                                </Field>
                             </div>
-                        </div>
-                    ))}
+                        ))}
 
-                    {seasons.length === 0 && (
-                        <p className="text-sm text-neutral-400 text-center py-4">
-                            {t('admin.recommendedSeasonsHint')}
-                        </p>
-                    )}
-                </div>
+                        {seasons.length === 0 && (
+                            <p className="text-sm text-muted-foreground text-center py-4">
+                                {t('admin.recommendedSeasonsHint')}
+                            </p>
+                        )}
+                    </CardContent>
+                </Card>
 
                 {/* ── Grain Character ─────────────────────── */}
-                <div className="bg-[#161618] rounded-xl border border-white/[0.06] p-5 space-y-4">
-                    <div>
-                        <h2 className="font-semibold text-lg">
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-lg">
                             {t('admin.grainCharacter')}
-                        </h2>
-                        <p className="text-xs text-neutral-400">
+                        </CardTitle>
+                        <FieldDescription>
                             {t('admin.grainCharacterHint')}
-                        </p>
-                    </div>
-
-                    <div>
-                        <label className="block text-xs font-medium mb-1">
-                            English
-                        </label>
-                        {grainCharEn.map((v, i) => (
-                            <div key={i} className="flex gap-2 mb-2">
-                                <Input
-                                    type="text"
-                                    value={v}
-                                    onChange={(e) => {
-                                        const u = [...grainCharEn]
-                                        u[i] = e.target.value
-                                        setGrainCharEn(u)
-                                    }}
-                                    className="flex-1 text-sm"
-                                    placeholder={`Grain character ${i + 1}`}
-                                />
-                                <button
+                        </FieldDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <FieldGroup>
+                            <Field>
+                                <FieldLabel>English</FieldLabel>
+                                {grainCharEn.map((v, i) => (
+                                    <div key={i} className="flex gap-2">
+                                        <Input
+                                            type="text"
+                                            value={v}
+                                            onChange={(e) => {
+                                                const u = [...grainCharEn]
+                                                u[i] = e.target.value
+                                                setGrainCharEn(u)
+                                            }}
+                                            className="flex-1 text-sm"
+                                            placeholder={`Grain character ${i + 1}`}
+                                        />
+                                        <Button
+                                            type="button"
+                                            variant="destructive"
+                                            size="icon"
+                                            onClick={() => {
+                                                setGrainCharEn((p) =>
+                                                    p.filter((_, j) => j !== i),
+                                                )
+                                                setGrainCharTe((p) =>
+                                                    p.filter((_, j) => j !== i),
+                                                )
+                                            }}
+                                            aria-label={t('common.delete')}
+                                        >
+                                            <X />
+                                        </Button>
+                                    </div>
+                                ))}
+                                <Button
                                     type="button"
+                                    variant="link"
+                                    size="sm"
                                     onClick={() => {
-                                        setGrainCharEn((p) =>
-                                            p.filter((_, j) => j !== i),
-                                        )
-                                        setGrainCharTe((p) =>
-                                            p.filter((_, j) => j !== i),
-                                        )
+                                        setGrainCharEn((p) => [...p, ''])
+                                        setGrainCharTe((p) => [...p, ''])
                                     }}
-                                    className="text-[#D94F4F] hover:text-[#D94F4F] p-1"
+                                    className="w-fit px-0"
                                 >
-                                    <X className="h-4 w-4" />
-                                </button>
-                            </div>
-                        ))}
-                        <button
-                            type="button"
-                            onClick={() => {
-                                setGrainCharEn((p) => [...p, ''])
-                                setGrainCharTe((p) => [...p, ''])
-                            }}
-                            className="text-xs text-[#5E6AD2] hover:text-[#5E6AD2] inline-flex items-center gap-1"
-                        >
-                            <Plus className="h-3.5 w-3.5" /> Add
-                        </button>
-                    </div>
+                                    <Plus data-icon="inline-start" /> Add
+                                </Button>
+                            </Field>
 
-                    <div>
-                        <label className="block text-xs font-medium mb-1">
-                            తెలుగు (Telugu)
-                        </label>
-                        {grainCharTe.map((v, i) => (
-                            <div key={i} className="flex gap-2 mb-2">
-                                <Input
-                                    type="text"
-                                    value={v}
-                                    onChange={(e) => {
-                                        const u = [...grainCharTe]
-                                        u[i] = e.target.value
-                                        setGrainCharTe(u)
-                                    }}
-                                    className="flex-1 text-sm"
-                                    placeholder={`గింజ లక్షణం ${i + 1}`}
-                                />
-                                <button
-                                    type="button"
-                                    onClick={() => {
-                                        setGrainCharEn((p) =>
-                                            p.filter((_, j) => j !== i),
-                                        )
-                                        setGrainCharTe((p) =>
-                                            p.filter((_, j) => j !== i),
-                                        )
-                                    }}
-                                    className="text-[#D94F4F] hover:text-[#D94F4F] p-1"
-                                >
-                                    <X className="h-4 w-4" />
-                                </button>
-                            </div>
-                        ))}
-                    </div>
-                </div>
+                            <Field>
+                                <FieldLabel>తెలుగు (Telugu)</FieldLabel>
+                                {grainCharTe.map((v, i) => (
+                                    <div key={i} className="flex gap-2">
+                                        <Input
+                                            type="text"
+                                            value={v}
+                                            onChange={(e) => {
+                                                const u = [...grainCharTe]
+                                                u[i] = e.target.value
+                                                setGrainCharTe(u)
+                                            }}
+                                            className="flex-1 text-sm"
+                                            placeholder={`గింజ లక్షణం ${i + 1}`}
+                                        />
+                                        <Button
+                                            type="button"
+                                            variant="destructive"
+                                            size="icon"
+                                            onClick={() => {
+                                                setGrainCharEn((p) =>
+                                                    p.filter((_, j) => j !== i),
+                                                )
+                                                setGrainCharTe((p) =>
+                                                    p.filter((_, j) => j !== i),
+                                                )
+                                            }}
+                                            aria-label={t('common.delete')}
+                                        >
+                                            <X />
+                                        </Button>
+                                    </div>
+                                ))}
+                            </Field>
+                        </FieldGroup>
+                    </CardContent>
+                </Card>
 
                 {/* ── Special Characteristics ────────────── */}
-                <div className="bg-[#161618] rounded-xl border border-white/[0.06] p-5 space-y-4">
-                    <div className="flex items-center justify-between">
+                <Card>
+                    <CardHeader className="flex-row items-center justify-between">
                         <div>
-                            <h2 className="font-semibold text-lg">
+                            <CardTitle className="text-lg">
                                 {t('admin.specialCharacteristics')}
-                            </h2>
-                            <p className="text-xs text-neutral-400">
+                            </CardTitle>
+                            <FieldDescription>
                                 {t('admin.specialCharacteristicsHint')}
-                            </p>
+                            </FieldDescription>
                         </div>
-                        <button
+                        <Button
                             type="button"
+                            variant="link"
+                            size="sm"
                             onClick={() =>
                                 setSpecialChars((p) => [
                                     ...p,
                                     { en: '', te: '' },
                                 ])
                             }
-                            className="text-sm text-[#5E6AD2] hover:text-[#5E6AD2] inline-flex items-center gap-1"
+                            className="w-fit px-0"
                         >
-                            <Plus className="h-4 w-4" />
+                            <Plus data-icon="inline-start" />
                             {t('admin.addCharacteristic')}
-                        </button>
-                    </div>
-
-                    {specialChars.map((c, i) => (
-                        <div
-                            key={i}
-                            className="border border-white/[0.06] rounded-lg p-3 space-y-2 bg-white/[0.03]"
-                        >
-                            <div className="flex items-center justify-between">
-                                <span className="text-xs font-medium">
-                                    #{i + 1}
-                                </span>
-                                <button
-                                    type="button"
-                                    onClick={() =>
-                                        setSpecialChars((p) =>
-                                            p.filter((_, j) => j !== i),
-                                        )
-                                    }
-                                    className="text-[#D94F4F] hover:text-[#D94F4F] p-1"
-                                >
-                                    <X className="h-3.5 w-3.5" />
-                                </button>
+                        </Button>
+                    </CardHeader>
+                    <CardContent className="flex flex-col gap-4">
+                        {specialChars.map((c, i) => (
+                            <div
+                                key={i}
+                                className="flex flex-col border border-white/[0.06] rounded-lg p-3 gap-2 bg-white/[0.03]"
+                            >
+                                <div className="flex items-center justify-between">
+                                    <span className="text-xs font-medium">
+                                        #{i + 1}
+                                    </span>
+                                    <Button
+                                        type="button"
+                                        variant="destructive"
+                                        size="icon-xs"
+                                        onClick={() =>
+                                            setSpecialChars((p) =>
+                                                p.filter((_, j) => j !== i),
+                                            )
+                                        }
+                                        aria-label={t('common.delete')}
+                                    >
+                                        <X />
+                                    </Button>
+                                </div>
+                                <Input
+                                    type="text"
+                                    value={c.en}
+                                    onChange={(e) => {
+                                        const u = [...specialChars]
+                                        u[i] = { ...u[i], en: e.target.value }
+                                        setSpecialChars(u)
+                                    }}
+                                    className="text-sm"
+                                    placeholder="English description"
+                                />
+                                <Input
+                                    type="text"
+                                    value={c.te}
+                                    onChange={(e) => {
+                                        const u = [...specialChars]
+                                        u[i] = { ...u[i], te: e.target.value }
+                                        setSpecialChars(u)
+                                    }}
+                                    className="text-sm"
+                                    placeholder="తెలుగు వివరణ"
+                                />
                             </div>
-                            <Input
-                                type="text"
-                                value={c.en}
-                                onChange={(e) => {
-                                    const u = [...specialChars]
-                                    u[i] = { ...u[i], en: e.target.value }
-                                    setSpecialChars(u)
-                                }}
-                                className="text-sm"
-                                placeholder="English description"
-                            />
-                            <Input
-                                type="text"
-                                value={c.te}
-                                onChange={(e) => {
-                                    const u = [...specialChars]
-                                    u[i] = { ...u[i], te: e.target.value }
-                                    setSpecialChars(u)
-                                }}
-                                className="text-sm"
-                                placeholder="తెలుగు వివరణ"
-                            />
-                        </div>
-                    ))}
+                        ))}
 
-                    {specialChars.length === 0 && (
-                        <p className="text-sm text-neutral-400 text-center py-2">
-                            {t('admin.specialCharacteristicsHint')}
-                        </p>
-                    )}
-                </div>
+                        {specialChars.length === 0 && (
+                            <p className="text-sm text-muted-foreground text-center py-2">
+                                {t('admin.specialCharacteristicsHint')}
+                            </p>
+                        )}
+                    </CardContent>
+                </Card>
 
                 {/* ── Linked Diseases ─────────────────────── */}
-                <div className="bg-[#161618] rounded-xl border border-white/[0.06] p-5 space-y-4">
-                    <h2 className="font-semibold text-lg">
-                        {t('admin.linkedDiseases')}
-                    </h2>
-                    <MultiSelectDropdown
-                        options={allDiseases.map((d) => ({
-                            value: d.id,
-                            label: `${d.name.en}${d.name.te ? ` (${d.name.te})` : ''}`,
-                        }))}
-                        values={selectedDiseases}
-                        onChange={setSelectedDiseases}
-                        placeholder={t('admin.selectDisease')}
-                        ariaLabel={t('admin.linkedDiseases')}
-                    />
-                </div>
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-lg">
+                            {t('admin.linkedDiseases')}
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <MultiSelectDropdown
+                            options={allDiseases.map((d) => ({
+                                value: d.id,
+                                label: `${d.name.en}${d.name.te ? ` (${d.name.te})` : ''}`,
+                            }))}
+                            values={selectedDiseases}
+                            onChange={setSelectedDiseases}
+                            placeholder={t('admin.selectDisease')}
+                            ariaLabel={t('admin.linkedDiseases')}
+                        />
+                    </CardContent>
+                </Card>
 
                 {/* ── Actions ─────────────────────────────── */}
-                {message && (
-                    <p
-                        className={`text-sm font-medium ${message === t('admin.saved') ? 'text-[#4DA34D]' : 'text-[#D94F4F]'}`}
-                    >
-                        {message}
-                    </p>
-                )}
-
                 <Button
                     type="submit"
                     disabled={saveDisabled}
-                    className="w-full inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full"
                 >
-                    <Save className="h-4 w-4" />
+                    <Save data-icon="inline-start" />
                     {saving ? t('common.saving') : t('common.save')}
                 </Button>
             </form>

@@ -22,11 +22,11 @@ export function LanguageToggle() {
             variant="ghost"
             size="sm"
             onClick={toggleLanguage}
-            className="rounded-full gap-1.5 border text-[#8B8B8D] hover:text-white bg-[#161618] border-white/[0.06] hover:bg-white/[0.08] hover:border-white/[0.12]"
+            className="rounded-full gap-1.5 border text-muted-foreground hover:text-white bg-[#161618] border-white/[0.06] hover:bg-white/[0.08] hover:border-white/[0.12]"
             aria-label={t('common.language')}
             title={t(`languages.${nextLang}`)}
         >
-            <Globe className="h-3.5 w-3.5" />
+            <Globe className="size-3.5" />
             {NATIVE_LABELS[nextLang]}
         </Button>
     )

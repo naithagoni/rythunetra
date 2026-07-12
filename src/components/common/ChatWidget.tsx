@@ -207,15 +207,15 @@ export function ChatWidget() {
                                 disabled={!AI_ENABLED}
                                 size="icon-lg"
                                 className={cn(
-                                    'w-14 h-14 rounded-full shadow-elevated',
+                                    'size-14 rounded-full shadow-elevated',
                                     AI_ENABLED
                                         ? 'bg-primary text-primary-foreground hover:bg-primary/90'
                                         : 'bg-muted text-muted-foreground cursor-not-allowed',
                                 )}
                             >
-                                <Bot className="h-6 w-6 group-hover:scale-110 transition-transform" />
+                                <Bot className="size-6 group-hover:scale-110 transition-transform" />
                                 {AI_ENABLED && (
-                                    <span className="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full border-2 border-background" />
+                                    <span className="absolute -top-1 -right-1 size-3 bg-white rounded-full border-2 border-background" />
                                 )}
                             </Button>
                         </TooltipTrigger>
@@ -241,10 +241,10 @@ export function ChatWidget() {
                                     onClick={() => setShowSessions(false)}
                                     className="text-primary-foreground hover:bg-primary-foreground/10"
                                 >
-                                    <ChevronLeft className="h-4 w-4" />
+                                    <ChevronLeft className="size-4" />
                                 </Button>
                             ) : (
-                                <Bot className="h-5 w-5" />
+                                <Bot className="size-5" />
                             )}
                             <h2 className="font-semibold text-sm">
                                 {showSessions
@@ -262,7 +262,7 @@ export function ChatWidget() {
                                         title={t('chat.history')}
                                         className="text-primary-foreground hover:bg-primary-foreground/10"
                                     >
-                                        <MessageCircle className="h-4 w-4" />
+                                        <MessageCircle className="size-4" />
                                     </Button>
                                     <Button
                                         variant="ghost"
@@ -272,7 +272,7 @@ export function ChatWidget() {
                                         title={t('chat.newChat')}
                                         className="text-primary-foreground hover:bg-primary-foreground/10"
                                     >
-                                        <Plus className="h-4 w-4" />
+                                        <Plus className="size-4" />
                                     </Button>
                                 </>
                             )}
@@ -285,7 +285,7 @@ export function ChatWidget() {
                                 }}
                                 className="text-primary-foreground hover:bg-primary-foreground/10 hidden md:inline-flex"
                             >
-                                <Minimize2 className="h-4 w-4" />
+                                <Minimize2 className="size-4" />
                             </Button>
                             <Button
                                 variant="ghost"
@@ -296,7 +296,7 @@ export function ChatWidget() {
                                 }}
                                 className="text-primary-foreground hover:bg-primary-foreground/10 md:hidden"
                             >
-                                <X className="h-4 w-4" />
+                                <X className="size-4" />
                             </Button>
                         </div>
                     </div>
@@ -334,7 +334,7 @@ export function ChatWidget() {
                                             }}
                                             className="text-destructive hover:text-destructive shrink-0"
                                         >
-                                            <Trash2 className="h-3.5 w-3.5" />
+                                            <Trash2 className="size-3.5" />
                                         </Button>
                                     </div>
                                 ))
@@ -344,12 +344,12 @@ export function ChatWidget() {
                         <>
                             {/* Messages */}
                             <ScrollArea className="flex-1 px-3 py-3">
-                                <div className="space-y-3">
+                                <div className="flex flex-col gap-3">
                                     {messages.length === 0 ? (
-                                        <div className="flex flex-col items-center justify-center h-full text-center space-y-4 px-2 pt-8">
+                                        <div className="flex flex-col items-center justify-center h-full text-center gap-4 px-2 pt-8">
                                             <Avatar size="lg">
                                                 <AvatarFallback className="bg-primary/10">
-                                                    <Bot className="h-6 w-6 text-primary" />
+                                                    <Bot className="size-6 text-primary" />
                                                 </AvatarFallback>
                                             </Avatar>
                                             <div>
@@ -392,7 +392,7 @@ export function ChatWidget() {
                                                         'assistant' && (
                                                         <Avatar size="sm">
                                                             <AvatarFallback className="bg-primary/10">
-                                                                <Bot className="h-3.5 w-3.5 text-primary" />
+                                                                <Bot className="size-3.5 text-primary" />
                                                             </AvatarFallback>
                                                         </Avatar>
                                                     )}
@@ -422,7 +422,7 @@ export function ChatWidget() {
                                                         'user' && (
                                                         <Avatar size="sm">
                                                             <AvatarFallback>
-                                                                <User className="h-3.5 w-3.5" />
+                                                                <User className="size-3.5" />
                                                             </AvatarFallback>
                                                         </Avatar>
                                                     )}
@@ -434,11 +434,11 @@ export function ChatWidget() {
                                         <div className="flex gap-2">
                                             <Avatar size="sm">
                                                 <AvatarFallback className="bg-primary/10">
-                                                    <Bot className="h-3.5 w-3.5 text-primary" />
+                                                    <Bot className="size-3.5 text-primary" />
                                                 </AvatarFallback>
                                             </Avatar>
                                             <div className="bg-muted rounded-xl px-3 py-2">
-                                                <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                                                <Loader2 className="size-4 animate-spin text-muted-foreground" />
                                             </div>
                                         </div>
                                     )}
@@ -446,7 +446,7 @@ export function ChatWidget() {
                                         <div className="flex gap-2 items-start">
                                             <Avatar size="sm">
                                                 <AvatarFallback className="bg-destructive/10">
-                                                    <AlertTriangle className="h-3.5 w-3.5 text-destructive" />
+                                                    <AlertTriangle className="size-3.5 text-destructive" />
                                                 </AvatarFallback>
                                             </Avatar>
                                             <div className="bg-destructive/5 border border-destructive/20 rounded-xl px-3 py-2 text-sm text-destructive max-w-[85%]">
@@ -474,7 +474,7 @@ export function ChatWidget() {
                                                     }}
                                                     className="mt-1 text-destructive hover:text-destructive gap-1"
                                                 >
-                                                    <RefreshCw className="h-3 w-3" />
+                                                    <RefreshCw className="size-3" />
                                                     {t('chat.retry')}
                                                 </Button>
                                             </div>
@@ -506,7 +506,7 @@ export function ChatWidget() {
                                         disabled={isLoading || !input.trim()}
                                         size="icon"
                                     >
-                                        <Send className="h-4 w-4" />
+                                        <Send className="size-4" />
                                     </Button>
                                 </div>
                                 <p className="text-[10px] text-muted-foreground mt-1 text-center">

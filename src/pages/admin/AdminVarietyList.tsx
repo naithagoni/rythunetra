@@ -8,6 +8,15 @@ import {
 } from '@/services/adminService'
 import { Edit, Plus, AlertTriangle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import {
+    Table,
+    TableHeader,
+    TableBody,
+    TableRow,
+    TableHead,
+    TableCell,
+} from '@/components/ui/table'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
 import { CustomDropdown } from '@/components/common/CustomDropdown'
 import type { LocalizedText } from '@/types/i18n'
@@ -53,20 +62,20 @@ export function AdminVarietyListPage() {
                 <div>
                     <Link
                         to="/admin"
-                        className="text-sm text-[#5E6AD2] hover:underline mb-1 inline-block"
+                        className="text-sm text-primary hover:underline mb-1 inline-block"
                     >
                         ← {t('admin.dashboard')}
                     </Link>
-                    <h1 className="text-2xl font-bold text-white">
+                    <h1 className="text-2xl font-bold text-foreground">
                         {t('admin.varieties')}
                     </h1>
-                    <p className="text-sm text-neutral-400">
+                    <p className="text-sm text-muted-foreground">
                         {varieties.length} {t('common.total')}
                     </p>
                 </div>
                 {crops.length === 0 ? (
                     <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-[#D4A72C]/10 border border-[#D4A72C]/20 text-[#D4A72C] text-sm">
-                        <AlertTriangle className="h-4 w-4 shrink-0" />
+                        <AlertTriangle className="size-4 shrink-0" />
                         <span>
                             {t('admin.noCropsYet')}{' '}
                             <Link
@@ -95,82 +104,79 @@ export function AdminVarietyListPage() {
                             disabled={!selectedCropId}
                             className="gap-2 whitespace-nowrap"
                         >
-                            <Plus className="h-4 w-4" />
+                            <Plus className="size-4" />
                             {t('admin.addVariety')}
                         </Button>
                     </div>
                 )}
             </div>
 
-            <div className="bg-[#161618] rounded-xl border border-white/[0.06] overflow-hidden">
-                <table className="w-full text-sm">
-                    <thead className="bg-white/[0.03] border-b border-white/[0.06]">
-                        <tr>
-                            <th className="text-left px-4 py-3 font-semibold">
-                                ID
-                            </th>
-                            <th className="text-left px-4 py-3 font-semibold">
-                                {t('admin.name')}
-                            </th>
-                            <th className="text-left px-4 py-3 font-semibold">
-                                {t('admin.majorCrop')}
-                            </th>
-                            <th className="px-4 py-3" />
-                        </tr>
-                    </thead>
-                    <tbody>
+            <Card className="p-0 overflow-hidden">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>ID</TableHead>
+                            <TableHead>{t('admin.name')}</TableHead>
+                            <TableHead>{t('admin.majorCrop')}</TableHead>
+                            <TableHead />
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
                         {varieties.map((v) => {
                             const en = v.name?.en
                             const te = v.name?.te
                             const cropName = cropMap.get(v.major_crop)
 
                             return (
-                                <tr
-                                    key={v.id}
-                                    className="border-b border-white/[0.06] last:border-0 hover:bg-white/[0.04]"
-                                >
-                                    <td className="px-4 py-3 text-xs text-neutral-400 font-mono">
+                                <TableRow key={v.id}>
+                                    <TableCell className="text-xs text-muted-foreground font-mono">
                                         {v.id.slice(0, 8)}
-                                    </td>
-                                    <td className="px-4 py-3">
+                                    </TableCell>
+                                    <TableCell>
                                         <div className="font-medium">
                                             {en ?? '—'}
                                         </div>
                                         {te && (
-                                            <div className="text-xs text-neutral-400">
+                                            <div className="text-xs text-muted-foreground">
                                                 {te}
                                             </div>
                                         )}
-                                    </td>
-                                    <td className="px-4 py-3 text-neutral-400">
+                                    </TableCell>
+                                    <TableCell className="text-muted-foreground">
                                         {cropName?.en ??
                                             v.major_crop.slice(0, 8)}
-                                    </td>
-                                    <td className="px-4 py-3 text-right">
-                                        <Link
-                                            to={`/admin/crops/${v.major_crop}/varieties/${v.id}`}
-                                            className="text-[#5E6AD2] hover:underline inline-flex items-center gap-1"
+                                    </TableCell>
+                                    <TableCell className="text-right">
+                                        <Button
+                                            asChild
+                                            variant="ghost"
+                                            size="sm"
+                                            className="text-primary"
                                         >
-                                            <Edit className="h-3.5 w-3.5" />
-                                            {t('common.edit')}
-                                        </Link>
-                                    </td>
-                                </tr>
+                                            <Link
+                                                to={`/admin/crops/${v.major_crop}/varieties/${v.id}`}
+                                            >
+                                                <Edit data-icon="inline-start" />
+                                                {t('common.edit')}
+                                            </Link>
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
                             )
                         })}
                         {varieties.length === 0 && (
-                            <tr>
-                                <td
+                            <TableRow>
+                                <TableCell
                                     colSpan={4}
-                                    className="px-4 py-12 text-center text-neutral-400"
+                                    className="py-12 text-center text-muted-foreground"
                                 >
                                     {t('admin.noVarieties')}
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         )}
-                    </tbody>
-                </table>
-            </div>
+                    </TableBody>
+                </Table>
+            </Card>
         </div>
     )
 }

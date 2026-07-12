@@ -170,9 +170,9 @@ export function LandingPage() {
                         transition={{ duration: 0.5, ease }}
                         className="mb-8 inline-flex items-center gap-2 rounded-full border border-[#37393e] bg-[#ffffff0d] px-4 py-2 text-xs font-medium text-[#9c9da1]"
                     >
-                        <span className="relative flex h-2 w-2">
+                        <span className="relative flex size-2">
                             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-white opacity-75" />
-                            <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
+                            <span className="relative inline-flex size-2 rounded-full bg-white" />
                         </span>
                         {t('landing.hero.badge')}
                     </motion.div>
@@ -207,11 +207,11 @@ export function LandingPage() {
                         <Button
                             asChild
                             size="lg"
-                            className="gap-2 rounded-lg px-6 py-3 text-base font-semibold bg-[#5E6AD2] text-white hover:bg-[#5361C7] transition-colors duration-200"
+                            className="gap-2 rounded-lg px-6 py-3 text-base font-semibold bg-primary text-white hover:bg-[#5361C7] transition-colors duration-200"
                         >
                             <Link to="/crops">
                                 {t('landing.hero.cta')}
-                                <ArrowRight className="h-4 w-4" />
+                                <ArrowRight className="size-4" />
                             </Link>
                         </Button>
                     </motion.div>
@@ -276,7 +276,7 @@ export function LandingPage() {
                                     to={f.to}
                                     className="group block bg-[#19191b] p-8 hover:bg-[#1e2022] transition-colors duration-200"
                                 >
-                                    <f.icon className="h-6 w-6 text-[#9c9da1] mb-4 transition-transform duration-200 group-hover:-translate-y-0.5" />
+                                    <f.icon className="size-6 text-[#9c9da1] mb-4 transition-transform duration-200 group-hover:-translate-y-0.5" />
                                     <h3 className="text-[15px] font-semibold text-[#e4e5e9] mb-1.5 tracking-[-0.02em]">
                                         {f.title}
                                     </h3>
@@ -394,7 +394,7 @@ export function LandingPage() {
                                 <span className="absolute -right-2 -top-4 font-mono text-[80px] font-black text-[#ffffff05] leading-none select-none pointer-events-none">
                                     {m.num}
                                 </span>
-                                <m.icon className="h-5 w-5 text-[#9c9da1] mb-4" />
+                                <m.icon className="size-5 text-[#9c9da1] mb-4" />
                                 <h3 className="text-base font-semibold text-[#e4e5e9] tracking-[-0.02em]">
                                     {m.title}
                                 </h3>
@@ -428,11 +428,11 @@ export function LandingPage() {
                             <Button
                                 asChild
                                 size="lg"
-                                className="group rounded-lg w-full sm:w-auto px-6 font-semibold bg-[#5E6AD2] text-white hover:bg-[#5361C7] transition-colors duration-200"
+                                className="group rounded-lg w-full sm:w-auto px-6 font-semibold bg-primary text-white hover:bg-[#5361C7] transition-colors duration-200"
                             >
                                 <Link to="/register" className="gap-2">
                                     {t('landing.cta.register')}
-                                    <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+                                    <ArrowRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
                                 </Link>
                             </Button>
                         )}
@@ -442,7 +442,7 @@ export function LandingPage() {
                             size="lg"
                             className={`rounded-lg w-full sm:w-auto px-6 ${
                                 user
-                                    ? 'bg-[#5E6AD2] text-white hover:bg-[#5361C7]'
+                                    ? 'bg-primary text-white hover:bg-[#5361C7]'
                                     : 'border-[#37393e] text-[#e4e5e9] hover:bg-[#1e2022] hover:border-[#424449]'
                             } transition-colors duration-200`}
                         >

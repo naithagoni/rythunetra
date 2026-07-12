@@ -20,7 +20,7 @@ const severityVariant: Record<string, string> = {
     low: 'bg-[#4DA34D]/10 text-[#4DA34D] hover:bg-[#4DA34D]/10',
     moderate: 'bg-[#D4A72C]/10 text-[#D4A72C] hover:bg-[#D4A72C]/10',
     high: 'bg-[#F2994A]/10 text-[#F2994A] hover:bg-[#F2994A]/10',
-    critical: 'bg-[#D94F4F]/10 text-[#D94F4F] hover:bg-[#D94F4F]/10',
+    critical: 'bg-destructive/10 text-destructive hover:bg-destructive/10',
 }
 
 export function DiseaseCard({ disease, language }: DiseaseCardProps) {
@@ -44,11 +44,11 @@ export function DiseaseCard({ disease, language }: DiseaseCardProps) {
                         <img
                             src={image}
                             alt={name}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            className="size-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                     ) : (
-                        <div className="w-full h-full flex items-center justify-center text-muted-foreground/40">
-                            <Leaf className="h-12 w-12" />
+                        <div className="size-full flex items-center justify-center text-muted-foreground/40">
+                            <Leaf className="size-12" />
                         </div>
                     )}
                 </div>
@@ -63,7 +63,7 @@ export function DiseaseCard({ disease, language }: DiseaseCardProps) {
                                 severityVariant[severity],
                             )}
                         >
-                            <Thermometer className="h-2.5 w-2.5" />
+                            <Thermometer className="size-2.5" />
                             {t(`diseases.${severity}`)}
                         </Badge>
                         {diseaseType && (

@@ -8,11 +8,15 @@ import { CustomDropdown } from '@/components/common/CustomDropdown'
 import { DISTRICT_KEYS } from '@/config/districts'
 import { getMandalsForDistrict } from '@/config/mandals'
 import { Mail, Lock, User, UserPlus, MapPin } from 'lucide-react'
+import { toast } from 'sonner'
 import { Card, CardContent } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
+import {
+    InputGroup,
+    InputGroupAddon,
+    InputGroupInput,
+} from '@/components/ui/input-group'
 import { Separator } from '@/components/ui/separator'
 
 export function RegisterPage() {
@@ -25,7 +29,6 @@ export function RegisterPage() {
     const [password, setPassword] = useState('')
     const [district, setDistrict] = useState('')
     const [mandal, setMandal] = useState('')
-    const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
 
     const districtOptions = useMemo(
@@ -54,16 +57,17 @@ export function RegisterPage() {
     const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault()
         if (!district) {
-            setError(t('settings.selectDistrict'))
+            toast.error(t('settings.selectDistrict'))
             return
         }
-        setError('')
         setLoading(true)
         try {
             await signUp(email, password, name, district, mandal)
             navigate('/')
         } catch (err: unknown) {
-            setError(err instanceof Error ? err.message : t('errors.generic'))
+            toast.error(
+                err instanceof Error ? err.message : t('errors.generic'),
+            )
         } finally {
             setLoading(false)
         }
@@ -73,7 +77,9 @@ export function RegisterPage() {
         try {
             await signInWithGoogle()
         } catch (err: unknown) {
-            setError(err instanceof Error ? err.message : t('errors.generic'))
+            toast.error(
+                err instanceof Error ? err.message : t('errors.generic'),
+            )
         }
     }
 
@@ -81,8 +87,8 @@ export function RegisterPage() {
         <div className="min-h-[60vh] flex items-center justify-center px-4 py-12">
             <div className="w-full max-w-md">
                 <div className="text-center mb-6">
-                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 mb-3">
-                        <UserPlus className="h-6 w-6 text-primary" />
+                    <div className="inline-flex items-center justify-center size-12 rounded-xl bg-primary/10 mb-3">
+                        <UserPlus className="size-6 text-primary" />
                     </div>
                     <h1 className="text-2xl font-bold text-foreground">
                         {t('auth.registerTitle')}
@@ -94,156 +100,158 @@ export function RegisterPage() {
 
                 <Card>
                     <CardContent className="p-6 sm:p-8">
-                        {error && (
-                            <Alert variant="destructive" className="mb-4">
-                                <AlertDescription>{error}</AlertDescription>
-                            </Alert>
-                        )}
+                        <form onSubmit={handleSubmit}>
+                            <FieldGroup>
+                                <Field>
+                                    <FieldLabel htmlFor="name">
+                                        {t('auth.name')}{' '}
+                                        <span className="text-destructive">
+                                            *
+                                        </span>
+                                    </FieldLabel>
+                                    <InputGroup>
+                                        <InputGroupAddon>
+                                            <User />
+                                        </InputGroupAddon>
+                                        <InputGroupInput
+                                            id="name"
+                                            type="text"
+                                            value={name}
+                                            onChange={(e) =>
+                                                setName(e.target.value)
+                                            }
+                                            placeholder={t('auth.name')}
+                                            required
+                                        />
+                                    </InputGroup>
+                                </Field>
 
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            <div className="space-y-1.5">
-                                <Label htmlFor="name">
-                                    {t('auth.name')}{' '}
-                                    <span className="text-destructive">*</span>
-                                </Label>
-                                <div className="relative">
-                                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input
-                                        id="name"
-                                        type="text"
-                                        value={name}
-                                        onChange={(e) =>
-                                            setName(e.target.value)
-                                        }
-                                        className="pl-10"
-                                        placeholder={t('auth.name')}
-                                        required
-                                    />
-                                </div>
-                            </div>
+                                <Field>
+                                    <FieldLabel htmlFor="email">
+                                        {t('auth.email')}{' '}
+                                        <span className="text-destructive">
+                                            *
+                                        </span>
+                                    </FieldLabel>
+                                    <InputGroup>
+                                        <InputGroupAddon>
+                                            <Mail />
+                                        </InputGroupAddon>
+                                        <InputGroupInput
+                                            id="email"
+                                            type="email"
+                                            value={email}
+                                            onChange={(e) =>
+                                                setEmail(e.target.value)
+                                            }
+                                            placeholder="you@example.com"
+                                            required
+                                        />
+                                    </InputGroup>
+                                </Field>
 
-                            <div className="space-y-1.5">
-                                <Label htmlFor="email">
-                                    {t('auth.email')}{' '}
-                                    <span className="text-destructive">*</span>
-                                </Label>
-                                <div className="relative">
-                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input
-                                        id="email"
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) =>
-                                            setEmail(e.target.value)
-                                        }
-                                        className="pl-10"
-                                        placeholder="you@example.com"
-                                        required
-                                    />
-                                </div>
-                            </div>
+                                <Field>
+                                    <FieldLabel htmlFor="password">
+                                        {t('auth.password')}{' '}
+                                        <span className="text-destructive">
+                                            *
+                                        </span>
+                                    </FieldLabel>
+                                    <InputGroup>
+                                        <InputGroupAddon>
+                                            <Lock />
+                                        </InputGroupAddon>
+                                        <InputGroupInput
+                                            id="password"
+                                            type="password"
+                                            value={password}
+                                            onChange={(e) =>
+                                                setPassword(e.target.value)
+                                            }
+                                            placeholder="••••••••"
+                                            required
+                                            minLength={6}
+                                        />
+                                    </InputGroup>
+                                </Field>
 
-                            <div className="space-y-1.5">
-                                <Label htmlFor="password">
-                                    {t('auth.password')}{' '}
-                                    <span className="text-destructive">*</span>
-                                </Label>
-                                <div className="relative">
-                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input
-                                        id="password"
-                                        type="password"
-                                        value={password}
-                                        onChange={(e) =>
-                                            setPassword(e.target.value)
-                                        }
-                                        className="pl-10"
-                                        placeholder="••••••••"
-                                        required
-                                        minLength={6}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="space-y-1.5">
-                                <Label>
-                                    <span className="flex items-center gap-1.5">
-                                        <MapPin className="h-4 w-4" />
+                                <Field>
+                                    <FieldLabel htmlFor="register-district">
+                                        <MapPin className="size-4" />
                                         {t('settings.district')}{' '}
                                         <span className="text-destructive">
                                             *
                                         </span>
-                                    </span>
-                                </Label>
-                                <CustomDropdown
-                                    options={districtOptions}
-                                    value={district}
-                                    onChange={handleDistrictChange}
-                                    placeholder={t('settings.selectDistrict')}
-                                    ariaLabel={t('settings.district')}
-                                    variant="form"
-                                />
-                            </div>
+                                    </FieldLabel>
+                                    <CustomDropdown
+                                        options={districtOptions}
+                                        value={district}
+                                        onChange={handleDistrictChange}
+                                        placeholder={t('settings.selectDistrict')}
+                                        ariaLabel={t('settings.district')}
+                                        variant="form"
+                                    />
+                                </Field>
 
-                            <div className="space-y-1.5">
-                                <Label>
-                                    <span className="flex items-center gap-1.5">
-                                        <MapPin className="h-4 w-4" />
+                                <Field>
+                                    <FieldLabel htmlFor="register-mandal">
+                                        <MapPin className="size-4" />
                                         {t('settings.mandal')}{' '}
                                         <span className="text-destructive">
                                             *
                                         </span>
-                                    </span>
-                                </Label>
-                                <CustomDropdown
-                                    options={mandalOptions}
-                                    value={mandal}
-                                    onChange={setMandal}
-                                    placeholder={
-                                        district
-                                            ? t('settings.selectMandal')
-                                            : t(
-                                                  'settings.selectDistrictFirst',
-                                              )
+                                    </FieldLabel>
+                                    <CustomDropdown
+                                        options={mandalOptions}
+                                        value={mandal}
+                                        onChange={setMandal}
+                                        placeholder={
+                                            district
+                                                ? t('settings.selectMandal')
+                                                : t(
+                                                      'settings.selectDistrictFirst',
+                                                  )
+                                        }
+                                        ariaLabel={t('settings.mandal')}
+                                        variant="form"
+                                    />
+                                </Field>
+
+                                <Button
+                                    type="submit"
+                                    disabled={
+                                        loading ||
+                                        !name.trim() ||
+                                        !email.trim() ||
+                                        !password ||
+                                        !district ||
+                                        !mandal
                                     }
-                                    ariaLabel={t('settings.mandal')}
-                                    variant="form"
-                                />
-                            </div>
+                                    className="w-full"
+                                >
+                                    {loading
+                                        ? t('common.loading')
+                                        : t('auth.registerTitle')}
+                                </Button>
 
-                            <Button
-                                type="submit"
-                                disabled={
-                                    loading ||
-                                    !name.trim() ||
-                                    !email.trim() ||
-                                    !password ||
-                                    !district ||
-                                    !mandal
-                                }
-                                className="w-full"
-                            >
-                                {loading
-                                    ? t('common.loading')
-                                    : t('auth.registerTitle')}
-                            </Button>
+                                <div className="relative py-2">
+                                    <Separator />
+                                    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-sm text-muted-foreground">
+                                        {t('auth.orContinueWith')}
+                                    </span>
+                                </div>
+
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    onClick={handleGoogleSignUp}
+                                    className="w-full"
+                                >
+                                    <GoogleIcon />
+                                    Google
+                                </Button>
+                            </FieldGroup>
                         </form>
-
-                        <div className="relative my-6">
-                            <Separator />
-                            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-sm text-muted-foreground">
-                                {t('auth.orContinueWith')}
-                            </span>
-                        </div>
-
-                        <Button
-                            variant="outline"
-                            onClick={handleGoogleSignUp}
-                            className="w-full gap-2"
-                        >
-                            <GoogleIcon />
-                            Google
-                        </Button>
 
                         <p className="text-center text-sm text-muted-foreground mt-6">
                             {t('auth.hasAccount')}{' '}

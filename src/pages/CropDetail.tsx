@@ -45,7 +45,7 @@ export function CropDetailPage() {
         return (
             <div className="max-w-4xl mx-auto px-4 py-16">
                 <EmptyState
-                    icon={<AlertTriangle className="h-12 w-12" />}
+                    icon={<AlertTriangle className="size-12" />}
                     title={t('errors.notFound')}
                 />
             </div>
@@ -68,13 +68,15 @@ export function CropDetailPage() {
             {/* Back nav banner */}
             <div className="page-header-banner rounded-2xl mb-6">
                 <div className="relative">
-                    <button
+                    <Button
+                        type="button"
+                        variant="link"
                         onClick={() => navigate(-1)}
-                        className="inline-flex items-center gap-1.5 text-sm text-[#5E6AD2] hover:text-[#5E6AD2] font-medium transition-colors"
+                        className="px-0 text-primary"
                     >
-                        <ArrowLeft className="h-4 w-4" />
+                        <ArrowLeft data-icon="inline-start" />
                         {t('common.back')}
-                    </button>
+                    </Button>
                 </div>
             </div>
 
@@ -100,12 +102,12 @@ export function CropDetailPage() {
                 </div>
             </Card>
 
-            <div className="space-y-6">
+            <div className="flex flex-col gap-6">
                 {/* Aliases */}
                 {aliases.length > 0 && (
                     <div>
                         <h3 className="text-lg font-semibold mb-2 text-white">
-                            <Tag className="h-4 w-4 inline mr-1.5" />
+                            <Tag className="size-4 inline mr-1.5" />
                             {t('cropDetail.aliases')}
                         </h3>
                         <div className="flex flex-wrap gap-2">
@@ -122,13 +124,13 @@ export function CropDetailPage() {
                 {soilTypeLabels.length > 0 && (
                     <div>
                         <h3 className="text-lg font-semibold mb-2 text-white">
-                            <MapPin className="h-4 w-4 inline mr-1.5" />
+                            <MapPin className="size-4 inline mr-1.5" />
                             {t('cropDetail.suitableSoilTypes')}
                         </h3>
                         <div className="flex flex-wrap gap-2">
                             {soilTypeLabels.map(({ key, label }) => (
                                 <Badge key={key} variant="secondary" className="gap-1 bg-emerald-950/50 text-emerald-400 hover:bg-emerald-950/50">
-                                    <MapPin className="h-3 w-3" />
+                                    <MapPin className="size-3" />
                                     {label}
                                 </Badge>
                             ))}
@@ -140,10 +142,10 @@ export function CropDetailPage() {
                 {varieties.length > 0 && (
                     <div>
                         <h3 className="text-lg font-semibold mb-3 text-white">
-                            <Sprout className="h-4 w-4 inline mr-1.5" />
+                            <Sprout className="size-4 inline mr-1.5" />
                             {t('cropDetail.varieties')}
                         </h3>
-                        <div className="space-y-4">
+                        <div className="flex flex-col gap-4">
                             {varieties.map((v) => (
                                 <VarietyCard
                                     key={v.id}
@@ -165,7 +167,7 @@ export function CropDetailPage() {
                     size="lg"
                     className="w-full gap-2"
                 >
-                    <Bug className="h-5 w-5" />
+                    <Bug className="size-5" />
                     {t('cropDetail.viewDiseases')}
                 </Button>
             </div>
@@ -192,13 +194,13 @@ function VarietyCard({
     )
 
     return (
-        <Card className="p-4 space-y-3">
+        <Card className="flex flex-col p-4 gap-3">
             <div className="flex items-center gap-3">
                 {variety.imageUrl && (
                     <img
                         src={variety.imageUrl}
                         alt={varietyName}
-                        className="h-12 w-12 rounded-lg object-cover"
+                        className="size-12 rounded-lg object-cover"
                     />
                 )}
                 <h4 className="font-semibold text-base text-white">
@@ -210,7 +212,7 @@ function VarietyCard({
             {variety.recommendedSeasons.length > 0 && (
                 <div>
                     <p className="text-xs font-semibold text-neutral-400 mb-1">
-                        <Calendar className="h-3 w-3 inline mr-1" />
+                        <Calendar className="size-3 inline mr-1" />
                         {t('cropDetail.seasons')}
                     </p>
                     <div className="flex flex-wrap gap-2">
@@ -232,7 +234,7 @@ function VarietyCard({
             {variety.districts.length > 0 && (
                 <div>
                     <p className="text-xs font-semibold text-neutral-400 mb-1">
-                        <MapPin className="h-3 w-3 inline mr-1" />
+                        <MapPin className="size-3 inline mr-1" />
                         {t('cropDetail.districts')}
                     </p>
                     <div className="flex flex-wrap gap-1.5">

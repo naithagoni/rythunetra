@@ -10,7 +10,7 @@ export function Footer({ className }: { className?: string }) {
 
     return (
         <footer
-            className={cn('bg-[#09090B] text-[#8B8B8D] mt-auto border-t border-white/[0.06]', className)}
+            className={cn('bg-[#09090B] text-muted-foreground mt-auto border-t border-white/[0.06]', className)}
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
@@ -76,7 +76,7 @@ export function Footer({ className }: { className?: string }) {
                         reserved.
                     </p>
                     <p className="text-xs text-neutral-500 inline-flex items-center gap-1">
-                        Made with <Heart className="h-3 w-3 text-[#D94F4F]" /> for
+                        Made with <Heart className="size-3 text-destructive" /> for
                         farmers
                     </p>
                 </div>

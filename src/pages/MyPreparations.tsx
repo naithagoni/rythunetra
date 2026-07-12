@@ -111,7 +111,7 @@ export function MyPreparationsPage() {
                     onClick={() => setShowForm(true)}
                     className="gap-2"
                 >
-                    <Plus className="h-4 w-4" />
+                    <Plus className="size-4" />
                     {t('preparations.addNew')}
                 </Button>
             </div>

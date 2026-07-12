@@ -73,11 +73,11 @@ export function Header() {
                                             'px-3 lg:px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 inline-flex items-center gap-1.5 whitespace-nowrap',
                                             isActive
                                                 ? 'text-white bg-white/[0.08]'
-                                                : 'text-[#8B8B8D] hover:text-white hover:bg-white/[0.04]',
+                                                : 'text-muted-foreground hover:text-white hover:bg-white/[0.04]',
                                         )
                                     }
                                 >
-                                    <link.icon className="h-4 w-4" />
+                                    <link.icon className="size-4" />
                                     {link.label}
                                 </NavLink>
                             ))}
@@ -89,11 +89,11 @@ export function Header() {
                                             'px-3 lg:px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 inline-flex items-center gap-1.5 whitespace-nowrap',
                                             isActive
                                                 ? 'text-white bg-white/[0.08]'
-                                                : 'text-[#8B8B8D] hover:text-white hover:bg-white/[0.04]',
+                                                : 'text-muted-foreground hover:text-white hover:bg-white/[0.04]',
                                         )
                                     }
                                 >
-                                    <FlaskConical className="h-4 w-4" />
+                                    <FlaskConical className="size-4" />
                                     {t('common.myPreparations')}
                                 </NavLink>
                             )}
@@ -112,7 +112,7 @@ export function Header() {
                                         >
                                             <Avatar size="sm">
                                                 <AvatarFallback className="bg-linear-to-br from-[#3F3F46] to-[#27272A] text-white text-xs">
-                                                    <User className="h-3.5 w-3.5" />
+                                                    <User className="size-3.5" />
                                                 </AvatarFallback>
                                             </Avatar>
                                         </Button>
@@ -138,7 +138,7 @@ export function Header() {
                                                     }
                                                     className="text-[#D4A72C] focus:text-[#D4A72C]"
                                                 >
-                                                    <Shield className="h-4 w-4" />
+                                                    <Shield className="size-4" />
                                                     {t('common.admin')}
                                                 </DropdownMenuItem>
                                             )}
@@ -147,7 +147,7 @@ export function Header() {
                                                     navigate('/settings')
                                                 }
                                             >
-                                                <Settings className="h-4 w-4" />
+                                                <Settings className="size-4" />
                                                 {t('common.settings')}
                                             </DropdownMenuItem>
                                         </DropdownMenuGroup>
@@ -156,7 +156,7 @@ export function Header() {
                                             variant="destructive"
                                             onClick={handleSignOut}
                                         >
-                                            <LogOut className="h-4 w-4" />
+                                            <LogOut className="size-4" />
                                             {t('common.logout')}
                                         </DropdownMenuItem>
                                     </DropdownMenuContent>
@@ -164,7 +164,7 @@ export function Header() {
                             ) : (
                                 <Button asChild className="rounded-full px-5">
                                     <Link to="/login">
-                                        <LogIn className="h-4 w-4" />
+                                        <LogIn data-icon="inline-start" />
                                         {t('common.login')}
                                     </Link>
                                 </Button>

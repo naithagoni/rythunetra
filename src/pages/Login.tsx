@@ -4,11 +4,15 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 import { GoogleIcon } from '@/components/common/GoogleIcon'
 import { Mail, Lock, LogIn } from 'lucide-react'
+import { toast } from 'sonner'
 import { Card, CardContent } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
+import {
+    InputGroup,
+    InputGroupAddon,
+    InputGroupInput,
+} from '@/components/ui/input-group'
 import { Separator } from '@/components/ui/separator'
 
 export function LoginPage() {
@@ -17,18 +21,18 @@ export function LoginPage() {
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
 
     const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault()
-        setError('')
         setLoading(true)
         try {
             await signIn(email, password)
             navigate('/')
         } catch (err: unknown) {
-            setError(err instanceof Error ? err.message : t('errors.generic'))
+            toast.error(
+                err instanceof Error ? err.message : t('errors.generic'),
+            )
         } finally {
             setLoading(false)
         }
@@ -38,7 +42,9 @@ export function LoginPage() {
         try {
             await signInWithGoogle()
         } catch (err: unknown) {
-            setError(err instanceof Error ? err.message : t('errors.generic'))
+            toast.error(
+                err instanceof Error ? err.message : t('errors.generic'),
+            )
         }
     }
 
@@ -46,8 +52,8 @@ export function LoginPage() {
         <div className="min-h-[60vh] flex items-center justify-center px-4 py-12">
             <div className="w-full max-w-md">
                 <div className="text-center mb-6">
-                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 mb-3">
-                        <LogIn className="h-6 w-6 text-primary" />
+                    <div className="inline-flex items-center justify-center size-12 rounded-xl bg-primary/10 mb-3">
+                        <LogIn className="size-6 text-primary" />
                     </div>
                     <h1 className="text-2xl font-bold text-foreground">
                         {t('auth.loginTitle')}
@@ -59,80 +65,79 @@ export function LoginPage() {
 
                 <Card>
                     <CardContent className="p-6 sm:p-8">
-                        {error && (
-                            <Alert variant="destructive" className="mb-4">
-                                <AlertDescription>{error}</AlertDescription>
-                            </Alert>
-                        )}
+                        <form onSubmit={handleSubmit}>
+                            <FieldGroup>
+                                <Field>
+                                    <FieldLabel htmlFor="email">
+                                        {t('auth.email')}
+                                    </FieldLabel>
+                                    <InputGroup>
+                                        <InputGroupAddon>
+                                            <Mail />
+                                        </InputGroupAddon>
+                                        <InputGroupInput
+                                            id="email"
+                                            type="email"
+                                            value={email}
+                                            onChange={(e) =>
+                                                setEmail(e.target.value)
+                                            }
+                                            placeholder="you@example.com"
+                                            required
+                                        />
+                                    </InputGroup>
+                                </Field>
 
-                        <form onSubmit={handleSubmit} className="space-y-4">
-                            <div className="space-y-1.5">
-                                <Label htmlFor="email">
-                                    {t('auth.email')}
-                                </Label>
-                                <div className="relative">
-                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input
-                                        id="email"
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) =>
-                                            setEmail(e.target.value)
-                                        }
-                                        className="pl-10"
-                                        placeholder="you@example.com"
-                                        required
-                                    />
+                                <Field>
+                                    <FieldLabel htmlFor="password">
+                                        {t('auth.password')}
+                                    </FieldLabel>
+                                    <InputGroup>
+                                        <InputGroupAddon>
+                                            <Lock />
+                                        </InputGroupAddon>
+                                        <InputGroupInput
+                                            id="password"
+                                            type="password"
+                                            value={password}
+                                            onChange={(e) =>
+                                                setPassword(e.target.value)
+                                            }
+                                            placeholder="••••••••"
+                                            required
+                                            minLength={6}
+                                        />
+                                    </InputGroup>
+                                </Field>
+
+                                <Button
+                                    type="submit"
+                                    disabled={loading}
+                                    className="w-full"
+                                >
+                                    {loading
+                                        ? t('common.loading')
+                                        : t('auth.loginTitle')}
+                                </Button>
+
+                                <div className="relative py-2">
+                                    <Separator />
+                                    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-sm text-muted-foreground">
+                                        {t('auth.orContinueWith')}
+                                    </span>
                                 </div>
-                            </div>
 
-                            <div className="space-y-1.5">
-                                <Label htmlFor="password">
-                                    {t('auth.password')}
-                                </Label>
-                                <div className="relative">
-                                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input
-                                        id="password"
-                                        type="password"
-                                        value={password}
-                                        onChange={(e) =>
-                                            setPassword(e.target.value)
-                                        }
-                                        className="pl-10"
-                                        placeholder="••••••••"
-                                        required
-                                        minLength={6}
-                                    />
-                                </div>
-                            </div>
-
-                            <Button
-                                type="submit"
-                                disabled={loading}
-                                className="w-full"
-                            >
-                                {loading
-                                    ? t('common.loading')
-                                    : t('auth.loginTitle')}
-                            </Button>
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    onClick={handleGoogleLogin}
+                                    className="w-full"
+                                >
+                                    <GoogleIcon />
+                                    Google
+                                </Button>
+                            </FieldGroup>
                         </form>
-
-                        <div className="relative my-6">
-                            <Separator />
-                            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-sm text-muted-foreground">
-                                {t('auth.orContinueWith')}
-                            </span>
-                        </div>
-
-                        <Button
-                            variant="outline"
-                            onClick={handleGoogleLogin}
-                            className="w-full gap-2"
-                        >
-                            <GoogleIcon />
-                            Google
-                        </Button>
 
                         <p className="text-center text-sm text-muted-foreground mt-6">
                             {t('auth.noAccount')}{' '}

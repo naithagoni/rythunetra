@@ -49,7 +49,7 @@ export function LinkedRemedies({ remedyIds, language }: LinkedRemediesProps) {
     }
 
     return (
-        <Accordion type="single" collapsible className="space-y-3">
+        <Accordion type="single" collapsible className="flex flex-col gap-3">
             {remedies.map((remedy) => {
                 const name = localize(remedy.name, lang)
                 const eff =
@@ -65,7 +65,7 @@ export function LinkedRemedies({ remedyIds, language }: LinkedRemediesProps) {
                         <AccordionTrigger className="px-4 py-4 hover:no-underline">
                             <div className="flex items-center gap-3 text-left">
                                 <div className="p-2 rounded-xl bg-primary/10 text-primary shrink-0">
-                                    <Leaf className="h-5 w-5" />
+                                    <Leaf className="size-5" />
                                 </div>
                                 <div className="min-w-0">
                                     <h4 className="font-bold text-foreground text-base">
@@ -84,12 +84,12 @@ export function LinkedRemedies({ remedyIds, language }: LinkedRemediesProps) {
                                 </div>
                             </div>
                         </AccordionTrigger>
-                        <AccordionContent className="px-4 pb-4 pt-0 space-y-4">
+                        <AccordionContent className="flex flex-col px-4 pb-4 pt-0 gap-4">
                             {howItWorks && (
                                 <Card className="bg-blue-950/30 border-blue-800/30">
                                     <CardContent className="p-3">
                                         <div className="flex items-center gap-2 mb-1">
-                                            <Droplets className="h-4 w-4 text-blue-400" />
+                                            <Droplets className="size-4 text-blue-400" />
                                             <span className="text-sm font-semibold text-blue-300">
                                                 {t('remedies.howItWorks')}
                                             </span>

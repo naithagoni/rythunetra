@@ -64,7 +64,7 @@ export function PreparationCard({
                                     onClick={() => onEdit(preparation)}
                                     title={t('common.edit')}
                                 >
-                                    <Pencil className="h-4 w-4" />
+                                    <Pencil className="size-4" />
                                 </Button>
                             )}
                             {onDelete && (
@@ -75,7 +75,7 @@ export function PreparationCard({
                                     title={t('common.delete')}
                                     className="text-destructive hover:text-destructive"
                                 >
-                                    <Trash2 className="h-4 w-4" />
+                                    <Trash2 className="size-4" />
                                 </Button>
                             )}
                         </div>
@@ -83,14 +83,14 @@ export function PreparationCard({
 
                     {preparation.quantity && (
                         <div className="flex items-center gap-1.5 text-sm text-muted-foreground mb-2">
-                            <Beaker className="h-4 w-4 shrink-0" />
+                            <Beaker className="size-4 shrink-0" />
                             <span>{preparation.quantity}</span>
                         </div>
                     )}
 
                     {preparation.preparation_notes && (
                         <div className="flex items-start gap-1.5 text-sm text-muted-foreground mb-3">
-                            <FileText className="h-4 w-4 shrink-0 mt-0.5" />
+                            <FileText className="size-4 shrink-0 mt-0.5" />
                             <span>{preparation.preparation_notes}</span>
                         </div>
                     )}
@@ -102,7 +102,7 @@ export function PreparationCard({
                                     key={i}
                                     type="button"
                                     onClick={() => setLightboxIndex(i)}
-                                    className="shrink-0 w-16 h-16 rounded-lg overflow-hidden border border-border hover:ring-2 hover:ring-ring transition-all"
+                                    className="shrink-0 size-16 rounded-lg overflow-hidden border border-border hover:ring-2 hover:ring-ring transition-all"
                                 >
                                     <img
                                         src={url}
@@ -121,7 +121,7 @@ export function PreparationCard({
                             onClick={() => setShowVideo(true)}
                             className="gap-1 p-0 h-auto mb-1"
                         >
-                            <Play className="h-3.5 w-3.5" />
+                            <Play className="size-3.5" />
                             {t('preparations.media.watchVideo')}
                         </Button>
                     )}
@@ -130,13 +130,13 @@ export function PreparationCard({
                         <div className="flex items-center gap-2 mt-1">
                             {hasImages && (
                                 <Badge variant="secondary" className="gap-1 text-xs">
-                                    <ImageIcon className="h-3 w-3" />
+                                    <ImageIcon className="size-3" />
                                     {preparation.image_urls.length}
                                 </Badge>
                             )}
                             {hasVideo && (
                                 <Badge variant="secondary" className="gap-1 text-xs">
-                                    <Play className="h-3 w-3" />1
+                                    <Play className="size-3" />1
                                 </Badge>
                             )}
                         </div>
@@ -156,7 +156,7 @@ export function PreparationCard({
                         className="absolute top-4 right-4 text-white/80 hover:text-white hover:bg-white/10"
                         onClick={() => setLightboxIndex(null)}
                     >
-                        <X className="h-6 w-6" />
+                        <X className="size-6" />
                     </Button>
 
                     {preparation.image_urls.length > 1 && (
@@ -175,7 +175,7 @@ export function PreparationCard({
                                     )
                                 }}
                             >
-                                <ChevronLeft className="h-8 w-8" />
+                                <ChevronLeft className="size-8" />
                             </Button>
                             <Button
                                 variant="ghost"
@@ -189,7 +189,7 @@ export function PreparationCard({
                                     )
                                 }}
                             >
-                                <ChevronRight className="h-8 w-8" />
+                                <ChevronRight className="size-8" />
                             </Button>
                         </>
                     )}
@@ -219,7 +219,7 @@ export function PreparationCard({
                         className="absolute top-4 right-4 text-white/80 hover:text-white hover:bg-white/10"
                         onClick={() => setShowVideo(false)}
                     >
-                        <X className="h-6 w-6" />
+                        <X className="size-6" />
                     </Button>
                     <video
                         src={preparation.video_url}

@@ -13,7 +13,6 @@ import { DISTRICT_KEYS } from '@/config/districts'
 import { AI_ENABLED } from '@/config/env'
 import {
     Sprout,
-    Loader2,
     AlertTriangle,
     Droplets,
     TrendingUp,
@@ -26,6 +25,14 @@ import {
 } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Spinner } from '@/components/ui/spinner'
+import { Card } from '@/components/ui/card'
+import {
+    Field,
+    FieldDescription,
+    FieldGroup,
+    FieldLabel,
+} from '@/components/ui/field'
 
 // ─── Types ────────────────────────────────────────────
 
@@ -194,9 +201,9 @@ export function SoilRecommenderPage() {
 
     if (!AI_ENABLED) {
         return (
-            <div className="max-w-3xl mx-auto px-4 py-16 text-center space-y-4">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#D4A72C]/10">
-                    <Sparkles className="h-8 w-8 text-amber-500" />
+            <div className="flex flex-col max-w-3xl mx-auto px-4 py-16 text-center gap-4">
+                <div className="inline-flex items-center justify-center size-16 rounded-full bg-[#D4A72C]/10">
+                    <Sparkles className="size-8 text-amber-500" />
                 </div>
                 <h2 className="text-xl font-bold text-white">
                     {t('settings.aiFeatures')}
@@ -209,12 +216,12 @@ export function SoilRecommenderPage() {
     }
 
     return (
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+        <div className="flex flex-col max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6 gap-6">
             {/* Header Banner */}
             <div className="page-header-banner rounded-2xl">
-                <div className="relative text-center space-y-2">
+                <div className="flex flex-col relative text-center gap-2">
                     <div className="page-header-icon">
-                        <Sprout className="h-6 w-6 text-neutral-400" />
+                        <Sprout className="size-6 text-neutral-400" />
                     </div>
                     <h1 className="page-title">{t('recommend.title')}</h1>
                     <p className="page-subtitle">{t('recommend.subtitle')}</p>
@@ -223,130 +230,133 @@ export function SoilRecommenderPage() {
 
             {/* Form */}
             {!result && (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    {/* Soil Type */}
-                    <div>
-                        <label className="block text-sm font-semibold mb-1">
-                            {t('recommend.soilType')}{' '}
-                            <span className="text-red-500">*</span>
-                        </label>
-                        <CustomDropdown
-                            options={soilTypeOptions}
-                            value={soilType}
-                            onChange={setSoilType}
-                            placeholder={t('recommend.selectSoilType')}
-                            variant="form"
-                            ariaLabel={t('recommend.soilType')}
-                        />
-                    </div>
+                <form onSubmit={handleSubmit}>
+                    <FieldGroup>
+                        {/* Soil Type */}
+                        <Field>
+                            <FieldLabel htmlFor="recommend-soil-type">
+                                {t('recommend.soilType')}{' '}
+                                <span className="text-destructive">*</span>
+                            </FieldLabel>
+                            <CustomDropdown
+                                options={soilTypeOptions}
+                                value={soilType}
+                                onChange={setSoilType}
+                                placeholder={t('recommend.selectSoilType')}
+                                variant="form"
+                                ariaLabel={t('recommend.soilType')}
+                            />
+                        </Field>
 
-                    {/* pH Level */}
-                    <div>
-                        <label className="block text-sm font-semibold mb-1">
-                            {t('recommend.phLevel')}
-                        </label>
-                        <Input
-                            type="number"
-                            step="0.1"
-                            min="0"
-                            max="14"
-                            value={phLevel}
-                            onChange={(e) => setPhLevel(e.target.value)}
-                            placeholder={t('recommend.phPlaceholder')}
-                        />
-                        <p className="text-xs text-neutral-400 mt-0.5">
-                            {t('recommend.phHint')}
-                        </p>
-                    </div>
+                        {/* pH Level */}
+                        <Field>
+                            <FieldLabel htmlFor="recommend-ph">
+                                {t('recommend.phLevel')}
+                            </FieldLabel>
+                            <Input
+                                id="recommend-ph"
+                                type="number"
+                                step="0.1"
+                                min="0"
+                                max="14"
+                                value={phLevel}
+                                onChange={(e) => setPhLevel(e.target.value)}
+                                placeholder={t('recommend.phPlaceholder')}
+                            />
+                            <FieldDescription>
+                                {t('recommend.phHint')}
+                            </FieldDescription>
+                        </Field>
 
-                    {/* Season */}
-                    <div>
-                        <label className="block text-sm font-semibold mb-1">
-                            {t('recommend.season')}{' '}
-                            <span className="text-red-500">*</span>
-                        </label>
-                        <CustomDropdown
-                            options={seasonOptions}
-                            value={season}
-                            onChange={setSeason}
-                            placeholder={t('recommend.selectSeason')}
-                            variant="form"
-                            ariaLabel={t('recommend.season')}
-                        />
-                    </div>
+                        {/* Season */}
+                        <Field>
+                            <FieldLabel htmlFor="recommend-season">
+                                {t('recommend.season')}{' '}
+                                <span className="text-destructive">*</span>
+                            </FieldLabel>
+                            <CustomDropdown
+                                options={seasonOptions}
+                                value={season}
+                                onChange={setSeason}
+                                placeholder={t('recommend.selectSeason')}
+                                variant="form"
+                                ariaLabel={t('recommend.season')}
+                            />
+                        </Field>
 
-                    {/* District */}
-                    <div>
-                        <label className="block text-sm font-semibold mb-1">
-                            {t('recommend.district')}
-                        </label>
-                        <CustomDropdown
-                            options={districtOptions}
-                            value={district}
-                            onChange={setDistrict}
-                            placeholder={t('recommend.selectDistrict')}
-                            variant="form"
-                            ariaLabel={t('recommend.district')}
-                        />
-                    </div>
+                        {/* District */}
+                        <Field>
+                            <FieldLabel htmlFor="recommend-district">
+                                {t('recommend.district')}
+                            </FieldLabel>
+                            <CustomDropdown
+                                options={districtOptions}
+                                value={district}
+                                onChange={setDistrict}
+                                placeholder={t('recommend.selectDistrict')}
+                                variant="form"
+                                ariaLabel={t('recommend.district')}
+                            />
+                        </Field>
 
-                    {/* Irrigation */}
-                    <div>
-                        <label className="block text-sm font-semibold mb-1">
-                            {t('recommend.irrigation')}
-                        </label>
-                        <CustomDropdown
-                            options={irrigationOptions}
-                            value={irrigation}
-                            onChange={setIrrigation}
-                            placeholder={t('recommend.selectIrrigation')}
-                            variant="form"
-                            ariaLabel={t('recommend.irrigation')}
-                        />
-                    </div>
+                        {/* Irrigation */}
+                        <Field>
+                            <FieldLabel htmlFor="recommend-irrigation">
+                                {t('recommend.irrigation')}
+                            </FieldLabel>
+                            <CustomDropdown
+                                options={irrigationOptions}
+                                value={irrigation}
+                                onChange={setIrrigation}
+                                placeholder={t('recommend.selectIrrigation')}
+                                variant="form"
+                                ariaLabel={t('recommend.irrigation')}
+                            />
+                        </Field>
 
-                    {/* Submit */}
-                    <Button
-                        type="submit"
-                        disabled={loading || !soilType || !season}
-                        size="lg"
-                        className="w-full gap-2"
-                    >
-                        {loading ? (
-                            <>
-                                <Loader2 className="h-5 w-5 animate-spin" />
-                                {t('recommend.analyzing')}
-                            </>
-                        ) : (
-                            <>
-                                <Sprout className="h-5 w-5" />
-                                {t('recommend.getRecommendations')}
-                            </>
-                        )}
-                    </Button>
+                        {/* Submit */}
+                        <Button
+                            type="submit"
+                            disabled={loading || !soilType || !season}
+                            size="lg"
+                            className="w-full"
+                        >
+                            {loading ? (
+                                <>
+                                    <Spinner data-icon="inline-start" />
+                                    {t('recommend.analyzing')}
+                                </>
+                            ) : (
+                                <>
+                                    <Sprout data-icon="inline-start" />
+                                    {t('recommend.getRecommendations')}
+                                </>
+                            )}
+                        </Button>
+                    </FieldGroup>
                 </form>
             )}
 
             {/* Error */}
             {error && (
-                <div className="bg-[#D94F4F]/10 border border-[#D94F4F]/20 rounded-xl p-4 flex gap-3">
-                    <AlertTriangle className="h-5 w-5 text-[#D94F4F] shrink-0 mt-0.5" />
+                <div className="bg-destructive/10 border border-destructive/20 rounded-xl p-4 flex gap-3">
+                    <AlertTriangle className="size-5 text-destructive shrink-0 mt-0.5" />
                     <div>
-                        <p className="font-medium text-[#D94F4F]">
+                        <p className="font-medium text-destructive">
                             {t('recommend.errorTitle')}
                         </p>
-                        <p className="text-sm text-[#D94F4F]">{error}</p>
+                        <p className="text-sm text-destructive">{error}</p>
                     </div>
                 </div>
             )}
 
             {/* Results */}
             {result && (
-                <div className="space-y-4 animate-fade-in">
+                <div className="flex flex-col gap-4 animate-fade-in">
                     {/* Soil Analysis */}
                     <div className="bg-[#D4A72C]/5 border border-[#D4A72C]/15 rounded-xl p-5">
                         <h3 className="font-semibold text-sm flex items-center gap-2 text-[#D4A72C]">
-                            <Leaf className="h-4 w-4" />
+                            <Leaf className="size-4" />
                             {t('recommend.soilAnalysis')}
                         </h3>
                         <p className="text-sm mt-1 text-amber-200">
@@ -360,13 +370,13 @@ export function SoilRecommenderPage() {
                         {result.recommendations.length})
                     </h3>
 
-                    <div className="space-y-3">
+                    <div className="flex flex-col gap-3">
                         {result.recommendations.map((crop, i) => {
                             const isExpanded = expandedCrop === i
                             return (
-                                <div
+                                <Card
                                     key={i}
-                                    className="bg-[#161618] border border-white/[0.06] rounded-xl overflow-hidden transition-all duration-200 hover:shadow-sm"
+                                    className="p-0 overflow-hidden transition-all duration-200 hover:shadow-sm"
                                 >
                                     {/* Crop header */}
                                     <button
@@ -378,7 +388,7 @@ export function SoilRecommenderPage() {
                                         className="w-full text-left px-4 py-3 flex items-center gap-3"
                                     >
                                         {/* Rank */}
-                                        <span className="w-7 h-7 rounded-full bg-white/[0.06] text-neutral-300 font-bold text-sm flex items-center justify-center shrink-0">
+                                        <span className="size-7 rounded-full bg-white/[0.06] text-neutral-300 font-bold text-sm flex items-center justify-center shrink-0">
                                             {i + 1}
                                         </span>
 
@@ -409,19 +419,19 @@ export function SoilRecommenderPage() {
                                         </span>
 
                                         {isExpanded ? (
-                                            <ChevronUp className="h-4 w-4 text-neutral-500 shrink-0" />
+                                            <ChevronUp className="size-4 text-neutral-500 shrink-0" />
                                         ) : (
-                                            <ChevronDown className="h-4 w-4 text-neutral-500 shrink-0" />
+                                            <ChevronDown className="size-4 text-neutral-500 shrink-0" />
                                         )}
                                     </button>
 
                                     {/* Expanded details */}
                                     {isExpanded && (
-                                        <div className="px-4 pb-4 space-y-3 border-t border-white/[0.06] pt-3">
+                                        <div className="flex flex-col px-4 pb-4 gap-3 border-t border-white/[0.06] pt-3">
                                             {/* Stat pills */}
                                             <div className="flex flex-wrap gap-2">
                                                 <span className="inline-flex items-center gap-1 text-xs px-2 py-1 bg-blue-950/50 text-blue-400 rounded-full">
-                                                    <Droplets className="h-3 w-3" />
+                                                    <Droplets className="size-3" />
                                                     {
                                                         waterIcon[
                                                             crop
@@ -433,7 +443,7 @@ export function SoilRecommenderPage() {
                                                     )}
                                                 </span>
                                                 <span className="inline-flex items-center gap-1 text-xs px-2 py-1 bg-[#161618] text-neutral-400 rounded-full">
-                                                    <Clock className="h-3 w-3" />
+                                                    <Clock className="size-3" />
                                                     {isTe
                                                         ? crop.growingDurationTe
                                                         : crop.growingDuration}
@@ -441,7 +451,7 @@ export function SoilRecommenderPage() {
                                                 <span
                                                     className={`inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full ${demandBadge[crop.marketDemand]}`}
                                                 >
-                                                    <TrendingUp className="h-3 w-3" />
+                                                    <TrendingUp className="size-3" />
                                                     {t(
                                                         `recommend.demand.${crop.marketDemand}`,
                                                     )}
@@ -465,12 +475,12 @@ export function SoilRecommenderPage() {
                                             {crop.tips.length > 0 && (
                                                 <div>
                                                     <p className="text-xs font-semibold text-neutral-400 mb-1 flex items-center gap-1">
-                                                        <Lightbulb className="h-3 w-3" />
+                                                        <Lightbulb className="size-3" />
                                                         {t(
                                                             'recommend.growingTips',
                                                         )}
                                                     </p>
-                                                    <ul className="space-y-1">
+                                                    <ul className="flex flex-col gap-1">
                                                         {(isTe
                                                             ? crop.tipsTe
                                                             : crop.tips
@@ -490,7 +500,7 @@ export function SoilRecommenderPage() {
                                             )}
                                         </div>
                                     )}
-                                </div>
+                                </Card>
                             )
                         })}
                     </div>
@@ -498,7 +508,7 @@ export function SoilRecommenderPage() {
                     {/* General Advice */}
                     <div className="bg-[#4DA34D]/5 border border-[#4DA34D]/15 rounded-xl p-4">
                         <h3 className="font-semibold text-sm flex items-center gap-2 text-[#4DA34D]">
-                            <Lightbulb className="h-4 w-4" />
+                            <Lightbulb className="size-4" />
                             {t('recommend.generalAdvice')}
                         </h3>
                         <p className="text-sm mt-1 text-green-200">
@@ -509,12 +519,15 @@ export function SoilRecommenderPage() {
                     </div>
 
                     {/* Try Again */}
-                    <button
+                    <Button
+                        type="button"
+                        variant="outline"
+                        size="lg"
                         onClick={resetForm}
-                        className="w-full border border-white/[0.06] py-2.5 rounded-xl text-sm font-medium hover:bg-white/[0.06] hover:border-white/[0.12] transition-all duration-200"
+                        className="w-full"
                     >
                         {t('recommend.tryAgain')}
-                    </button>
+                    </Button>
                 </div>
             )}
         </div>

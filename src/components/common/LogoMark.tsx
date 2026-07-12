@@ -13,9 +13,9 @@ export function LogoMark({
     variant = 'default',
 }: LogoMarkProps) {
     const config = {
-        sm: { box: 'w-8 h-8 rounded-lg', icon: 'h-4 w-4' },
-        md: { box: 'w-9 h-9 rounded-lg', icon: 'h-[18px] w-[18px]' },
-        lg: { box: 'w-11 h-11 rounded-xl', icon: 'h-5.5 w-5.5' },
+        sm: { box: 'size-8 rounded-lg', icon: 'size-4' },
+        md: { box: 'size-9 rounded-lg', icon: 'h-[18px] w-[18px]' },
+        lg: { box: 'size-11 rounded-xl', icon: 'size-5.5' },
     }
 
     const { box, icon } = config[size]

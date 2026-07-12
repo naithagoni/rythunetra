@@ -34,8 +34,16 @@ import {
 import type { ScanResult, ScanHistoryRow } from '@/services/aiService'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Field, FieldLabel } from '@/components/ui/field'
+import { CustomDropdown } from '@/components/common/CustomDropdown'
+import {
+    InputGroup,
+    InputGroupAddon,
+    InputGroupButton,
+    InputGroupInput,
+} from '@/components/ui/input-group'
 
 const SEVERITY_OPTIONS = ['low', 'moderate', 'high', 'critical'] as const
 
@@ -59,9 +67,9 @@ const severityConfig: Record<
         border: 'border-[#F2994A]/20',
     },
     critical: {
-        color: 'text-[#D94F4F]',
-        bg: 'bg-[#D94F4F]/10',
-        border: 'border-[#D94F4F]/20',
+        color: 'text-destructive',
+        bg: 'bg-destructive/10',
+        border: 'border-destructive/20',
     },
     none: {
         color: 'text-[#4DA34D]',
@@ -194,24 +202,28 @@ export function DiseaseListPage() {
 
             {/* Search + Scan + Filter */}
             <div className="flex items-center gap-2 mb-4">
-                <div className="relative flex-1 max-w-lg">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-500" />
-                    <Input
+                <InputGroup className="flex-1 max-w-lg">
+                    <InputGroupAddon>
+                        <Search />
+                    </InputGroupAddon>
+                    <InputGroupInput
                         type="text"
                         value={searchInput}
                         onChange={(e) => setSearchInput(e.target.value)}
                         placeholder={t('common.search')}
-                        className="pl-10 pr-10"
                     />
                     {searchInput && (
-                        <button
-                            onClick={() => setSearchInput('')}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-white"
-                        >
-                            <X className="h-4 w-4" />
-                        </button>
+                        <InputGroupAddon align="inline-end">
+                            <InputGroupButton
+                                size="icon-xs"
+                                onClick={() => setSearchInput('')}
+                                aria-label="Clear search"
+                            >
+                                <X />
+                            </InputGroupButton>
+                        </InputGroupAddon>
                     )}
-                </div>
+                </InputGroup>
                 <button
                     onClick={() => setShowFilters(!showFilters)}
                     className={`inline-flex items-center gap-1.5 px-3 py-2.5 rounded-lg border text-sm font-medium transition-colors ${
@@ -220,9 +232,9 @@ export function DiseaseListPage() {
                             : 'border-white/[0.06] text-neutral-400 hover:bg-[#161618]'
                     }`}
                 >
-                    <Filter className="h-4 w-4" />
+                    <Filter className="size-4" />
                     {hasActiveFilters && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-white" />
+                        <span className="size-1.5 rounded-full bg-white" />
                     )}
                 </button>
                 <div className="relative group">
@@ -239,7 +251,7 @@ export function DiseaseListPage() {
                                   : 'border-white/[0.06] text-neutral-400 hover:bg-[#161618]'
                         }`}
                     >
-                        <Camera className="h-4 w-4" />
+                        <Camera className="size-4" />
                         <span className="hidden sm:inline">
                             {t('diseases.scanPlant')}
                         </span>
@@ -247,7 +259,7 @@ export function DiseaseListPage() {
                     {!AI_ENABLED && (
                         <div className="invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-52 px-3 py-2 text-xs text-white bg-neutral-800 rounded-lg shadow-lg z-10 text-center">
                             {t('settings.aiDisabledMessage')}
-                            <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-x-4 border-x-transparent border-t-4 border-t-neutral-800" />
+                            <div className="absolute left-1/2 -translate-x-1/2 top-full size-0 border-x-4 border-x-transparent border-t-4 border-t-neutral-800" />
                         </div>
                     )}
                 </div>
@@ -255,55 +267,62 @@ export function DiseaseListPage() {
 
             {/* Filter dropdowns */}
             {showFilters && (
-                <div className="flex flex-wrap items-center gap-3 mb-6 p-3 bg-[#111113] rounded-xl border border-white/[0.06] animate-fade-in">
-                    <div>
-                        <label className="text-xs font-semibold text-neutral-400 mb-1 block">
+                <div className="flex flex-wrap items-end gap-3 mb-6 p-3 bg-[#111113] rounded-xl border border-white/[0.06] animate-fade-in">
+                    <Field className="w-auto">
+                        <FieldLabel htmlFor="severity-filter" className="text-xs">
                             {t('diseases.filterBySeverity')}
-                        </label>
-                        <select
-                            value={severityFilter ?? ''}
-                            onChange={(e) => {
-                                setSeverityFilter(e.target.value || undefined)
+                        </FieldLabel>
+                        <CustomDropdown
+                            options={[
+                                { value: 'all', label: t('common.all') },
+                                ...SEVERITY_OPTIONS.map((s) => ({
+                                    value: s,
+                                    label: t(`diseases.${s}`),
+                                })),
+                            ]}
+                            value={severityFilter ?? 'all'}
+                            onChange={(val) => {
+                                setSeverityFilter(val === 'all' ? undefined : val)
                                 setPage(1)
                             }}
-                            className="flex h-9 w-full rounded-md border border-input bg-[#161618] px-3 py-1.5 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-                        >
-                            <option value="">{t('common.all')}</option>
-                            {SEVERITY_OPTIONS.map((s) => (
-                                <option key={s} value={s}>
-                                    {t(`diseases.${s}`)}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                            ariaLabel={t('diseases.filterBySeverity')}
+                            variant="form"
+                        />
+                    </Field>
                     {hasActiveFilters && (
-                        <button
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
                             onClick={() => {
                                 setSeverityFilter(undefined)
                                 setPage(1)
                             }}
-                            className="text-xs text-[#D94F4F] hover:text-[#D94F4F] font-medium mt-4"
+                            className="text-destructive hover:text-destructive"
                         >
                             {t('common.cancel')}
-                        </button>
+                        </Button>
                     )}
                 </div>
             )}
 
             {/* Inline Scanner Panel */}
             {showScanner && (
-                <div className="mb-6 border border-white/[0.08] bg-white/[0.04] rounded-xl p-4 space-y-4 animate-fade-in">
+                <div className="flex flex-col mb-6 border border-white/[0.08] bg-white/[0.04] rounded-xl p-4 gap-4 animate-fade-in">
                     <div className="flex items-center justify-between">
                         <h2 className="font-semibold flex items-center gap-2">
-                            <Camera className="h-5 w-5 text-neutral-400" />
+                            <Camera className="size-5 text-neutral-400" />
                             {t('scanner.title')}
                         </h2>
-                        <button
+                        <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon-sm"
                             onClick={closeScanner}
-                            className="p-1 rounded-lg hover:bg-[#161618]"
+                            aria-label={t('common.back')}
                         >
-                            <X className="h-4 w-4" />
-                        </button>
+                            <X />
+                        </Button>
                     </div>
 
                     {/* Upload area */}
@@ -326,8 +345,8 @@ export function DiseaseListPage() {
                                 className="max-h-48 mx-auto rounded-lg object-contain"
                             />
                         ) : (
-                            <div className="space-y-2">
-                                <Upload className="h-10 w-10 mx-auto text-neutral-500" />
+                            <div className="flex flex-col gap-2">
+                                <Upload className="size-10 mx-auto text-neutral-500" />
                                 <p className="font-medium text-sm">
                                     {t('scanner.uploadPrompt')}
                                 </p>
@@ -342,7 +361,7 @@ export function DiseaseListPage() {
                             onClick={() => fileInputRef.current?.click()}
                             className="w-full gap-2"
                         >
-                            <Camera className="h-4 w-4" />
+                            <Camera className="size-4" />
                             {t('scanner.scanAnother')}
                         </Button>
                     )}
@@ -350,7 +369,7 @@ export function DiseaseListPage() {
                     {/* Scanning indicator */}
                     {scanning && (
                         <div className="flex flex-col items-center gap-2 py-6">
-                            <Loader2 className="h-7 w-7 animate-spin text-neutral-400" />
+                            <Loader2 className="size-7 animate-spin text-neutral-400" />
                             <p className="font-medium text-sm">
                                 {t('scanner.analyzing')}
                             </p>
@@ -362,13 +381,13 @@ export function DiseaseListPage() {
 
                     {/* Error */}
                     {scanError && (
-                        <div className="bg-[#D94F4F]/10 border border-[#D94F4F]/20 rounded-xl p-3 flex gap-3">
-                            <AlertTriangle className="h-5 w-5 text-[#D94F4F] shrink-0 mt-0.5" />
+                        <div className="bg-destructive/10 border border-destructive/20 rounded-xl p-3 flex gap-3">
+                            <AlertTriangle className="size-5 text-destructive shrink-0 mt-0.5" />
                             <div>
-                                <p className="font-medium text-[#D94F4F] text-sm">
+                                <p className="font-medium text-destructive text-sm">
                                     {t('scanner.errorTitle')}
                                 </p>
-                                <p className="text-xs text-[#D94F4F]">
+                                <p className="text-xs text-destructive">
                                     {scanError}
                                 </p>
                             </div>
@@ -377,10 +396,10 @@ export function DiseaseListPage() {
 
                     {/* Scan Results */}
                     {scanResult && !scanning && (
-                        <div className="space-y-3">
+                        <div className="flex flex-col gap-3">
                             {!scanResult.isPlant ? (
                                 <div className="bg-[#D4A72C]/10 border border-[#D4A72C]/20 rounded-xl p-3 flex gap-3">
-                                    <AlertTriangle className="h-5 w-5 text-[#D4A72C] shrink-0 mt-0.5" />
+                                    <AlertTriangle className="size-5 text-[#D4A72C] shrink-0 mt-0.5" />
                                     <p className="text-sm text-[#D4A72C]">
                                         {t('scanner.notPlant')}
                                     </p>
@@ -389,7 +408,7 @@ export function DiseaseListPage() {
                                 <>
                                     {/* Summary card */}
                                     <div
-                                        className={`${sev!.bg} border ${sev!.border} rounded-xl p-4 space-y-2`}
+                                        className={`${sev!.bg} border ${sev!.border} rounded-xl p-4 flex flex-col gap-2`}
                                     >
                                         <div className="flex items-start justify-between">
                                             <div>
@@ -407,12 +426,12 @@ export function DiseaseListPage() {
                                                     <h3
                                                         className={`text-base font-bold ${sev!.color}`}
                                                     >
-                                                        <ShieldAlert className="inline h-4 w-4 mr-1" />
+                                                        <ShieldAlert className="inline size-4 mr-1" />
                                                         {scanResult.diseaseName}
                                                     </h3>
                                                 ) : (
                                                     <h3 className="text-base font-bold text-[#4DA34D]">
-                                                        <CheckCircle className="inline h-4 w-4 mr-1" />
+                                                        <CheckCircle className="inline size-4 mr-1" />
                                                         {t('scanner.healthy')}
                                                     </h3>
                                                 )}
@@ -437,11 +456,11 @@ export function DiseaseListPage() {
 
                                     {/* Symptoms */}
                                     {scanResult.symptoms.length > 0 && (
-                                        <div className="bg-[#161618] border border-white/[0.06] rounded-xl p-3">
+                                        <Card className="p-3">
                                             <h4 className="font-semibold text-sm mb-1.5">
                                                 {t('scanner.symptoms')}
                                             </h4>
-                                            <ul className="space-y-1">
+                                            <ul className="flex flex-col gap-1">
                                                 {scanResult.symptoms.map(
                                                     (s, i) => (
                                                         <li
@@ -456,16 +475,16 @@ export function DiseaseListPage() {
                                                     ),
                                                 )}
                                             </ul>
-                                        </div>
+                                        </Card>
                                     )}
 
                                     {/* Causes */}
                                     {scanResult.causes.length > 0 && (
-                                        <div className="bg-[#161618] border border-white/[0.06] rounded-xl p-3">
+                                        <Card className="p-3">
                                             <h4 className="font-semibold text-sm mb-1.5">
                                                 {t('scanner.causes')}
                                             </h4>
-                                            <ul className="space-y-1">
+                                            <ul className="flex flex-col gap-1">
                                                 {scanResult.causes.map(
                                                     (c, i) => (
                                                         <li
@@ -480,12 +499,12 @@ export function DiseaseListPage() {
                                                     ),
                                                 )}
                                             </ul>
-                                        </div>
+                                        </Card>
                                     )}
 
                                     {/* Remedies */}
                                     {scanResult.remedies.length > 0 && (
-                                        <div className="bg-[#161618] border border-white/[0.06] rounded-xl p-3">
+                                        <Card className="p-3">
                                             <button
                                                 onClick={() =>
                                                     setShowRemedies(
@@ -495,19 +514,19 @@ export function DiseaseListPage() {
                                                 className="flex items-center justify-between w-full"
                                             >
                                                 <h4 className="font-semibold text-sm flex items-center gap-2">
-                                                    <Leaf className="h-3.5 w-3.5 text-[#4DA34D]" />
+                                                    <Leaf className="size-3.5 text-[#4DA34D]" />
                                                     {t('scanner.remedies')} (
                                                     {scanResult.remedies.length}
                                                     )
                                                 </h4>
                                                 {showRemedies ? (
-                                                    <ChevronUp className="h-4 w-4" />
+                                                    <ChevronUp className="size-4" />
                                                 ) : (
-                                                    <ChevronDown className="h-4 w-4" />
+                                                    <ChevronDown className="size-4" />
                                                 )}
                                             </button>
                                             {showRemedies && (
-                                                <div className="mt-2 space-y-1.5">
+                                                <div className="flex flex-col mt-2 gap-1.5">
                                                     {scanResult.remedies.map(
                                                         (r, i) => (
                                                             <div
@@ -539,16 +558,16 @@ export function DiseaseListPage() {
                                                     )}
                                                 </div>
                                             )}
-                                        </div>
+                                        </Card>
                                     )}
 
                                     {/* Preventions */}
                                     {scanResult.preventions.length > 0 && (
-                                        <div className="bg-[#161618] border border-white/[0.06] rounded-xl p-3">
+                                        <Card className="p-3">
                                             <h4 className="font-semibold text-sm mb-1.5">
                                                 {t('scanner.preventions')}
                                             </h4>
-                                            <ul className="space-y-1">
+                                            <ul className="flex flex-col gap-1">
                                                 {scanResult.preventions.map(
                                                     (p, i) => (
                                                         <li
@@ -563,7 +582,7 @@ export function DiseaseListPage() {
                                                     ),
                                                 )}
                                             </ul>
-                                        </div>
+                                        </Card>
                                     )}
                                 </>
                             )}
@@ -573,18 +592,21 @@ export function DiseaseListPage() {
                     {/* History toggle (logged-in users only) */}
                     {user && (
                         <div className="border-t border-white/[0.06] pt-3">
-                            <button
+                            <Button
+                                type="button"
+                                variant="link"
+                                size="sm"
                                 onClick={() => setShowHistory(!showHistory)}
-                                className="flex items-center gap-2 text-xs font-medium text-[#5E6AD2] hover:underline"
+                                className="px-0 text-primary"
                             >
-                                <History className="h-3.5 w-3.5" />
+                                <History data-icon="inline-start" />
                                 {showHistory
                                     ? t('scanner.hideHistory')
                                     : t('scanner.showHistory')}
-                            </button>
+                            </Button>
 
                             {showHistory && (
-                                <div className="mt-2 space-y-1.5">
+                                <div className="flex flex-col mt-2 gap-1.5">
                                     {historyLoading ? (
                                         <LoadingSpinner />
                                     ) : history.length === 0 ? (
@@ -618,17 +640,23 @@ export function DiseaseListPage() {
                                                         ).toLocaleDateString()}
                                                     </p>
                                                 </div>
-                                                <button
+                                                <Button
+                                                    type="button"
+                                                    variant="ghost"
+                                                    size="icon-xs"
                                                     onClick={(e) => {
                                                         e.stopPropagation()
                                                         handleDeleteHistory(
                                                             row.id,
                                                         )
                                                     }}
-                                                    className="p-1 text-[#D94F4F] hover:text-[#D94F4F]"
+                                                    className="text-destructive hover:text-destructive"
+                                                    aria-label={t(
+                                                        'common.delete',
+                                                    )}
                                                 >
-                                                    <Trash2 className="h-3.5 w-3.5" />
-                                                </button>
+                                                    <Trash2 />
+                                                </Button>
                                             </div>
                                         ))
                                     )}
@@ -649,27 +677,29 @@ export function DiseaseListPage() {
             {/* Pagination */}
             {totalPages > 1 && (
                 <div className="flex items-center justify-center gap-4 mt-8">
-                    <button
+                    <Button
+                        type="button"
+                        variant="outline"
                         onClick={() => setPage((p) => Math.max(1, p - 1))}
                         disabled={page === 1}
-                        className="px-5 py-2.5 rounded-lg bg-[#161618] font-medium text-sm disabled:opacity-30 transition-colors duration-200 inline-flex items-center gap-1 hover:bg-[#161618]"
                     >
-                        <ChevronLeft className="h-5 w-5" />
+                        <ChevronLeft data-icon="inline-start" />
                         {t('common.previous')}
-                    </button>
-                    <span className="text-sm font-medium text-neutral-400">
+                    </Button>
+                    <span className="text-sm font-medium text-muted-foreground">
                         {page} / {totalPages}
                     </span>
-                    <button
+                    <Button
+                        type="button"
+                        variant="outline"
                         onClick={() =>
                             setPage((p) => Math.min(totalPages, p + 1))
                         }
                         disabled={page === totalPages}
-                        className="px-5 py-2.5 rounded-lg bg-[#161618] font-medium text-sm disabled:opacity-30 transition-colors duration-200 inline-flex items-center gap-1 hover:bg-[#161618]"
                     >
                         {t('common.next')}
-                        <ChevronRight className="h-4 w-4" />
-                    </button>
+                        <ChevronRight data-icon="inline-end" />
+                    </Button>
                 </div>
             )}
         </div>

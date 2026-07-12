@@ -20,7 +20,7 @@ export function PreparationList({
     if (preparations.length === 0) {
         return (
             <EmptyState
-                icon={<ClipboardList className="h-12 w-12" />}
+                icon={<ClipboardList className="size-12" />}
                 title={t('preparations.noPreparations')}
             />
         )

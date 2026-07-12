@@ -200,13 +200,13 @@ export function ChatPage() {
                             className="p-1.5 rounded-lg hover:bg-[#161618] text-neutral-400"
                             title={t('chat.newChat')}
                         >
-                            <Plus className="h-4 w-4" />
+                            <Plus className="size-4" />
                         </button>
                         <button
                             onClick={() => setShowSidebar(false)}
                             className="p-1.5 rounded-lg hover:bg-[#161618] md:hidden"
                         >
-                            <ChevronLeft className="h-4 w-4" />
+                            <ChevronLeft className="size-4" />
                         </button>
                     </div>
                 </div>
@@ -237,9 +237,9 @@ export function ChatPage() {
                                         e.stopPropagation()
                                         handleDeleteSession(s.id)
                                     }}
-                                    className="p-1 text-[#D94F4F] hover:text-[#D94F4F] shrink-0"
+                                    className="p-1 text-destructive hover:text-destructive shrink-0"
                                 >
-                                    <Trash2 className="h-3.5 w-3.5" />
+                                    <Trash2 className="size-3.5" />
                                 </button>
                             </div>
                         ))
@@ -255,10 +255,10 @@ export function ChatPage() {
                         onClick={() => setShowSidebar(true)}
                         className="md:hidden p-1 rounded-lg hover:bg-[#161618]"
                     >
-                        <MessageCircle className="h-5 w-5" />
+                        <MessageCircle className="size-5" />
                     </button>
-                    <div className="w-8 h-8 rounded-xl bg-white/[0.06] flex items-center justify-center shadow-sm">
-                        <Bot className="h-4 w-4 text-neutral-400" />
+                    <div className="size-8 rounded-xl bg-white/[0.06] flex items-center justify-center shadow-sm">
+                        <Bot className="size-4 text-neutral-400" />
                     </div>
                     <h1 className="font-semibold text-white">
                         {t('chat.title')}
@@ -266,11 +266,11 @@ export function ChatPage() {
                 </div>
 
                 {/* Messages */}
-                <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+                <div className="flex flex-col flex-1 overflow-y-auto px-4 py-4 gap-4">
                     {messages.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center h-full text-center space-y-6">
-                            <div className="w-16 h-16 rounded-2xl bg-white/[0.06] flex items-center justify-center shadow-sm">
-                                <Bot className="h-8 w-8 text-neutral-400" />
+                        <div className="flex flex-col items-center justify-center h-full text-center gap-6">
+                            <div className="size-16 rounded-2xl bg-white/[0.06] flex items-center justify-center shadow-sm">
+                                <Bot className="size-8 text-neutral-400" />
                             </div>
                             <div>
                                 <h2 className="text-lg font-semibold text-white">
@@ -299,8 +299,8 @@ export function ChatPage() {
                                 className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : ''}`}
                             >
                                 {message.role === 'assistant' && (
-                                    <div className="w-7 h-7 rounded-full bg-white/[0.06] flex items-center justify-center shrink-0">
-                                        <Bot className="h-4 w-4 text-neutral-400" />
+                                    <div className="size-7 rounded-full bg-white/[0.06] flex items-center justify-center shrink-0">
+                                        <Bot className="size-4 text-neutral-400" />
                                     </div>
                                 )}
                                 <div
@@ -313,8 +313,8 @@ export function ChatPage() {
                                     {getMessageText(message)}
                                 </div>
                                 {message.role === 'user' && (
-                                    <div className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                                        <User className="h-4 w-4 text-neutral-400" />
+                                    <div className="size-7 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                                        <User className="size-4 text-neutral-400" />
                                     </div>
                                 )}
                             </div>
@@ -322,11 +322,11 @@ export function ChatPage() {
                     )}
                     {isLoading && (
                         <div className="flex gap-3">
-                            <div className="w-7 h-7 rounded-full bg-white/[0.06] flex items-center justify-center shrink-0">
-                                <Bot className="h-4 w-4 text-neutral-400" />
+                            <div className="size-7 rounded-full bg-white/[0.06] flex items-center justify-center shrink-0">
+                                <Bot className="size-4 text-neutral-400" />
                             </div>
                             <div className="bg-[#161618] rounded-xl px-4 py-2.5">
-                                <Loader2 className="h-4 w-4 animate-spin text-neutral-500" />
+                                <Loader2 className="size-4 animate-spin text-neutral-500" />
                             </div>
                         </div>
                     )}
@@ -350,7 +350,7 @@ export function ChatPage() {
                             type="submit"
                             disabled={isLoading || !input.trim()}
                         >
-                            <Send className="h-4 w-4" />
+                            <Send className="size-4" />
                         </Button>
                     </div>
                     <p className="text-xs text-neutral-500 mt-1 text-center">

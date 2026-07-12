@@ -31,7 +31,7 @@ const severityConfig = {
     low: { color: 'bg-[#4DA34D]/10 text-[#4DA34D] hover:bg-[#4DA34D]/10', label: 'low' },
     moderate: { color: 'bg-[#D4A72C]/10 text-[#D4A72C] hover:bg-[#D4A72C]/10', label: 'moderate' },
     high: { color: 'bg-[#F2994A]/10 text-[#F2994A] hover:bg-[#F2994A]/10', label: 'high' },
-    critical: { color: 'bg-[#D94F4F]/10 text-[#D94F4F] hover:bg-[#D94F4F]/10', label: 'critical' },
+    critical: { color: 'bg-destructive/10 text-destructive hover:bg-destructive/10', label: 'critical' },
 }
 
 export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
@@ -55,7 +55,7 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
     const aliases = localizeArray(disease.aliases, lang)
 
     return (
-        <div className="max-w-4xl mx-auto space-y-6">
+        <div className="flex flex-col max-w-4xl mx-auto gap-6">
             {/* Header */}
             <div>
                 <h1 className="text-2xl font-bold mb-2">{title}</h1>
@@ -64,7 +64,7 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
                         variant="secondary"
                         className={cn('gap-1', sevConf.color)}
                     >
-                        <Thermometer className="h-3 w-3" />
+                        <Thermometer className="size-3" />
                         {t(`diseases.${sevConf.label}`)}{' '}
                         {t('diseases.severity')}
                     </Badge>
@@ -97,7 +97,7 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
             {primaryCause && localize(primaryCause, lang) && (
                 <div>
                     <h3 className="text-lg font-semibold mb-2">
-                        <Bug className="h-4 w-4 inline mr-1.5" />
+                        <Bug className="size-4 inline mr-1.5" />
                         {t('diseases.primaryCause')}
                     </h3>
                     <Card className="border-[#D4A72C]/15 bg-[#D4A72C]/5">
@@ -116,12 +116,12 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
                     <h3 className="text-lg font-semibold mb-2">
                         🔍 {t('diseases.symptoms')}
                     </h3>
-                    <Card className="border-[#D94F4F]/15 bg-[#D94F4F]/5">
-                        <CardContent className="p-4 space-y-2">
+                    <Card className="border-destructive/15 bg-destructive/5">
+                        <CardContent className="flex flex-col p-4 gap-2">
                             {symptoms.map((s, i) => (
                                 <div key={i} className="flex items-start gap-2">
-                                    <span className="text-[#D94F4F] mt-0.5">•</span>
-                                    <p className="text-sm text-[#D94F4F]">
+                                    <span className="text-destructive mt-0.5">•</span>
+                                    <p className="text-sm text-destructive">
                                         {localize(s, lang)}
                                     </p>
                                 </div>
@@ -135,11 +135,11 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
             {favorableConditions.length > 0 && (
                 <div>
                     <h3 className="text-lg font-semibold mb-2">
-                        <AlertTriangle className="h-4 w-4 inline mr-1.5 text-amber-500" />
+                        <AlertTriangle className="size-4 inline mr-1.5 text-amber-500" />
                         {t('diseases.favorableConditions')}
                     </h3>
                     <Card className="border-yellow-800/30 bg-yellow-950/30">
-                        <CardContent className="p-4 space-y-1.5">
+                        <CardContent className="flex flex-col p-4 gap-1.5">
                             {favorableConditions.map((fc, i) => (
                                 <div key={i} className="flex items-start gap-2">
                                     <span className="text-yellow-500 mt-0.5">
@@ -159,11 +159,11 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
             {preventions.length > 0 && (
                 <div>
                     <h3 className="text-lg font-semibold mb-2">
-                        <Shield className="h-4 w-4 inline mr-1.5 text-blue-500" />
+                        <Shield className="size-4 inline mr-1.5 text-blue-500" />
                         {t('diseases.preventions')}
                     </h3>
                     <Card className="border-blue-800/30 bg-blue-950/30">
-                        <CardContent className="p-4 space-y-1.5">
+                        <CardContent className="flex flex-col p-4 gap-1.5">
                             {preventions.map((p, i) => (
                                 <div key={i} className="flex items-start gap-2">
                                     <span className="text-blue-400 mt-0.5">✓</span>
@@ -181,14 +181,14 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
             {treatments.length > 0 && (
                 <div>
                     <h3 className="text-lg font-semibold mb-2">
-                        <LeafIcon className="h-4 w-4 inline mr-1.5 text-green-500" />
+                        <LeafIcon className="size-4 inline mr-1.5 text-green-500" />
                         {t('diseases.treatments')}
                     </h3>
                     <Card className="border-[#4DA34D]/15 bg-[#4DA34D]/5">
-                        <CardContent className="p-4 space-y-1.5">
+                        <CardContent className="flex flex-col p-4 gap-1.5">
                             {treatments.map((tr, i) => (
                                 <div key={i} className="flex items-start gap-2">
-                                    <span className="shrink-0 w-5 h-5 rounded-full bg-[#4DA34D]/20 text-[#4DA34D] flex items-center justify-center text-[10px] font-bold">
+                                    <span className="shrink-0 size-5 rounded-full bg-[#4DA34D]/20 text-[#4DA34D] flex items-center justify-center text-[10px] font-bold">
                                         {i + 1}
                                     </span>
                                     <p className="text-sm text-[#4DA34D]">
