@@ -108,10 +108,10 @@ export function AdminDiseaseListPage() {
                                         {remedyCount}
                                     </TableCell>
                                     <TableCell className="text-right">
-                                        <div className="inline-flex items-center gap-1">
+                                        <div className="inline-flex items-center gap-2">
                                             <Button
                                                 asChild
-                                                variant="ghost"
+                                                variant="outline"
                                                 size="sm"
                                             >
                                                 <Link
@@ -123,9 +123,9 @@ export function AdminDiseaseListPage() {
                                             </Button>
                                             <Button
                                                 type="button"
-                                                variant="ghost"
+                                                variant="outline"
                                                 size="sm"
-                                                className="text-destructive hover:text-destructive"
+                                                className="text-destructive hover:border-destructive hover:bg-destructive/10 hover:text-destructive"
                                                 onClick={() =>
                                                     handleDelete(d.id as string)
                                                 }

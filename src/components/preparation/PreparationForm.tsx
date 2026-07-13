@@ -281,7 +281,7 @@ export function PreparationForm({
                                     />
                                     <Button
                                         type="button"
-                                        variant="outline"
+                                        variant="secondary"
                                         size="sm"
                                         onClick={() =>
                                             imageInputRef.current?.click()
@@ -339,7 +339,7 @@ export function PreparationForm({
                                     />
                                     <Button
                                         type="button"
-                                        variant="outline"
+                                        variant="secondary"
                                         size="sm"
                                         onClick={() =>
                                             videoInputRef.current?.click()
@@ -367,7 +367,7 @@ export function PreparationForm({
                         <div className="flex gap-3 pt-2">
                             <Button
                                 type="button"
-                                variant="outline"
+                                variant="secondary"
                                 onClick={onClose}
                                 className="flex-1"
                             >

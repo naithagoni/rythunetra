@@ -9,19 +9,22 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // Geist primary — solid ink fill, single most important action
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
-        // Geist secondary — surface fill with translucent border
+        // Primary — green fill + dark content; hover darkens fill 7% black (DESIGN.md)
+        default:
+          "bg-primary text-primary-foreground hover:[background:color-mix(in_oklab,var(--primary),#000_7%)]",
+        // Outline — pure white (base-100) surface + 1px base-300 border
         outline:
-          "border-gray-alpha-400 bg-background text-foreground hover:bg-muted aria-expanded:bg-muted",
+          "border-border bg-background text-foreground hover:bg-muted aria-expanded:bg-muted",
+        // Secondary — neutral base-200 chip (cancel/back/media), darkens to base-300 on hover
         secondary:
-          "border-gray-alpha-400 bg-background text-foreground hover:bg-muted aria-expanded:bg-muted",
-        // Geist tertiary — transparent, tints on hover
+          "border-border bg-[oklch(98%_0_0)] text-secondary-foreground hover:[background:oklch(95%_0_0)] aria-expanded:[background:oklch(95%_0_0)]",
+        // Ghost — transparent, tints to base-200 on hover
         ghost:
           "text-foreground hover:bg-muted aria-expanded:bg-muted",
-        // Geist error — solid red fill, white text
+        // Error — light error fill + dark error content; hover darkens 7% black
         destructive:
-          "bg-destructive text-white hover:bg-red-900",
+          "bg-error text-error-content hover:[background:color-mix(in_oklab,var(--error),#000_7%)]",
+        // Link — purple secondary accent
         link: "text-link underline-offset-4 hover:underline",
       },
       size: {

@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { Search, X, Leaf } from 'lucide-react'
+import { Search, X, Leaf, ArrowUpRight } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { usePageTitle } from '@/hooks/usePageTitle'
 import { useCrops } from '@/hooks/useCrops'
@@ -95,24 +95,27 @@ export function CropHomePage() {
                         const cropType = localize(crop.cropType, lang)
                         return (
                             <Link key={crop.id} to={`/crops/${crop.id}`}>
-                                <Card className="group gap-0 overflow-hidden py-0 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-card-hover">
-                                    <div className="aspect-4/3 overflow-hidden bg-muted">
+                                <Card className="group gap-0 overflow-hidden py-0 transition-colors duration-200 hover:border-primary">
+                                    <div className="relative aspect-4/3 overflow-hidden bg-muted">
                                         <img
                                             src={getCropImage(crop.imageUrl)}
                                             alt={cropName}
                                             loading="lazy"
                                             className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
                                         />
+                                        {/* Gradient scrim for legibility */}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
+                                        {cropType && (
+                                            <span className="absolute left-2 top-2 rounded-full bg-background/85 px-2 py-0.5 text-[11px] font-medium text-foreground backdrop-blur-sm">
+                                                {cropType}
+                                            </span>
+                                        )}
                                     </div>
-                                    <div className="p-3">
-                                        <p className="truncate text-sm font-medium text-foreground">
+                                    <div className="flex items-center justify-between gap-2 border-t border-border bg-[oklch(95%_0_0)] p-3">
+                                        <p className="truncate text-sm font-semibold text-foreground">
                                             {cropName}
                                         </p>
-                                        {cropType && (
-                                            <p className="truncate text-xs text-muted-foreground">
-                                                {cropType}
-                                            </p>
-                                        )}
+                                        <ArrowUpRight className="size-4 shrink-0 text-muted-foreground opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary group-hover:opacity-100" />
                                     </div>
                                 </Card>
                             </Link>

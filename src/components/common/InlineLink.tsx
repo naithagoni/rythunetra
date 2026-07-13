@@ -5,7 +5,7 @@ import { cn } from '@/utils/cn'
 const base =
     'text-link underline-offset-4 hover:underline transition-colors'
 
-/** Inline text link (internal, react-router). Geist blue, underline on hover. */
+/** Inline text link (internal, react-router). Purple secondary accent, underline on hover. */
 export function InlineLink({
     className,
     ...props

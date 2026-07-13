@@ -69,7 +69,7 @@ export function Section({
                 {children}
             </CardContent>
             {hasFooter && (
-                <CardFooter className="justify-between gap-4 border-t bg-muted/50 px-6 py-3">
+                <CardFooter className="justify-between gap-4 border-t px-6 py-3">
                     <div className="text-sm text-muted-foreground">
                         {footerHint}
                     </div>

@@ -93,9 +93,8 @@ export function AdminCropListPage() {
                                     <TableCell className="text-right">
                                         <Button
                                             asChild
-                                            variant="ghost"
+                                            variant="outline"
                                             size="sm"
-                                            className="text-primary"
                                         >
                                             <Link
                                                 to={`/admin/crops/${crop.id}`}

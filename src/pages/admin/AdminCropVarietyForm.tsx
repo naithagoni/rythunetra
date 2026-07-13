@@ -913,7 +913,7 @@ export function AdminCropVarietyFormPage() {
 
                 {/* ── Save-bar ────────────────────────────── */}
                 <div className="sticky bottom-0 -mx-4 sm:-mx-6 lg:-mx-8 flex items-center justify-end gap-2 border-t border-border bg-background/80 backdrop-blur-md px-4 sm:px-6 lg:px-8 py-3">
-                    <Button asChild variant="outline" type="button">
+                    <Button asChild variant="secondary" type="button">
                         <Link to={`/admin/crops/${cropId}/varieties`}>
                             {t('common.cancel')}
                         </Link>

@@ -1,8 +1,6 @@
 import { useState, useMemo } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
-import { useAdmin } from '@/hooks/useAdmin'
 import { useLanguage } from '@/hooks/useLanguage'
 import { usePageTitle } from '@/hooks/usePageTitle'
 import { updateUserProfile } from '@/services/authService'
@@ -10,13 +8,7 @@ import { LanguageToggle } from '@/components/common/LanguageToggle'
 import { CustomDropdown } from '@/components/common/CustomDropdown'
 import { DISTRICT_KEYS } from '@/config/districts'
 import { getMandalsForDistrict } from '@/config/mandals'
-import {
-    Shield,
-    LogOut,
-    FlaskConical,
-    ChevronRight,
-    MapPin,
-} from 'lucide-react'
+import { MapPin } from 'lucide-react'
 import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -27,15 +19,20 @@ import { PageContainer } from '@/components/common/PageContainer'
 
 export function SettingsPage() {
     const { t } = useTranslation()
-    const { user, signOut } = useAuth()
-    const { isAdmin } = useAdmin()
+    const { user } = useAuth()
     const { currentLanguage } = useLanguage()
     usePageTitle('Settings')
-    const navigate = useNavigate()
     const [name, setName] = useState(user?.name || '')
     const [district, setDistrict] = useState(user?.district || '')
     const [mandal, setMandal] = useState(user?.mandal || '')
     const [saving, setSaving] = useState(false)
+
+    // Dirty only when a field differs from the saved profile — Save stays
+    // disabled until the user actually changes name, district, or mandal.
+    const isDirty =
+        name !== (user?.name || '') ||
+        district !== (user?.district || '') ||
+        mandal !== (user?.mandal || '')
 
     const districtOptions = useMemo(
         () =>
@@ -77,68 +74,20 @@ export function SettingsPage() {
         }
     }
 
-    const handleSignOut = async () => {
-        await signOut()
-        navigate('/')
-    }
-
     return (
         <PageContainer size="sm">
             <PageHeader title={t('settings.title')} />
 
             <div className="flex flex-col gap-6">
-                {/* Quick Links — hairline rows */}
-                <Section title={t('settings.title')} flush>
-                    <div className="divide-y divide-border">
-                        <Link
-                            to="/my-preparations"
-                            className="flex items-center justify-between gap-3 px-6 py-4 transition-colors hover:bg-muted/50"
-                        >
-                            <div className="flex items-center gap-3">
-                                <FlaskConical className="size-4 text-muted-foreground" />
-                                <div>
-                                    <p className="text-sm font-medium">
-                                        {t('common.myPreparations')}
-                                    </p>
-                                    <p className="text-xs text-muted-foreground">
-                                        {t('settings.myPrepsDesc')}
-                                    </p>
-                                </div>
-                            </div>
-                            <ChevronRight className="size-4 text-muted-foreground" />
-                        </Link>
-                        {isAdmin && (
-                            <Link
-                                to="/admin"
-                                className="flex items-center justify-between gap-3 px-6 py-4 transition-colors hover:bg-muted/50"
-                            >
-                                <div className="flex items-center gap-3">
-                                    <Shield className="size-4 text-muted-foreground" />
-                                    <div>
-                                        <p className="text-sm font-medium">
-                                            {t('common.admin')}
-                                        </p>
-                                        <p className="text-xs text-muted-foreground">
-                                            {t('settings.adminDesc')}
-                                        </p>
-                                    </div>
-                                </div>
-                                <ChevronRight className="size-4 text-muted-foreground" />
-                            </Link>
-                        )}
-                    </div>
-                </Section>
-
                 {/* Profile — settings card with footer save bar */}
                 <form onSubmit={handleUpdateProfile}>
                     <Section
                         title={t('settings.profile')}
                         description={t('settings.districtDesc')}
-                        footerHint={t('settings.district')}
                         footerAction={
                             <Button
                                 type="submit"
-                                disabled={saving || !district || !mandal}
+                                disabled={saving || !isDirty || !district || !mandal}
                             >
                                 {saving
                                     ? t('common.loading')
@@ -225,25 +174,6 @@ export function SettingsPage() {
                 >
                     <p className="text-sm text-muted-foreground">
                         {t('settings.languageDesc')}
-                    </p>
-                </Section>
-
-                {/* Account */}
-                <Section
-                    title={t('settings.account')}
-                    footerHint={user?.email}
-                    footerAction={
-                        <Button
-                            variant="destructive"
-                            onClick={handleSignOut}
-                        >
-                            <LogOut data-icon="inline-start" />
-                            {t('auth.signOut')}
-                        </Button>
-                    }
-                >
-                    <p className="text-sm text-muted-foreground">
-                        {t('settings.account')}
                     </p>
                 </Section>
             </div>

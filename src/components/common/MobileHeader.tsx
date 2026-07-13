@@ -20,8 +20,8 @@ import { useAuth } from '@/hooks/useAuth'
 import { useAdmin } from '@/hooks/useAdmin'
 import { AI_ENABLED } from '@/config/env'
 import { LanguageToggle } from './LanguageToggle'
-import { ThemeToggle } from './ThemeToggle'
 import { LogoMark } from './LogoMark'
+import { cn } from '@/utils/cn'
 import { Button } from '@/components/ui/button'
 import {
     Sheet,
@@ -51,9 +51,24 @@ export function MobileHeader() {
         { to: '/', label: t('nav.home'), icon: Home, end: true },
         { to: '/crops', label: t('nav.crops'), icon: CropsIcon },
         { to: '/diseases', label: t('common.diseases'), icon: Bug },
-        { to: '/recommend', label: t('nav.recommend'), icon: Sprout, aiOnly: true },
-        { to: '/scanner', label: t('nav.scanner', 'Scanner'), icon: ScanLine, aiOnly: true },
-        { to: '/chat', label: t('nav.advisor', 'Advisor'), icon: MessageSquare, aiOnly: true },
+        {
+            to: '/recommend',
+            label: t('nav.recommend'),
+            icon: Sprout,
+            aiOnly: true,
+        },
+        {
+            to: '/scanner',
+            label: t('nav.scanner', 'Scanner'),
+            icon: ScanLine,
+            aiOnly: true,
+        },
+        {
+            to: '/chat',
+            label: t('nav.advisor', 'Advisor'),
+            icon: MessageSquare,
+            aiOnly: true,
+        },
     ]
 
     const account: NavItem[] = user
@@ -92,7 +107,6 @@ export function MobileHeader() {
                     </span>
                 </Link>
                 <div className="flex shrink-0 items-center gap-1">
-                    <ThemeToggle />
                     <LanguageToggle />
                     <Sheet open={open} onOpenChange={setOpen}>
                         <SheetTrigger asChild>
@@ -138,6 +152,20 @@ export function MobileHeader() {
                                 {account.length > 0 && (
                                     <div className="my-2 h-px bg-border" />
                                 )}
+                                {isAdmin && (
+                                    <SheetClose asChild>
+                                        <NavLink
+                                            to="/admin"
+                                            className={cn(
+                                                linkClass,
+                                                'text-link hover:text-link aria-[current=page]:text-link',
+                                            )}
+                                        >
+                                            <Shield className="size-4" />
+                                            {t('common.admin')}
+                                        </NavLink>
+                                    </SheetClose>
+                                )}
                                 {account.map((item) => (
                                     <SheetClose asChild key={item.to}>
                                         <NavLink
@@ -149,25 +177,13 @@ export function MobileHeader() {
                                         </NavLink>
                                     </SheetClose>
                                 ))}
-
-                                {isAdmin && (
-                                    <SheetClose asChild>
-                                        <NavLink
-                                            to="/admin"
-                                            className={linkClass}
-                                        >
-                                            <Shield className="size-4" />
-                                            {t('common.admin')}
-                                        </NavLink>
-                                    </SheetClose>
-                                )}
                             </nav>
 
                             <div className="mt-auto border-t border-border p-3">
                                 {user ? (
                                     <Button
-                                        variant="outline"
-                                        className="w-full"
+                                        variant="ghost"
+                                        className="w-full justify-start text-destructive hover:bg-destructive/10 hover:text-destructive"
                                         onClick={handleSignOut}
                                     >
                                         <LogOut data-icon="inline-start" />

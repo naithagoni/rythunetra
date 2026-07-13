@@ -567,7 +567,7 @@ export function AdminCropFormPage() {
                         <span />
                     )}
                     <div className="flex items-center gap-2">
-                        <Button asChild variant="outline" type="button">
+                        <Button asChild variant="secondary" type="button">
                             <Link to="/admin/crops">{t('common.cancel')}</Link>
                         </Button>
                         <Button type="submit" disabled={saveDisabled}>

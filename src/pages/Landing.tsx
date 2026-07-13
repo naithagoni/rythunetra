@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { useAuth } from '@/hooks/useAuth'
 import { usePageTitle } from '@/hooks/usePageTitle'
 import { AI_ENABLED } from '@/config/env'
 import {
@@ -19,10 +18,13 @@ import {
     MessageSquare,
     MapPin,
     ArrowRight,
+    ArrowUpRight,
     Wheat,
     Globe,
+    Search,
+    BookOpen,
+    Leaf,
 } from 'lucide-react'
-import { SectionLabel } from '@/components/landing/SectionLabel'
 import { HeroBackdrop } from '@/components/landing/HeroBackdrop'
 import { RotatingHeadline } from '@/components/landing/RotatingHeadline'
 import { Reveal } from '@/components/landing/Reveal'
@@ -61,7 +63,6 @@ function AnimatedCounter({
 
 export function LandingPage() {
     const { t } = useTranslation()
-    const { user } = useAuth()
     usePageTitle('Organic Farming Platform for Telangana')
 
     const rotating = t('landing.hero.rotating', {
@@ -120,17 +121,17 @@ export function LandingPage() {
 
     const steps = [
         {
-            num: t('landing.process.step1Number'),
+            icon: Search,
             title: t('landing.process.step1Title'),
             desc: t('landing.process.step1Desc'),
         },
         {
-            num: t('landing.process.step2Number'),
+            icon: BookOpen,
             title: t('landing.process.step2Title'),
             desc: t('landing.process.step2Desc'),
         },
         {
-            num: t('landing.process.step3Number'),
+            icon: Leaf,
             title: t('landing.process.step3Title'),
             desc: t('landing.process.step3Desc'),
         },
@@ -139,19 +140,16 @@ export function LandingPage() {
     const metrics = [
         {
             icon: MapPin,
-            num: '01',
             title: t('landing.telangana.districts'),
             desc: t('landing.telangana.districtsDesc'),
         },
         {
             icon: Globe,
-            num: '02',
             title: t('landing.telangana.telugu'),
             desc: t('landing.telangana.teluguDesc'),
         },
         {
             icon: Wheat,
-            num: '03',
             title: t('landing.telangana.crops'),
             desc: t('landing.telangana.cropsDesc'),
         },
@@ -170,8 +168,8 @@ export function LandingPage() {
                         className="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-4 py-2 font-mono text-xs font-medium text-muted-foreground backdrop-blur-sm"
                     >
                         <span className="relative flex size-2">
-                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-700 opacity-75" />
-                            <span className="relative inline-flex size-2 rounded-full bg-blue-700" />
+                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-link opacity-75" />
+                            <span className="relative inline-flex size-2 rounded-full bg-link" />
                         </span>
                         {t('landing.hero.badge')}
                     </motion.div>
@@ -218,7 +216,7 @@ export function LandingPage() {
                         </Button>
                         <Button
                             asChild
-                            variant="outline"
+                            variant="secondary"
                             size="pill-lg"
                             className="w-full sm:w-auto"
                         >
@@ -251,32 +249,34 @@ export function LandingPage() {
                 </div>
             </section>
 
-            {/* ── 1.0 EXPLORE ── */}
-            <section className="px-6 py-28 sm:px-8 sm:py-36">
+            {/* ── EXPLORE ── */}
+            <section className="px-6 py-20 sm:px-8 sm:py-24">
                 <div className="mx-auto max-w-6xl">
-                    <Reveal>
-                        <SectionLabel
-                            number={t('landing.features.sectionNumber')}
-                            title={t('landing.features.sectionTitle')}
-                            subtitle={t('landing.features.sectionSubtitle')}
-                        />
+                    <Reveal className="mb-10 max-w-2xl">
+                        <h2 className="text-display-lg font-semibold leading-[1.1] tracking-[-0.04em] text-foreground sm:text-[42px]">
+                            {t('landing.features.sectionTitle')}
+                        </h2>
+                        <p className="mt-3 text-base leading-relaxed text-muted-foreground sm:text-lg">
+                            {t('landing.features.sectionSubtitle')}
+                        </p>
                     </Reveal>
 
                     <div
-                        className={`grid grid-cols-1 gap-px overflow-hidden rounded-xl bg-border sm:grid-cols-2 ${features.length > 3 ? 'lg:grid-cols-3' : ''}`}
+                        className={`grid grid-cols-1 gap-4 sm:grid-cols-2 ${features.length > 3 ? 'lg:grid-cols-3' : ''}`}
                     >
                         {features.map((f, i) => (
-                            <Reveal
-                                key={`${f.to}-${i}`}
-                                delay={i * 0.05}
-                                y={12}
-                            >
+                            <Reveal key={`${f.to}-${i}`} delay={i * 0.05} y={12}>
                                 <Link
                                     to={f.to}
-                                    className="group block h-full bg-background p-8 transition-colors duration-200 hover:bg-secondary"
+                                    className="group flex h-full flex-col rounded-xl border border-border bg-card p-6 transition-colors duration-200 hover:border-primary hover:bg-primary/5"
                                 >
-                                    <f.icon className="mb-4 size-6 text-muted-foreground transition-transform duration-200 group-hover:-translate-y-0.5" />
-                                    <h3 className="mb-1.5 text-[15px] font-semibold tracking-[-0.02em] text-foreground">
+                                    <div className="mb-5 flex items-center justify-between">
+                                        <span className="flex size-11 items-center justify-center rounded-xl bg-primary/15 transition-colors duration-200 group-hover:bg-primary [&_svg]:size-5 [&_svg]:text-foreground group-hover:[&_svg]:text-primary-foreground">
+                                            <f.icon />
+                                        </span>
+                                        <ArrowUpRight className="size-4 text-muted-foreground opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary group-hover:opacity-100" />
+                                    </div>
+                                    <h3 className="mb-1.5 text-base font-semibold tracking-[-0.02em] text-foreground">
                                         {f.title}
                                     </h3>
                                     <p className="text-sm leading-relaxed text-muted-foreground">
@@ -289,74 +289,33 @@ export function LandingPage() {
                 </div>
             </section>
 
-            {/* ── 2.0 HOW IT WORKS ── */}
-            <section className="px-6 py-28 sm:px-8 sm:py-36">
+            {/* ── HOW IT WORKS ── */}
+            <section className="border-t border-border bg-[oklch(98%_0_0)] px-6 py-20 sm:px-8 sm:py-24">
                 <div className="mx-auto max-w-6xl">
-                    <Reveal>
-                        <SectionLabel
-                            number={t('landing.process.sectionNumber')}
-                            title={t('landing.process.sectionTitle')}
-                            subtitle={t('landing.process.sectionSubtitle')}
-                        />
-                    </Reveal>
-
-                    <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-                        {steps.map((step, i) => (
-                            <Reveal key={step.num} delay={i * 0.08}>
-                                <div className="h-full rounded-xl border border-border bg-card p-6">
-                                    <span className="font-mono text-[13px] font-semibold tracking-[0.08em] text-muted-foreground">
-                                        {step.num}
-                                    </span>
-                                    <h3 className="mt-3 text-display-sm tracking-[-0.02em] text-foreground">
-                                        {step.title}
-                                    </h3>
-                                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                                        {step.desc}
-                                    </p>
-                                </div>
-                            </Reveal>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* ── 3.0 BUILT FOR TELANGANA ── */}
-            <section className="px-6 py-28 sm:px-8 sm:py-36">
-                <div className="mx-auto max-w-6xl">
-                    <Reveal>
-                        <SectionLabel
-                            number={t('landing.telangana.sectionNumber')}
-                            title={t('landing.telangana.sectionTitle')}
-                            subtitle={t('landing.telangana.sectionSubtitle')}
-                        />
-                    </Reveal>
-
-                    <Reveal className="mb-6 rounded-xl border border-border bg-card p-8 sm:p-10">
-                        <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                            {t('landing.telangana.figLabel')}
-                        </span>
-                        <h3 className="mt-4 max-w-lg text-display-md font-semibold tracking-[-0.03em] text-foreground sm:text-display-lg">
-                            {t('landing.telangana.highlightTitle')}
-                        </h3>
-                        <p className="mt-3 max-w-lg text-base leading-relaxed text-muted-foreground">
-                            {t('landing.telangana.highlightDesc')}
+                    <Reveal className="mb-10 max-w-2xl">
+                        <h2 className="text-display-lg font-semibold leading-[1.1] tracking-[-0.04em] text-foreground sm:text-[42px]">
+                            {t('landing.process.sectionTitle')}
+                        </h2>
+                        <p className="mt-3 text-base leading-relaxed text-muted-foreground sm:text-lg">
+                            {t('landing.process.sectionSubtitle')}
                         </p>
                     </Reveal>
 
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-                        {metrics.map((m, i) => (
-                            <Reveal key={m.num} delay={i * 0.08}>
-                                <div className="h-full rounded-xl border border-border bg-card p-6">
-                                    <span className="font-mono text-xs font-medium tracking-[0.08em] text-muted-foreground">
-                                        {m.num}
+                        {steps.map((step, i) => (
+                            <Reveal key={step.title} delay={i * 0.08}>
+                                <div className="flex items-start gap-4">
+                                    <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground [&_svg]:size-5">
+                                        <step.icon />
                                     </span>
-                                    <m.icon className="mb-4 mt-3 size-5 text-muted-foreground" />
-                                    <h3 className="text-base font-semibold tracking-[-0.02em] text-foreground">
-                                        {m.title}
-                                    </h3>
-                                    <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                                        {m.desc}
-                                    </p>
+                                    <div>
+                                        <h3 className="text-base font-semibold tracking-[-0.02em] text-foreground">
+                                            {step.title}
+                                        </h3>
+                                        <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+                                            {step.desc}
+                                        </p>
+                                    </div>
                                 </div>
                             </Reveal>
                         ))}
@@ -364,41 +323,40 @@ export function LandingPage() {
                 </div>
             </section>
 
-            {/* ── CTA ── */}
-            <section className="border-t border-border px-6 py-28 sm:px-8 sm:py-36">
-                <Reveal className="mx-auto max-w-md text-center">
-                    <h2 className="text-display-lg font-semibold tracking-[-0.03em] text-foreground sm:text-display-xl">
-                        {t('landing.cta.title')}
-                    </h2>
-                    <p className="mt-4 text-base leading-relaxed text-muted-foreground">
-                        {t('landing.cta.subtitle')}
-                    </p>
-                    <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                        {!user && (
-                            <Button
-                                asChild
-                                size="pill-lg"
-                                className="group w-full sm:w-auto"
-                            >
-                                <Link to="/register">
-                                    {t('landing.cta.register')}
-                                    <ArrowRight
-                                        data-icon="inline-end"
-                                        className="transition-transform duration-200 group-hover:translate-x-0.5"
-                                    />
-                                </Link>
-                            </Button>
-                        )}
-                        <Button
-                            asChild
-                            variant={user ? 'default' : 'outline'}
-                            size="pill-lg"
-                            className="w-full sm:w-auto"
-                        >
-                            <Link to="/crops">{t('landing.cta.explore')}</Link>
-                        </Button>
+            {/* ── BUILT FOR TELANGANA ── */}
+            <section className="border-t border-border px-6 py-20 sm:px-8 sm:py-24">
+                <div className="mx-auto max-w-6xl">
+                    <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
+                        <Reveal>
+                            <h2 className="text-display-lg font-semibold leading-[1.1] tracking-[-0.04em] text-foreground sm:text-[42px]">
+                                {t('landing.telangana.sectionTitle')}
+                            </h2>
+                            <p className="mt-3 max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg">
+                                {t('landing.telangana.highlightDesc')}
+                            </p>
+                        </Reveal>
+
+                        <div className="flex flex-col divide-y divide-border overflow-hidden rounded-xl border border-border bg-card">
+                            {metrics.map((m, i) => (
+                                <Reveal key={m.title} delay={i * 0.08}>
+                                    <div className="group flex items-center gap-4 p-5 transition-colors duration-200 hover:bg-primary/5">
+                                        <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary/15 transition-colors duration-200 group-hover:bg-primary [&_svg]:size-5 [&_svg]:text-foreground group-hover:[&_svg]:text-primary-foreground">
+                                            <m.icon />
+                                        </span>
+                                        <div>
+                                            <h3 className="text-base font-semibold tracking-[-0.02em] text-foreground">
+                                                {m.title}
+                                            </h3>
+                                            <p className="mt-0.5 text-sm leading-relaxed text-muted-foreground">
+                                                {m.desc}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </Reveal>
+                            ))}
+                        </div>
                     </div>
-                </Reveal>
+                </div>
             </section>
         </main>
     )

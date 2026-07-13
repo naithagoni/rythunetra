@@ -75,17 +75,19 @@ export function AdminDashboardPage() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {cards.map((card) => (
                     <Link key={card.to} to={card.to} className="group">
-                        <Card className="relative gap-0 p-5 transition-all duration-150 hover:-translate-y-0.5 hover:shadow-card-hover">
-                            <div className="mb-4 flex items-center justify-between">
-                                <div className="flex size-10 items-center justify-center rounded-lg bg-muted text-foreground transition-colors duration-150 group-hover:bg-accent">
-                                    {card.icon}
+                        <Card className="relative gap-0 overflow-hidden py-0 transition-colors duration-200 hover:border-primary">
+                            <div className="p-5 transition-colors duration-200 group-hover:bg-primary/5">
+                                <div className="mb-4 flex items-center justify-between">
+                                    <div className="flex size-10 items-center justify-center rounded-lg bg-primary/15 text-primary-foreground transition-colors duration-200 [&_svg]:text-foreground group-hover:bg-primary group-hover:[&_svg]:text-primary-foreground">
+                                        {card.icon}
+                                    </div>
+                                    <ArrowUpRight className="size-4 text-muted-foreground transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary" />
                                 </div>
-                                <ArrowUpRight className="size-4 text-muted-foreground transition-all duration-150 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground" />
+                                <p className="text-display-lg leading-none tracking-tight text-foreground tabular-nums">
+                                    {card.count}
+                                </p>
                             </div>
-                            <p className="text-display-lg leading-none tracking-tight text-foreground tabular-nums">
-                                {card.count}
-                            </p>
-                            <p className="mt-1.5 font-mono text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                            <p className="border-t border-border bg-[oklch(95%_0_0)] px-5 py-3 font-mono text-xs font-medium uppercase tracking-wider text-muted-foreground">
                                 {card.label}
                             </p>
                         </Card>

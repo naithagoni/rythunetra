@@ -9,7 +9,7 @@ import {
 
 /**
  * Layered hero backdrop (Vercel-style): a faint concentric-rings + grid
- * pattern masked to fade at the edges, with a blue spotlight glow that
+ * pattern masked to fade at the edges, with a neutral spotlight glow that
  * follows the cursor. Falls back to a centered static glow when the pointer
  * is coarse (touch) or the user prefers reduced motion. Purely decorative.
  */
