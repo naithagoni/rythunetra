@@ -47,15 +47,18 @@ export function Header() {
     }
 
     return (
-        <header className="sticky top-0 z-50 hidden md:block border-b border-border bg-background/70 backdrop-blur-xl">
-            <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+        <header className="sticky top-0 z-50 hidden px-4 pt-3 md:block">
+            <div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-6 rounded-full border border-border bg-background/80 pr-2.5 pl-5 shadow-elevated backdrop-blur-xl">
                 {/* Brand */}
                 <Link
                     to="/"
                     className="group flex shrink-0 items-center gap-2.5"
                 >
-                    <LogoMark size="md" />
-                    <span className="text-lg brand-wordmark">
+                    <LogoMark
+                        size="sm"
+                        className="transition-transform duration-200 group-hover:scale-105"
+                    />
+                    <span className="brand-wordmark text-[17px]">
                         <span className="text-foreground">Rythu</span>
                         <span className="text-muted-foreground transition-colors group-hover:text-foreground">
                             Netra
@@ -63,13 +66,18 @@ export function Header() {
                     </span>
                 </Link>
 
-                {/* Center pill nav */}
-                <nav className="flex items-center gap-0.5 rounded-full border border-border bg-muted/50 p-1">
+                {/* Center nav — inline links, sliding green pill on active */}
+                <nav className="flex items-center gap-1">
                     {navLinks.map((link) => (
                         <NavLink
                             key={link.to}
                             to={link.to}
-                            className="group/nav relative rounded-full px-3.5 py-1.5"
+                            className={({ isActive }) =>
+                                cn(
+                                    'group/nav relative rounded-full px-4 py-2 transition-colors',
+                                    !isActive && 'hover:bg-muted',
+                                )
+                            }
                         >
                             {({ isActive }) => (
                                 <>
@@ -86,7 +94,7 @@ export function Header() {
                                     )}
                                     <span
                                         className={cn(
-                                            'relative z-10 inline-flex items-center gap-1.5 text-sm font-medium transition-colors',
+                                            'relative z-10 inline-flex items-center gap-2 text-sm font-medium transition-colors',
                                             isActive
                                                 ? 'text-primary-foreground'
                                                 : 'text-muted-foreground group-hover/nav:text-foreground',
@@ -110,7 +118,7 @@ export function Header() {
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="rounded-full"
+                                    className="rounded-full ring-1 ring-border transition-shadow hover:ring-primary"
                                 >
                                     <Avatar size="sm">
                                         <AvatarFallback className="bg-primary text-primary-foreground text-xs">
@@ -165,7 +173,7 @@ export function Header() {
                             </DropdownMenuContent>
                         </DropdownMenu>
                     ) : (
-                        <Button asChild size="sm" className="ml-1">
+                        <Button asChild size="sm" className="ml-1 rounded-full">
                             <Link to="/login">
                                 <LogIn data-icon="inline-start" />
                                 {t('common.login')}
