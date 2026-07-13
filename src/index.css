@@ -552,9 +552,14 @@
     --error: oklch(78.66% 0.15 28.47);
     --error-content: oklch(15.732% 0.03 28.47);
 
-    /* Hero backdrop — neutral spotlight glow + visible ring lines */
-    --hero-glow: rgba(0, 0, 0, 0.05);
-    --hero-ring: oklch(90% 0 0);
+    /* Hero backdrop — layered spotlight + ring/grid lines + green accent.
+       Neutral cursor glow, faint green ambient wash, and a soft green tint on
+       the innermost ring / orbiting dots keep it on-brand without shouting. */
+    --hero-glow: rgba(0, 0, 0, 0.05); /* neutral cursor spotlight */
+    --hero-ring: oklch(91% 0 0); /* faint grid lines */
+    --hero-ring-strong: oklch(84% 0 0); /* moving/dashed rings — more visible */
+    --hero-accent: oklch(70% 0.16 139.549 / 0.7); /* green — inner ring/dots */
+    --hero-accent-soft: oklch(86.133% 0.141 139.549 / 0.12); /* green ambient wash */
 
     /* Data-viz — brand green first, then distinct status hues */
     --chart-1: oklch(76.662% 0.135 153.45); /* green */
