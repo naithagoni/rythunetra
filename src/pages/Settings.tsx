@@ -11,8 +11,6 @@ import { CustomDropdown } from '@/components/common/CustomDropdown'
 import { DISTRICT_KEYS } from '@/config/districts'
 import { getMandalsForDistrict } from '@/config/mandals'
 import {
-    User,
-    Globe,
     Shield,
     LogOut,
     FlaskConical,
@@ -20,15 +18,12 @@ import {
     MapPin,
 } from 'lucide-react'
 import { toast } from 'sonner'
-import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import {
-    Field,
-    FieldDescription,
-    FieldGroup,
-    FieldLabel,
-} from '@/components/ui/field'
+import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
+import { Section } from '@/components/common/Section'
+import { PageHeader } from '@/components/common/PageHeader'
+import { PageContainer } from '@/components/common/PageContainer'
 
 export function SettingsPage() {
     const { t } = useTranslation()
@@ -88,97 +83,93 @@ export function SettingsPage() {
     }
 
     return (
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="mb-8">
-                <h1 className="text-2xl font-bold text-foreground">
-                    {t('settings.title')}
-                </h1>
-            </div>
+        <PageContainer size="sm">
+            <PageHeader title={t('settings.title')} />
 
-            <div className="flex flex-col gap-5">
-                {/* Quick Links */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <Link to="/my-preparations">
-                        <Card className="hover:border-primary/30 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
-                            <CardContent className="p-4 flex items-center justify-between">
+            <div className="flex flex-col gap-6">
+                {/* Quick Links — hairline rows */}
+                <Section title={t('settings.title')} flush>
+                    <div className="divide-y divide-border">
+                        <Link
+                            to="/my-preparations"
+                            className="flex items-center justify-between gap-3 px-6 py-4 transition-colors hover:bg-muted/50"
+                        >
+                            <div className="flex items-center gap-3">
+                                <FlaskConical className="size-4 text-muted-foreground" />
+                                <div>
+                                    <p className="text-sm font-medium">
+                                        {t('common.myPreparations')}
+                                    </p>
+                                    <p className="text-xs text-muted-foreground">
+                                        {t('settings.myPrepsDesc')}
+                                    </p>
+                                </div>
+                            </div>
+                            <ChevronRight className="size-4 text-muted-foreground" />
+                        </Link>
+                        {isAdmin && (
+                            <Link
+                                to="/admin"
+                                className="flex items-center justify-between gap-3 px-6 py-4 transition-colors hover:bg-muted/50"
+                            >
                                 <div className="flex items-center gap-3">
-                                    <div className="p-2.5 rounded-lg bg-violet-950/50">
-                                        <FlaskConical className="size-5 text-violet-400" />
-                                    </div>
+                                    <Shield className="size-4 text-muted-foreground" />
                                     <div>
-                                        <p className="font-semibold text-sm">
-                                            {t('common.myPreparations')}
+                                        <p className="text-sm font-medium">
+                                            {t('common.admin')}
                                         </p>
                                         <p className="text-xs text-muted-foreground">
-                                            {t('settings.myPrepsDesc')}
+                                            {t('settings.adminDesc')}
                                         </p>
                                     </div>
                                 </div>
                                 <ChevronRight className="size-4 text-muted-foreground" />
-                            </CardContent>
-                        </Card>
-                    </Link>
+                            </Link>
+                        )}
+                    </div>
+                </Section>
 
-                    {isAdmin && (
-                        <Link to="/admin">
-                            <Card className="hover:border-amber-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
-                                <CardContent className="p-4 flex items-center justify-between">
-                                    <div className="flex items-center gap-3">
-                                        <div className="p-2.5 rounded-lg bg-[#D4A72C]/10">
-                                            <Shield className="size-5 text-[#D4A72C]" />
-                                        </div>
-                                        <div>
-                                            <p className="font-semibold text-sm text-[#D4A72C]">
-                                                {t('common.admin')}
-                                            </p>
-                                            <p className="text-xs text-muted-foreground">
-                                                {t('settings.adminDesc')}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <ChevronRight className="size-4 text-muted-foreground" />
-                                </CardContent>
-                            </Card>
-                        </Link>
-                    )}
-                </div>
-
-                {/* Profile */}
-                <Card>
-                    <CardContent className="p-6">
-                        <div className="flex items-center gap-3 mb-4">
-                            <User className="size-5 text-primary" />
-                            <h2 className="text-lg font-semibold">
-                                {t('settings.profile')}
-                            </h2>
-                        </div>
-
-                        <form onSubmit={handleUpdateProfile}>
-                            <FieldGroup>
-                                <Field>
-                                    <FieldLabel htmlFor="settings-name">
-                                        {t('auth.name')}
-                                    </FieldLabel>
-                                    <Input
-                                        id="settings-name"
-                                        type="text"
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                    />
-                                </Field>
-
-                                <Field>
-                                    <FieldLabel htmlFor="settings-email">
-                                        {t('auth.email')}
-                                    </FieldLabel>
-                                    <Input
-                                        id="settings-email"
-                                        type="email"
-                                        value={user?.email || ''}
-                                        disabled
-                                    />
-                                </Field>
-
+                {/* Profile — settings card with footer save bar */}
+                <form onSubmit={handleUpdateProfile}>
+                    <Section
+                        title={t('settings.profile')}
+                        description={t('settings.districtDesc')}
+                        footerHint={t('settings.district')}
+                        footerAction={
+                            <Button
+                                type="submit"
+                                disabled={saving || !district || !mandal}
+                            >
+                                {saving
+                                    ? t('common.loading')
+                                    : t('common.save')}
+                            </Button>
+                        }
+                    >
+                        <FieldGroup>
+                            <Field>
+                                <FieldLabel htmlFor="settings-name">
+                                    {t('auth.name')}
+                                </FieldLabel>
+                                <Input
+                                    id="settings-name"
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                />
+                            </Field>
+                            <Field>
+                                <FieldLabel htmlFor="settings-email">
+                                    {t('auth.email')}
+                                </FieldLabel>
+                                <Input
+                                    id="settings-email"
+                                    type="email"
+                                    value={user?.email || ''}
+                                    disabled
+                                />
+                            </Field>
+                            <div className="grid gap-4 sm:grid-cols-2">
                                 <Field>
                                     <FieldLabel htmlFor="settings-district">
                                         <MapPin className="size-4" />
@@ -197,11 +188,7 @@ export function SettingsPage() {
                                         ariaLabel={t('settings.district')}
                                         variant="form"
                                     />
-                                    <FieldDescription>
-                                        {t('settings.districtDesc')}
-                                    </FieldDescription>
                                 </Field>
-
                                 <Field>
                                     <FieldLabel htmlFor="settings-mandal">
                                         <MapPin className="size-4" />
@@ -225,58 +212,41 @@ export function SettingsPage() {
                                         variant="form"
                                     />
                                 </Field>
-
-                                <Button
-                                    type="submit"
-                                    disabled={saving || !district || !mandal}
-                                >
-                                    {saving
-                                        ? t('common.loading')
-                                        : t('common.save')}
-                                </Button>
-                            </FieldGroup>
-                        </form>
-                    </CardContent>
-                </Card>
+                            </div>
+                        </FieldGroup>
+                    </Section>
+                </form>
 
                 {/* Language */}
-                <Card>
-                    <CardContent className="p-6">
-                        <div className="flex items-center gap-3 mb-4">
-                            <Globe className="size-5 text-primary" />
-                            <h2 className="text-lg font-semibold">
-                                {t('settings.language')}
-                            </h2>
-                        </div>
-                        <div className="flex items-center justify-between">
-                            <p className="text-sm text-muted-foreground">
-                                {t('settings.languageDesc')}
-                            </p>
-                            <LanguageToggle />
-                        </div>
-                    </CardContent>
-                </Card>
+                <Section
+                    title={t('settings.language')}
+                    description={t('settings.languageDesc')}
+                    headerAction={<LanguageToggle />}
+                >
+                    <p className="text-sm text-muted-foreground">
+                        {t('settings.languageDesc')}
+                    </p>
+                </Section>
 
                 {/* Account */}
-                <Card>
-                    <CardContent className="p-6">
-                        <div className="flex items-center gap-3 mb-4">
-                            <Shield className="size-5 text-primary" />
-                            <h2 className="text-lg font-semibold">
-                                {t('settings.account')}
-                            </h2>
-                        </div>
+                <Section
+                    title={t('settings.account')}
+                    footerHint={user?.email}
+                    footerAction={
                         <Button
                             variant="destructive"
                             onClick={handleSignOut}
-                            className="gap-2"
                         >
-                            <LogOut className="size-4" />
+                            <LogOut data-icon="inline-start" />
                             {t('auth.signOut')}
                         </Button>
-                    </CardContent>
-                </Card>
+                    }
+                >
+                    <p className="text-sm text-muted-foreground">
+                        {t('settings.account')}
+                    </p>
+                </Section>
             </div>
-        </div>
+        </PageContainer>
     )
 }

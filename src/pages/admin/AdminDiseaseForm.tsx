@@ -18,6 +18,8 @@ import {
 import { CustomDropdown } from '@/components/common/CustomDropdown'
 import { MultiSelectDropdown } from '@/components/common/MultiSelectDropdown'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
+import { PageHeader } from '@/components/common/PageHeader'
+import { PageContainer } from '@/components/common/PageContainer'
 import {
     Save,
     Plus,
@@ -469,29 +471,25 @@ export function AdminDiseaseFormPage() {
     )
 
     return (
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <Link
-                to="/admin/diseases"
-                className="text-sm text-primary hover:underline mb-2 inline-block"
-            >
-                ← {t('admin.diseases')}
-            </Link>
-            <div className="flex items-center justify-between mb-6">
-                <h1 className="text-2xl font-bold text-foreground">
-                    {isNew ? t('admin.addDisease') : t('admin.editDisease')}
-                </h1>
-                {!isNew && (
-                    <Button
-                        type="button"
-                        variant="destructive"
-                        onClick={handleDelete}
-                        disabled={saving}
-                    >
-                        <Trash2 data-icon="inline-start" />
-                        {t('common.delete')}
-                    </Button>
-                )}
-            </div>
+        <PageContainer size="md">
+            <PageHeader
+                backTo="/admin/diseases"
+                backLabel={t('admin.diseases')}
+                title={isNew ? t('admin.addDisease') : t('admin.editDisease')}
+                action={
+                    !isNew && (
+                        <Button
+                            type="button"
+                            variant="destructive"
+                            onClick={handleDelete}
+                            disabled={saving}
+                        >
+                            <Trash2 data-icon="inline-start" />
+                            {t('common.delete')}
+                        </Button>
+                    )
+                }
+            />
 
             <form onSubmit={handleSave} className="flex flex-col gap-6">
                 {/* Core Fields */}
@@ -692,13 +690,13 @@ export function AdminDiseaseFormPage() {
                                     {t('admin.linkedVarieties')}
                                 </FieldLabel>
                                 {varietyOptions.length === 0 ? (
-                                    <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-[#D4A72C]/10 border border-[#D4A72C]/20 text-[#D4A72C] text-sm">
+                                    <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-100 border border-amber-400 text-amber-900 text-sm">
                                         <AlertTriangle className="size-4 shrink-0" />
                                         <span>
                                             {t('admin.noVarietiesYet')}{' '}
                                             <Link
                                                 to="/admin/varieties"
-                                                className="font-medium underline hover:text-[#D4A72C]/80"
+                                                className="font-medium underline hover:text-amber-900/80"
                                             >
                                                 {t('admin.addVariety')}
                                             </Link>
@@ -721,13 +719,13 @@ export function AdminDiseaseFormPage() {
                                     {t('admin.linkedRemedies')}
                                 </FieldLabel>
                                 {remedyOptions.length === 0 ? (
-                                    <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-[#D4A72C]/10 border border-[#D4A72C]/20 text-[#D4A72C] text-sm">
+                                    <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-100 border border-amber-400 text-amber-900 text-sm">
                                         <AlertTriangle className="size-4 shrink-0" />
                                         <span>
                                             {t('admin.noRemediesYet')}{' '}
                                             <Link
                                                 to="/admin/remedies/add"
-                                                className="font-medium underline hover:text-[#D4A72C]/80"
+                                                className="font-medium underline hover:text-amber-900/80"
                                             >
                                                 {t('admin.addRemedy')}
                                             </Link>
@@ -747,6 +745,8 @@ export function AdminDiseaseFormPage() {
                     </CardContent>
                 </Card>
 
+                {/* Bilingual content — EN / TE side by side */}
+                <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
                 {/* English */}
                 <Card>
                     <CardHeader>
@@ -842,7 +842,7 @@ export function AdminDiseaseFormPage() {
                             size="sm"
                             onClick={handleTranslateToTelugu}
                             disabled={translating || !enName}
-                            className="bg-[#D4A72C]/10 text-[#D4A72C] hover:bg-[#D4A72C]/15"
+                            className="bg-amber-100 text-amber-900 hover:bg-amber-200"
                         >
                             <Languages data-icon="inline-start" />
                             {translating
@@ -928,17 +928,23 @@ export function AdminDiseaseFormPage() {
                         </FieldGroup>
                     </CardContent>
                 </Card>
+                </div>
 
-                {/* Actions */}
-                <Button type="submit" disabled={saveDisabled} className="w-fit">
-                    <Save data-icon="inline-start" />
-                    {saving
-                        ? t('common.loading')
-                        : isNew
-                          ? t('common.save')
-                          : t('common.update')}
-                </Button>
+                {/* Save-bar */}
+                <div className="sticky bottom-0 -mx-4 sm:-mx-6 lg:-mx-8 flex items-center justify-end gap-2 border-t border-border bg-background/80 backdrop-blur-md px-4 sm:px-6 lg:px-8 py-3">
+                    <Button asChild variant="outline" type="button">
+                        <Link to="/admin/diseases">{t('common.cancel')}</Link>
+                    </Button>
+                    <Button type="submit" disabled={saveDisabled}>
+                        <Save data-icon="inline-start" />
+                        {saving
+                            ? t('common.loading')
+                            : isNew
+                              ? t('common.save')
+                              : t('common.update')}
+                    </Button>
+                </div>
             </form>
-        </div>
+        </PageContainer>
     )
 }

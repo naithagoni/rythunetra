@@ -568,8 +568,11 @@
             "badge": "Telangana's Organic Farming Platform",
             "title": "Grow Smarter with",
             "titleHighlight": "Nature's Wisdom",
+            "lead": "Grow smarter with",
+            "rotating": ["disease scans", "organic remedies", "crop insights", "soil advice"],
             "subtitle": "Identify crop diseases, discover traditional organic remedies, and get AI-powered weather-aware farming advice — all in one place.",
-            "cta": "Get Started"
+            "cta": "Get Started",
+            "ctaSecondary": "Explore Crops"
         },
         "stats": {
             "crops": "Crops",

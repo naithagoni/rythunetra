@@ -44,7 +44,7 @@ export function PreparationCard({
 
     return (
         <>
-            <Card className="border-l-4 border-l-primary min-w-0">
+            <Card className="min-w-0 transition-shadow duration-150 hover:shadow-card-hover">
                 <CardContent className="p-5">
                     <div className="flex items-start justify-between gap-2 mb-3">
                         <div className="min-w-0 flex-1">

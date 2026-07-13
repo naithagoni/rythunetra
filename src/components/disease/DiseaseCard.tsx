@@ -10,17 +10,11 @@ import {
     CardContent,
 } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { severityColor } from '@/utils/statusColors'
 
 interface DiseaseCardProps {
     disease: DiseaseListItem
     language: string
-}
-
-const severityVariant: Record<string, string> = {
-    low: 'bg-[#4DA34D]/10 text-[#4DA34D] hover:bg-[#4DA34D]/10',
-    moderate: 'bg-[#D4A72C]/10 text-[#D4A72C] hover:bg-[#D4A72C]/10',
-    high: 'bg-[#F2994A]/10 text-[#F2994A] hover:bg-[#F2994A]/10',
-    critical: 'bg-destructive/10 text-destructive hover:bg-destructive/10',
 }
 
 export function DiseaseCard({ disease, language }: DiseaseCardProps) {
@@ -37,7 +31,7 @@ export function DiseaseCard({ disease, language }: DiseaseCardProps) {
 
     return (
         <Link to={`/diseases/${disease.id}`}>
-            <Card className="group overflow-hidden hover:-translate-y-0.5 transition-all duration-200 hover:shadow-md">
+            <Card className="group overflow-hidden hover:-translate-y-0.5 transition-all duration-150 hover:shadow-card-hover">
                 {/* Image */}
                 <div className="aspect-3/2 bg-muted overflow-hidden">
                     {image ? (
@@ -60,7 +54,7 @@ export function DiseaseCard({ disease, language }: DiseaseCardProps) {
                             variant="secondary"
                             className={cn(
                                 'gap-0.5 text-[10px]',
-                                severityVariant[severity],
+                                severityColor(severity).chip,
                             )}
                         >
                             <Thermometer className="size-2.5" />
@@ -69,7 +63,7 @@ export function DiseaseCard({ disease, language }: DiseaseCardProps) {
                         {diseaseType && (
                             <Badge
                                 variant="secondary"
-                                className="text-[10px] bg-purple-950/50 text-purple-400 hover:bg-purple-950/50"
+                                className="text-[10px] bg-purple-100 text-purple-900"
                             >
                                 {diseaseType}
                             </Badge>
@@ -77,7 +71,7 @@ export function DiseaseCard({ disease, language }: DiseaseCardProps) {
                         {remedyCount > 0 && (
                             <Badge
                                 variant="secondary"
-                                className="text-[10px] bg-blue-950/50 text-blue-400 hover:bg-blue-950/50"
+                                className="text-[10px] bg-blue-100 text-blue-900"
                             >
                                 {remedyCount} {t('diseases.recommendedRemedies')}
                             </Badge>

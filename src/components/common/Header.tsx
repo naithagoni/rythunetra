@@ -1,5 +1,6 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { motion } from 'motion/react'
 import {
     User,
     LogOut,
@@ -14,6 +15,7 @@ import {
 import { useAuth } from '@/hooks/useAuth'
 import { useAdmin } from '@/hooks/useAdmin'
 import { LanguageToggle } from './LanguageToggle'
+import { ThemeToggle } from './ThemeToggle'
 import { LogoMark } from './LogoMark'
 import { cn } from '@/utils/cn'
 import { Button } from '@/components/ui/button'
@@ -33,10 +35,20 @@ export function Header() {
     const { user, signOut } = useAuth()
     const { isAdmin } = useAdmin()
     const navigate = useNavigate()
+
     const navLinks = [
         { to: '/crops', label: t('nav.crops'), icon: CropsIcon },
         { to: '/diseases', label: t('common.diseases'), icon: Bug },
         { to: '/recommend', label: t('nav.recommend'), icon: Sprout },
+        ...(user
+            ? [
+                  {
+                      to: '/my-preparations',
+                      label: t('common.myPreparations'),
+                      icon: FlaskConical,
+                  },
+              ]
+            : []),
     ]
 
     const handleSignOut = async () => {
@@ -45,133 +57,123 @@ export function Header() {
     }
 
     return (
-        <header className="sticky top-0 z-50 hidden md:block">
-            <div className="bg-[#09090B]/95 backdrop-blur-sm border-b border-white/[0.06] transition-all duration-150 relative">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-16">
-                        {/* Logo */}
-                        <Link to="/" className="flex items-center gap-3 group">
-                            <LogoMark size="md" />
-                            <span className="text-lg font-bold font-heading tracking-tight select-none">
-                                    <span className="text-white group-hover:text-neutral-200 transition-colors">
-                                    Rythu
-                                </span>
-                                <span className="text-neutral-400 group-hover:text-neutral-300 transition-colors">
-                                    Netra
-                                </span>
+        <header className="sticky top-0 z-50 hidden md:block bg-background/80 backdrop-blur-md border-b border-border">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                {/* Row 1 — brand + account */}
+                <div className="flex items-center justify-between h-16">
+                    <Link to="/" className="flex items-center gap-3 group">
+                        <LogoMark size="md" />
+                        <span className="text-lg brand-wordmark">
+                            <span className="text-foreground">Rythu</span>
+                            <span className="text-muted-foreground group-hover:text-foreground transition-colors">
+                                Netra
                             </span>
-                        </Link>
+                        </span>
+                    </Link>
 
-                        {/* Desktop Navigation — pill container */}
-                        <nav className="flex items-center rounded-full p-1 gap-0.5 bg-white/[0.04] border border-white/[0.06]">
-                            {navLinks.map((link) => (
-                                <NavLink
-                                    key={link.to}
-                                    to={link.to}
-                                    className={({ isActive }) =>
-                                        cn(
-                                            'px-3 lg:px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 inline-flex items-center gap-1.5 whitespace-nowrap',
-                                            isActive
-                                                ? 'text-white bg-white/[0.08]'
-                                                : 'text-muted-foreground hover:text-white hover:bg-white/[0.04]',
-                                        )
-                                    }
-                                >
-                                    <link.icon className="size-4" />
-                                    {link.label}
-                                </NavLink>
-                            ))}
-                            {user && (
-                                <NavLink
-                                    to="/my-preparations"
-                                    className={({ isActive }) =>
-                                        cn(
-                                            'px-3 lg:px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 inline-flex items-center gap-1.5 whitespace-nowrap',
-                                            isActive
-                                                ? 'text-white bg-white/[0.08]'
-                                                : 'text-muted-foreground hover:text-white hover:bg-white/[0.04]',
-                                        )
-                                    }
-                                >
-                                    <FlaskConical className="size-4" />
-                                    {t('common.myPreparations')}
-                                </NavLink>
-                            )}
-                        </nav>
-
-                        {/* Right side */}
-                        <div className="flex items-center gap-2.5">
-                            <LanguageToggle />
-
-                            {user ? (
-                                <DropdownMenu>
-                                    <DropdownMenuTrigger asChild>
-                                        <Button
-                                            variant="ghost"
-                                            className="gap-2 pl-1.5 pr-2.5 py-1.5 rounded-full border bg-white/[0.04] border-white/[0.06] hover:bg-white/[0.08] hover:border-white/[0.12] text-white"
-                                        >
-                                            <Avatar size="sm">
-                                                <AvatarFallback className="bg-linear-to-br from-[#3F3F46] to-[#27272A] text-white text-xs">
-                                                    <User className="size-3.5" />
-                                                </AvatarFallback>
-                                            </Avatar>
-                                        </Button>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent
-                                        align="end"
-                                        className="w-52"
+                    <div className="flex items-center gap-1.5">
+                        <ThemeToggle />
+                        <LanguageToggle />
+                        {user ? (
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="rounded-full"
                                     >
-                                        <DropdownMenuLabel>
-                                            <p className="text-xs text-muted-foreground uppercase tracking-wider">
-                                                Account
-                                            </p>
-                                            <p className="text-sm font-medium truncate mt-0.5">
-                                                {user.name || user.email}
-                                            </p>
-                                        </DropdownMenuLabel>
-                                        <DropdownMenuSeparator />
-                                        <DropdownMenuGroup>
-                                            {isAdmin && (
-                                                <DropdownMenuItem
-                                                    onClick={() =>
-                                                        navigate('/admin')
-                                                    }
-                                                    className="text-[#D4A72C] focus:text-[#D4A72C]"
-                                                >
-                                                    <Shield className="size-4" />
-                                                    {t('common.admin')}
-                                                </DropdownMenuItem>
-                                            )}
+                                        <Avatar size="sm">
+                                            <AvatarFallback className="bg-primary text-primary-foreground text-xs">
+                                                <User className="size-3.5" />
+                                            </AvatarFallback>
+                                        </Avatar>
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" className="w-52">
+                                    <DropdownMenuLabel>
+                                        <p className="font-mono text-[11px] text-muted-foreground uppercase tracking-wider">
+                                            Account
+                                        </p>
+                                        <p className="text-sm font-medium truncate mt-0.5">
+                                            {user.name || user.email}
+                                        </p>
+                                    </DropdownMenuLabel>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuGroup>
+                                        {isAdmin && (
                                             <DropdownMenuItem
-                                                onClick={() =>
-                                                    navigate('/settings')
-                                                }
+                                                onClick={() => navigate('/admin')}
+                                                className="text-amber-900 focus:text-amber-900"
                                             >
-                                                <Settings className="size-4" />
-                                                {t('common.settings')}
+                                                <Shield className="size-4" />
+                                                {t('common.admin')}
                                             </DropdownMenuItem>
-                                        </DropdownMenuGroup>
-                                        <DropdownMenuSeparator />
+                                        )}
                                         <DropdownMenuItem
-                                            variant="destructive"
-                                            onClick={handleSignOut}
+                                            onClick={() => navigate('/settings')}
                                         >
-                                            <LogOut className="size-4" />
-                                            {t('common.logout')}
+                                            <Settings className="size-4" />
+                                            {t('common.settings')}
                                         </DropdownMenuItem>
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                            ) : (
-                                <Button asChild className="rounded-full px-5">
-                                    <Link to="/login">
-                                        <LogIn data-icon="inline-start" />
-                                        {t('common.login')}
-                                    </Link>
-                                </Button>
-                            )}
-                        </div>
+                                    </DropdownMenuGroup>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem
+                                        variant="destructive"
+                                        onClick={handleSignOut}
+                                    >
+                                        <LogOut className="size-4" />
+                                        {t('common.logout')}
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        ) : (
+                            <Button asChild size="sm" className="ml-1">
+                                <Link to="/login">
+                                    <LogIn data-icon="inline-start" />
+                                    {t('common.login')}
+                                </Link>
+                            </Button>
+                        )}
                     </div>
                 </div>
+
+                {/* Row 2 — underline tab nav */}
+                <nav className="flex items-center gap-1 -mb-px">
+                    {navLinks.map((link) => (
+                        <NavLink
+                            key={link.to}
+                            to={link.to}
+                            className="group/nav relative"
+                        >
+                            {({ isActive }) => (
+                                <>
+                                    <span
+                                        className={cn(
+                                            'inline-flex items-center gap-1.5 px-3 py-3 text-sm font-medium transition-colors',
+                                            isActive
+                                                ? 'text-foreground'
+                                                : 'text-muted-foreground group-hover/nav:text-foreground',
+                                        )}
+                                    >
+                                        <link.icon className="size-4" />
+                                        {link.label}
+                                    </span>
+                                    {isActive && (
+                                        <motion.span
+                                            layoutId="nav-underline"
+                                            className="absolute inset-x-0 -bottom-px h-0.5 bg-foreground"
+                                            transition={{
+                                                type: 'spring',
+                                                stiffness: 500,
+                                                damping: 40,
+                                            }}
+                                        />
+                                    )}
+                                </>
+                            )}
+                        </NavLink>
+                    ))}
+                </nav>
             </div>
         </header>
     )

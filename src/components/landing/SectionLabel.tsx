@@ -7,14 +7,14 @@ interface SectionLabelProps {
 export function SectionLabel({ number, title, subtitle }: SectionLabelProps) {
     return (
         <div className="mb-16">
-            <span className="font-mono text-xs font-medium text-[#636467] tracking-[0.12em] uppercase">
+            <span className="font-mono text-xs font-medium text-muted-foreground tracking-[0.12em] uppercase">
                 {number}
             </span>
-            <h2 className="mt-3 text-3xl sm:text-[42px] font-bold text-[#e4e5e9] tracking-[-0.03em] leading-[1.1]">
+            <h2 className="mt-3 text-display-lg sm:text-[42px] text-foreground leading-[1.1] tracking-[-0.04em]">
                 {title}
             </h2>
             {subtitle && (
-                <p className="mt-4 text-[#9c9da1] text-base sm:text-lg max-w-xl leading-relaxed">
+                <p className="mt-4 text-muted-foreground text-base sm:text-lg max-w-xl leading-relaxed">
                     {subtitle}
                 </p>
             )}

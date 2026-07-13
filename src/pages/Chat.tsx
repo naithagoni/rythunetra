@@ -185,44 +185,45 @@ export function ChatPage() {
             <div
                 className={`${
                     showSidebar
-                        ? 'fixed inset-0 z-50 bg-[#161618] md:static md:z-auto'
+                        ? 'fixed inset-0 z-50 bg-card md:static md:z-auto'
                         : 'hidden'
-                } md:block w-full md:w-64 border-r border-white/[0.06] flex flex-col shrink-0`}
+                } md:block w-full md:w-64 border-r border-border flex flex-col shrink-0`}
             >
-                <div className="p-3 border-b border-white/[0.06] flex items-center justify-between">
+                <div className="p-3 border-b border-border flex items-center justify-between">
                     <h2 className="font-semibold text-sm">
                         {t('chat.history')}
                     </h2>
                     <div className="flex gap-1">
-                        <button
+                        <Button
+                            variant="ghost"
+                            size="icon-sm"
                             onClick={handleNewChat}
                             disabled={initializing}
-                            className="p-1.5 rounded-lg hover:bg-[#161618] text-neutral-400"
                             title={t('chat.newChat')}
                         >
-                            <Plus className="size-4" />
-                        </button>
-                        <button
+                            <Plus />
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="icon-sm"
+                            className="md:hidden"
                             onClick={() => setShowSidebar(false)}
-                            className="p-1.5 rounded-lg hover:bg-[#161618] md:hidden"
                         >
-                            <ChevronLeft className="size-4" />
-                        </button>
+                            <ChevronLeft />
+                        </Button>
                     </div>
                 </div>
-                <div className="flex-1 overflow-y-auto">
+                <div className="flex-1 overflow-y-auto divide-y divide-border">
                     {sessions.length === 0 ? (
-                        <p className="text-xs text-neutral-500 p-3">
+                        <p className="text-xs text-muted-foreground p-3">
                             {t('chat.noSessions')}
                         </p>
                     ) : (
                         sessions.map((s) => (
                             <div
                                 key={s.id}
-                                className={`flex items-center justify-between px-3 py-2 cursor-pointer hover:bg-[#161618] text-sm ${
-                                    activeSessionId === s.id
-                                        ? 'bg-white/[0.06] border-l-2 border-white/20'
-                                        : ''
+                                className={`group/session flex items-center justify-between gap-1 px-3 py-2.5 cursor-pointer text-sm transition-colors hover:bg-muted ${
+                                    activeSessionId === s.id ? 'bg-muted' : ''
                                 }`}
                                 onClick={() => {
                                     setActiveSessionId(s.id)
@@ -232,15 +233,17 @@ export function ChatPage() {
                                 <span className="truncate flex-1">
                                     {s.title}
                                 </span>
-                                <button
+                                <Button
+                                    variant="ghost"
+                                    size="icon-xs"
+                                    className="shrink-0 text-destructive hover:text-destructive opacity-0 group-hover/session:opacity-100"
                                     onClick={(e) => {
                                         e.stopPropagation()
                                         handleDeleteSession(s.id)
                                     }}
-                                    className="p-1 text-destructive hover:text-destructive shrink-0"
                                 >
-                                    <Trash2 className="size-3.5" />
-                                </button>
+                                    <Trash2 />
+                                </Button>
                             </div>
                         ))
                     )}
@@ -250,17 +253,17 @@ export function ChatPage() {
             {/* Main chat area */}
             <div className="flex-1 flex flex-col min-w-0">
                 {/* Chat header */}
-                <div className="flex items-center gap-2 px-4 py-3 bg-[#161618] border-b border-white/[0.06]">
+                <div className="flex items-center gap-2 px-4 py-3 bg-card border-b border-border">
                     <button
                         onClick={() => setShowSidebar(true)}
-                        className="md:hidden p-1 rounded-lg hover:bg-[#161618]"
+                        className="md:hidden p-1 rounded-lg hover:bg-muted"
                     >
                         <MessageCircle className="size-5" />
                     </button>
-                    <div className="size-8 rounded-xl bg-white/[0.06] flex items-center justify-center shadow-sm">
-                        <Bot className="size-4 text-neutral-400" />
+                    <div className="size-8 rounded-xl bg-muted flex items-center justify-center shadow-sm">
+                        <Bot className="size-4 text-muted-foreground" />
                     </div>
-                    <h1 className="font-semibold text-white">
+                    <h1 className="font-semibold text-foreground">
                         {t('chat.title')}
                     </h1>
                 </div>
@@ -269,14 +272,14 @@ export function ChatPage() {
                 <div className="flex flex-col flex-1 overflow-y-auto px-4 py-4 gap-4">
                     {messages.length === 0 ? (
                         <div className="flex flex-col items-center justify-center h-full text-center gap-6">
-                            <div className="size-16 rounded-2xl bg-white/[0.06] flex items-center justify-center shadow-sm">
-                                <Bot className="size-8 text-neutral-400" />
+                            <div className="size-16 rounded-2xl bg-muted flex items-center justify-center shadow-sm">
+                                <Bot className="size-8 text-muted-foreground" />
                             </div>
                             <div>
-                                <h2 className="text-lg font-semibold text-white">
+                                <h2 className="text-display-sm text-foreground">
                                     {t('chat.welcome')}
                                 </h2>
-                                <p className="text-sm text-neutral-400 mt-1">
+                                <p className="text-sm text-muted-foreground mt-1">
                                     {t('chat.welcomeDesc')}
                                 </p>
                             </div>
@@ -285,7 +288,7 @@ export function ChatPage() {
                                     <button
                                         key={i}
                                         onClick={() => setInput(s)}
-                                        className="text-left text-sm px-3.5 py-2.5 rounded-xl border border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.12] transition-all duration-200"
+                                        className="text-left text-sm px-3.5 py-2.5 rounded-xl border border-border hover:bg-muted hover:border-border transition-all duration-200"
                                     >
                                         {s}
                                     </button>
@@ -299,22 +302,22 @@ export function ChatPage() {
                                 className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : ''}`}
                             >
                                 {message.role === 'assistant' && (
-                                    <div className="size-7 rounded-full bg-white/[0.06] flex items-center justify-center shrink-0">
-                                        <Bot className="size-4 text-neutral-400" />
+                                    <div className="size-7 rounded-full bg-muted flex items-center justify-center shrink-0">
+                                        <Bot className="size-4 text-muted-foreground" />
                                     </div>
                                 )}
                                 <div
                                     className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm whitespace-pre-wrap ${
                                         message.role === 'user'
-                                            ? 'bg-[#27272A] text-white'
-                                            : 'bg-[#111113] text-white border border-white/[0.06]'
+                                            ? 'bg-primary text-primary-foreground'
+                                            : 'bg-secondary text-foreground border border-border'
                                     }`}
                                 >
                                     {getMessageText(message)}
                                 </div>
                                 {message.role === 'user' && (
-                                    <div className="size-7 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                                        <User className="size-4 text-neutral-400" />
+                                    <div className="size-7 rounded-full bg-muted flex items-center justify-center shrink-0">
+                                        <User className="size-4 text-muted-foreground" />
                                     </div>
                                 )}
                             </div>
@@ -322,11 +325,11 @@ export function ChatPage() {
                     )}
                     {isLoading && (
                         <div className="flex gap-3">
-                            <div className="size-7 rounded-full bg-white/[0.06] flex items-center justify-center shrink-0">
-                                <Bot className="size-4 text-neutral-400" />
+                            <div className="size-7 rounded-full bg-muted flex items-center justify-center shrink-0">
+                                <Bot className="size-4 text-muted-foreground" />
                             </div>
-                            <div className="bg-[#161618] rounded-xl px-4 py-2.5">
-                                <Loader2 className="size-4 animate-spin text-neutral-500" />
+                            <div className="bg-secondary border border-border rounded-xl px-4 py-2.5">
+                                <Loader2 className="size-4 animate-spin text-muted-foreground" />
                             </div>
                         </div>
                     )}
@@ -336,7 +339,7 @@ export function ChatPage() {
                 {/* Input */}
                 <form
                     onSubmit={onSubmit}
-                    className="px-4 py-3 border-t border-white/[0.06]"
+                    className="px-4 py-3 border-t border-border"
                 >
                     <div className="flex gap-2">
                         <Input
@@ -353,7 +356,7 @@ export function ChatPage() {
                             <Send className="size-4" />
                         </Button>
                     </div>
-                    <p className="text-xs text-neutral-500 mt-1 text-center">
+                    <p className="text-xs text-muted-foreground mt-1 text-center">
                         {t('chat.disclaimer')}
                     </p>
                 </form>

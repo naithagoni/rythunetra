@@ -25,12 +25,18 @@ export function LogoMark({
             className={cn(
                 box,
                 'relative flex items-center justify-center',
-                variant === 'light' ? 'bg-white/[0.08]' : 'bg-[#27272A]',
+                variant === 'light'
+                    ? 'bg-white/15 backdrop-blur-sm'
+                    : 'bg-primary',
                 className,
             )}
         >
             <Sprout
-                className={cn(icon, 'relative text-white')}
+                className={cn(
+                    icon,
+                    'relative',
+                    variant === 'light' ? 'text-white' : 'text-primary-foreground',
+                )}
                 strokeWidth={2.2}
             />
         </div>

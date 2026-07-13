@@ -15,7 +15,8 @@ import { PreparationForm } from '@/components/preparation/PreparationForm'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
 import type { Preparation, CreatePreparationInput } from '@/types/preparation'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
+import { PageHeader } from '@/components/common/PageHeader'
+import { PageContainer } from '@/components/common/PageContainer'
 
 export function MyPreparationsPage() {
     const { t } = useTranslation()
@@ -97,24 +98,17 @@ export function MyPreparationsPage() {
     }
 
     return (
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="flex items-center justify-between mb-6">
-                <div>
-                    <h1 className="text-2xl font-bold text-foreground">
-                        {t('preparations.title')}
-                    </h1>
-                    <Badge variant="secondary" className="mt-1.5">
-                        {preparations.length} {t('common.total')}
-                    </Badge>
-                </div>
-                <Button
-                    onClick={() => setShowForm(true)}
-                    className="gap-2"
-                >
-                    <Plus className="size-4" />
-                    {t('preparations.addNew')}
-                </Button>
-            </div>
+        <PageContainer size="md">
+            <PageHeader
+                title={t('preparations.title')}
+                description={`${preparations.length} ${t('common.total')}`}
+                action={
+                    <Button onClick={() => setShowForm(true)}>
+                        <Plus data-icon="inline-start" />
+                        {t('preparations.addNew')}
+                    </Button>
+                }
+            />
 
             <PreparationList
                 preparations={preparations}
@@ -129,6 +123,6 @@ export function MyPreparationsPage() {
                     editingPreparation={editingPreparation}
                 />
             )}
-        </div>
+        </PageContainer>
     )
 }

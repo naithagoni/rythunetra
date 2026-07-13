@@ -3,9 +3,17 @@ import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
 import { GoogleIcon } from '@/components/common/GoogleIcon'
-import { Mail, Lock, LogIn } from 'lucide-react'
+import { LogoMark } from '@/components/common/LogoMark'
+import { Mail, Lock } from 'lucide-react'
 import { toast } from 'sonner'
-import { Card, CardContent } from '@/components/ui/card'
+import {
+    Card,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    CardContent,
+    CardFooter,
+} from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
 import {
@@ -49,22 +57,23 @@ export function LoginPage() {
     }
 
     return (
-        <div className="min-h-[60vh] flex items-center justify-center px-4 py-12">
-            <div className="w-full max-w-md">
-                <div className="text-center mb-6">
-                    <div className="inline-flex items-center justify-center size-12 rounded-xl bg-primary/10 mb-3">
-                        <LogIn className="size-6 text-primary" />
-                    </div>
-                    <h1 className="text-2xl font-bold text-foreground">
-                        {t('auth.loginTitle')}
-                    </h1>
-                    <p className="text-sm text-muted-foreground mt-1">
-                        {t('home.heroSubtitle')}
-                    </p>
+        <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12">
+            <div className="w-full max-w-sm">
+                <div className="flex justify-center mb-6">
+                    <LogoMark size="lg" />
                 </div>
 
                 <Card>
-                    <CardContent className="p-6 sm:p-8">
+                    <CardHeader>
+                        <CardTitle className="text-display-sm">
+                            {t('auth.loginTitle')}
+                        </CardTitle>
+                        <CardDescription>
+                            {t('home.heroSubtitle')}
+                        </CardDescription>
+                    </CardHeader>
+
+                    <CardContent>
                         <form onSubmit={handleSubmit}>
                             <FieldGroup>
                                 <Field>
@@ -112,6 +121,7 @@ export function LoginPage() {
 
                                 <Button
                                     type="submit"
+                                    size="lg"
                                     disabled={loading}
                                     className="w-full"
                                 >
@@ -120,9 +130,9 @@ export function LoginPage() {
                                         : t('auth.loginTitle')}
                                 </Button>
 
-                                <div className="relative py-2">
+                                <div className="relative py-1">
                                     <Separator />
-                                    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-sm text-muted-foreground">
+                                    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-xs text-muted-foreground uppercase tracking-wide font-mono">
                                         {t('auth.orContinueWith')}
                                     </span>
                                 </div>
@@ -130,6 +140,7 @@ export function LoginPage() {
                                 <Button
                                     type="button"
                                     variant="outline"
+                                    size="lg"
                                     onClick={handleGoogleLogin}
                                     className="w-full"
                                 >
@@ -138,17 +149,19 @@ export function LoginPage() {
                                 </Button>
                             </FieldGroup>
                         </form>
+                    </CardContent>
 
-                        <p className="text-center text-sm text-muted-foreground mt-6">
+                    <CardFooter className="justify-center">
+                        <p className="text-sm text-muted-foreground">
                             {t('auth.noAccount')}{' '}
                             <Link
                                 to="/register"
-                                className="text-primary hover:text-primary/80 font-medium"
+                                className="text-link hover:underline font-medium"
                             >
                                 {t('auth.registerTitle')}
                             </Link>
                         </p>
-                    </CardContent>
+                    </CardFooter>
                 </Card>
             </div>
         </div>

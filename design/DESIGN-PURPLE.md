@@ -60,50 +60,50 @@ colors:
   info: "{colors.amethyst-400}"
 typography:
   display:
-    fontFamily: Inter
+    fontFamily: Inter, Anek
     fontSize: 48px
     fontWeight: 700
     lineHeight: 1.1
     letterSpacing: -0.04em
   headline-lg:
-    fontFamily: Inter
+    fontFamily: Inter, Anek
     fontSize: 36px
     fontWeight: 700
     lineHeight: 1.15
     letterSpacing: -0.02em
   headline-md:
-    fontFamily: Inter
+    fontFamily: Inter, Anek
     fontSize: 24px
     fontWeight: 600
     lineHeight: 1.2
     letterSpacing: -0.02em
   headline-sm:
-    fontFamily: Inter
+    fontFamily: Inter, Anek
     fontSize: 20px
     fontWeight: 600
     lineHeight: 1.3
   title:
-    fontFamily: Inter
+    fontFamily: Inter, Anek
     fontSize: 18px
     fontWeight: 600
     lineHeight: 1.35
   body-lg:
-    fontFamily: Inter
+    fontFamily: Inter, Anek
     fontSize: 16px
     fontWeight: 400
     lineHeight: 1.6
   body-md:
-    fontFamily: Inter
+    fontFamily: Inter, Anek
     fontSize: 14px
     fontWeight: 400
     lineHeight: 1.6
   label-md:
-    fontFamily: Inter
+    fontFamily: Inter, Anek
     fontSize: 13px
     fontWeight: 600
     lineHeight: 1.4
   caption:
-    fontFamily: Inter
+    fontFamily: Inter, Anek
     fontSize: 12px
     fontWeight: 500
     lineHeight: 1.5

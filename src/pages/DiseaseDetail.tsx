@@ -6,7 +6,8 @@ import { usePageTitle } from '@/hooks/usePageTitle'
 import { DiseaseDetail } from '@/components/disease/DiseaseDetail'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
 import { EmptyState } from '@/components/common/EmptyState'
-import { AlertTriangle } from 'lucide-react'
+import { PageContainer } from '@/components/common/PageContainer'
+import { AlertTriangle, ChevronLeft } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { toDisease } from '@/types/disease'
 import { localize } from '@/types/i18n'
@@ -45,18 +46,15 @@ export function DiseaseDetailPage() {
     }
 
     return (
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="page-header-banner rounded-2xl mb-6">
-                <div className="relative">
-                    <Link
-                        to="/diseases"
-                        className="inline-flex items-center gap-1.5 text-sm text-primary hover:text-primary font-medium transition-colors"
-                    >
-                        ← {t('diseases.title')}
-                    </Link>
-                </div>
-            </div>
+        <PageContainer size="md">
+            <Link
+                to="/diseases"
+                className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
+            >
+                <ChevronLeft className="size-4" />
+                {t('diseases.title')}
+            </Link>
             <DiseaseDetail disease={disease} language={currentLanguage} />
-        </div>
+        </PageContainer>
     )
 }

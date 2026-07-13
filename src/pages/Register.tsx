@@ -7,9 +7,17 @@ import { GoogleIcon } from '@/components/common/GoogleIcon'
 import { CustomDropdown } from '@/components/common/CustomDropdown'
 import { DISTRICT_KEYS } from '@/config/districts'
 import { getMandalsForDistrict } from '@/config/mandals'
-import { Mail, Lock, User, UserPlus, MapPin } from 'lucide-react'
+import { Mail, Lock, User, MapPin } from 'lucide-react'
 import { toast } from 'sonner'
-import { Card, CardContent } from '@/components/ui/card'
+import { LogoMark } from '@/components/common/LogoMark'
+import {
+    Card,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    CardContent,
+    CardFooter,
+} from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
 import {
@@ -84,22 +92,23 @@ export function RegisterPage() {
     }
 
     return (
-        <div className="min-h-[60vh] flex items-center justify-center px-4 py-12">
-            <div className="w-full max-w-md">
-                <div className="text-center mb-6">
-                    <div className="inline-flex items-center justify-center size-12 rounded-xl bg-primary/10 mb-3">
-                        <UserPlus className="size-6 text-primary" />
-                    </div>
-                    <h1 className="text-2xl font-bold text-foreground">
-                        {t('auth.registerTitle')}
-                    </h1>
-                    <p className="text-sm text-muted-foreground mt-1">
-                        {t('home.heroSubtitle')}
-                    </p>
+        <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12">
+            <div className="w-full max-w-sm">
+                <div className="flex justify-center mb-6">
+                    <LogoMark size="lg" />
                 </div>
 
                 <Card>
-                    <CardContent className="p-6 sm:p-8">
+                    <CardHeader>
+                        <CardTitle className="text-display-sm">
+                            {t('auth.registerTitle')}
+                        </CardTitle>
+                        <CardDescription>
+                            {t('home.heroSubtitle')}
+                        </CardDescription>
+                    </CardHeader>
+
+                    <CardContent>
                         <form onSubmit={handleSubmit}>
                             <FieldGroup>
                                 <Field>
@@ -219,6 +228,7 @@ export function RegisterPage() {
 
                                 <Button
                                     type="submit"
+                                    size="lg"
                                     disabled={
                                         loading ||
                                         !name.trim() ||
@@ -234,9 +244,9 @@ export function RegisterPage() {
                                         : t('auth.registerTitle')}
                                 </Button>
 
-                                <div className="relative py-2">
+                                <div className="relative py-1">
                                     <Separator />
-                                    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-sm text-muted-foreground">
+                                    <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-card px-2 text-xs text-muted-foreground uppercase tracking-wide font-mono">
                                         {t('auth.orContinueWith')}
                                     </span>
                                 </div>
@@ -244,6 +254,7 @@ export function RegisterPage() {
                                 <Button
                                     type="button"
                                     variant="outline"
+                                    size="lg"
                                     onClick={handleGoogleSignUp}
                                     className="w-full"
                                 >
@@ -252,17 +263,19 @@ export function RegisterPage() {
                                 </Button>
                             </FieldGroup>
                         </form>
+                    </CardContent>
 
-                        <p className="text-center text-sm text-muted-foreground mt-6">
+                    <CardFooter className="justify-center">
+                        <p className="text-sm text-muted-foreground">
                             {t('auth.hasAccount')}{' '}
                             <Link
                                 to="/login"
-                                className="text-primary hover:text-primary/80 font-medium"
+                                className="text-link hover:underline font-medium"
                             >
                                 {t('auth.loginTitle')}
                             </Link>
                         </p>
-                    </CardContent>
+                    </CardFooter>
                 </Card>
             </div>
         </div>

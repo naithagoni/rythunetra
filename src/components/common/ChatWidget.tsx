@@ -230,7 +230,7 @@ export function ChatWidget() {
 
             {/* Chat Panel */}
             {user && open && (
-                <div className="fixed bottom-0 right-0 md:bottom-6 md:right-4 z-50 w-full h-full md:w-96 md:h-128 md:rounded-2xl bg-popover shadow-lg border border-border flex flex-col overflow-hidden md:max-h-[calc(100vh-3rem)]">
+                <div className="fixed bottom-0 right-0 md:bottom-6 md:right-4 z-50 w-full h-full md:w-96 md:h-128 md:rounded-xl bg-popover shadow-elevated border border-border flex flex-col overflow-hidden md:max-h-[calc(100vh-3rem)]">
                     {/* Header */}
                     <div className="flex items-center justify-between px-4 py-3 bg-primary text-primary-foreground shrink-0">
                         <div className="flex items-center gap-2">

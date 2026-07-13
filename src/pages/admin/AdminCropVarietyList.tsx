@@ -14,6 +14,8 @@ import {
     TableCell,
 } from '@/components/ui/table'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
+import { PageHeader } from '@/components/common/PageHeader'
+import { PageContainer } from '@/components/common/PageContainer'
 import type { CropVarietyRow } from '@/types/crop'
 import type { LocalizedText } from '@/types/i18n'
 
@@ -41,29 +43,21 @@ export function AdminCropVarietyListPage() {
     if (isLoading || cropLoading) return <LoadingSpinner />
 
     return (
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="flex items-center justify-between mb-6">
-                <div>
-                    <Link
-                        to={`/admin/crops/${cropId}`}
-                        className="text-sm text-primary hover:underline mb-1 inline-block"
-                    >
-                        ← {cropName}
-                    </Link>
-                    <h1 className="text-2xl font-bold text-foreground">
-                        {t('admin.varieties')}
-                    </h1>
-                    <p className="text-sm text-muted-foreground">
-                        {varieties.length} {t('common.total')}
-                    </p>
-                </div>
-                <Button asChild className="gap-2">
-                    <Link to={`/admin/crops/${cropId}/varieties/add`}>
-                        <Plus className="size-4" />
-                        {t('admin.addVariety')}
-                    </Link>
-                </Button>
-            </div>
+        <PageContainer size="lg">
+            <PageHeader
+                backTo={`/admin/crops/${cropId}`}
+                backLabel={cropName}
+                title={t('admin.varieties')}
+                description={`${varieties.length} ${t('common.total')}`}
+                action={
+                    <Button asChild>
+                        <Link to={`/admin/crops/${cropId}/varieties/add`}>
+                            <Plus data-icon="inline-start" />
+                            {t('admin.addVariety')}
+                        </Link>
+                    </Button>
+                }
+            />
 
             <Card className="p-0 overflow-hidden">
                 <Table>
@@ -136,6 +130,6 @@ export function AdminCropVarietyListPage() {
                     </TableBody>
                 </Table>
             </Card>
-        </div>
+        </PageContainer>
     )
 }

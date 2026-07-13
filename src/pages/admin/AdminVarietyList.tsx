@@ -18,6 +18,8 @@ import {
     TableCell,
 } from '@/components/ui/table'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
+import { PageHeader } from '@/components/common/PageHeader'
+import { PageContainer } from '@/components/common/PageContainer'
 import { CustomDropdown } from '@/components/common/CustomDropdown'
 import type { LocalizedText } from '@/types/i18n'
 
@@ -57,59 +59,51 @@ export function AdminVarietyListPage() {
     if (isLoading) return <LoadingSpinner />
 
     return (
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="flex items-center justify-between mb-6">
-                <div>
-                    <Link
-                        to="/admin"
-                        className="text-sm text-primary hover:underline mb-1 inline-block"
-                    >
-                        ← {t('admin.dashboard')}
-                    </Link>
-                    <h1 className="text-2xl font-bold text-foreground">
-                        {t('admin.varieties')}
-                    </h1>
-                    <p className="text-sm text-muted-foreground">
-                        {varieties.length} {t('common.total')}
-                    </p>
-                </div>
-                {crops.length === 0 ? (
-                    <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-[#D4A72C]/10 border border-[#D4A72C]/20 text-[#D4A72C] text-sm">
-                        <AlertTriangle className="size-4 shrink-0" />
-                        <span>
-                            {t('admin.noCropsYet')}{' '}
-                            <Link
-                                to="/admin/crops/add"
-                                className="font-medium underline hover:text-[#D4A72C]/80"
+        <PageContainer size="lg">
+            <PageHeader
+                backTo="/admin"
+                backLabel={t('admin.dashboard')}
+                title={t('admin.varieties')}
+                description={`${varieties.length} ${t('common.total')}`}
+                action={
+                    crops.length === 0 ? (
+                        <div className="flex items-center gap-2 px-4 py-3 rounded-md bg-amber-100 border border-amber-400 text-amber-900 text-sm">
+                            <AlertTriangle className="size-4 shrink-0" />
+                            <span>
+                                {t('admin.noCropsYet')}{' '}
+                                <Link
+                                    to="/admin/crops/add"
+                                    className="font-medium underline hover:text-amber-900/80"
+                                >
+                                    {t('admin.addCrop')}
+                                </Link>
+                            </span>
+                        </div>
+                    ) : (
+                        <>
+                            <CustomDropdown
+                                options={crops.map((c) => ({
+                                    value: c.id,
+                                    label: c.name?.en ?? c.id.slice(0, 8),
+                                }))}
+                                value={selectedCropId}
+                                onChange={setSelectedCropId}
+                                placeholder={t('admin.selectCrops')}
+                                ariaLabel={t('admin.majorCrop')}
+                                variant="form"
+                            />
+                            <Button
+                                onClick={handleAddVariety}
+                                disabled={!selectedCropId}
+                                className="whitespace-nowrap"
                             >
-                                {t('admin.addCrop')}
-                            </Link>
-                        </span>
-                    </div>
-                ) : (
-                    <div className="flex items-center gap-2">
-                        <CustomDropdown
-                            options={crops.map((c) => ({
-                                value: c.id,
-                                label: c.name?.en ?? c.id.slice(0, 8),
-                            }))}
-                            value={selectedCropId}
-                            onChange={setSelectedCropId}
-                            placeholder={t('admin.selectCrops')}
-                            ariaLabel={t('admin.majorCrop')}
-                            variant="form"
-                        />
-                        <Button
-                            onClick={handleAddVariety}
-                            disabled={!selectedCropId}
-                            className="gap-2 whitespace-nowrap"
-                        >
-                            <Plus className="size-4" />
-                            {t('admin.addVariety')}
-                        </Button>
-                    </div>
-                )}
-            </div>
+                                <Plus data-icon="inline-start" />
+                                {t('admin.addVariety')}
+                            </Button>
+                        </>
+                    )
+                }
+            />
 
             <Card className="p-0 overflow-hidden">
                 <Table>
@@ -177,6 +171,6 @@ export function AdminVarietyListPage() {
                     </TableBody>
                 </Table>
             </Card>
-        </div>
+        </PageContainer>
     )
 }

@@ -15,6 +15,8 @@ import {
     TableCell,
 } from '@/components/ui/table'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
+import { PageHeader } from '@/components/common/PageHeader'
+import { PageContainer } from '@/components/common/PageContainer'
 import { ADMIN_PAGE_SIZE } from '@/config/env'
 import { getCropImage } from '@/utils/cropImages'
 import type { CropRow } from '@/types/crop'
@@ -35,29 +37,21 @@ export function AdminCropListPage() {
     if (isLoading) return <LoadingSpinner />
 
     return (
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="flex items-center justify-between mb-6">
-                <div>
-                    <Link
-                        to="/admin"
-                        className="text-sm text-primary hover:underline mb-1 inline-block"
-                    >
-                        ← {t('admin.dashboard')}
-                    </Link>
-                    <h1 className="text-2xl font-bold text-foreground">
-                        {t('admin.crops')}
-                    </h1>
-                    <p className="text-sm text-muted-foreground">
-                        {totalCount} {t('common.total')}
-                    </p>
-                </div>
-                <Button asChild className="gap-2">
-                    <Link to="/admin/crops/add">
-                        <Plus className="size-4" />
-                        {t('admin.addCrop')}
-                    </Link>
-                </Button>
-            </div>
+        <PageContainer size="lg">
+            <PageHeader
+                backTo="/admin"
+                backLabel={t('admin.dashboard')}
+                title={t('admin.crops')}
+                description={`${totalCount} ${t('common.total')}`}
+                action={
+                    <Button asChild>
+                        <Link to="/admin/crops/add">
+                            <Plus data-icon="inline-start" />
+                            {t('admin.addCrop')}
+                        </Link>
+                    </Button>
+                }
+            />
 
             <Card className="p-0 overflow-hidden">
                 <Table>
@@ -154,6 +148,6 @@ export function AdminCropListPage() {
                     </Button>
                 </div>
             )}
-        </div>
+        </PageContainer>
     )
 }

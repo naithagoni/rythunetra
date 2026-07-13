@@ -15,6 +15,8 @@ import {
     TableCell,
 } from '@/components/ui/table'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
+import { PageHeader } from '@/components/common/PageHeader'
+import { PageContainer } from '@/components/common/PageContainer'
 import { ADMIN_PAGE_SIZE } from '@/config/env'
 
 export function AdminRemedyListPage() {
@@ -41,29 +43,21 @@ export function AdminRemedyListPage() {
     if (isLoading) return <LoadingSpinner />
 
     return (
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="flex items-center justify-between mb-6">
-                <div>
-                    <Link
-                        to="/admin"
-                        className="text-sm text-primary hover:underline mb-1 inline-block"
-                    >
-                        ← {t('admin.dashboard')}
-                    </Link>
-                    <h1 className="text-2xl font-bold text-foreground">
-                        {t('admin.remedies')}
-                    </h1>
-                    <p className="text-sm text-muted-foreground">
-                        {totalCount} {t('common.total')}
-                    </p>
-                </div>
-                <Button asChild className="gap-2">
-                    <Link to="/admin/remedies/add">
-                        <Plus data-icon="inline-start" />
-                        {t('admin.addRemedy')}
-                    </Link>
-                </Button>
-            </div>
+        <PageContainer size="lg">
+            <PageHeader
+                backTo="/admin"
+                backLabel={t('admin.dashboard')}
+                title={t('admin.remedies')}
+                description={`${totalCount} ${t('common.total')}`}
+                action={
+                    <Button asChild>
+                        <Link to="/admin/remedies/add">
+                            <Plus data-icon="inline-start" />
+                            {t('admin.addRemedy')}
+                        </Link>
+                    </Button>
+                }
+            />
 
             <Card className="p-0 overflow-hidden">
                 <Table>
@@ -104,10 +98,10 @@ export function AdminRemedyListPage() {
                                         <span
                                             className={`text-xs px-2 py-0.5 rounded-full font-medium ${
                                                 r.effectiveness === 'high'
-                                                    ? 'bg-[#4DA34D]/10 text-[#4DA34D]'
+                                                    ? 'bg-green-100 text-green-900'
                                                     : r.effectiveness ===
                                                         'medium'
-                                                      ? 'bg-[#D4A72C]/10 text-[#D4A72C]'
+                                                      ? 'bg-amber-100 text-amber-900'
                                                       : 'bg-muted text-muted-foreground'
                                             }`}
                                         >
@@ -189,6 +183,6 @@ export function AdminRemedyListPage() {
                     </Button>
                 </div>
             )}
-        </div>
+        </PageContainer>
     )
 }

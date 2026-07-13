@@ -12,7 +12,8 @@ import { localize, localizeArray } from '@/types/i18n'
 import type { LanguageCode } from '@/types/i18n'
 import { cn } from '@/utils/cn'
 import { Badge } from '@/components/ui/badge'
-import { Card, CardContent } from '@/components/ui/card'
+import { Section } from '@/components/common/Section'
+import { severityColor } from '@/utils/statusColors'
 
 function renderInlineItalics(text: string) {
     const parts = text.split(/\*([^*]+)\*/g)
@@ -27,13 +28,6 @@ interface DiseaseDetailProps {
     language: string
 }
 
-const severityConfig = {
-    low: { color: 'bg-[#4DA34D]/10 text-[#4DA34D] hover:bg-[#4DA34D]/10', label: 'low' },
-    moderate: { color: 'bg-[#D4A72C]/10 text-[#D4A72C] hover:bg-[#D4A72C]/10', label: 'moderate' },
-    high: { color: 'bg-[#F2994A]/10 text-[#F2994A] hover:bg-[#F2994A]/10', label: 'high' },
-    critical: { color: 'bg-destructive/10 text-destructive hover:bg-destructive/10', label: 'critical' },
-}
-
 export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
     const { t } = useTranslation()
     const lang = language as LanguageCode
@@ -43,7 +37,7 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
     if (!title) return null
 
     const severity = disease.severity ?? 'moderate'
-    const sevConf = severityConfig[severity] ?? severityConfig.moderate
+    const sevChip = severityColor(severity)
     const diseaseType = localize(disease.type, lang)
 
     const symptoms = disease.symptoms ?? []
@@ -55,39 +49,33 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
     const aliases = localizeArray(disease.aliases, lang)
 
     return (
-        <div className="flex flex-col max-w-4xl mx-auto gap-6">
+        <div className="flex flex-col gap-6">
             {/* Header */}
             <div>
-                <h1 className="text-2xl font-bold mb-2">{title}</h1>
-                <div className="flex flex-wrap gap-2 mb-3">
+                <h1 className="text-display-md mb-2">{title}</h1>
+                <div className="flex flex-wrap gap-2">
                     <Badge
                         variant="secondary"
-                        className={cn('gap-1', sevConf.color)}
+                        className={cn('gap-1', sevChip.chip)}
                     >
                         <Thermometer className="size-3" />
-                        {t(`diseases.${sevConf.label}`)}{' '}
-                        {t('diseases.severity')}
+                        {t(`diseases.${severity}`)} {t('diseases.severity')}
                     </Badge>
                     {diseaseType && (
-                        <Badge
-                            variant="secondary"
-                            className="bg-purple-950/50 text-purple-400 hover:bg-purple-950/50 gap-1"
-                        >
-                            {diseaseType}
-                        </Badge>
+                        <Badge variant="secondary">{diseaseType}</Badge>
                     )}
                 </div>
             </div>
 
             {/* Images */}
             {images.length > 0 && (
-                <div className="grid grid-cols-2 gap-2 rounded-xl overflow-hidden">
+                <div className="grid grid-cols-2 gap-2 overflow-hidden rounded-xl">
                     {images.slice(0, 4).map((url, i) => (
                         <img
                             key={i}
                             src={url}
                             alt={title}
-                            className="w-full aspect-video object-cover"
+                            className="aspect-video w-full object-cover"
                         />
                     ))}
                 </div>
@@ -95,118 +83,107 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
 
             {/* Primary Cause */}
             {primaryCause && localize(primaryCause, lang) && (
-                <div>
-                    <h3 className="text-lg font-semibold mb-2">
-                        <Bug className="size-4 inline mr-1.5" />
-                        {t('diseases.primaryCause')}
-                    </h3>
-                    <Card className="border-[#D4A72C]/15 bg-[#D4A72C]/5">
-                        <CardContent className="p-4">
-                            <p className="text-base text-[#D4A72C]">
-                                {renderInlineItalics(localize(primaryCause, lang))}
-                            </p>
-                        </CardContent>
-                    </Card>
-                </div>
+                <Section
+                    title={t('diseases.primaryCause')}
+                    headerAction={<Bug className="size-4 text-amber-900" />}
+                >
+                    <p className="text-sm text-foreground">
+                        {renderInlineItalics(localize(primaryCause, lang))}
+                    </p>
+                </Section>
             )}
 
             {/* Symptoms */}
             {symptoms.length > 0 && (
-                <div>
-                    <h3 className="text-lg font-semibold mb-2">
-                        🔍 {t('diseases.symptoms')}
-                    </h3>
-                    <Card className="border-destructive/15 bg-destructive/5">
-                        <CardContent className="flex flex-col p-4 gap-2">
-                            {symptoms.map((s, i) => (
-                                <div key={i} className="flex items-start gap-2">
-                                    <span className="text-destructive mt-0.5">•</span>
-                                    <p className="text-sm text-destructive">
-                                        {localize(s, lang)}
-                                    </p>
-                                </div>
-                            ))}
-                        </CardContent>
-                    </Card>
-                </div>
+                <Section
+                    title={t('diseases.symptoms')}
+                    headerAction={
+                        <AlertTriangle className="size-4 text-red-900" />
+                    }
+                >
+                    <ul className="flex flex-col gap-1.5">
+                        {symptoms.map((s, i) => (
+                            <li
+                                key={i}
+                                className="flex gap-2 text-sm text-foreground"
+                            >
+                                <span className="mt-1.5 size-1 shrink-0 rounded-full bg-red-900" />
+                                {localize(s, lang)}
+                            </li>
+                        ))}
+                    </ul>
+                </Section>
             )}
 
             {/* Favorable Conditions */}
             {favorableConditions.length > 0 && (
-                <div>
-                    <h3 className="text-lg font-semibold mb-2">
-                        <AlertTriangle className="size-4 inline mr-1.5 text-amber-500" />
-                        {t('diseases.favorableConditions')}
-                    </h3>
-                    <Card className="border-yellow-800/30 bg-yellow-950/30">
-                        <CardContent className="flex flex-col p-4 gap-1.5">
-                            {favorableConditions.map((fc, i) => (
-                                <div key={i} className="flex items-start gap-2">
-                                    <span className="text-yellow-500 mt-0.5">
-                                        ⚠
-                                    </span>
-                                    <p className="text-sm text-yellow-300">
-                                        {localize(fc, lang)}
-                                    </p>
-                                </div>
-                            ))}
-                        </CardContent>
-                    </Card>
-                </div>
+                <Section
+                    title={t('diseases.favorableConditions')}
+                    headerAction={
+                        <AlertTriangle className="size-4 text-amber-900" />
+                    }
+                >
+                    <ul className="flex flex-col gap-1.5">
+                        {favorableConditions.map((fc, i) => (
+                            <li
+                                key={i}
+                                className="flex gap-2 text-sm text-foreground"
+                            >
+                                <span className="mt-1.5 size-1 shrink-0 rounded-full bg-amber-900" />
+                                {localize(fc, lang)}
+                            </li>
+                        ))}
+                    </ul>
+                </Section>
             )}
 
             {/* Preventions */}
             {preventions.length > 0 && (
-                <div>
-                    <h3 className="text-lg font-semibold mb-2">
-                        <Shield className="size-4 inline mr-1.5 text-blue-500" />
-                        {t('diseases.preventions')}
-                    </h3>
-                    <Card className="border-blue-800/30 bg-blue-950/30">
-                        <CardContent className="flex flex-col p-4 gap-1.5">
-                            {preventions.map((p, i) => (
-                                <div key={i} className="flex items-start gap-2">
-                                    <span className="text-blue-400 mt-0.5">✓</span>
-                                    <p className="text-sm text-blue-300">
-                                        {localize(p, lang)}
-                                    </p>
-                                </div>
-                            ))}
-                        </CardContent>
-                    </Card>
-                </div>
+                <Section
+                    title={t('diseases.preventions')}
+                    headerAction={<Shield className="size-4 text-blue-900" />}
+                >
+                    <ul className="flex flex-col gap-1.5">
+                        {preventions.map((p, i) => (
+                            <li
+                                key={i}
+                                className="flex gap-2 text-sm text-foreground"
+                            >
+                                <span className="mt-1.5 size-1 shrink-0 rounded-full bg-blue-900" />
+                                {localize(p, lang)}
+                            </li>
+                        ))}
+                    </ul>
+                </Section>
             )}
 
             {/* Treatments */}
             {treatments.length > 0 && (
-                <div>
-                    <h3 className="text-lg font-semibold mb-2">
-                        <LeafIcon className="size-4 inline mr-1.5 text-green-500" />
-                        {t('diseases.treatments')}
-                    </h3>
-                    <Card className="border-[#4DA34D]/15 bg-[#4DA34D]/5">
-                        <CardContent className="flex flex-col p-4 gap-1.5">
-                            {treatments.map((tr, i) => (
-                                <div key={i} className="flex items-start gap-2">
-                                    <span className="shrink-0 size-5 rounded-full bg-[#4DA34D]/20 text-[#4DA34D] flex items-center justify-center text-[10px] font-bold">
-                                        {i + 1}
-                                    </span>
-                                    <p className="text-sm text-[#4DA34D]">
-                                        {localize(tr, lang)}
-                                    </p>
-                                </div>
-                            ))}
-                        </CardContent>
-                    </Card>
-                </div>
+                <Section
+                    title={t('diseases.treatments')}
+                    headerAction={<LeafIcon className="size-4 text-green-900" />}
+                >
+                    <ol className="flex flex-col gap-2">
+                        {treatments.map((tr, i) => (
+                            <li key={i} className="flex items-start gap-2.5">
+                                <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-muted text-[10px] font-semibold text-foreground">
+                                    {i + 1}
+                                </span>
+                                <p className="text-sm text-foreground">
+                                    {localize(tr, lang)}
+                                </p>
+                            </li>
+                        ))}
+                    </ol>
+                </Section>
             )}
 
             {/* Remedies */}
             {disease.remedies && disease.remedies.length > 0 && (
                 <div>
-                    <h3 className="text-lg font-semibold mb-3">
-                        💊 {t('diseases.recommendedRemedies')}
-                    </h3>
+                    <h2 className="text-display-sm mb-3">
+                        {t('diseases.recommendedRemedies')}
+                    </h2>
                     <LinkedRemedies
                         remedyIds={disease.remedies}
                         language={language}
@@ -216,10 +193,7 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
 
             {/* Aliases */}
             {aliases.length > 0 && (
-                <div>
-                    <h3 className="text-lg font-semibold mb-2">
-                        📝 {t('diseases.aliases')}
-                    </h3>
+                <Section title={t('diseases.aliases')}>
                     <div className="flex flex-wrap gap-2">
                         {aliases.map((alias, i) => (
                             <Badge key={i} variant="secondary">
@@ -227,7 +201,7 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
                             </Badge>
                         ))}
                     </div>
-                </div>
+                </Section>
             )}
         </div>
     )

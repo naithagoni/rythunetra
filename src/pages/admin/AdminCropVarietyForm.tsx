@@ -14,6 +14,8 @@ import {
     adminGetCrop,
 } from '@/services/adminService'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
+import { PageHeader } from '@/components/common/PageHeader'
+import { PageContainer } from '@/components/common/PageContainer'
 import { MultiSelectDropdown } from '@/components/common/MultiSelectDropdown'
 import { Save, Trash2, Languages, X, ImageIcon, Plus } from 'lucide-react'
 import { toast } from 'sonner'
@@ -382,29 +384,25 @@ export function AdminCropVarietyFormPage() {
     if (!isNew && isLoading) return <LoadingSpinner />
 
     return (
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <Link
-                to={`/admin/crops/${cropId}/varieties`}
-                className="text-sm text-primary hover:underline mb-1 inline-block"
-            >
-                ← {cropName} – {t('admin.varieties')}
-            </Link>
-            <div className="flex items-center justify-between mb-6">
-                <h1 className="text-2xl font-bold text-foreground">
-                    {isNew ? t('admin.addVariety') : t('admin.editVariety')}
-                </h1>
-                {!isNew && (
-                    <Button
-                        type="button"
-                        variant="destructive"
-                        size="icon"
-                        onClick={handleDelete}
-                        aria-label={t('common.delete')}
-                    >
-                        <Trash2 />
-                    </Button>
-                )}
-            </div>
+        <PageContainer size="sm">
+            <PageHeader
+                backTo={`/admin/crops/${cropId}/varieties`}
+                backLabel={`${cropName} – ${t('admin.varieties')}`}
+                title={isNew ? t('admin.addVariety') : t('admin.editVariety')}
+                action={
+                    !isNew && (
+                        <Button
+                            type="button"
+                            variant="destructive"
+                            size="icon"
+                            onClick={handleDelete}
+                            aria-label={t('common.delete')}
+                        >
+                            <Trash2 />
+                        </Button>
+                    )
+                }
+            />
 
             <form onSubmit={handleSave} className="flex flex-col gap-6">
                 {/* ── Core Fields ────────────────────────── */}
@@ -506,7 +504,7 @@ export function AdminCropVarietyFormPage() {
                                         size="sm"
                                         onClick={handleTranslate}
                                         disabled={translating || !enName.trim()}
-                                        className="bg-[#D4A72C]/10 text-[#D4A72C] hover:bg-[#D4A72C]/15"
+                                        className="bg-amber-100 text-amber-900 hover:bg-amber-200"
                                     >
                                         <Languages data-icon="inline-start" />
                                         {translating
@@ -576,7 +574,7 @@ export function AdminCropVarietyFormPage() {
                         {seasons.map((season, idx) => (
                             <div
                                 key={idx}
-                                className="flex flex-col border border-white/[0.06] rounded-lg p-4 gap-3 bg-white/[0.03]"
+                                className="flex flex-col border border-border rounded-lg p-4 gap-3 bg-muted"
                             >
                                 <div className="flex items-center justify-between">
                                     <span className="text-sm font-medium">
@@ -839,7 +837,7 @@ export function AdminCropVarietyFormPage() {
                         {specialChars.map((c, i) => (
                             <div
                                 key={i}
-                                className="flex flex-col border border-white/[0.06] rounded-lg p-3 gap-2 bg-white/[0.03]"
+                                className="flex flex-col border border-border rounded-lg p-3 gap-2 bg-muted"
                             >
                                 <div className="flex items-center justify-between">
                                     <span className="text-xs font-medium">
@@ -913,16 +911,19 @@ export function AdminCropVarietyFormPage() {
                     </CardContent>
                 </Card>
 
-                {/* ── Actions ─────────────────────────────── */}
-                <Button
-                    type="submit"
-                    disabled={saveDisabled}
-                    className="w-full"
-                >
-                    <Save data-icon="inline-start" />
-                    {saving ? t('common.saving') : t('common.save')}
-                </Button>
+                {/* ── Save-bar ────────────────────────────── */}
+                <div className="sticky bottom-0 -mx-4 sm:-mx-6 lg:-mx-8 flex items-center justify-end gap-2 border-t border-border bg-background/80 backdrop-blur-md px-4 sm:px-6 lg:px-8 py-3">
+                    <Button asChild variant="outline" type="button">
+                        <Link to={`/admin/crops/${cropId}/varieties`}>
+                            {t('common.cancel')}
+                        </Link>
+                    </Button>
+                    <Button type="submit" disabled={saveDisabled}>
+                        <Save data-icon="inline-start" />
+                        {saving ? t('common.saving') : t('common.save')}
+                    </Button>
+                </div>
             </form>
-        </div>
+        </PageContainer>
     )
 }

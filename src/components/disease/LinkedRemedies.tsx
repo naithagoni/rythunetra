@@ -7,23 +7,18 @@ import { toRemedy } from '@/types/remedy'
 import { localize } from '@/types/i18n'
 import type { LanguageCode } from '@/types/i18n'
 import { Badge } from '@/components/ui/badge'
-import { Card, CardContent } from '@/components/ui/card'
+import { InfoCallout } from '@/components/common/InfoCallout'
 import {
     Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
 } from '@/components/ui/accordion'
+import { effectivenessColor } from '@/utils/statusColors'
 
 interface LinkedRemediesProps {
     remedyIds: string[]
     language: string
-}
-
-const effectivenessColor = {
-    High: 'bg-[#4DA34D]/10 text-[#4DA34D] hover:bg-[#4DA34D]/10',
-    Moderate: 'bg-[#D4A72C]/10 text-[#D4A72C] hover:bg-[#D4A72C]/10',
-    Low: 'bg-blue-950/50 text-blue-400 hover:bg-blue-950/50',
 }
 
 export function LinkedRemedies({ remedyIds, language }: LinkedRemediesProps) {
@@ -52,15 +47,13 @@ export function LinkedRemedies({ remedyIds, language }: LinkedRemediesProps) {
         <Accordion type="single" collapsible className="flex flex-col gap-3">
             {remedies.map((remedy) => {
                 const name = localize(remedy.name, lang)
-                const eff =
-                    remedy.effectiveness as keyof typeof effectivenessColor
                 const howItWorks = localize(remedy.howItWorks, lang)
 
                 return (
                     <AccordionItem
                         key={remedy.id}
                         value={remedy.id}
-                        className="border-2 border-border rounded-xl overflow-hidden bg-card"
+                        className="border border-border rounded-xl overflow-hidden bg-card"
                     >
                         <AccordionTrigger className="px-4 py-4 hover:no-underline">
                             <div className="flex items-center gap-3 text-left">
@@ -68,14 +61,15 @@ export function LinkedRemedies({ remedyIds, language }: LinkedRemediesProps) {
                                     <Leaf className="size-5" />
                                 </div>
                                 <div className="min-w-0">
-                                    <h4 className="font-bold text-foreground text-base">
+                                    <h4 className="font-semibold text-foreground text-base">
                                         {name}
                                     </h4>
                                     <Badge
                                         variant="secondary"
                                         className={
-                                            effectivenessColor[eff] ??
-                                            'bg-blue-950/50 text-blue-400 hover:bg-blue-950/50'
+                                            effectivenessColor(
+                                                remedy.effectiveness,
+                                            ).chip
                                         }
                                     >
                                         {remedy.effectiveness}{' '}
@@ -86,19 +80,13 @@ export function LinkedRemedies({ remedyIds, language }: LinkedRemediesProps) {
                         </AccordionTrigger>
                         <AccordionContent className="flex flex-col px-4 pb-4 pt-0 gap-4">
                             {howItWorks && (
-                                <Card className="bg-blue-950/30 border-blue-800/30">
-                                    <CardContent className="p-3">
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <Droplets className="size-4 text-blue-400" />
-                                            <span className="text-sm font-semibold text-blue-300">
-                                                {t('remedies.howItWorks')}
-                                            </span>
-                                        </div>
-                                        <p className="text-sm text-blue-300/80">
-                                            {howItWorks}
-                                        </p>
-                                    </CardContent>
-                                </Card>
+                                <InfoCallout
+                                    tone="blue"
+                                    icon={<Droplets className="size-4" />}
+                                    title={t('remedies.howItWorks')}
+                                >
+                                    {howItWorks}
+                                </InfoCallout>
                             )}
 
                             {remedy.ingredients.length > 0 && (

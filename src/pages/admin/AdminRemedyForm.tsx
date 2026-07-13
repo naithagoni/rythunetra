@@ -11,6 +11,8 @@ import {
 } from '@/services/adminService'
 import { CustomDropdown } from '@/components/common/CustomDropdown'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
+import { PageHeader } from '@/components/common/PageHeader'
+import { PageContainer } from '@/components/common/PageContainer'
 import { Save, Plus, X, Languages, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { Input } from '@/components/ui/input'
@@ -381,30 +383,26 @@ export function AdminRemedyFormPage() {
     if (!isNew && isLoading) return <LoadingSpinner />
 
     return (
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <Link
-                to="/admin/remedies"
-                className="text-sm text-primary hover:underline mb-2 inline-block"
-            >
-                ← {t('admin.remedies')}
-            </Link>
-            <div className="flex items-center justify-between mb-6">
-                <h1 className="text-2xl font-bold text-foreground">
-                    {isNew ? t('admin.addRemedy') : t('admin.editRemedy')}
-                </h1>
-                {!isNew && (
-                    <Button
-                        type="button"
-                        variant="destructive"
-                        size="icon"
-                        onClick={handleDelete}
-                        disabled={saving}
-                        aria-label={t('common.delete')}
-                    >
-                        <Trash2 />
-                    </Button>
-                )}
-            </div>
+        <PageContainer size="md">
+            <PageHeader
+                backTo="/admin/remedies"
+                backLabel={t('admin.remedies')}
+                title={isNew ? t('admin.addRemedy') : t('admin.editRemedy')}
+                action={
+                    !isNew && (
+                        <Button
+                            type="button"
+                            variant="destructive"
+                            size="icon"
+                            onClick={handleDelete}
+                            disabled={saving}
+                            aria-label={t('common.delete')}
+                        >
+                            <Trash2 />
+                        </Button>
+                    )
+                }
+            />
 
             <form onSubmit={handleSave} className="flex flex-col gap-6">
                 {/* Core Fields */}
@@ -539,7 +537,7 @@ export function AdminRemedyFormPage() {
                             size="sm"
                             onClick={handleTranslateToTelugu}
                             disabled={translating || !enName}
-                            className="bg-[#D4A72C]/10 text-[#D4A72C] hover:bg-[#D4A72C]/15"
+                            className="bg-amber-100 text-amber-900 hover:bg-amber-200"
                         >
                             <Languages data-icon="inline-start" />
                             {translating
@@ -611,16 +609,21 @@ export function AdminRemedyFormPage() {
                     </CardContent>
                 </Card>
 
-                {/* Actions */}
-                <Button type="submit" disabled={saveDisabled} className="w-full">
-                    <Save data-icon="inline-start" />
-                    {saving
-                        ? t('common.loading')
-                        : isNew
-                          ? t('common.save')
-                          : t('common.update')}
-                </Button>
+                {/* Save-bar */}
+                <div className="sticky bottom-0 -mx-4 sm:-mx-6 lg:-mx-8 flex items-center justify-end gap-2 border-t border-border bg-background/80 backdrop-blur-md px-4 sm:px-6 lg:px-8 py-3">
+                    <Button asChild variant="outline" type="button">
+                        <Link to="/admin/remedies">{t('common.cancel')}</Link>
+                    </Button>
+                    <Button type="submit" disabled={saveDisabled}>
+                        <Save data-icon="inline-start" />
+                        {saving
+                            ? t('common.loading')
+                            : isNew
+                              ? t('common.save')
+                              : t('common.update')}
+                    </Button>
+                </div>
             </form>
-        </div>
+        </PageContainer>
     )
 }
