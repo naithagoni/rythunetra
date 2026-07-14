@@ -268,13 +268,15 @@ export function LandingPage() {
                             <Reveal key={`${f.to}-${i}`} delay={i * 0.05} y={12}>
                                 <Link
                                     to={f.to}
-                                    className="group flex h-full flex-col rounded-xl border border-border bg-card p-6 transition-colors duration-200 hover:border-primary hover:bg-primary/5"
+                                    className="group flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition-colors duration-200 hover:border-primary/60"
                                 >
                                     <div className="mb-5 flex items-center justify-between">
                                         <span className="flex size-11 items-center justify-center rounded-xl bg-primary/15 transition-colors duration-200 group-hover:bg-primary [&_svg]:size-5 [&_svg]:text-foreground group-hover:[&_svg]:text-primary-foreground">
                                             <f.icon />
                                         </span>
-                                        <ArrowUpRight className="size-4 text-muted-foreground opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary group-hover:opacity-100" />
+                                        <span className="flex size-6 items-center justify-center rounded-full bg-muted text-muted-foreground transition-all duration-200 group-hover:bg-primary group-hover:text-primary-foreground">
+                                            <ArrowUpRight className="size-3.5 transition-transform duration-200 group-hover:translate-x-px group-hover:-translate-y-px" />
+                                        </span>
                                     </div>
                                     <h3 className="mb-1.5 text-base font-semibold tracking-[-0.02em] text-foreground">
                                         {f.title}

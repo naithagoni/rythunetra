@@ -250,6 +250,16 @@ accessible text. All values are **OKLCH**.
 | `hover-tint` | `oklch(95.5% 0 0)`| Menu-item / list-row hover (shadcn `--accent`)         |
 | `ring`       | = `primary`       | Focus ring (green)                                     |
 
+### Hero backdrop (Landing decorative canvas)
+
+| Token               | Value                              | Role                                   |
+| ------------------- | ---------------------------------- | -------------------------------------- |
+| `hero-glow`         | `rgba(0,0,0,0.05)`                 | Neutral cursor spotlight core          |
+| `hero-ring`         | `oklch(91% 0 0)`                   | Faint grid + static rings              |
+| `hero-ring-strong`  | `oklch(84% 0 0)`                   | Moving/dashed rings (more visible)     |
+| `hero-accent`       | `oklch(70% 0.16 139.549 / 0.7)`    | Green inner ring + orbiting dots       |
+| `hero-accent-soft`  | `oklch(86.133% 0.141 139.549 / .12)`| Green ambient wash + cursor glow dot   |
+
 ### Status
 
 Map domain concepts here — disease severity → `warning`/`error`, healthy →
@@ -443,16 +453,51 @@ fill / `primary-content`. Status chips: **solid** (status fill + `*-content`) or
 
 ### Navigation
 
-- **Desktop header** — a **single 64px row**: brand (left) · a **center pill-nav**
-  (rounded-full `bg-muted/50` track) whose active item is a sliding **green pill**
-  (`bg-primary` + `primary-content`, `motion` `layoutId="nav-pill"`) · actions
-  (right: LanguageToggle + avatar dropdown / login). Frosted
-  `backdrop-blur-xl` background. **No theme toggle** (light-only).
+- **Desktop header** — a **floating pill "island"**: a detached, fully-rounded
+  (`rounded-full`) capsule (`max-w-5xl`, `h-14`) that floats below the top edge
+  (`pt-3`) on `bg-background/80` + `backdrop-blur-xl` + `shadow-elevated` + 1px
+  `border`. Layout: brand (left) · inline nav (center — inactive links get a
+  `hover:bg-muted` round highlight; the active route is a sliding **green pill**,
+  `bg-primary` + `primary-content`, `motion` `layoutId="nav-pill"`) · actions
+  (right: LanguageToggle + avatar / login). Avatar is ringed
+  (`ring-1 ring-border` → `hover:ring-primary`). **No theme toggle** (light-only).
 - **Avatar dropdown** — My Preparations (any logged-in user), Admin (admins,
   `link`/purple text), Settings, and a destructive **Logout**.
-- **Mobile header** — top bar + hamburger → slide-in `Sheet` drawer. Logout in
-  the drawer matches the desktop destructive item (ghost + `text-destructive` +
-  `hover:bg-destructive/10`).
+- **Mobile header** — top bar + hamburger → slide-in `Sheet` drawer. Admin link
+  uses `link`/purple; Logout matches the desktop destructive item (ghost +
+  `text-destructive` + `hover:bg-destructive/10`).
+
+---
+
+### Hero backdrop (Landing)
+
+`src/components/landing/HeroBackdrop.tsx` — a layered, decorative canvas behind
+the Landing hero. Purely `aria-hidden` + `pointer-events-none`; everything is
+token-driven and **reduced-motion / touch aware**.
+
+- **Grid** — a 56px square grid drawn with `--hero-ring` lines at `opacity-70`,
+  masked by a radial-ellipse gradient so it dissolves toward the edges.
+- **Concentric rings** — centered at `50% / 30%`, masked to fade outward:
+  - 3 **static** outer dashed rings (`--hero-ring`, `strokeWidth 1.5`, dash `4 6`).
+  - 1 **clockwise-spinning** dashed ring (`--hero-ring-strong` for visibility,
+    `strokeWidth 2`, dash `6 14`, round caps, 90s linear loop).
+  - 1 **inner green ring** (`--hero-accent`, dash `4 14`) that spins
+    **counter-clockwise** (55s), with 3 **orbiting green dots** at 0°/120°/240°.
+- **Spotlight** — a two-layer radial gradient following the pointer via
+  `useSpring` (stiffness 120 / damping 30 / mass 0.4): a tight **neutral core**
+  (`--hero-glow`, 420px) + a wider **faint green halo** (`--hero-accent-soft`,
+  760px).
+- **Cursor glow dot** — a soft `--hero-accent-soft` radial that trails the
+  pointer (fine pointers only).
+- **Bottom fade** — a gradient into `background` so the canvas blends into the page.
+- **Fallbacks** — on `prefers-reduced-motion` or coarse (touch) pointers: all
+  rotation stops, the spotlight is a centered static gradient, and the cursor
+  glow dot is not rendered.
+
+Hero tokens (in `:root`): `--hero-glow` (neutral cursor spotlight), `--hero-ring`
+(faint grid/static rings), `--hero-ring-strong` (more-visible moving rings),
+`--hero-accent` (green inner ring + dots), `--hero-accent-soft` (green ambient
+wash + glow dot). Green here stays a **spice** — a faint accent, never dominant.
 
 ---
 

@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
-import { Search, X, Leaf, ArrowUpRight } from 'lucide-react'
+import { Search, X, Leaf } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { usePageTitle } from '@/hooks/usePageTitle'
 import { useCrops } from '@/hooks/useCrops'
@@ -10,7 +10,6 @@ import { EmptyState } from '@/components/common/EmptyState'
 import { PageHeader } from '@/components/common/PageHeader'
 import { PageContainer } from '@/components/common/PageContainer'
 import { Toolbar } from '@/components/common/Toolbar'
-import { Card } from '@/components/ui/card'
 import {
     InputGroup,
     InputGroupAddon,
@@ -89,35 +88,37 @@ export function CropHomePage() {
                     title={t('common.noResults')}
                 />
             ) : (
-                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+                <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
                     {filtered.map((crop) => {
                         const cropName = localize(crop.name, lang)
                         const cropType = localize(crop.cropType, lang)
                         return (
-                            <Link key={crop.id} to={`/crops/${crop.id}`}>
-                                <Card className="group gap-0 overflow-hidden py-0 transition-colors duration-200 hover:border-primary">
-                                    <div className="relative aspect-4/3 overflow-hidden bg-muted">
-                                        <img
-                                            src={getCropImage(crop.imageUrl)}
-                                            alt={cropName}
-                                            loading="lazy"
-                                            className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
-                                        />
-                                        {/* Gradient scrim for legibility */}
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/25 to-transparent opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
-                                        {cropType && (
-                                            <span className="absolute left-2 top-2 rounded-full bg-background/85 px-2 py-0.5 text-[11px] font-medium text-foreground backdrop-blur-sm">
-                                                {cropType}
-                                            </span>
-                                        )}
-                                    </div>
-                                    <div className="flex items-center justify-between gap-2 border-t border-border bg-[oklch(95%_0_0)] p-3">
-                                        <p className="truncate text-sm font-semibold text-foreground">
-                                            {cropName}
+                            <Link
+                                key={crop.id}
+                                to={`/crops/${crop.id}`}
+                                className="group relative block aspect-[4/5] overflow-hidden rounded-2xl shadow-[0_4px_16px_-4px_rgba(16,24,40,0.12)] ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_32px_-8px_rgba(16,24,40,0.22)]"
+                            >
+                                {/* Full-bleed image */}
+                                <img
+                                    src={getCropImage(crop.imageUrl)}
+                                    alt={cropName}
+                                    loading="lazy"
+                                    className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                />
+                                {/* Bottom gradient scrim for text legibility */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                                {/* Name + sub-text overlaid at bottom */}
+                                <div className="absolute inset-x-0 bottom-0 p-3.5">
+                                    <p className="truncate text-base font-semibold text-white drop-shadow-sm">
+                                        {cropName}
+                                    </p>
+                                    {cropType && (
+                                        <p className="truncate text-xs font-medium text-white/70">
+                                            {cropType}
                                         </p>
-                                        <ArrowUpRight className="size-4 shrink-0 text-muted-foreground opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary group-hover:opacity-100" />
-                                    </div>
-                                </Card>
+                                    )}
+                                </div>
                             </Link>
                         )
                     })}

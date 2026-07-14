@@ -8,7 +8,6 @@ import {
     adminGetCropVarietyCount,
 } from '@/services/adminService'
 import { Bug, FlaskConical, Sprout, Wheat, ArrowUpRight } from 'lucide-react'
-import { Card } from '@/components/ui/card'
 import { PageHeader } from '@/components/common/PageHeader'
 import { PageContainer } from '@/components/common/PageContainer'
 
@@ -72,25 +71,33 @@ export function AdminDashboardPage() {
         <PageContainer size="md">
             <PageHeader title={t('admin.dashboard')} />
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 gap-5 sm:grid-cols-4">
                 {cards.map((card) => (
-                    <Link key={card.to} to={card.to} className="group">
-                        <Card className="relative gap-0 overflow-hidden py-0 transition-colors duration-200 hover:border-primary">
-                            <div className="p-5 transition-colors duration-200 group-hover:bg-primary/5">
-                                <div className="mb-4 flex items-center justify-between">
-                                    <div className="flex size-10 items-center justify-center rounded-lg bg-primary/15 text-primary-foreground transition-colors duration-200 [&_svg]:text-foreground group-hover:bg-primary group-hover:[&_svg]:text-primary-foreground">
-                                        {card.icon}
-                                    </div>
-                                    <ArrowUpRight className="size-4 text-muted-foreground transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary" />
-                                </div>
-                                <p className="text-display-lg leading-none tracking-tight text-foreground tabular-nums">
-                                    {card.count}
-                                </p>
-                            </div>
-                            <p className="border-t border-border bg-[oklch(95%_0_0)] px-5 py-3 font-mono text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                                {card.label}
-                            </p>
-                        </Card>
+                    <Link
+                        key={card.to}
+                        to={card.to}
+                        className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-[0_4px_16px_-4px_rgba(16,24,40,0.10)] ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_32px_-8px_rgba(16,24,40,0.18)]"
+                    >
+                        {/* Faint green accent wash, intensifies on hover */}
+                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                        {/* Large watermark icon in the corner */}
+                        <span className="pointer-events-none absolute -right-3 -top-3 text-primary/10 transition-all duration-300 group-hover:text-primary/20 [&_svg]:size-20">
+                            {card.icon}
+                        </span>
+
+                        <div className="relative flex items-center justify-between">
+                            <span className="flex size-11 items-center justify-center rounded-xl bg-primary/15 transition-colors duration-300 [&_svg]:size-5 [&_svg]:text-foreground group-hover:bg-primary group-hover:[&_svg]:text-primary-foreground">
+                                {card.icon}
+                            </span>
+                            <ArrowUpRight className="size-4 -translate-x-1 text-muted-foreground opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:text-primary group-hover:opacity-100" />
+                        </div>
+
+                        <p className="relative mt-6 text-display-lg leading-none tracking-tight text-foreground tabular-nums">
+                            {card.count}
+                        </p>
+                        <p className="relative mt-2 font-mono text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                            {card.label}
+                        </p>
                     </Link>
                 ))}
             </div>
