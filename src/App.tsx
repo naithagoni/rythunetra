@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/react'
 import { AuthProvider } from '@/contexts/AuthContext'
+import { Toaster } from '@/components/ui/sonner'
 import { Layout } from '@/components/common/Layout'
 import { ProtectedRoute } from '@/components/common/ProtectedRoute'
 import { AdminRoute } from '@/components/common/AdminRoute'
@@ -354,6 +355,7 @@ export default function App() {
                         </Route>
                     </Routes>
                 </BrowserRouter>
+                <Toaster />
                 <Analytics />
                 <SpeedInsights />
             </AuthProvider>

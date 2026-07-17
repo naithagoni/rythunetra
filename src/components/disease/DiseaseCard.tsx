@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { Leaf, Thermometer } from 'lucide-react'
-import { cn } from '@/utils/cn'
 import type { DiseaseListItem } from '@/types/disease'
 import { localize } from '@/types/i18n'
 import type { LanguageCode } from '@/types/i18n'
@@ -9,13 +8,6 @@ import type { LanguageCode } from '@/types/i18n'
 interface DiseaseCardProps {
     disease: DiseaseListItem
     language: string
-}
-
-const severityBadge: Record<string, string> = {
-    low: 'bg-green-100 text-green-700',
-    moderate: 'bg-amber-100 text-amber-700',
-    high: 'bg-orange-100 text-orange-700',
-    critical: 'bg-red-100 text-red-700',
 }
 
 export function DiseaseCard({ disease, language }: DiseaseCardProps) {
@@ -33,51 +25,49 @@ export function DiseaseCard({ disease, language }: DiseaseCardProps) {
     return (
         <Link
             to={`/diseases/${disease.id}`}
-            className="card group block overflow-hidden hover:-translate-y-0.5 transition-all duration-200"
+            className="group relative block aspect-[4/5] overflow-hidden rounded-2xl shadow-[0_4px_16px_-4px_rgba(16,24,40,0.12)] ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_32px_-8px_rgba(16,24,40,0.22)]"
         >
-            {/* Image */}
-            <div className="aspect-3/2 bg-neutral-100 overflow-hidden">
-                {image ? (
-                    <img
-                        src={image}
-                        alt={name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                ) : (
-                    <div className="w-full h-full flex items-center justify-center text-neutral-300">
-                        <Leaf className="h-12 w-12" />
-                    </div>
-                )}
-            </div>
+            {/* Full-bleed image */}
+            {image ? (
+                <img
+                    src={image}
+                    alt={name}
+                    className="absolute inset-0 size-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+            ) : (
+                <div className="absolute inset-0 flex items-center justify-center bg-muted text-muted-foreground/40">
+                    <Leaf className="size-14" />
+                </div>
+            )}
+            {/* Bottom gradient scrim for text legibility */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
 
-            {/* Content */}
-            <div className="p-4">
-                {/* Badges row */}
-                <div className="flex items-center flex-wrap gap-1.5 mb-2">
-                    <span
-                        className={cn(
-                            'inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-medium',
-                            severityBadge[severity],
-                        )}
-                    >
-                        <Thermometer className="h-2.5 w-2.5" />
+            {/* Name + sub-text overlaid at bottom */}
+            <div className="absolute inset-x-0 bottom-0 p-3.5">
+                <h3 className="truncate text-base font-semibold text-white drop-shadow-sm">
+                    {name}
+                </h3>
+                <div className="mt-1 flex flex-wrap items-center gap-1.5 text-xs font-medium text-white/70">
+                    <span className="inline-flex items-center gap-1">
+                        <Thermometer className="size-3" />
                         {t(`diseases.${severity}`)}
                     </span>
                     {diseaseType && (
-                        <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-purple-50 text-purple-700 font-medium">
-                            {diseaseType}
-                        </span>
+                        <>
+                            <span className="text-white/40">·</span>
+                            <span>{diseaseType}</span>
+                        </>
                     )}
                     {remedyCount > 0 && (
-                        <span className="badge-info text-[10px]">
-                            {remedyCount} {t('diseases.recommendedRemedies')}
-                        </span>
+                        <>
+                            <span className="text-white/40">·</span>
+                            <span>
+                                {remedyCount}{' '}
+                                {t('diseases.recommendedRemedies')}
+                            </span>
+                        </>
                     )}
                 </div>
-
-                <h3 className="font-semibold text-neutral-900 group-hover:text-primary-600 transition-colors duration-200 mb-1">
-                    {name}
-                </h3>
             </div>
         </Link>
     )

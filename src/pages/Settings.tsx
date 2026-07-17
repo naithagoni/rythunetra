@@ -1,8 +1,6 @@
 import { useState, useMemo } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '@/hooks/useAuth'
-import { useAdmin } from '@/hooks/useAdmin'
 import { useLanguage } from '@/hooks/useLanguage'
 import { usePageTitle } from '@/hooks/usePageTitle'
 import { updateUserProfile } from '@/services/authService'
@@ -10,28 +8,31 @@ import { LanguageToggle } from '@/components/common/LanguageToggle'
 import { CustomDropdown } from '@/components/common/CustomDropdown'
 import { DISTRICT_KEYS } from '@/config/districts'
 import { getMandalsForDistrict } from '@/config/mandals'
-import {
-    User,
-    Globe,
-    Shield,
-    LogOut,
-    FlaskConical,
-    ChevronRight,
-    MapPin,
-} from 'lucide-react'
+import { MapPin } from 'lucide-react'
+import { toast } from 'sonner'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
+import { Section } from '@/components/common/Section'
+import { PageHeader } from '@/components/common/PageHeader'
+import { PageContainer } from '@/components/common/PageContainer'
 
 export function SettingsPage() {
     const { t } = useTranslation()
-    const { user, signOut } = useAuth()
-    const { isAdmin } = useAdmin()
+    const { user } = useAuth()
     const { currentLanguage } = useLanguage()
     usePageTitle('Settings')
-    const navigate = useNavigate()
     const [name, setName] = useState(user?.name || '')
     const [district, setDistrict] = useState(user?.district || '')
     const [mandal, setMandal] = useState(user?.mandal || '')
     const [saving, setSaving] = useState(false)
-    const [message, setMessage] = useState('')
+
+    // Dirty only when a field differs from the saved profile — Save stays
+    // disabled until the user actually changes name, district, or mandal.
+    const isDirty =
+        name !== (user?.name || '') ||
+        district !== (user?.district || '') ||
+        mandal !== (user?.mandal || '')
 
     const districtOptions = useMemo(
         () =>
@@ -53,209 +54,129 @@ export function SettingsPage() {
 
     const handleDistrictChange = (value: string) => {
         setDistrict(value)
-        setMandal('') // Reset mandal when district changes
+        setMandal('')
     }
 
     const handleUpdateProfile = async (e: React.SyntheticEvent) => {
         e.preventDefault()
         setSaving(true)
-        setMessage('')
         try {
             await updateUserProfile(
                 user!.id,
                 { name, district, mandal },
                 currentLanguage,
             )
-            setMessage(t('settings.saved'))
+            toast.success(t('settings.saved'))
         } catch {
-            setMessage(t('errors.generic'))
+            toast.error(t('errors.generic'))
         } finally {
             setSaving(false)
         }
     }
 
-    const handleSignOut = async () => {
-        await signOut()
-        navigate('/')
-    }
-
     return (
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            {/* Header Banner */}
-            <div className="page-header-banner rounded-2xl mb-8">
-                <div className="relative">
-                    <h1 className="page-title">{t('settings.title')}</h1>
-                </div>
-            </div>
+        <PageContainer size="sm">
+            <PageHeader title={t('settings.title')} />
 
-            <div className="space-y-5">
-                {/* Quick Links — My Preparations & Admin */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <Link
-                        to="/my-preparations"
-                        className="bg-white rounded-2xl border border-neutral-200 p-4 flex items-center justify-between hover:border-neutral-300 transition-all duration-200 shadow-card hover:shadow-card-hover hover:-translate-y-0.5"
-                    >
-                        <div className="flex items-center gap-3">
-                            <div className="p-2.5 rounded-lg bg-violet-50">
-                                <FlaskConical className="h-5 w-5 text-violet-600" />
-                            </div>
-                            <div>
-                                <p className="font-semibold text-sm">
-                                    {t('common.myPreparations')}
-                                </p>
-                                <p className="text-xs text-neutral-500">
-                                    {t('settings.myPrepsDesc')}
-                                </p>
-                            </div>
-                        </div>
-                        <ChevronRight className="h-4 w-4 text-neutral-400" />
-                    </Link>
-
-                    {isAdmin && (
-                        <Link
-                            to="/admin"
-                            className="bg-white rounded-2xl border border-neutral-200 p-4 flex items-center justify-between hover:border-neutral-300 transition-all duration-200 shadow-card hover:shadow-card-hover hover:-translate-y-0.5"
-                        >
-                            <div className="flex items-center gap-3">
-                                <div className="p-2.5 rounded-lg bg-amber-50">
-                                    <Shield className="h-5 w-5 text-amber-600" />
-                                </div>
-                                <div>
-                                    <p className="font-semibold text-sm text-amber-800">
-                                        {t('common.admin')}
-                                    </p>
-                                    <p className="text-xs text-neutral-500">
-                                        {t('settings.adminDesc')}
-                                    </p>
-                                </div>
-                            </div>
-                            <ChevronRight className="h-4 w-4 text-neutral-400" />
-                        </Link>
-                    )}
-                </div>
-
-                {/* Profile Section */}
-                <div className="bg-white rounded-2xl border border-neutral-200 p-6 shadow-card">
-                    <div className="flex items-center gap-3 mb-4">
-                        <User className="h-5 w-5 text-primary-600" />
-                        <h2 className="text-h4">{t('settings.profile')}</h2>
-                    </div>
-
-                    <form onSubmit={handleUpdateProfile} className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-neutral-900 mb-1">
-                                {t('auth.name')}
-                            </label>
-                            <input
-                                type="text"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                                className="input"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-neutral-900 mb-1">
-                                {t('auth.email')}
-                            </label>
-                            <input
-                                type="email"
-                                value={user?.email || ''}
-                                className="input bg-neutral-50"
-                                disabled
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-neutral-900 mb-1">
-                                <span className="flex items-center gap-1.5">
-                                    <MapPin className="h-4 w-4" />
-                                    {t('settings.district')}{' '}
-                                    <span className="text-red-500">*</span>
-                                </span>
-                            </label>
-                            <CustomDropdown
-                                options={districtOptions}
-                                value={district}
-                                onChange={handleDistrictChange}
-                                placeholder={t('settings.selectDistrict')}
-                                ariaLabel={t('settings.district')}
-                                variant="form"
-                            />
-                            <p className="text-xs text-neutral-500 mt-1">
-                                {t('settings.districtDesc')}
-                            </p>
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-neutral-900 mb-1">
-                                <span className="flex items-center gap-1.5">
-                                    <MapPin className="h-4 w-4" />
-                                    {t('settings.mandal')}{' '}
-                                    <span className="text-red-500">*</span>
-                                </span>
-                            </label>
-                            <CustomDropdown
-                                options={mandalOptions}
-                                value={mandal}
-                                onChange={setMandal}
-                                placeholder={
-                                    district
-                                        ? t('settings.selectMandal')
-                                        : t('settings.selectDistrictFirst')
-                                }
-                                ariaLabel={t('settings.mandal')}
-                                variant="form"
-                            />
-                        </div>
-
-                        {message && (
-                            <p
-                                className={`text-sm ${message === t('settings.saved') ? 'text-green-600' : 'text-red-600'}`}
+            <div className="flex flex-col gap-6">
+                {/* Profile — settings card with footer save bar */}
+                <form onSubmit={handleUpdateProfile}>
+                    <Section
+                        title={t('settings.profile')}
+                        description={t('settings.districtDesc')}
+                        footerAction={
+                            <Button
+                                type="submit"
+                                disabled={saving || !isDirty || !district || !mandal}
                             >
-                                {message}
-                            </p>
-                        )}
-
-                        <button
-                            type="submit"
-                            disabled={saving || !district || !mandal}
-                            className="btn-primary"
-                        >
-                            {saving ? t('common.loading') : t('common.save')}
-                        </button>
-                    </form>
-                </div>
-
-                {/* Language Section */}
-                <div className="bg-white rounded-2xl border border-neutral-200 p-6 shadow-card">
-                    <div className="flex items-center gap-3 mb-4">
-                        <Globe className="h-5 w-5 text-primary-600" />
-                        <h2 className="text-h4">{t('settings.language')}</h2>
-                    </div>
-                    <div className="flex items-center justify-between">
-                        <p className="text-sm text-neutral-500">
-                            {t('settings.languageDesc')}
-                        </p>
-                        <LanguageToggle />
-                    </div>
-                </div>
-
-                {/* Account Section */}
-                <div className="bg-white rounded-2xl border border-neutral-200 p-6 shadow-card">
-                    <div className="flex items-center gap-3 mb-4">
-                        <Shield className="h-5 w-5 text-primary-600" />
-                        <h2 className="text-h4">{t('settings.account')}</h2>
-                    </div>
-                    <button
-                        onClick={handleSignOut}
-                        className="btn-danger inline-flex items-center gap-2"
+                                {saving
+                                    ? t('common.loading')
+                                    : t('common.save')}
+                            </Button>
+                        }
                     >
-                        <LogOut className="h-4 w-4" />
-                        {t('auth.signOut')}
-                    </button>
-                </div>
+                        <FieldGroup>
+                            <Field>
+                                <FieldLabel htmlFor="settings-name">
+                                    {t('auth.name')}
+                                </FieldLabel>
+                                <Input
+                                    id="settings-name"
+                                    type="text"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                />
+                            </Field>
+                            <Field>
+                                <FieldLabel htmlFor="settings-email">
+                                    {t('auth.email')}
+                                </FieldLabel>
+                                <Input
+                                    id="settings-email"
+                                    type="email"
+                                    value={user?.email || ''}
+                                    disabled
+                                />
+                            </Field>
+                            <div className="grid gap-4 sm:grid-cols-2">
+                                <Field>
+                                    <FieldLabel htmlFor="settings-district">
+                                        <MapPin className="size-4" />
+                                        {t('settings.district')}{' '}
+                                        <span className="text-destructive">
+                                            *
+                                        </span>
+                                    </FieldLabel>
+                                    <CustomDropdown
+                                        options={districtOptions}
+                                        value={district}
+                                        onChange={handleDistrictChange}
+                                        placeholder={t(
+                                            'settings.selectDistrict',
+                                        )}
+                                        ariaLabel={t('settings.district')}
+                                        variant="form"
+                                    />
+                                </Field>
+                                <Field>
+                                    <FieldLabel htmlFor="settings-mandal">
+                                        <MapPin className="size-4" />
+                                        {t('settings.mandal')}{' '}
+                                        <span className="text-destructive">
+                                            *
+                                        </span>
+                                    </FieldLabel>
+                                    <CustomDropdown
+                                        options={mandalOptions}
+                                        value={mandal}
+                                        onChange={setMandal}
+                                        placeholder={
+                                            district
+                                                ? t('settings.selectMandal')
+                                                : t(
+                                                      'settings.selectDistrictFirst',
+                                                  )
+                                        }
+                                        ariaLabel={t('settings.mandal')}
+                                        variant="form"
+                                    />
+                                </Field>
+                            </div>
+                        </FieldGroup>
+                    </Section>
+                </form>
+
+                {/* Language */}
+                <Section
+                    title={t('settings.language')}
+                    description={t('settings.languageDesc')}
+                    headerAction={<LanguageToggle />}
+                >
+                    <p className="text-sm text-muted-foreground">
+                        {t('settings.languageDesc')}
+                    </p>
+                </Section>
             </div>
-        </div>
+        </PageContainer>
     )
 }

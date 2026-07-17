@@ -7,7 +7,19 @@ import {
     adminGetAllCrops,
 } from '@/services/adminService'
 import { Edit, Plus, AlertTriangle } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import {
+    Table,
+    TableHeader,
+    TableBody,
+    TableRow,
+    TableHead,
+    TableCell,
+} from '@/components/ui/table'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
+import { PageHeader } from '@/components/common/PageHeader'
+import { PageContainer } from '@/components/common/PageContainer'
 import { CustomDropdown } from '@/components/common/CustomDropdown'
 import type { LocalizedText } from '@/types/i18n'
 
@@ -47,129 +59,117 @@ export function AdminVarietyListPage() {
     if (isLoading) return <LoadingSpinner />
 
     return (
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="flex items-center justify-between mb-6">
-                <div>
-                    <Link
-                        to="/admin"
-                        className="text-sm text-primary-600 hover:underline mb-1 inline-block"
-                    >
-                        ← {t('admin.dashboard')}
-                    </Link>
-                    <h1 className="text-2xl font-bold text-neutral-900">
-                        {t('admin.varieties')}
-                    </h1>
-                    <p className="text-sm text-neutral-400">
-                        {varieties.length} {t('common.total')}
-                    </p>
-                </div>
-                {crops.length === 0 ? (
-                    <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm">
-                        <AlertTriangle className="h-4 w-4 shrink-0" />
-                        <span>
-                            {t('admin.noCropsYet')}{' '}
-                            <Link
-                                to="/admin/crops/add"
-                                className="font-medium underline hover:text-amber-900"
+        <PageContainer size="lg">
+            <PageHeader
+                backTo="/admin"
+                backLabel={t('admin.dashboard')}
+                title={t('admin.varieties')}
+                description={`${varieties.length} ${t('common.total')}`}
+                action={
+                    crops.length === 0 ? (
+                        <div className="flex items-center gap-2 px-4 py-3 rounded-md bg-aux-accent-4-container border border-aux-accent-4-outline text-aux-accent-4 text-sm">
+                            <AlertTriangle className="size-4 shrink-0" />
+                            <span>
+                                {t('admin.noCropsYet')}{' '}
+                                <Link
+                                    to="/admin/crops/add"
+                                    className="font-medium underline hover:text-aux-accent-4/80"
+                                >
+                                    {t('admin.addCrop')}
+                                </Link>
+                            </span>
+                        </div>
+                    ) : (
+                        <>
+                            <CustomDropdown
+                                options={crops.map((c) => ({
+                                    value: c.id,
+                                    label: c.name?.en ?? c.id.slice(0, 8),
+                                }))}
+                                value={selectedCropId}
+                                onChange={setSelectedCropId}
+                                placeholder={t('admin.selectCrops')}
+                                ariaLabel={t('admin.majorCrop')}
+                                variant="form"
+                            />
+                            <Button
+                                onClick={handleAddVariety}
+                                disabled={!selectedCropId}
+                                className="whitespace-nowrap"
                             >
-                                {t('admin.addCrop')}
-                            </Link>
-                        </span>
-                    </div>
-                ) : (
-                    <div className="flex items-center gap-2">
-                        <CustomDropdown
-                            options={crops.map((c) => ({
-                                value: c.id,
-                                label: c.name?.en ?? c.id.slice(0, 8),
-                            }))}
-                            value={selectedCropId}
-                            onChange={setSelectedCropId}
-                            placeholder={t('admin.selectCrops')}
-                            ariaLabel={t('admin.majorCrop')}
-                            variant="form"
-                        />
-                        <button
-                            onClick={handleAddVariety}
-                            disabled={!selectedCropId}
-                            className="btn-primary inline-flex items-center gap-2 whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            <Plus className="h-4 w-4" />
-                            {t('admin.addVariety')}
-                        </button>
-                    </div>
-                )}
-            </div>
+                                <Plus data-icon="inline-start" />
+                                {t('admin.addVariety')}
+                            </Button>
+                        </>
+                    )
+                }
+            />
 
-            <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
-                <table className="w-full text-sm">
-                    <thead className="bg-neutral-50 border-b border-neutral-200">
-                        <tr>
-                            <th className="text-left px-4 py-3 font-semibold">
-                                ID
-                            </th>
-                            <th className="text-left px-4 py-3 font-semibold">
-                                {t('admin.name')}
-                            </th>
-                            <th className="text-left px-4 py-3 font-semibold">
-                                {t('admin.majorCrop')}
-                            </th>
-                            <th className="px-4 py-3" />
-                        </tr>
-                    </thead>
-                    <tbody>
+            <Card className="p-0 overflow-hidden">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>ID</TableHead>
+                            <TableHead>{t('admin.name')}</TableHead>
+                            <TableHead>{t('admin.majorCrop')}</TableHead>
+                            <TableHead />
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
                         {varieties.map((v) => {
                             const en = v.name?.en
                             const te = v.name?.te
                             const cropName = cropMap.get(v.major_crop)
 
                             return (
-                                <tr
-                                    key={v.id}
-                                    className="border-b border-neutral-200 last:border-0 hover:bg-neutral-50"
-                                >
-                                    <td className="px-4 py-3 text-xs text-neutral-400 font-mono">
+                                <TableRow key={v.id}>
+                                    <TableCell className="text-xs text-muted-foreground font-mono">
                                         {v.id.slice(0, 8)}
-                                    </td>
-                                    <td className="px-4 py-3">
+                                    </TableCell>
+                                    <TableCell>
                                         <div className="font-medium">
                                             {en ?? '—'}
                                         </div>
                                         {te && (
-                                            <div className="text-xs text-neutral-400">
+                                            <div className="text-xs text-muted-foreground">
                                                 {te}
                                             </div>
                                         )}
-                                    </td>
-                                    <td className="px-4 py-3 text-neutral-400">
+                                    </TableCell>
+                                    <TableCell className="text-muted-foreground">
                                         {cropName?.en ??
                                             v.major_crop.slice(0, 8)}
-                                    </td>
-                                    <td className="px-4 py-3 text-right">
-                                        <Link
-                                            to={`/admin/crops/${v.major_crop}/varieties/${v.id}`}
-                                            className="text-primary-600 hover:underline inline-flex items-center gap-1"
+                                    </TableCell>
+                                    <TableCell className="text-right">
+                                        <Button
+                                            asChild
+                                            variant="outline"
+                                            size="sm"
                                         >
-                                            <Edit className="h-3.5 w-3.5" />
-                                            {t('common.edit')}
-                                        </Link>
-                                    </td>
-                                </tr>
+                                            <Link
+                                                to={`/admin/crops/${v.major_crop}/varieties/${v.id}`}
+                                            >
+                                                <Edit data-icon="inline-start" />
+                                                {t('common.edit')}
+                                            </Link>
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
                             )
                         })}
                         {varieties.length === 0 && (
-                            <tr>
-                                <td
+                            <TableRow>
+                                <TableCell
                                     colSpan={4}
-                                    className="px-4 py-12 text-center text-neutral-400"
+                                    className="py-12 text-center text-muted-foreground"
                                 >
                                     {t('admin.noVarieties')}
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         )}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                    </TableBody>
+                </Table>
+            </Card>
+        </PageContainer>
     )
 }

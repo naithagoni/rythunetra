@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useCrop, useCropVarieties } from '@/hooks/useCrops'
 import { useLanguage } from '@/hooks/useLanguage'
@@ -9,21 +9,17 @@ import { getCropImage } from '@/utils/cropImages'
 import { localize, localizeArray } from '@/types/i18n'
 import type { LanguageCode } from '@/types/i18n'
 import type { CropVariety } from '@/types/crop'
-import {
-    AlertTriangle,
-    ArrowLeft,
-    Calendar,
-    MapPin,
-    Sprout,
-    Tag,
-    Bug,
-} from 'lucide-react'
+import { AlertTriangle, Calendar, MapPin } from 'lucide-react'
+import { Card } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { PageContainer } from '@/components/common/PageContainer'
+import { PageHeader } from '@/components/common/PageHeader'
+import { Section } from '@/components/common/Section'
 
 export function CropDetailPage() {
     const { id } = useParams<{ id: string }>()
     const { t } = useTranslation()
     const { currentLanguage } = useLanguage()
-    const navigate = useNavigate()
     const lang = currentLanguage as LanguageCode
 
     const { data: crop, isLoading, error } = useCrop(id || '')
@@ -42,7 +38,7 @@ export function CropDetailPage() {
         return (
             <div className="max-w-4xl mx-auto px-4 py-16">
                 <EmptyState
-                    icon={<AlertTriangle className="h-12 w-12" />}
+                    icon={<AlertTriangle className="size-12" />}
                     title={t('errors.notFound')}
                 />
             </div>
@@ -61,90 +57,60 @@ export function CropDetailPage() {
     }))
 
     return (
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            {/* Back nav banner */}
-            <div className="page-header-banner rounded-2xl mb-6">
-                <div className="relative">
-                    <button
-                        onClick={() => navigate(-1)}
-                        className="inline-flex items-center gap-1.5 text-sm text-primary-600 hover:text-primary-700 font-medium transition-colors"
-                    >
-                        <ArrowLeft className="h-4 w-4" />
-                        {t('common.back')}
-                    </button>
+        <PageContainer size="md">
+            <PageHeader
+                backTo="/crops"
+                backLabel={t('nav.crops')}
+                title={cropName}
+                description={cropType || undefined}
+            />
+
+            <div className="flex flex-col gap-6">
+                {/* Media */}
+                <div className="aspect-16/9 overflow-hidden rounded-xl border border-border bg-muted">
+                    <img
+                        src={imgSrc}
+                        alt={cropName}
+                        className="size-full object-cover"
+                    />
                 </div>
-            </div>
 
-            {/* Hero */}
-            <div className="relative rounded-2xl overflow-hidden mb-8 border border-neutral-200 shadow-card">
-                <img
-                    src={imgSrc}
-                    alt={cropName}
-                    className="w-full h-52 sm:h-72 object-cover"
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-black/70 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 px-6 pb-6">
-                    {cropType && (
-                        <span className="badge-info text-[11px] mb-1.5 inline-block">
-                            {cropType}
-                        </span>
-                    )}
-                    <h1 className="text-2xl sm:text-3xl font-bold text-white">
-                        {cropName}
-                    </h1>
-                </div>
-            </div>
-
-            <div className="space-y-6">
-                {/* Aliases */}
-                {aliases.length > 0 && (
-                    <div>
-                        <h3 className="text-lg font-semibold mb-2 text-neutral-900">
-                            <Tag className="h-4 w-4 inline mr-1.5" />
-                            {t('cropDetail.aliases')}
-                        </h3>
-                        <div className="flex flex-wrap gap-2">
-                            {aliases.map((alias) => (
-                                <span
-                                    key={alias}
-                                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-neutral-100 text-neutral-700"
-                                >
-                                    {alias}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {/* Suitable Soil Types */}
-                {soilTypeLabels.length > 0 && (
-                    <div>
-                        <h3 className="text-lg font-semibold mb-2 text-neutral-900">
-                            <MapPin className="h-4 w-4 inline mr-1.5" />
-                            {t('cropDetail.suitableSoilTypes')}
-                        </h3>
-                        <div className="flex flex-wrap gap-2">
-                            {soilTypeLabels.map(({ key, label }) => (
-                                <span
-                                    key={key}
-                                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700"
-                                >
-                                    <MapPin className="h-3 w-3 mr-1" />
-                                    {label}
-                                </span>
-                            ))}
-                        </div>
+                {/* Aliases + Soil — a two-up meta row of Sections */}
+                {(aliases.length > 0 || soilTypeLabels.length > 0) && (
+                    <div className="grid gap-6 sm:grid-cols-2">
+                        {aliases.length > 0 && (
+                            <Section title={t('cropDetail.aliases')}>
+                                <div className="flex flex-wrap gap-2">
+                                    {aliases.map((alias) => (
+                                        <Badge key={alias} variant="secondary">
+                                            {alias}
+                                        </Badge>
+                                    ))}
+                                </div>
+                            </Section>
+                        )}
+                        {soilTypeLabels.length > 0 && (
+                            <Section title={t('cropDetail.suitableSoilTypes')}>
+                                <div className="flex flex-wrap gap-2">
+                                    {soilTypeLabels.map(({ key, label }) => (
+                                        <Badge key={key} variant="secondary">
+                                            <MapPin className="size-3" />
+                                            {label}
+                                        </Badge>
+                                    ))}
+                                </div>
+                            </Section>
+                        )}
                     </div>
                 )}
 
                 {/* Crop Varieties */}
                 {varieties.length > 0 && (
-                    <div>
-                        <h3 className="text-lg font-semibold mb-3 text-neutral-900">
-                            <Sprout className="h-4 w-4 inline mr-1.5" />
-                            {t('cropDetail.varieties')}
-                        </h3>
-                        <div className="space-y-4">
+                    <Section
+                        title={t('cropDetail.varieties')}
+                        description={`${varieties.length}`}
+                    >
+                        <div className="flex flex-col gap-4">
                             {varieties.map((v) => (
                                 <VarietyCard
                                     key={v.id}
@@ -153,23 +119,10 @@ export function CropDetailPage() {
                                 />
                             ))}
                         </div>
-                    </div>
+                    </Section>
                 )}
-
-                {/* View Diseases CTA */}
-                <button
-                    onClick={() =>
-                        navigate(
-                            `/diseases?crop=${localize(crop.name, 'en' as LanguageCode)}`,
-                        )
-                    }
-                    className="w-full btn-primary py-3.5 rounded-xl text-base inline-flex items-center justify-center gap-2"
-                >
-                    <Bug className="h-5 w-5" />
-                    {t('cropDetail.viewDiseases')}
-                </button>
             </div>
-        </div>
+        </PageContainer>
     )
 }
 
@@ -192,16 +145,16 @@ function VarietyCard({
     )
 
     return (
-        <div className="bg-white rounded-xl border border-neutral-200 p-4 space-y-3">
+        <Card className="flex flex-col p-4 gap-3">
             <div className="flex items-center gap-3">
                 {variety.imageUrl && (
                     <img
                         src={variety.imageUrl}
                         alt={varietyName}
-                        className="h-12 w-12 rounded-lg object-cover"
+                        className="size-12 rounded-lg object-cover"
                     />
                 )}
-                <h4 className="font-semibold text-base text-neutral-900">
+                <h4 className="font-semibold text-base text-foreground">
                     {varietyName}
                 </h4>
             </div>
@@ -209,15 +162,15 @@ function VarietyCard({
             {/* Seasons */}
             {variety.recommendedSeasons.length > 0 && (
                 <div>
-                    <p className="text-xs font-semibold text-neutral-500 mb-1">
-                        <Calendar className="h-3 w-3 inline mr-1" />
+                    <p className="text-xs font-semibold text-muted-foreground mb-1">
+                        <Calendar className="size-3 inline mr-1" />
                         {t('cropDetail.seasons')}
                     </p>
                     <div className="flex flex-wrap gap-2">
                         {variety.recommendedSeasons.map((s, i) => (
                             <span
                                 key={i}
-                                className="text-xs px-2 py-0.5 rounded-full bg-primary-50 text-primary-700"
+                                className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground"
                             >
                                 {localize(s.name, lang)} (
                                 {s.durationInDays.join('–')}{' '}
@@ -231,15 +184,15 @@ function VarietyCard({
             {/* Districts */}
             {variety.districts.length > 0 && (
                 <div>
-                    <p className="text-xs font-semibold text-neutral-500 mb-1">
-                        <MapPin className="h-3 w-3 inline mr-1" />
+                    <p className="text-xs font-semibold text-muted-foreground mb-1">
+                        <MapPin className="size-3 inline mr-1" />
                         {t('cropDetail.districts')}
                     </p>
                     <div className="flex flex-wrap gap-1.5">
                         {variety.districts.map((d) => (
                             <span
                                 key={d}
-                                className="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-700"
+                                className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground"
                             >
                                 {t(`districts.${d}`, d)}
                             </span>
@@ -251,14 +204,14 @@ function VarietyCard({
             {/* Grain Character */}
             {grainChars.length > 0 && (
                 <div>
-                    <p className="text-xs font-semibold text-neutral-500 mb-1">
+                    <p className="text-xs font-semibold text-muted-foreground mb-1">
                         {t('cropDetail.grainCharacter', 'Grain Character')}
                     </p>
                     <div className="flex flex-wrap gap-1.5">
                         {grainChars.map((g, i) => (
                             <span
                                 key={i}
-                                className="text-xs px-2 py-0.5 rounded-full bg-amber-50 text-amber-700"
+                                className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground"
                             >
                                 {g}
                             </span>
@@ -270,19 +223,19 @@ function VarietyCard({
             {/* Special Characteristics */}
             {specialChars.length > 0 && (
                 <div>
-                    <p className="text-xs font-semibold text-neutral-500 mb-1">
+                    <p className="text-xs font-semibold text-muted-foreground mb-1">
                         {t(
                             'cropDetail.specialCharacteristics',
                             'Special Characteristics',
                         )}
                     </p>
-                    <ul className="list-disc list-inside text-sm text-neutral-600 space-y-0.5">
+                    <ul className="list-disc list-inside text-sm text-muted-foreground space-y-0.5">
                         {specialChars.map((sc, i) => (
                             <li key={i}>{sc}</li>
                         ))}
                     </ul>
                 </div>
             )}
-        </div>
+        </Card>
     )
 }

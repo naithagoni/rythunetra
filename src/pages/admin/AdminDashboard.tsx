@@ -7,7 +7,9 @@ import {
     adminGetCrops,
     adminGetCropVarietyCount,
 } from '@/services/adminService'
-import { Bug, FlaskConical, Sprout, Wheat, ArrowUpRight } from 'lucide-react'
+import { Bug, FlaskConical, Sprout, Wheat } from 'lucide-react'
+import { PageHeader } from '@/components/common/PageHeader'
+import { PageContainer } from '@/components/common/PageContainer'
 
 interface DashboardCounts {
     diseases: number
@@ -41,73 +43,56 @@ export function AdminDashboardPage() {
     const cards = [
         {
             to: '/admin/diseases',
-            icon: <Bug className="h-5 w-5" />,
+            icon: <Bug className="size-5" />,
             label: t('admin.diseases'),
             count: counts?.diseases ?? 0,
-            gradient: 'from-red-500 to-rose-600',
-            glow: 'shadow-red-500/20',
         },
         {
             to: '/admin/remedies',
-            icon: <FlaskConical className="h-5 w-5" />,
+            icon: <FlaskConical className="size-5" />,
             label: t('admin.remedies'),
             count: counts?.remedies ?? 0,
-            gradient: 'from-emerald-500 to-green-600',
-            glow: 'shadow-emerald-500/20',
         },
         {
             to: '/admin/crops',
-            icon: <Sprout className="h-5 w-5" />,
+            icon: <Sprout className="size-5" />,
             label: t('admin.crops'),
             count: counts?.crops ?? 0,
-            gradient: 'from-amber-500 to-orange-600',
-            glow: 'shadow-amber-500/20',
         },
         {
             to: '/admin/varieties',
-            icon: <Wheat className="h-5 w-5" />,
+            icon: <Wheat className="size-5" />,
             label: t('admin.varieties'),
             count: counts?.varieties ?? 0,
-            gradient: 'from-violet-500 to-purple-600',
-            glow: 'shadow-violet-500/20',
         },
     ]
 
     return (
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <h1 className="text-2xl font-bold mb-6 text-neutral-900">
-                {t('admin.dashboard')}
-            </h1>
+        <PageContainer size="md">
+            <PageHeader title={t('admin.dashboard')} />
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 gap-5 sm:grid-cols-4">
                 {cards.map((card) => (
                     <Link
                         key={card.to}
                         to={card.to}
-                        className="group relative bg-white rounded-2xl border border-neutral-200 p-5 shadow-card hover:shadow-card-hover hover:-translate-y-1.5 transition-all duration-200 overflow-hidden"
+                        className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-[0_4px_16px_-4px_rgba(16,24,40,0.10)] ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_32px_-8px_rgba(16,24,40,0.18)]"
                     >
-                        {/* Gradient accent bar */}
-                        <div
-                            className={`absolute top-0 left-0 right-0 h-1 bg-linear-to-r ${card.gradient}`}
-                        />
-
-                        <div className="flex items-center justify-between mb-4">
-                            <div
-                                className={`w-10 h-10 rounded-xl bg-linear-to-br ${card.gradient} flex items-center justify-center text-white shadow-lg ${card.glow} group-hover:scale-110 transition-transform duration-200`}
-                            >
+                        <div className="relative flex items-center justify-between">
+                            <span className="flex size-11 items-center justify-center rounded-xl bg-primary/15 transition-colors duration-300 [&_svg]:size-5 [&_svg]:text-foreground group-hover:bg-primary group-hover:[&_svg]:text-primary-foreground">
                                 {card.icon}
-                            </div>
-                            <ArrowUpRight className="h-4 w-4 text-neutral-300 group-hover:text-neutral-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-200" />
+                            </span>
                         </div>
-                        <p className="text-3xl font-extrabold text-neutral-900 tracking-tight leading-none">
+
+                        <p className="relative mt-6 text-display-lg leading-none tracking-tight text-foreground tabular-nums">
                             {card.count}
                         </p>
-                        <p className="text-xs font-semibold text-neutral-400 mt-1.5 uppercase tracking-wider">
+                        <p className="relative mt-2 font-mono text-xs font-medium uppercase tracking-wider text-muted-foreground">
                             {card.label}
                         </p>
                     </Link>
                 ))}
             </div>
-        </div>
+        </PageContainer>
     )
 }

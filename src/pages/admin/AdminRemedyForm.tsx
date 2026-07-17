@@ -11,7 +11,19 @@ import {
 } from '@/services/adminService'
 import { CustomDropdown } from '@/components/common/CustomDropdown'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
+import { PageHeader } from '@/components/common/PageHeader'
+import { PageContainer } from '@/components/common/PageContainer'
 import { Save, Plus, X, Languages, Trash2 } from 'lucide-react'
+import { toast } from 'sonner'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+    Field,
+    FieldGroup,
+    FieldLabel,
+} from '@/components/ui/field'
 import { translateText, translateBatch } from '@/services/translateService'
 import { REMEDY_TYPE_KEYS } from '@/config/remedyTypes'
 import type { LocalizedText, LocalizedTextArray } from '@/types/i18n'
@@ -59,7 +71,6 @@ export function AdminRemedyFormPage() {
 
     const [saving, setSaving] = useState(false)
     const [translating, setTranslating] = useState(false)
-    const [message, setMessage] = useState('')
 
     // Validation
     const enNameMissing = !enName.trim()
@@ -149,7 +160,7 @@ export function AdminRemedyFormPage() {
             setTeIngredients(ings.filter(Boolean))
             setTeAliases(aliases.filter(Boolean))
         } catch {
-            setMessage(t('admin.translateFailed'))
+            toast.error(t('admin.translateFailed'))
         } finally {
             setTranslating(false)
         }
@@ -158,12 +169,11 @@ export function AdminRemedyFormPage() {
     const handleSave = async (e: React.SyntheticEvent) => {
         e.preventDefault()
         setSaving(true)
-        setMessage('')
 
         try {
             const isDuplicate = await checkDuplicateRemedy(enName, id)
             if (isDuplicate) {
-                setMessage(t('errors.duplicateRemedy'))
+                toast.error(t('errors.duplicateRemedy'))
                 setSaving(false)
                 return
             }
@@ -211,13 +221,13 @@ export function AdminRemedyFormPage() {
             queryClient.invalidateQueries({ queryKey: ['admin-remedy'] })
             queryClient.invalidateQueries({ queryKey: ['admin-remedies'] })
             queryClient.invalidateQueries({ queryKey: ['diseases'] })
-            setMessage(t('admin.saved'))
+            toast.success(t('admin.saved'))
 
             if (isNew) {
                 navigate('/admin/remedies', { replace: true })
             }
         } catch {
-            setMessage(t('errors.generic'))
+            toast.error(t('errors.generic'))
         } finally {
             setSaving(false)
         }
@@ -233,7 +243,7 @@ export function AdminRemedyFormPage() {
             queryClient.invalidateQueries({ queryKey: ['admin-remedies'] })
             navigate('/admin/remedies', { replace: true })
         } catch {
-            setMessage(t('errors.generic'))
+            toast.error(t('errors.generic'))
         } finally {
             setSaving(false)
         }
@@ -261,43 +271,45 @@ export function AdminRemedyFormPage() {
         setter: React.Dispatch<React.SetStateAction<string[]>>,
         placeholder: string,
     ) => (
-        <div>
-            <label className="block text-sm font-medium mb-1">{label}</label>
-            <div className="space-y-2">
-                {items.map((item, i) => (
-                    <div key={i} className="flex gap-2">
-                        <span className="text-sm text-neutral-400 pt-2 w-6 text-right shrink-0">
-                            {i + 1}.
-                        </span>
-                        <input
-                            type="text"
-                            value={item}
-                            onChange={(e) =>
-                                updateListItem(setter, i, e.target.value)
-                            }
-                            className="input flex-1"
-                            placeholder={placeholder}
-                        />
-                        {items.length > 1 && (
-                            <button
-                                type="button"
-                                onClick={() => removeListItem(setter, i)}
-                                className="text-red-400 hover:text-red-600 pt-2"
-                            >
-                                <X className="h-4 w-4" />
-                            </button>
-                        )}
-                    </div>
-                ))}
-            </div>
-            <button
+        <Field>
+            <FieldLabel>{label}</FieldLabel>
+            {items.map((item, i) => (
+                <div key={i} className="flex gap-2">
+                    <span className="text-sm text-muted-foreground pt-2 w-6 text-right shrink-0">
+                        {i + 1}.
+                    </span>
+                    <Input
+                        type="text"
+                        value={item}
+                        onChange={(e) =>
+                            updateListItem(setter, i, e.target.value)
+                        }
+                        className="flex-1"
+                        placeholder={placeholder}
+                    />
+                    {items.length > 1 && (
+                        <Button
+                            type="button"
+                            variant="destructive"
+                            size="icon"
+                            onClick={() => removeListItem(setter, i)}
+                            aria-label={t('common.delete')}
+                        >
+                            <X />
+                        </Button>
+                    )}
+                </div>
+            ))}
+            <Button
                 type="button"
+                variant="link"
+                size="sm"
                 onClick={() => addListItem(setter)}
-                className="text-sm text-primary-600 hover:underline mt-1 inline-flex items-center gap-1"
+                className="w-fit px-0"
             >
-                <Plus className="h-3 w-3" /> Add step
-            </button>
-        </div>
+                <Plus data-icon="inline-start" /> Add step
+            </Button>
+        </Field>
     )
 
     /** Reusable chip-list editor */
@@ -308,29 +320,34 @@ export function AdminRemedyFormPage() {
         inputVal: string,
         inputSetter: React.Dispatch<React.SetStateAction<string>>,
         placeholder: string,
+        inputId: string,
     ) => (
-        <div>
-            <label className="block text-sm font-medium mb-1">{label}</label>
-            <div className="flex flex-wrap gap-2 mb-2">
+        <Field>
+            <FieldLabel htmlFor={inputId}>{label}</FieldLabel>
+            <div className="flex flex-wrap gap-2">
                 {items.map((s, i) => (
                     <span
                         key={i}
-                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-neutral-100 text-sm"
+                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-muted text-sm"
                     >
                         {s}
-                        <button
+                        <Button
                             type="button"
+                            variant="ghost"
+                            size="icon-xs"
                             onClick={() =>
                                 setter((prev) => prev.filter((_, j) => j !== i))
                             }
+                            aria-label={t('common.delete')}
                         >
-                            <X className="h-3 w-3" />
-                        </button>
+                            <X />
+                        </Button>
                     </span>
                 ))}
             </div>
             <div className="flex gap-2">
-                <input
+                <Input
+                    id={inputId}
                     type="text"
                     value={inputVal}
                     onChange={(e) => inputSetter(e.target.value)}
@@ -343,247 +360,270 @@ export function AdminRemedyFormPage() {
                             }
                         }
                     }}
-                    className="input flex-1"
+                    className="flex-1"
                     placeholder={placeholder}
                 />
-                <button
+                <Button
                     type="button"
+                    size="icon"
                     onClick={() => {
                         if (inputVal.trim()) {
                             setter((prev) => [...prev, inputVal.trim()])
                             inputSetter('')
                         }
                     }}
-                    className="btn-primary px-3"
+                    aria-label={placeholder}
                 >
-                    <Plus className="h-4 w-4" />
-                </button>
+                    <Plus />
+                </Button>
             </div>
-        </div>
+        </Field>
     )
 
     if (!isNew && isLoading) return <LoadingSpinner />
 
     return (
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <Link
-                to="/admin/remedies"
-                className="text-sm text-primary-600 hover:underline mb-2 inline-block"
-            >
-                ← {t('admin.remedies')}
-            </Link>
-            <div className="flex items-center justify-between mb-6">
-                <h1 className="text-2xl font-bold text-neutral-900">
-                    {isNew ? t('admin.addRemedy') : t('admin.editRemedy')}
-                </h1>
-                {!isNew && (
-                    <button
-                        onClick={handleDelete}
-                        disabled={saving}
-                        className="btn-danger inline-flex items-center gap-1.5 text-sm"
-                    >
-                        <Trash2 className="h-4 w-4" /> {t('common.delete')}
-                    </button>
-                )}
-            </div>
+        <PageContainer size="md">
+            <PageHeader
+                backTo="/admin/remedies"
+                backLabel={t('admin.remedies')}
+                title={isNew ? t('admin.addRemedy') : t('admin.editRemedy')}
+                action={
+                    !isNew && (
+                        <Button
+                            type="button"
+                            variant="destructive"
+                            size="icon"
+                            onClick={handleDelete}
+                            disabled={saving}
+                            aria-label={t('common.delete')}
+                        >
+                            <Trash2 />
+                        </Button>
+                    )
+                }
+            />
 
-            <form onSubmit={handleSave} className="space-y-8">
+            <form onSubmit={handleSave} className="flex flex-col gap-6">
                 {/* Core Fields */}
-                <section className="bg-white rounded-xl border border-neutral-200 p-6 space-y-4">
-                    <h2 className="text-lg font-bold">
-                        {t('admin.coreFields')}
-                    </h2>
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-lg">
+                            {t('admin.coreFields')}
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <FieldGroup>
+                            <Field>
+                                <FieldLabel>
+                                    {t('diseases.effectiveness')}
+                                </FieldLabel>
+                                <CustomDropdown
+                                    options={[
+                                        { value: 'High', label: 'High' },
+                                        {
+                                            value: 'Moderate',
+                                            label: 'Moderate',
+                                        },
+                                        { value: 'Low', label: 'Low' },
+                                    ]}
+                                    value={effectiveness}
+                                    onChange={setEffectiveness}
+                                    placeholder={t('diseases.effectiveness')}
+                                    ariaLabel={t('diseases.effectiveness')}
+                                    variant="form"
+                                />
+                            </Field>
 
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('diseases.effectiveness')}
-                        </label>
-                        <CustomDropdown
-                            options={[
-                                { value: 'High', label: 'High' },
-                                { value: 'Moderate', label: 'Moderate' },
-                                { value: 'Low', label: 'Low' },
-                            ]}
-                            value={effectiveness}
-                            onChange={setEffectiveness}
-                            placeholder={t('diseases.effectiveness')}
-                            ariaLabel={t('diseases.effectiveness')}
-                            variant="form"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('admin.remedyType')}
-                        </label>
-                        <CustomDropdown
-                            options={REMEDY_TYPE_KEYS.map((k) => ({
-                                value: k,
-                                label: t(`remedyTypes.${k}`),
-                            }))}
-                            value={remedyTypeKey}
-                            onChange={setRemedyTypeKey}
-                            placeholder={t('admin.remedyTypePlaceholder')}
-                            ariaLabel={t('admin.remedyType')}
-                            variant="form"
-                        />
-                    </div>
-                </section>
+                            <Field>
+                                <FieldLabel>
+                                    {t('admin.remedyType')}
+                                </FieldLabel>
+                                <CustomDropdown
+                                    options={REMEDY_TYPE_KEYS.map((k) => ({
+                                        value: k,
+                                        label: t(`remedyTypes.${k}`),
+                                    }))}
+                                    value={remedyTypeKey}
+                                    onChange={setRemedyTypeKey}
+                                    placeholder={t(
+                                        'admin.remedyTypePlaceholder',
+                                    )}
+                                    ariaLabel={t('admin.remedyType')}
+                                    variant="form"
+                                />
+                            </Field>
+                        </FieldGroup>
+                    </CardContent>
+                </Card>
 
                 {/* English */}
-                <section className="bg-white rounded-xl border border-neutral-200 p-6 space-y-4">
-                    <h2 className="text-lg font-bold">English</h2>
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-lg">English</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <FieldGroup>
+                            <Field>
+                                <FieldLabel htmlFor="remedy-en-name">
+                                    {t('admin.name')}{' '}
+                                    <span className="text-destructive">*</span>
+                                </FieldLabel>
+                                <Input
+                                    id="remedy-en-name"
+                                    type="text"
+                                    value={enName}
+                                    onChange={(e) => setEnName(e.target.value)}
+                                    required
+                                />
+                            </Field>
 
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('admin.name')}{' '}
-                            <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                            type="text"
-                            value={enName}
-                            onChange={(e) => setEnName(e.target.value)}
-                            className="input"
-                            required
-                        />
-                    </div>
+                            <Field>
+                                <FieldLabel htmlFor="remedy-en-howitworks">
+                                    {t('remedies.howItWorks')}
+                                </FieldLabel>
+                                <Textarea
+                                    id="remedy-en-howitworks"
+                                    value={enHowItWorks}
+                                    onChange={(e) =>
+                                        setEnHowItWorks(e.target.value)
+                                    }
+                                    className="min-h-20"
+                                />
+                            </Field>
 
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('remedies.howItWorks')}
-                        </label>
-                        <textarea
-                            value={enHowItWorks}
-                            onChange={(e) => setEnHowItWorks(e.target.value)}
-                            className="input min-h-20"
-                        />
-                    </div>
-
-                    {renderListEditor(
-                        t('remedies.preparationInstructions'),
-                        enPrepSteps,
-                        setEnPrepSteps,
-                        'Step description',
-                    )}
-                    {renderListEditor(
-                        t('remedies.usage'),
-                        enUsageSteps,
-                        setEnUsageSteps,
-                        'Usage step',
-                    )}
-                    {renderChipEditor(
-                        t('remedies.ingredients'),
-                        enIngredients,
-                        setEnIngredients,
-                        newEnIngredient,
-                        setNewEnIngredient,
-                        'Add ingredient',
-                    )}
-                    {renderChipEditor(
-                        t('diseases.aliases'),
-                        enAliases,
-                        setEnAliases,
-                        newEnAlias,
-                        setNewEnAlias,
-                        'Add alias',
-                    )}
-                </section>
+                            {renderListEditor(
+                                t('remedies.preparationInstructions'),
+                                enPrepSteps,
+                                setEnPrepSteps,
+                                'Step description',
+                            )}
+                            {renderListEditor(
+                                t('remedies.usage'),
+                                enUsageSteps,
+                                setEnUsageSteps,
+                                'Usage step',
+                            )}
+                            {renderChipEditor(
+                                t('remedies.ingredients'),
+                                enIngredients,
+                                setEnIngredients,
+                                newEnIngredient,
+                                setNewEnIngredient,
+                                'Add ingredient',
+                                'remedy-en-ingredient',
+                            )}
+                            {renderChipEditor(
+                                t('diseases.aliases'),
+                                enAliases,
+                                setEnAliases,
+                                newEnAlias,
+                                setNewEnAlias,
+                                'Add alias',
+                                'remedy-en-alias',
+                            )}
+                        </FieldGroup>
+                    </CardContent>
+                </Card>
 
                 {/* Telugu */}
-                <section className="bg-white rounded-xl border border-neutral-200 p-6 space-y-4">
-                    <div className="flex items-center justify-between">
-                        <h2 className="text-lg font-bold">తెలుగు (Telugu)</h2>
-                        <button
+                <Card>
+                    <CardHeader className="flex-row items-center justify-between">
+                        <CardTitle className="text-lg">
+                            తెలుగు (Telugu)
+                        </CardTitle>
+                        <Button
                             type="button"
+                            variant="secondary"
+                            size="sm"
                             onClick={handleTranslateToTelugu}
                             disabled={translating || !enName}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
-                            <Languages className="h-4 w-4" />
+                            <Languages data-icon="inline-start" />
                             {translating
                                 ? t('admin.translating')
                                 : t('admin.translateFromEnglish')}
-                        </button>
-                    </div>
+                        </Button>
+                    </CardHeader>
+                    <CardContent>
+                        <FieldGroup>
+                            <Field>
+                                <FieldLabel htmlFor="remedy-te-name">
+                                    {t('admin.name')}{' '}
+                                    <span className="text-destructive">*</span>
+                                </FieldLabel>
+                                <Input
+                                    id="remedy-te-name"
+                                    type="text"
+                                    value={teName}
+                                    onChange={(e) => setTeName(e.target.value)}
+                                    required
+                                />
+                            </Field>
 
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('admin.name')}{' '}
-                            <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                            type="text"
-                            value={teName}
-                            onChange={(e) => setTeName(e.target.value)}
-                            className="input"
-                            required
-                        />
-                    </div>
+                            <Field>
+                                <FieldLabel htmlFor="remedy-te-howitworks">
+                                    {t('remedies.howItWorks')}
+                                </FieldLabel>
+                                <Textarea
+                                    id="remedy-te-howitworks"
+                                    value={teHowItWorks}
+                                    onChange={(e) =>
+                                        setTeHowItWorks(e.target.value)
+                                    }
+                                    className="min-h-20"
+                                />
+                            </Field>
 
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('remedies.howItWorks')}
-                        </label>
-                        <textarea
-                            value={teHowItWorks}
-                            onChange={(e) => setTeHowItWorks(e.target.value)}
-                            className="input min-h-20"
-                        />
-                    </div>
+                            {renderListEditor(
+                                t('remedies.preparationInstructions'),
+                                tePrepSteps,
+                                setTePrepSteps,
+                                'దశ వివరణ',
+                            )}
+                            {renderListEditor(
+                                t('remedies.usage'),
+                                teUsageSteps,
+                                setTeUsageSteps,
+                                'వాడకం దశ',
+                            )}
+                            {renderChipEditor(
+                                t('remedies.ingredients'),
+                                teIngredients,
+                                setTeIngredients,
+                                newTeIngredient,
+                                setNewTeIngredient,
+                                'పదార్థం జోడించండి',
+                                'remedy-te-ingredient',
+                            )}
+                            {renderChipEditor(
+                                t('diseases.aliases'),
+                                teAliases,
+                                setTeAliases,
+                                newTeAlias,
+                                setNewTeAlias,
+                                'మారు పేరు',
+                                'remedy-te-alias',
+                            )}
+                        </FieldGroup>
+                    </CardContent>
+                </Card>
 
-                    {renderListEditor(
-                        t('remedies.preparationInstructions'),
-                        tePrepSteps,
-                        setTePrepSteps,
-                        'దశ వివరణ',
-                    )}
-                    {renderListEditor(
-                        t('remedies.usage'),
-                        teUsageSteps,
-                        setTeUsageSteps,
-                        'వాడకం దశ',
-                    )}
-                    {renderChipEditor(
-                        t('remedies.ingredients'),
-                        teIngredients,
-                        setTeIngredients,
-                        newTeIngredient,
-                        setNewTeIngredient,
-                        'పదార్థం జోడించండి',
-                    )}
-                    {renderChipEditor(
-                        t('diseases.aliases'),
-                        teAliases,
-                        setTeAliases,
-                        newTeAlias,
-                        setNewTeAlias,
-                        'మారు పేరు',
-                    )}
-                </section>
-
-                {/* Actions */}
-                {message && (
-                    <p
-                        className={`text-sm font-medium ${message === t('admin.saved') ? 'text-green-600' : 'text-red-600'}`}
-                    >
-                        {message}
-                    </p>
-                )}
-                <div className="flex items-center gap-3">
-                    <button
-                        type="submit"
-                        disabled={saveDisabled}
-                        className="btn-primary inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        <Save className="h-4 w-4" />
+                {/* Save-bar */}
+                <div className="sticky bottom-0 -mx-4 sm:-mx-6 lg:-mx-8 flex items-center justify-end gap-2 border-t border-border bg-background/80 backdrop-blur-md px-4 sm:px-6 lg:px-8 py-3">
+                    <Button asChild variant="secondary" type="button">
+                        <Link to="/admin/remedies">{t('common.cancel')}</Link>
+                    </Button>
+                    <Button type="submit" disabled={saveDisabled}>
+                        <Save data-icon="inline-start" />
                         {saving
                             ? t('common.loading')
                             : isNew
                               ? t('common.save')
                               : t('common.update')}
-                    </button>
+                    </Button>
                 </div>
             </form>
-        </div>
+        </PageContainer>
     )
 }

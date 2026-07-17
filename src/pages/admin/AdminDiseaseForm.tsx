@@ -18,6 +18,8 @@ import {
 import { CustomDropdown } from '@/components/common/CustomDropdown'
 import { MultiSelectDropdown } from '@/components/common/MultiSelectDropdown'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
+import { PageHeader } from '@/components/common/PageHeader'
+import { PageContainer } from '@/components/common/PageContainer'
 import {
     Save,
     Plus,
@@ -27,7 +29,24 @@ import {
     ImageIcon,
     AlertTriangle,
 } from 'lucide-react'
+import { toast } from 'sonner'
 import { translateText, translateBatch } from '@/services/translateService'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import { Button } from '@/components/ui/button'
+import { Spinner } from '@/components/ui/spinner'
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card'
+import {
+    Field,
+    FieldDescription,
+    FieldGroup,
+    FieldLabel,
+} from '@/components/ui/field'
 import { DISEASE_TYPE_KEYS } from '@/config/diseaseTypes'
 import type { LocalizedText, LocalizedTextArray } from '@/types/i18n'
 
@@ -95,7 +114,6 @@ export function AdminDiseaseFormPage() {
 
     const [saving, setSaving] = useState(false)
     const [translating, setTranslating] = useState(false)
-    const [message, setMessage] = useState('')
 
     // Validation
     const enNameMissing = !enName.trim()
@@ -255,7 +273,7 @@ export function AdminDiseaseFormPage() {
             setTeTreatments(treatments.filter(Boolean))
             setTeAliases(aliases.filter(Boolean))
         } catch {
-            setMessage(t('admin.translateFailed'))
+            toast.error(t('admin.translateFailed'))
         } finally {
             setTranslating(false)
         }
@@ -264,14 +282,13 @@ export function AdminDiseaseFormPage() {
     const handleSave = async (e: React.SyntheticEvent) => {
         e.preventDefault()
         setSaving(true)
-        setMessage('')
 
         try {
             let diseaseId = id
 
             const isDuplicate = await checkDuplicateDisease(enName, id)
             if (isDuplicate) {
-                setMessage(t('errors.duplicateDisease'))
+                toast.error(t('errors.duplicateDisease'))
                 setSaving(false)
                 return
             }
@@ -364,13 +381,13 @@ export function AdminDiseaseFormPage() {
                 setPendingPreviews([])
             }
 
-            setMessage(t('admin.saved'))
+            toast.success(t('admin.saved'))
 
             if (isNew) {
                 navigate('/admin/diseases', { replace: true })
             }
         } catch {
-            setMessage(t('errors.generic'))
+            toast.error(t('errors.generic'))
         } finally {
             setSaving(false)
         }
@@ -386,7 +403,7 @@ export function AdminDiseaseFormPage() {
             queryClient.invalidateQueries({ queryKey: ['admin-diseases'] })
             navigate('/admin/diseases', { replace: true })
         } catch {
-            setMessage(t('errors.generic'))
+            toast.error(t('errors.generic'))
         } finally {
             setSaving(false)
         }
@@ -396,6 +413,7 @@ export function AdminDiseaseFormPage() {
 
     /** Reusable chip-list editor */
     const renderChipEditor = (
+        id: string,
         label: string,
         items: string[],
         setter: React.Dispatch<React.SetStateAction<string[]>>,
@@ -403,26 +421,32 @@ export function AdminDiseaseFormPage() {
         inputSetter: React.Dispatch<React.SetStateAction<string>>,
         placeholder: string,
     ) => (
-        <div>
-            <label className="block text-sm font-medium mb-1">{label}</label>
-            <div className="flex flex-wrap gap-2 mb-2">
-                {items.map((s, i) => (
-                    <span
-                        key={i}
-                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-neutral-100 text-sm"
-                    >
-                        {s}
-                        <button
-                            type="button"
-                            onClick={() => removeArrayItem(setter, i)}
+        <Field>
+            <FieldLabel htmlFor={id}>{label}</FieldLabel>
+            {items.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                    {items.map((s, i) => (
+                        <span
+                            key={i}
+                            className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-muted text-sm"
                         >
-                            <X className="h-3 w-3" />
-                        </button>
-                    </span>
-                ))}
-            </div>
+                            {s}
+                            <Button
+                                type="button"
+                                variant="ghost"
+                                size="icon-xs"
+                                onClick={() => removeArrayItem(setter, i)}
+                                aria-label={t('common.delete')}
+                            >
+                                <X />
+                            </Button>
+                        </span>
+                    ))}
+                </div>
+            )}
             <div className="flex gap-2">
-                <input
+                <Input
+                    id={id}
                     type="text"
                     value={inputVal}
                     onChange={(e) => inputSetter(e.target.value)}
@@ -431,451 +455,496 @@ export function AdminDiseaseFormPage() {
                         (e.preventDefault(),
                         addArrayItem(setter, inputSetter, inputVal))
                     }
-                    className="input flex-1"
+                    className="flex-1"
                     placeholder={placeholder}
                 />
-                <button
+                <Button
                     type="button"
+                    size="icon"
                     onClick={() => addArrayItem(setter, inputSetter, inputVal)}
-                    className="btn-primary px-3"
+                    aria-label={placeholder}
                 >
-                    <Plus className="h-4 w-4" />
-                </button>
+                    <Plus />
+                </Button>
             </div>
-        </div>
+        </Field>
     )
 
     return (
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <Link
-                to="/admin/diseases"
-                className="text-sm text-primary-600 hover:underline mb-2 inline-block"
-            >
-                ← {t('admin.diseases')}
-            </Link>
-            <div className="flex items-center justify-between mb-6">
-                <h1 className="text-2xl font-bold text-neutral-900">
-                    {isNew ? t('admin.addDisease') : t('admin.editDisease')}
-                </h1>
-                {!isNew && (
-                    <button
-                        onClick={handleDelete}
-                        disabled={saving}
-                        className="btn-danger inline-flex items-center gap-1.5 text-sm"
-                    >
-                        <Trash2 className="h-4 w-4" /> {t('common.delete')}
-                    </button>
-                )}
-            </div>
-
-            <form onSubmit={handleSave} className="space-y-8">
-                {/* Core Fields */}
-                <section className="bg-white rounded-xl border border-neutral-200 p-5 space-y-4">
-                    <h2 className="font-semibold text-lg">
-                        {t('admin.coreFields')}
-                    </h2>
-
-                    {/* Severity */}
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('diseases.severity')}
-                        </label>
-                        <CustomDropdown
-                            options={(
-                                ['low', 'moderate', 'high', 'critical'] as const
-                            ).map((s) => ({
-                                value: s,
-                                label: t(`diseases.${s}`),
-                            }))}
-                            value={severity}
-                            onChange={setSeverity}
-                            placeholder={t('diseases.severity')}
-                            ariaLabel={t('diseases.severity')}
-                            variant="form"
-                        />
-                    </div>
-
-                    {/* Disease Type */}
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('diseases.diseaseType')}
-                        </label>
-                        <CustomDropdown
-                            options={DISEASE_TYPE_KEYS.map((key) => ({
-                                value: key,
-                                label: t(`diseaseTypes.${key}`),
-                            }))}
-                            value={diseaseTypeKey}
-                            onChange={setDiseaseTypeKey}
-                            placeholder={t('admin.diseaseTypePlaceholder')}
-                            ariaLabel={t('diseases.diseaseType')}
-                            variant="form"
-                        />
-                    </div>
-
-                    {/* Disease Images (multi-upload) */}
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('admin.diseaseImages')}
-                        </label>
-                        <p className="text-xs text-neutral-400 mb-2">
-                            {t('admin.diseaseImagesHint')}
-                        </p>
-
-                        <input
-                            ref={fileInputRef}
-                            type="file"
-                            accept="image/*"
-                            multiple
-                            className="hidden"
-                            onChange={(e) => {
-                                const files = Array.from(
-                                    e.target.files ?? [],
-                                ).filter((f) => f.type.startsWith('image/'))
-                                if (files.length) {
-                                    setPendingFiles((prev) => [
-                                        ...prev,
-                                        ...files,
-                                    ])
-                                    setPendingPreviews((prev) => [
-                                        ...prev,
-                                        ...files.map((f) =>
-                                            URL.createObjectURL(f),
-                                        ),
-                                    ])
-                                }
-                                if (fileInputRef.current)
-                                    fileInputRef.current.value = ''
-                            }}
-                        />
-
-                        {/* Existing uploaded images */}
-                        {imageUrls.length > 0 && (
-                            <div className="flex flex-wrap gap-3 mb-3">
-                                {imageUrls.map((url, i) => (
-                                    <div
-                                        key={`existing-${i}`}
-                                        className="relative"
-                                    >
-                                        <img
-                                            src={url}
-                                            alt={`Disease ${i + 1}`}
-                                            className="h-24 w-32 object-cover rounded-lg border"
-                                        />
-                                        <button
-                                            type="button"
-                                            onClick={() =>
-                                                setImageUrls((prev) =>
-                                                    prev.filter(
-                                                        (_, j) => j !== i,
-                                                    ),
-                                                )
-                                            }
-                                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 shadow"
-                                        >
-                                            <X className="h-3 w-3" />
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-
-                        {/* Pending (not yet uploaded) previews */}
-                        {pendingPreviews.length > 0 && (
-                            <div className="flex flex-wrap gap-3 mb-3">
-                                {pendingPreviews.map((url, i) => (
-                                    <div
-                                        key={`pending-${i}`}
-                                        className="relative"
-                                    >
-                                        <img
-                                            src={url}
-                                            alt={`New ${i + 1}`}
-                                            className="h-24 w-32 object-cover rounded-lg border border-amber-300"
-                                        />
-                                        <span className="absolute top-1 left-1 bg-amber-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-medium">
-                                            new
-                                        </span>
-                                        <button
-                                            type="button"
-                                            onClick={() => {
-                                                setPendingFiles((prev) =>
-                                                    prev.filter(
-                                                        (_, j) => j !== i,
-                                                    ),
-                                                )
-                                                setPendingPreviews((prev) =>
-                                                    prev.filter(
-                                                        (_, j) => j !== i,
-                                                    ),
-                                                )
-                                            }}
-                                            className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 shadow"
-                                        >
-                                            <X className="h-3 w-3" />
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-
-                        <button
+        <PageContainer size="md">
+            <PageHeader
+                backTo="/admin/diseases"
+                backLabel={t('admin.diseases')}
+                title={isNew ? t('admin.addDisease') : t('admin.editDisease')}
+                action={
+                    !isNew && (
+                        <Button
                             type="button"
-                            onClick={() => fileInputRef.current?.click()}
-                            disabled={uploadingImages}
-                            className="flex items-center gap-2 px-4 py-3 border-2 border-dashed border-neutral-200 rounded-lg text-sm text-neutral-400 hover:border-primary-400 hover:text-primary-600 transition-colors disabled:opacity-50"
+                            variant="destructive"
+                            onClick={handleDelete}
+                            disabled={saving}
                         >
-                            {uploadingImages ? (
-                                <>
-                                    <LoadingSpinner />
-                                    {t('admin.uploadingImage')}
-                                </>
-                            ) : (
-                                <>
-                                    <ImageIcon className="h-5 w-5" />
-                                    {t('admin.addImage')}
-                                </>
-                            )}
-                        </button>
-                    </div>
+                            <Trash2 data-icon="inline-start" />
+                            {t('common.delete')}
+                        </Button>
+                    )
+                }
+            />
 
-                    {/* Associated Crop Varieties */}
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('admin.linkedVarieties')}
-                        </label>
-                        {varietyOptions.length === 0 ? (
-                            <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm">
-                                <AlertTriangle className="h-4 w-4 shrink-0" />
-                                <span>
-                                    {t('admin.noVarietiesYet')}{' '}
-                                    <Link
-                                        to="/admin/varieties"
-                                        className="font-medium underline hover:text-amber-900"
-                                    >
-                                        {t('admin.addVariety')}
-                                    </Link>
-                                </span>
-                            </div>
-                        ) : (
-                            <MultiSelectDropdown
-                                options={varietyOptions}
-                                values={selectedVarietyIds}
-                                onChange={setSelectedVarietyIds}
-                                placeholder={t('admin.linkedVarieties')}
-                                ariaLabel={t('admin.linkedVarieties')}
-                            />
-                        )}
-                    </div>
+            <form onSubmit={handleSave} className="flex flex-col gap-6">
+                {/* Core Fields */}
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-lg">
+                            {t('admin.coreFields')}
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <FieldGroup>
+                            {/* Severity */}
+                            <Field>
+                                <FieldLabel>{t('diseases.severity')}</FieldLabel>
+                                <CustomDropdown
+                                    options={(
+                                        [
+                                            'low',
+                                            'moderate',
+                                            'high',
+                                            'critical',
+                                        ] as const
+                                    ).map((s) => ({
+                                        value: s,
+                                        label: t(`diseases.${s}`),
+                                    }))}
+                                    value={severity}
+                                    onChange={setSeverity}
+                                    placeholder={t('diseases.severity')}
+                                    ariaLabel={t('diseases.severity')}
+                                    variant="form"
+                                />
+                            </Field>
 
-                    {/* Associated Remedies */}
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('admin.linkedRemedies')}
-                        </label>
-                        {remedyOptions.length === 0 ? (
-                            <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-sm">
-                                <AlertTriangle className="h-4 w-4 shrink-0" />
-                                <span>
-                                    {t('admin.noRemediesYet')}{' '}
-                                    <Link
-                                        to="/admin/remedies/add"
-                                        className="font-medium underline hover:text-amber-900"
-                                    >
-                                        {t('admin.addRemedy')}
-                                    </Link>
-                                </span>
-                            </div>
-                        ) : (
-                            <MultiSelectDropdown
-                                options={remedyOptions}
-                                values={selectedRemedyIds}
-                                onChange={setSelectedRemedyIds}
-                                placeholder={t('admin.linkedRemedies')}
-                                ariaLabel={t('admin.linkedRemedies')}
-                            />
-                        )}
-                    </div>
-                </section>
+                            {/* Disease Type */}
+                            <Field>
+                                <FieldLabel>
+                                    {t('diseases.diseaseType')}
+                                </FieldLabel>
+                                <CustomDropdown
+                                    options={DISEASE_TYPE_KEYS.map((key) => ({
+                                        value: key,
+                                        label: t(`diseaseTypes.${key}`),
+                                    }))}
+                                    value={diseaseTypeKey}
+                                    onChange={setDiseaseTypeKey}
+                                    placeholder={t(
+                                        'admin.diseaseTypePlaceholder',
+                                    )}
+                                    ariaLabel={t('diseases.diseaseType')}
+                                    variant="form"
+                                />
+                            </Field>
 
+                            {/* Disease Images (multi-upload) */}
+                            <Field>
+                                <FieldLabel>
+                                    {t('admin.diseaseImages')}
+                                </FieldLabel>
+                                <FieldDescription>
+                                    {t('admin.diseaseImagesHint')}
+                                </FieldDescription>
+
+                                <input
+                                    ref={fileInputRef}
+                                    type="file"
+                                    accept="image/*"
+                                    multiple
+                                    className="hidden"
+                                    onChange={(e) => {
+                                        const files = Array.from(
+                                            e.target.files ?? [],
+                                        ).filter((f) =>
+                                            f.type.startsWith('image/'),
+                                        )
+                                        if (files.length) {
+                                            setPendingFiles((prev) => [
+                                                ...prev,
+                                                ...files,
+                                            ])
+                                            setPendingPreviews((prev) => [
+                                                ...prev,
+                                                ...files.map((f) =>
+                                                    URL.createObjectURL(f),
+                                                ),
+                                            ])
+                                        }
+                                        if (fileInputRef.current)
+                                            fileInputRef.current.value = ''
+                                    }}
+                                />
+
+                                {/* Existing uploaded images */}
+                                {imageUrls.length > 0 && (
+                                    <div className="flex flex-wrap gap-3">
+                                        {imageUrls.map((url, i) => (
+                                            <div
+                                                key={`existing-${i}`}
+                                                className="relative"
+                                            >
+                                                <img
+                                                    src={url}
+                                                    alt={`Disease ${i + 1}`}
+                                                    className="h-24 w-32 object-cover rounded-lg border"
+                                                />
+                                                <Button
+                                                    type="button"
+                                                    variant="destructive"
+                                                    size="icon-xs"
+                                                    onClick={() =>
+                                                        setImageUrls((prev) =>
+                                                            prev.filter(
+                                                                (_, j) =>
+                                                                    j !== i,
+                                                            ),
+                                                        )
+                                                    }
+                                                    className="absolute -top-2 -right-2 rounded-full"
+                                                    aria-label={t(
+                                                        'admin.removeImage',
+                                                    )}
+                                                >
+                                                    <X />
+                                                </Button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {/* Pending (not yet uploaded) previews */}
+                                {pendingPreviews.length > 0 && (
+                                    <div className="flex flex-wrap gap-3">
+                                        {pendingPreviews.map((url, i) => (
+                                            <div
+                                                key={`pending-${i}`}
+                                                className="relative"
+                                            >
+                                                <img
+                                                    src={url}
+                                                    alt={`New ${i + 1}`}
+                                                    className="h-24 w-32 object-cover rounded-lg border border-aux-accent-4-outline"
+                                                />
+                                                <span className="absolute top-1 left-1 bg-aux-accent-4 text-white text-[10px] px-1.5 py-0.5 rounded-full font-medium">
+                                                    new
+                                                </span>
+                                                <Button
+                                                    type="button"
+                                                    variant="destructive"
+                                                    size="icon-xs"
+                                                    onClick={() => {
+                                                        setPendingFiles((prev) =>
+                                                            prev.filter(
+                                                                (_, j) =>
+                                                                    j !== i,
+                                                            ),
+                                                        )
+                                                        setPendingPreviews(
+                                                            (prev) =>
+                                                                prev.filter(
+                                                                    (_, j) =>
+                                                                        j !== i,
+                                                                ),
+                                                        )
+                                                    }}
+                                                    className="absolute -top-2 -right-2 rounded-full"
+                                                    aria-label={t(
+                                                        'admin.removeImage',
+                                                    )}
+                                                >
+                                                    <X />
+                                                </Button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    onClick={() => fileInputRef.current?.click()}
+                                    disabled={uploadingImages}
+                                    className="w-fit border-dashed"
+                                >
+                                    {uploadingImages ? (
+                                        <Spinner data-icon="inline-start" />
+                                    ) : (
+                                        <ImageIcon data-icon="inline-start" />
+                                    )}
+                                    {uploadingImages
+                                        ? t('admin.uploadingImage')
+                                        : t('admin.addImage')}
+                                </Button>
+                            </Field>
+
+                            {/* Associated Crop Varieties */}
+                            <Field>
+                                <FieldLabel>
+                                    {t('admin.linkedVarieties')}
+                                </FieldLabel>
+                                {varietyOptions.length === 0 ? (
+                                    <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-aux-accent-4-container border border-aux-accent-4-outline text-aux-accent-4 text-sm">
+                                        <AlertTriangle className="size-4 shrink-0" />
+                                        <span>
+                                            {t('admin.noVarietiesYet')}{' '}
+                                            <Link
+                                                to="/admin/varieties"
+                                                className="font-medium underline hover:text-aux-accent-4/80"
+                                            >
+                                                {t('admin.addVariety')}
+                                            </Link>
+                                        </span>
+                                    </div>
+                                ) : (
+                                    <MultiSelectDropdown
+                                        options={varietyOptions}
+                                        values={selectedVarietyIds}
+                                        onChange={setSelectedVarietyIds}
+                                        placeholder={t('admin.linkedVarieties')}
+                                        ariaLabel={t('admin.linkedVarieties')}
+                                    />
+                                )}
+                            </Field>
+
+                            {/* Associated Remedies */}
+                            <Field>
+                                <FieldLabel>
+                                    {t('admin.linkedRemedies')}
+                                </FieldLabel>
+                                {remedyOptions.length === 0 ? (
+                                    <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-aux-accent-4-container border border-aux-accent-4-outline text-aux-accent-4 text-sm">
+                                        <AlertTriangle className="size-4 shrink-0" />
+                                        <span>
+                                            {t('admin.noRemediesYet')}{' '}
+                                            <Link
+                                                to="/admin/remedies/add"
+                                                className="font-medium underline hover:text-aux-accent-4/80"
+                                            >
+                                                {t('admin.addRemedy')}
+                                            </Link>
+                                        </span>
+                                    </div>
+                                ) : (
+                                    <MultiSelectDropdown
+                                        options={remedyOptions}
+                                        values={selectedRemedyIds}
+                                        onChange={setSelectedRemedyIds}
+                                        placeholder={t('admin.linkedRemedies')}
+                                        ariaLabel={t('admin.linkedRemedies')}
+                                    />
+                                )}
+                            </Field>
+                        </FieldGroup>
+                    </CardContent>
+                </Card>
+
+                {/* Bilingual content — EN / TE side by side */}
+                <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
                 {/* English */}
-                <section className="bg-white rounded-xl border border-neutral-200 p-6 space-y-4">
-                    <h2 className="text-lg font-bold">English</h2>
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-lg">English</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <FieldGroup>
+                            <Field>
+                                <FieldLabel htmlFor="disease-en-name">
+                                    {t('admin.name')}{' '}
+                                    <span className="text-destructive">*</span>
+                                </FieldLabel>
+                                <Input
+                                    id="disease-en-name"
+                                    type="text"
+                                    value={enName}
+                                    onChange={(e) => setEnName(e.target.value)}
+                                    required
+                                />
+                            </Field>
 
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('admin.name')}{' '}
-                            <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                            type="text"
-                            value={enName}
-                            onChange={(e) => setEnName(e.target.value)}
-                            className="input"
-                            required
-                        />
-                    </div>
+                            <Field>
+                                <FieldLabel htmlFor="disease-en-primary-cause">
+                                    {t('diseases.primaryCause')}
+                                </FieldLabel>
+                                <Textarea
+                                    id="disease-en-primary-cause"
+                                    value={enPrimaryCause}
+                                    onChange={(e) =>
+                                        setEnPrimaryCause(e.target.value)
+                                    }
+                                    className="min-h-16"
+                                />
+                            </Field>
 
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('diseases.primaryCause')}
-                        </label>
-                        <textarea
-                            value={enPrimaryCause}
-                            onChange={(e) => setEnPrimaryCause(e.target.value)}
-                            className="input min-h-16"
-                        />
-                    </div>
-
-                    {renderChipEditor(
-                        t('diseases.symptoms'),
-                        enSymptoms,
-                        setEnSymptoms,
-                        newEnSymptom,
-                        setNewEnSymptom,
-                        'Add symptom',
-                    )}
-                    {renderChipEditor(
-                        t('diseases.favorableConditions'),
-                        enConditions,
-                        setEnConditions,
-                        newEnCondition,
-                        setNewEnCondition,
-                        'Add condition',
-                    )}
-                    {renderChipEditor(
-                        t('diseases.preventions'),
-                        enPreventions,
-                        setEnPreventions,
-                        newEnPrevention,
-                        setNewEnPrevention,
-                        'Add prevention',
-                    )}
-                    {renderChipEditor(
-                        t('diseases.treatments'),
-                        enTreatments,
-                        setEnTreatments,
-                        newEnTreatment,
-                        setNewEnTreatment,
-                        'Add treatment',
-                    )}
-                    {renderChipEditor(
-                        t('diseases.aliases'),
-                        enAliases,
-                        setEnAliases,
-                        newEnAlias,
-                        setNewEnAlias,
-                        'Add alias',
-                    )}
-                </section>
+                            {renderChipEditor(
+                                'en-symptoms',
+                                t('diseases.symptoms'),
+                                enSymptoms,
+                                setEnSymptoms,
+                                newEnSymptom,
+                                setNewEnSymptom,
+                                'Add symptom',
+                            )}
+                            {renderChipEditor(
+                                'en-conditions',
+                                t('diseases.favorableConditions'),
+                                enConditions,
+                                setEnConditions,
+                                newEnCondition,
+                                setNewEnCondition,
+                                'Add condition',
+                            )}
+                            {renderChipEditor(
+                                'en-preventions',
+                                t('diseases.preventions'),
+                                enPreventions,
+                                setEnPreventions,
+                                newEnPrevention,
+                                setNewEnPrevention,
+                                'Add prevention',
+                            )}
+                            {renderChipEditor(
+                                'en-treatments',
+                                t('diseases.treatments'),
+                                enTreatments,
+                                setEnTreatments,
+                                newEnTreatment,
+                                setNewEnTreatment,
+                                'Add treatment',
+                            )}
+                            {renderChipEditor(
+                                'en-aliases',
+                                t('diseases.aliases'),
+                                enAliases,
+                                setEnAliases,
+                                newEnAlias,
+                                setNewEnAlias,
+                                'Add alias',
+                            )}
+                        </FieldGroup>
+                    </CardContent>
+                </Card>
 
                 {/* Telugu */}
-                <section className="bg-white rounded-xl border border-neutral-200 p-6 space-y-4">
-                    <div className="flex items-center justify-between">
-                        <h2 className="text-lg font-bold">తెలుగు (Telugu)</h2>
-                        <button
+                <Card>
+                    <CardHeader className="flex-row items-center justify-between">
+                        <CardTitle className="text-lg">
+                            తెలుగు (Telugu)
+                        </CardTitle>
+                        <Button
                             type="button"
+                            variant="secondary"
+                            size="sm"
                             onClick={handleTranslateToTelugu}
                             disabled={translating || !enName}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
-                            <Languages className="h-4 w-4" />
+                            <Languages data-icon="inline-start" />
                             {translating
                                 ? t('admin.translating')
                                 : t('admin.translateFromEnglish')}
-                        </button>
-                    </div>
+                        </Button>
+                    </CardHeader>
+                    <CardContent>
+                        <FieldGroup>
+                            <Field>
+                                <FieldLabel htmlFor="disease-te-name">
+                                    {t('admin.name')}{' '}
+                                    <span className="text-destructive">*</span>
+                                </FieldLabel>
+                                <Input
+                                    id="disease-te-name"
+                                    type="text"
+                                    value={teName}
+                                    onChange={(e) => setTeName(e.target.value)}
+                                    required
+                                />
+                            </Field>
 
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('admin.name')}{' '}
-                            <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                            type="text"
-                            value={teName}
-                            onChange={(e) => setTeName(e.target.value)}
-                            className="input"
-                            required
-                        />
-                    </div>
+                            <Field>
+                                <FieldLabel htmlFor="disease-te-primary-cause">
+                                    {t('diseases.primaryCause')}
+                                </FieldLabel>
+                                <Textarea
+                                    id="disease-te-primary-cause"
+                                    value={tePrimaryCause}
+                                    onChange={(e) =>
+                                        setTePrimaryCause(e.target.value)
+                                    }
+                                    className="min-h-16"
+                                />
+                            </Field>
 
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('diseases.primaryCause')}
-                        </label>
-                        <textarea
-                            value={tePrimaryCause}
-                            onChange={(e) => setTePrimaryCause(e.target.value)}
-                            className="input min-h-16"
-                        />
-                    </div>
+                            {renderChipEditor(
+                                'te-symptoms',
+                                t('diseases.symptoms'),
+                                teSymptoms,
+                                setTeSymptoms,
+                                newTeSymptom,
+                                setNewTeSymptom,
+                                'లక్షణం జోడించండి',
+                            )}
+                            {renderChipEditor(
+                                'te-conditions',
+                                t('diseases.favorableConditions'),
+                                teConditions,
+                                setTeConditions,
+                                newTeCondition,
+                                setNewTeCondition,
+                                'పరిస్థితి జోడించండి',
+                            )}
+                            {renderChipEditor(
+                                'te-preventions',
+                                t('diseases.preventions'),
+                                tePreventions,
+                                setTePreventions,
+                                newTePrevention,
+                                setNewTePrevention,
+                                'నివారణ జోడించండి',
+                            )}
+                            {renderChipEditor(
+                                'te-treatments',
+                                t('diseases.treatments'),
+                                teTreatments,
+                                setTeTreatments,
+                                newTeTreatment,
+                                setNewTeTreatment,
+                                'చికిత్స జోడించండి',
+                            )}
+                            {renderChipEditor(
+                                'te-aliases',
+                                t('diseases.aliases'),
+                                teAliases,
+                                setTeAliases,
+                                newTeAlias,
+                                setNewTeAlias,
+                                'మారుపేరు జోడించండి',
+                            )}
+                        </FieldGroup>
+                    </CardContent>
+                </Card>
+                </div>
 
-                    {renderChipEditor(
-                        t('diseases.symptoms'),
-                        teSymptoms,
-                        setTeSymptoms,
-                        newTeSymptom,
-                        setNewTeSymptom,
-                        'లక్షణం జోడించండి',
-                    )}
-                    {renderChipEditor(
-                        t('diseases.favorableConditions'),
-                        teConditions,
-                        setTeConditions,
-                        newTeCondition,
-                        setNewTeCondition,
-                        'పరిస్థితి జోడించండి',
-                    )}
-                    {renderChipEditor(
-                        t('diseases.preventions'),
-                        tePreventions,
-                        setTePreventions,
-                        newTePrevention,
-                        setNewTePrevention,
-                        'నివారణ జోడించండి',
-                    )}
-                    {renderChipEditor(
-                        t('diseases.treatments'),
-                        teTreatments,
-                        setTeTreatments,
-                        newTeTreatment,
-                        setNewTeTreatment,
-                        'చికిత్స జోడించండి',
-                    )}
-                    {renderChipEditor(
-                        t('diseases.aliases'),
-                        teAliases,
-                        setTeAliases,
-                        newTeAlias,
-                        setNewTeAlias,
-                        'మారుపేరు జోడించండి',
-                    )}
-                </section>
-
-                {/* Actions */}
-                {message && (
-                    <p
-                        className={`text-sm font-medium ${message === t('admin.saved') ? 'text-green-600' : 'text-red-600'}`}
-                    >
-                        {message}
-                    </p>
-                )}
-                <div className="flex items-center gap-3">
-                    <button
-                        type="submit"
-                        disabled={saveDisabled}
-                        className="btn-primary inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        <Save className="h-4 w-4" />
+                {/* Save-bar */}
+                <div className="sticky bottom-0 -mx-4 sm:-mx-6 lg:-mx-8 flex items-center justify-end gap-2 border-t border-border bg-background/80 backdrop-blur-md px-4 sm:px-6 lg:px-8 py-3">
+                    <Button asChild variant="secondary" type="button">
+                        <Link to="/admin/diseases">{t('common.cancel')}</Link>
+                    </Button>
+                    <Button type="submit" disabled={saveDisabled}>
+                        <Save data-icon="inline-start" />
                         {saving
                             ? t('common.loading')
                             : isNew
                               ? t('common.save')
                               : t('common.update')}
-                    </button>
+                    </Button>
                 </div>
             </form>
-        </div>
+        </PageContainer>
     )
 }

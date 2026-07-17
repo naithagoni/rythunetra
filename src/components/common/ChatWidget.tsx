@@ -30,8 +30,18 @@ import {
 } from '@/services/aiService'
 import type { ChatSession } from '@/services/aiService'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from '@/components/ui/tooltip'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
+import { cn } from '@/utils/cn'
 
-/** Extract concatenated text from UIMessage parts */
 function getMessageText(msg: UIMessage): string {
     return msg.parts
         .filter((p): p is { type: 'text'; text: string } => p.type === 'text')
@@ -51,11 +61,9 @@ export function ChatWidget() {
     const [activeSessionId, setActiveSessionId] = useState<string | null>(null)
     const [initializing, setInitializing] = useState(false)
     const [input, setInput] = useState('')
-    // Skip the session-loading effect when we just created a session in onSubmit
     const skipLoadRef = useRef(false)
     const activeSessionRef = useRef<string | null>(null)
 
-    // Fetch sessions
     const { data: sessionsResult } = useQuery({
         queryKey: ['chat-sessions', user?.id],
         queryFn: () => getChatSessions(user!.id),
@@ -64,7 +72,6 @@ export function ChatWidget() {
     const sessions: ChatSession[] =
         (sessionsResult?.data as ChatSession[] | null) ?? []
 
-    // Stable transport instance
     const transport = useMemo(
         () =>
             new DefaultChatTransport({
@@ -77,10 +84,8 @@ export function ChatWidget() {
         [currentLanguage, session?.accessToken],
     )
 
-    // Keep a ref in sync so onFinish always has current session id
     activeSessionRef.current = activeSessionId
 
-    // Vercel AI SDK v6 chat hook
     const { messages, sendMessage, status, setMessages } = useChat({
         transport,
         onError: (err) => {
@@ -102,12 +107,10 @@ export function ChatWidget() {
 
     const isLoading = status === 'submitted' || status === 'streaming'
 
-    // Scroll to bottom on new messages
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
     }, [messages])
 
-    // Load messages when switching to an existing session
     useEffect(() => {
         if (!activeSessionId) return
         if (skipLoadRef.current) {
@@ -165,7 +168,6 @@ export function ChatWidget() {
         const text = input
         setInput('')
 
-        // Create session if needed, but skip the load-messages effect
         if (!activeSessionId && user) {
             skipLoadRef.current = true
             const { data } = await createChatSession(user.id)
@@ -175,14 +177,11 @@ export function ChatWidget() {
                 queryClient.invalidateQueries({
                     queryKey: ['chat-sessions'],
                 })
-                // Save user message to DB (for history) AFTER sendMessage
-                // to avoid the effect loading it and duplicating
                 sendMessage({ text })
                 await saveChatMessage(data.id, 'user', text)
                 return
             }
         } else if (activeSessionId) {
-            // Save user message, then send — no effect race here
             await saveChatMessage(activeSessionId, 'user', text)
         }
 
@@ -197,48 +196,55 @@ export function ChatWidget() {
     ]
 
     return (
-        <>
-            {/* Floating Action Button - logged-in users only */}
+        <TooltipProvider>
+            {/* Floating Action Button */}
             {user && !open && (
                 <div className="fixed bottom-24 md:bottom-6 right-4 z-50 group">
-                    <button
-                        onClick={() => AI_ENABLED && setOpen(true)}
-                        disabled={!AI_ENABLED}
-                        className={`w-14 h-14 rounded-full shadow-elevated transition-all flex items-center justify-center ${
-                            AI_ENABLED
-                                ? 'bg-primary-600 text-white hover:bg-primary-700 hover:shadow-card-hover cursor-pointer'
-                                : 'bg-neutral-200 text-neutral-400 cursor-not-allowed'
-                        }`}
-                    >
-                        <Bot className="h-6 w-6 group-hover:scale-110 transition-transform" />
-                        {AI_ENABLED && (
-                            <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white" />
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                onClick={() => AI_ENABLED && setOpen(true)}
+                                disabled={!AI_ENABLED}
+                                size="icon-lg"
+                                className={cn(
+                                    'size-14 rounded-full shadow-elevated',
+                                    AI_ENABLED
+                                        ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                                        : 'bg-muted text-muted-foreground cursor-not-allowed',
+                                )}
+                            >
+                                <Bot className="size-6 group-hover:scale-110 transition-transform" />
+                                {AI_ENABLED && (
+                                    <span className="absolute -top-1 -right-1 size-3 bg-white rounded-full border-2 border-background" />
+                                )}
+                            </Button>
+                        </TooltipTrigger>
+                        {!AI_ENABLED && (
+                            <TooltipContent side="left">
+                                {t('settings.aiDisabledMessage')}
+                            </TooltipContent>
                         )}
-                    </button>
-                    {!AI_ENABLED && (
-                        <div className="invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-full mb-2 right-0 w-52 px-3 py-2 text-xs text-white bg-neutral-800 rounded-lg shadow-lg text-center">
-                            {t('settings.aiDisabledMessage')}
-                            <div className="absolute right-5 top-full w-0 h-0 border-x-4 border-x-transparent border-t-4 border-t-neutral-800" />
-                        </div>
-                    )}
+                    </Tooltip>
                 </div>
             )}
 
             {/* Chat Panel */}
             {user && open && (
-                <div className="fixed bottom-0 right-0 md:bottom-6 md:right-4 z-50 w-full h-full md:w-96 md:h-128 md:rounded-2xl bg-white shadow-modal border border-neutral-200 flex flex-col overflow-hidden md:max-h-[calc(100vh-3rem)]">
+                <div className="fixed bottom-0 right-0 md:bottom-6 md:right-4 z-50 w-full h-full md:w-96 md:h-128 md:rounded-xl bg-popover shadow-elevated border border-border flex flex-col overflow-hidden md:max-h-[calc(100vh-3rem)]">
                     {/* Header */}
-                    <div className="flex items-center justify-between px-4 py-3 bg-primary-600 text-white shrink-0">
+                    <div className="flex items-center justify-between px-4 py-3 bg-primary text-primary-foreground shrink-0">
                         <div className="flex items-center gap-2">
                             {showSessions ? (
-                                <button
+                                <Button
+                                    variant="ghost"
+                                    size="icon-xs"
                                     onClick={() => setShowSessions(false)}
-                                    className="p-1 rounded-lg hover:bg-primary-500"
+                                    className="text-primary-foreground hover:bg-primary-foreground/10"
                                 >
-                                    <ChevronLeft className="h-4 w-4" />
-                                </button>
+                                    <ChevronLeft className="size-4" />
+                                </Button>
                             ) : (
-                                <Bot className="h-5 w-5" />
+                                <Bot className="size-5" />
                             )}
                             <h2 className="font-semibold text-sm">
                                 {showSessions
@@ -249,61 +255,68 @@ export function ChatWidget() {
                         <div className="flex items-center gap-1">
                             {!showSessions && (
                                 <>
-                                    <button
+                                    <Button
+                                        variant="ghost"
+                                        size="icon-xs"
                                         onClick={() => setShowSessions(true)}
-                                        className="p-1.5 rounded-lg hover:bg-primary-500"
                                         title={t('chat.history')}
+                                        className="text-primary-foreground hover:bg-primary-foreground/10"
                                     >
-                                        <MessageCircle className="h-4 w-4" />
-                                    </button>
-                                    <button
+                                        <MessageCircle className="size-4" />
+                                    </Button>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon-xs"
                                         onClick={handleNewChat}
                                         disabled={initializing}
-                                        className="p-1.5 rounded-lg hover:bg-primary-500"
                                         title={t('chat.newChat')}
+                                        className="text-primary-foreground hover:bg-primary-foreground/10"
                                     >
-                                        <Plus className="h-4 w-4" />
-                                    </button>
+                                        <Plus className="size-4" />
+                                    </Button>
                                 </>
                             )}
-                            <button
+                            <Button
+                                variant="ghost"
+                                size="icon-xs"
                                 onClick={() => {
                                     setOpen(false)
                                     setShowSessions(false)
                                 }}
-                                className="p-1.5 rounded-lg hover:bg-primary-500 hidden md:block"
-                                title="Minimize"
+                                className="text-primary-foreground hover:bg-primary-foreground/10 hidden md:inline-flex"
                             >
-                                <Minimize2 className="h-4 w-4" />
-                            </button>
-                            <button
+                                <Minimize2 className="size-4" />
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                size="icon-xs"
                                 onClick={() => {
                                     setOpen(false)
                                     setShowSessions(false)
                                 }}
-                                className="p-1.5 rounded-lg hover:bg-primary-500 md:hidden"
+                                className="text-primary-foreground hover:bg-primary-foreground/10 md:hidden"
                             >
-                                <X className="h-4 w-4" />
-                            </button>
+                                <X className="size-4" />
+                            </Button>
                         </div>
                     </div>
 
                     {/* Sessions list */}
                     {showSessions ? (
-                        <div className="flex-1 overflow-y-auto">
+                        <ScrollArea className="flex-1">
                             {sessions.length === 0 ? (
-                                <p className="text-xs text-neutral-400 p-4 text-center">
+                                <p className="text-xs text-muted-foreground p-4 text-center">
                                     {t('chat.noSessions')}
                                 </p>
                             ) : (
                                 sessions.map((s) => (
                                     <div
                                         key={s.id}
-                                        className={`flex items-center justify-between px-4 py-2.5 cursor-pointer hover:bg-neutral-50 text-sm border-b border-neutral-100 ${
-                                            activeSessionId === s.id
-                                                ? 'bg-primary-50 border-l-2 border-l-primary-500'
-                                                : ''
-                                        }`}
+                                        className={cn(
+                                            'flex items-center justify-between px-4 py-2.5 cursor-pointer hover:bg-muted-hover text-sm border-b border-border',
+                                            activeSessionId === s.id &&
+                                                'bg-accent border-l-2 border-l-primary',
+                                        )}
                                         onClick={() => {
                                             setActiveSessionId(s.id)
                                             setShowSessions(false)
@@ -312,156 +325,191 @@ export function ChatWidget() {
                                         <span className="truncate flex-1">
                                             {s.title}
                                         </span>
-                                        <button
+                                        <Button
+                                            variant="ghost"
+                                            size="icon-xs"
                                             onClick={(e) => {
                                                 e.stopPropagation()
                                                 handleDeleteSession(s.id)
                                             }}
-                                            className="p-1 text-red-400 hover:text-red-600 shrink-0"
+                                            className="text-destructive hover:text-destructive shrink-0"
                                         >
-                                            <Trash2 className="h-3.5 w-3.5" />
-                                        </button>
+                                            <Trash2 className="size-3.5" />
+                                        </Button>
                                     </div>
                                 ))
                             )}
-                        </div>
+                        </ScrollArea>
                     ) : (
                         <>
                             {/* Messages */}
-                            <div className="flex-1 overflow-y-auto px-3 py-3 space-y-3">
-                                {messages.length === 0 ? (
-                                    <div className="flex flex-col items-center justify-center h-full text-center space-y-4 px-2">
-                                        <div className="w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center">
-                                            <Bot className="h-6 w-6 text-primary-600" />
-                                        </div>
-                                        <div>
-                                            <h3 className="text-sm font-semibold">
-                                                {t('chat.welcome')}
-                                            </h3>
-                                            <p className="text-xs text-neutral-500 mt-0.5">
-                                                {t('chat.welcomeDesc')}
-                                            </p>
-                                        </div>
-                                        <div className="grid grid-cols-1 gap-1.5 w-full">
-                                            {suggestions.map((s, i) => (
-                                                <button
-                                                    key={i}
-                                                    onClick={() => setInput(s)}
-                                                    className="text-left text-xs px-3 py-2 rounded-lg border border-neutral-200 hover:bg-neutral-50 transition-colors"
-                                                >
-                                                    {s}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    </div>
-                                ) : (
-                                    messages.map((message: UIMessage) => (
-                                        <div
-                                            key={message.id}
-                                            className={`flex gap-2 ${message.role === 'user' ? 'justify-end' : ''}`}
-                                        >
-                                            {message.role === 'assistant' && (
-                                                <div className="w-6 h-6 rounded-full bg-primary-100 flex items-center justify-center shrink-0 mt-0.5">
-                                                    <Bot className="h-3.5 w-3.5 text-primary-600" />
-                                                </div>
-                                            )}
-                                            <div
-                                                className={`max-w-[85%] rounded-xl px-3 py-2 text-sm ${
-                                                    message.role === 'user'
-                                                        ? 'bg-primary-600 text-white whitespace-pre-wrap'
-                                                        : 'bg-neutral-100 text-neutral-900 chat-markdown'
-                                                }`}
-                                            >
-                                                {message.role ===
-                                                'assistant' ? (
-                                                    <Markdown>
-                                                        {getMessageText(
-                                                            message,
-                                                        )}
-                                                    </Markdown>
-                                                ) : (
-                                                    getMessageText(message)
-                                                )}
+                            <ScrollArea className="flex-1 px-3 py-3">
+                                <div className="flex flex-col gap-3">
+                                    {messages.length === 0 ? (
+                                        <div className="flex flex-col items-center justify-center h-full text-center gap-4 px-2 pt-8">
+                                            <Avatar size="lg">
+                                                <AvatarFallback className="bg-primary/10">
+                                                    <Bot className="size-6 text-primary" />
+                                                </AvatarFallback>
+                                            </Avatar>
+                                            <div>
+                                                <h3 className="text-sm font-semibold">
+                                                    {t('chat.welcome')}
+                                                </h3>
+                                                <p className="text-xs text-muted-foreground mt-0.5">
+                                                    {t('chat.welcomeDesc')}
+                                                </p>
                                             </div>
-                                            {message.role === 'user' && (
-                                                <div className="w-6 h-6 rounded-full bg-neutral-200 flex items-center justify-center shrink-0 mt-0.5">
-                                                    <User className="h-3.5 w-3.5 text-neutral-600" />
+                                            <div className="grid grid-cols-1 gap-1.5 w-full">
+                                                {suggestions.map((s, i) => (
+                                                    <Button
+                                                        key={i}
+                                                        variant="outline"
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            setInput(s)
+                                                        }
+                                                        className="text-left justify-start h-auto py-2 text-xs font-normal"
+                                                    >
+                                                        {s}
+                                                    </Button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        messages.map(
+                                            (message: UIMessage) => (
+                                                <div
+                                                    key={message.id}
+                                                    className={cn(
+                                                        'flex gap-2',
+                                                        message.role ===
+                                                            'user' &&
+                                                            'justify-end',
+                                                    )}
+                                                >
+                                                    {message.role ===
+                                                        'assistant' && (
+                                                        <Avatar size="sm">
+                                                            <AvatarFallback className="bg-primary/10">
+                                                                <Bot className="size-3.5 text-primary" />
+                                                            </AvatarFallback>
+                                                        </Avatar>
+                                                    )}
+                                                    <div
+                                                        className={cn(
+                                                            'max-w-[85%] rounded-xl px-3 py-2 text-sm',
+                                                            message.role ===
+                                                                'user'
+                                                                ? 'bg-primary text-primary-foreground whitespace-pre-wrap'
+                                                                : 'bg-muted text-foreground chat-markdown',
+                                                        )}
+                                                    >
+                                                        {message.role ===
+                                                        'assistant' ? (
+                                                            <Markdown>
+                                                                {getMessageText(
+                                                                    message,
+                                                                )}
+                                                            </Markdown>
+                                                        ) : (
+                                                            getMessageText(
+                                                                message,
+                                                            )
+                                                        )}
+                                                    </div>
+                                                    {message.role ===
+                                                        'user' && (
+                                                        <Avatar size="sm">
+                                                            <AvatarFallback>
+                                                                <User className="size-3.5" />
+                                                            </AvatarFallback>
+                                                        </Avatar>
+                                                    )}
                                                 </div>
-                                            )}
+                                            ),
+                                        )
+                                    )}
+                                    {isLoading && (
+                                        <div className="flex gap-2">
+                                            <Avatar size="sm">
+                                                <AvatarFallback className="bg-primary/10">
+                                                    <Bot className="size-3.5 text-primary" />
+                                                </AvatarFallback>
+                                            </Avatar>
+                                            <div className="bg-muted rounded-xl px-3 py-2">
+                                                <Loader2 className="size-4 animate-spin text-muted-foreground" />
+                                            </div>
                                         </div>
-                                    ))
-                                )}
-                                {isLoading && (
-                                    <div className="flex gap-2">
-                                        <div className="w-6 h-6 rounded-full bg-primary-100 flex items-center justify-center shrink-0">
-                                            <Bot className="h-3.5 w-3.5 text-primary-600" />
+                                    )}
+                                    {status === 'error' && (
+                                        <div className="flex gap-2 items-start">
+                                            <Avatar size="sm">
+                                                <AvatarFallback className="bg-destructive/10">
+                                                    <AlertTriangle className="size-3.5 text-destructive" />
+                                                </AvatarFallback>
+                                            </Avatar>
+                                            <div className="bg-destructive/5 border border-destructive/20 rounded-xl px-3 py-2 text-sm text-destructive max-w-[85%]">
+                                                <p>{t('chat.error')}</p>
+                                                <Button
+                                                    variant="ghost"
+                                                    size="xs"
+                                                    onClick={() => {
+                                                        const lastUserMsg = [
+                                                            ...messages,
+                                                        ]
+                                                            .reverse()
+                                                            .find(
+                                                                (m) =>
+                                                                    m.role ===
+                                                                    'user',
+                                                            )
+                                                        if (lastUserMsg) {
+                                                            sendMessage({
+                                                                text: getMessageText(
+                                                                    lastUserMsg,
+                                                                ),
+                                                            })
+                                                        }
+                                                    }}
+                                                    className="mt-1 text-destructive hover:text-destructive gap-1"
+                                                >
+                                                    <RefreshCw className="size-3" />
+                                                    {t('chat.retry')}
+                                                </Button>
+                                            </div>
                                         </div>
-                                        <div className="bg-neutral-100 rounded-xl px-3 py-2">
-                                            <Loader2 className="h-4 w-4 animate-spin text-neutral-400" />
-                                        </div>
-                                    </div>
-                                )}
-                                {status === 'error' && (
-                                    <div className="flex gap-2 items-start">
-                                        <div className="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center shrink-0 mt-0.5">
-                                            <AlertTriangle className="h-3.5 w-3.5 text-red-600" />
-                                        </div>
-                                        <div className="bg-red-50 border border-red-200 rounded-xl px-3 py-2 text-sm text-red-700 max-w-[85%]">
-                                            <p>{t('chat.error')}</p>
-                                            <button
-                                                onClick={() => {
-                                                    const lastUserMsg = [
-                                                        ...messages,
-                                                    ]
-                                                        .reverse()
-                                                        .find(
-                                                            (m) =>
-                                                                m.role ===
-                                                                'user',
-                                                        )
-                                                    if (lastUserMsg) {
-                                                        sendMessage({
-                                                            text: getMessageText(
-                                                                lastUserMsg,
-                                                            ),
-                                                        })
-                                                    }
-                                                }}
-                                                className="mt-1.5 inline-flex items-center gap-1 text-xs font-medium text-red-600 hover:text-red-800"
-                                            >
-                                                <RefreshCw className="h-3 w-3" />
-                                                {t('chat.retry')}
-                                            </button>
-                                        </div>
-                                    </div>
-                                )}
-                                <div ref={messagesEndRef} />
-                            </div>
+                                    )}
+                                    <div ref={messagesEndRef} />
+                                </div>
+                            </ScrollArea>
 
                             {/* Input */}
                             <form
                                 onSubmit={onSubmit}
-                                className="px-3 py-2.5 border-t border-neutral-200 shrink-0 safe-bottom"
+                                className="px-3 py-2.5 border-t border-border shrink-0 safe-bottom"
                             >
                                 <div className="flex gap-2">
-                                    <input
+                                    <Input
                                         value={input}
                                         onChange={(e) =>
                                             setInput(e.target.value)
                                         }
-                                        placeholder={t('chat.inputPlaceholder')}
-                                        className="input flex-1 text-sm py-2"
+                                        placeholder={t(
+                                            'chat.inputPlaceholder',
+                                        )}
+                                        className="flex-1 text-sm"
                                         disabled={isLoading}
                                     />
-                                    <button
+                                    <Button
                                         type="submit"
                                         disabled={isLoading || !input.trim()}
-                                        className="btn-primary px-3 rounded-xl disabled:opacity-50"
+                                        size="icon"
                                     >
-                                        <Send className="h-4 w-4" />
-                                    </button>
+                                        <Send className="size-4" />
+                                    </Button>
                                 </div>
-                                <p className="text-[10px] text-neutral-400 mt-1 text-center">
+                                <p className="text-[10px] text-muted-foreground mt-1 text-center">
                                     {t('chat.disclaimer')}
                                 </p>
                             </form>
@@ -469,6 +517,6 @@ export function ChatWidget() {
                     )}
                 </div>
             )}
-        </>
+        </TooltipProvider>
     )
 }

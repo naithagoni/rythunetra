@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
 /* Hide number input spinners */
 @layer base {
@@ -10,132 +12,289 @@
     input[type='number'] {
         -moz-appearance: textfield;
     }
+    * {
+        @apply border-border;
+    }
 }
 
-/* ─── THEME ──────────────────────────────────────────────── */
+/* ─── SPECIMEN JOURNAL ─────────────────────────────────────────
+   RythuNetra's design system — light-only, warm Linen canvas.
+   Forest Ink (#0a1d08) carries body text AND filled CTAs (dark
+   pills — never a chromatic green/blue); Crimson Specimen is the
+   link/emphasis accent; Sage/Teal/Eucalyptus appear as card tints
+   and category accents. Flat by design: on-page surfaces have no
+   drop shadows — structure comes from the Linen→Bone→Eucalyptus
+   surface ladder + 1px Mist borders. Fonts: Inter (sans workhorse),
+   Newsreader (serif hero anchor only), Fragment Mono (field-note
+   tags/labels). Source of truth: design/DESIGN.md.
+   ──────────────────────────────────────────────────────────── */
 @theme {
-    /* Primary — Dark Green */
-    --color-primary-50: #e0f5ea;
-    --color-primary-100: #c3ebda;
-    --color-primary-200: #ade8cb;
-    --color-primary-300: #78d6ab;
-    --color-primary-400: #40bd85;
-    --color-primary-500: #22a06b;
-    --color-primary-600: #1a7f54;
-    --color-primary-700: #166544;
-    --color-primary-800: #155239;
-    --color-primary-900: #134430;
-    --color-primary-950: #062619;
+    --color-white: #ffffff;
+    --color-black: #000000;
 
-    /* Accent — Amber Gold */
-    --color-accent-50: #fffbeb;
-    --color-accent-100: #fef3c7;
-    --color-accent-200: #fde68a;
-    --color-accent-300: #fcd34d;
-    --color-accent-400: #fbbf24;
-    --color-accent-500: #f59e0b;
-    --color-accent-600: #d97706;
-    --color-accent-700: #b45309;
+    /* Fonts — Specimen Journal
+       Inter = sans workhorse (Akkurat substitute) for body/nav/headings/buttons.
+       Anek Telugu MUST stay in the stack for Telugu content.
+       Newsreader = single serif hero anchor (font-serif, hero headline only).
+       Fragment Mono = field-note tags, badges, labels, table IDs. */
+    --font-sans: 'Inter', 'Anek Telugu', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-heading: 'Inter', 'Anek Telugu', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-serif: 'Newsreader', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --font-mono: 'Fragment Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-    /* White — Green-tinted near-white */
-    --color-white: #fdfefd;
+    /* ── Typography — Specimen Journal ramp ──
+       Sans headings (Inter) run lighter (500) with tight tracking, echoing
+       DESIGN.md's Akkurat 400 section headlines. The single serif hero anchor
+       uses --text-hero (Newsreader) — see font-serif utility, hero only. */
+    --text-hero: 4.5rem; /* 72px — Newsreader serif hero anchor */
+    --text-hero--line-height: 1; /* 0.98 rounded */
+    --text-hero--font-weight: 300;
+    --text-hero--letter-spacing: -0.032em;
 
-    /* Neutral — Green-tinted, based on #F7FBF8 */
-    --color-neutral-50: #f7fbf8;
-    --color-neutral-100: #eef3ef;
-    --color-neutral-200: #e0e7e2;
-    --color-neutral-300: #ced7d1;
-    --color-neutral-400: #9aa69e;
-    --color-neutral-500: #6b7c70;
-    --color-neutral-600: #4d5b51;
-    --color-neutral-700: #3a4840;
-    --color-neutral-800: #252e28;
-    --color-neutral-900: #1a211c;
+    --text-display-xl: 3rem; /* 48px */
+    --text-display-xl--line-height: 3.25rem; /* 52px */
+    --text-display-xl--font-weight: 500;
+    --text-display-xl--letter-spacing: -0.04em;
 
-    /* Surface — Green-tinted */
-    --color-surface-50: #f7fbf8;
-    --color-surface-100: #eef3ef;
-    --color-surface-200: #e0e7e2;
-    --color-surface-300: #ced7d1;
-    --color-surface-400: #9aa69e;
-    --color-surface-500: #6b7c70;
-    --color-surface-600: #4d5b51;
-    --color-surface-700: #3a4840;
-    --color-surface-800: #252e28;
-    --color-surface-900: #1a211c;
+    --text-display-lg: 2rem; /* 32px */
+    --text-display-lg--line-height: 2.375rem; /* 38px */
+    --text-display-lg--font-weight: 500;
+    --text-display-lg--letter-spacing: -0.03em;
 
-    /* Fonts */
-    --font-sans: 'Inter', 'Anek Telugu', system-ui, -apple-system, sans-serif;
-    --font-heading: 'Inter', system-ui, sans-serif;
+    --text-display-md: 1.5rem; /* 24px */
+    --text-display-md--line-height: 1.875rem; /* 30px */
+    --text-display-md--font-weight: 500;
+    --text-display-md--letter-spacing: -0.02em;
 
-    /* Typography */
+    --text-display-sm: 1.25rem; /* 20px */
+    --text-display-sm--line-height: 1.625rem; /* 26px */
+    --text-display-sm--font-weight: 500;
+    --text-display-sm--letter-spacing: -0.015em;
+
+    /* Larger heading tokens for hero use — heading-56/64/72 */
+    --text-heading-56: 3.5rem;
+    --text-heading-56--line-height: 3.5rem;
+    --text-heading-56--font-weight: 600;
+    --text-heading-56--letter-spacing: -0.06em;
+
+    --text-heading-64: 4rem;
+    --text-heading-64--line-height: 4rem;
+    --text-heading-64--font-weight: 600;
+    --text-heading-64--letter-spacing: -0.06em;
+
+    --text-heading-72: 4.5rem;
+    --text-heading-72--line-height: 4.5rem;
+    --text-heading-72--font-weight: 600;
+    --text-heading-72--letter-spacing: -0.06em;
+
+    /* Copy — multi-line body, taller line-height */
+    --text-body-lg: 1.125rem; /* 18px — copy-18 */
+    --text-body-lg--line-height: 1.75rem; /* 28px */
+
+    --text-body-md: 1rem; /* 16px — copy-16 */
+    --text-body-md--line-height: 1.5rem; /* 24px */
+
+    --text-body-sm: 0.875rem; /* 14px — copy-14 */
+    --text-body-sm--line-height: 1.25rem; /* 20px */
+
+    --text-caption: 0.75rem; /* 12px — label-12 */
+    --text-caption--line-height: 1rem; /* 16px */
+
+    --text-code: 0.8125rem; /* 13px — copy-13-mono */
+    --text-code--line-height: 1.125rem; /* 18px */
+
+    /* Legacy heading aliases (kept for existing markup; capped at 600) */
     --text-h1: 2.25rem;
     --text-h1--line-height: 1.15;
-    --text-h1--font-weight: 700;
-
+    --text-h1--font-weight: 600;
     --text-h2: 1.5rem;
     --text-h2--line-height: 1.2;
     --text-h2--font-weight: 600;
-
     --text-h3: 1.25rem;
     --text-h3--line-height: 1.3;
     --text-h3--font-weight: 600;
-
     --text-h4: 1.125rem;
     --text-h4--line-height: 1.35;
     --text-h4--font-weight: 600;
-
-    --text-body-lg: 1rem;
-    --text-body-lg--line-height: 1.6;
-
     --text-body: 0.875rem;
     --text-body--line-height: 1.6;
 
-    /* Border Radius */
-    --radius-xs: 0.375rem;
-    --radius-sm: 0.5rem;
-    --radius-card: 0.75rem;
-    --radius-btn: 0.625rem;
-    --radius-badge: 9999px;
-    --radius-input: 0.625rem;
-    --radius-xl: 1rem;
-    --radius-2xl: 1.25rem;
+    /* NOTE: no named `--spacing-*` tokens — Tailwind v4 resolves `max-w-2xl…6xl`
+       (and w-/h-/gap- named sizes) against `--spacing-*`, so defining them here
+       silently shrinks every `max-w-{2xl,3xl,4xl,5xl,6xl}` to a few rem.
+       Tailwind's default numeric 4px spacing scale is used throughout. */
 
-    /* Danger */
-    --color-danger-50: #fef2f2;
-    --color-danger-100: #fee2e2;
-    --color-danger-500: #ef4444;
-    --color-danger-600: #dc2626;
-    --color-danger-700: #b91c1c;
+    /* Border radius — Specimen Journal: cards 10px, buttons 20px (pill),
+       inputs 4px, badges/toggles fully-rounded. */
+    --radius-card: 10px; /* cards / panels */
+    --radius-btn: 20px; /* pill CTA */
+    --radius-badge: 9999px; /* selector — pill */
+    --radius-input: 4px; /* form fields */
 
-    /* Shadows — Layered depth */
-    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-    --shadow-card:
-        0 2px 8px -2px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
-    --shadow-card-hover:
-        0 8px 24px -4px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04);
-    --shadow-elevated:
-        0 6px 20px -4px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.04);
-    --shadow-btn: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
-    --shadow-btn-primary:
-        0 2px 6px rgba(26, 127, 84, 0.3), 0 1px 3px rgba(26, 127, 84, 0.15);
-    --shadow-btn-primary-hover:
-        0 4px 12px rgba(26, 127, 84, 0.35), 0 2px 4px rgba(26, 127, 84, 0.2);
-    --shadow-btn-danger:
-        0 2px 6px rgba(220, 38, 38, 0.25), 0 1px 3px rgba(220, 38, 38, 0.12);
-    --shadow-input: 0 1px 2px rgba(0, 0, 0, 0.04) inset;
-    --shadow-modal:
-        0 24px 48px -12px rgba(0, 0, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.06);
-    --shadow-dropdown:
-        0 8px 24px -4px rgba(0, 0, 0, 0.14), 0 2px 8px -2px rgba(0, 0, 0, 0.06);
+    /* Letter-spacing helpers */
+    --tracking-tight: -0.02em;
+    --tracking-tighter: -0.04em;
+    --tracking-display: -0.04em;
+    --tracking-display-lg: -0.06em;
 
-    /* Animations — purposeful, minimal */
-    --animate-fade-in: fade-in 0.4s ease-out;
-    --animate-slide-up: slide-up 0.5s ease-out;
-    --animate-scale-in: scale-in 0.25s ease-out;
+    /* ── Geist Gray scale (light) ── */
+    --color-gray-100: #f2f2f2;
+    --color-gray-200: #ebebeb;
+    --color-gray-300: #e6e6e6;
+    --color-gray-400: #eaeaea;
+    --color-gray-500: #c9c9c9;
+    --color-gray-600: #a8a8a8;
+    --color-gray-700: #8f8f8f;
+    --color-gray-800: #7d7d7d;
+    --color-gray-900: #4d4d4d;
+    --color-gray-1000: #171717;
+
+    --color-gray-alpha-100: #0000000d;
+    --color-gray-alpha-200: #00000015;
+    --color-gray-alpha-300: #0000001a;
+    --color-gray-alpha-400: #00000014;
+    --color-gray-alpha-500: #00000036;
+    --color-gray-alpha-600: #0000003d;
+    --color-gray-alpha-700: #00000070;
+    --color-gray-alpha-800: #00000082;
+    --color-gray-alpha-900: #000000b3;
+    --color-gray-alpha-1000: #000000e8;
+
+    /* Geist numbered accent scales (blue/red/amber/green/teal/purple/pink)
+       were removed 2026-07-17 — all status/accent UI now uses the Specimen
+       Journal aux-accent families below (see statusColors.ts). The neutral
+       gray scale above is kept (still used by shine-card's ring-gray-alpha). */
+
+    /* ── Specimen Journal semantic palette (design/tailwind-v4.css) ──
+       Material-style role tokens. Surface ladder (highest→inverse),
+       on-surface text (with subtle/disabled alpha variants), semantic
+       roles (primary/secondary/tertiary/error) each with container +
+       stroke, and 10 aux-accent families for status/data. Exposed here
+       as Tailwind utilities (bg-surface-low, text-on-surface-base,
+       bg-primary-container, border-primary-stroke, bg-aux-accent-3, …). */
+    --color-surface-highest: #fdfefb;
+    --color-surface-high: #fafbf7;
+    --color-surface-base: #f8f9f5;
+    --color-surface-low: #f1f3ef;
+    --color-surface-lowest: #e9ede9;
+    --color-surface-contrast: #e5e8e4;
+    --color-surface-inverse: #2a332a;
+    --color-surface-highest-transparent: #fdfefb00;
+    --color-surface-high-transparent: #fafbf700;
+    --color-surface-base-transparent: #f8f9f500;
+    --color-surface-low-transparent: #f1f3ef00;
+    --color-surface-lowest-transparent: #e9ede900;
+    --color-surface-inverse-transparent: #2a332a00;
+    --color-on-surface-highest: #2b390a;
+    --color-on-surface-highest-subtle: #2b390ab3;
+    --color-on-surface-highest-disabled: #2b390a66;
+    --color-on-surface-contrast: #2e4320;
+    --color-on-surface-high: #2f3f1b;
+    --color-on-surface-high-subtle: #2f3f1bb3;
+    --color-on-surface-high-disabled: #2f3f1b66;
+    --color-on-surface-base: #2e4320;
+    --color-on-surface-base-subtle: #2e4320b3;
+    --color-on-surface-base-disabled: #2e432066;
+    --color-on-surface-low: #243b1b;
+    --color-on-surface-low-subtle: #243b1bb3;
+    --color-on-surface-low-disabled: #243b1b66;
+    --color-on-surface-lowest: #123b0e;
+    --color-on-surface-lowest-subtle: #123b0eb3;
+    --color-on-surface-lowest-disabled: #123b0e66;
+    --color-on-surface-inverse: #fdfefb;
+    --color-on-surface-inverse-subtle: #fdfefbb3;
+    --color-on-surface-inverse-disabled: #fdfefb66;
+    --color-surface-tint-mild: #344f3108;
+    --color-surface-tint-base: #344f3112;
+    --color-surface-tint-strong: #33503024;
+    --color-primary-container: #ddeabd;
+    --color-on-primary-container: #4a6d47;
+    --color-primary-stroke: #548f28;
+    --color-secondary-container: #e3f2ea;
+    --color-on-secondary-container: #234b43;
+    --color-secondary-stroke: #0f9397;
+    --color-tertiary: #b14eaa;
+    --color-on-tertiary: #feebfb;
+    --color-tertiary-container: #feebfb;
+    --color-on-tertiary-container: #b14eaa;
+    --color-tertiary-stroke: #d857cf;
+    --color-on-error: #fcf0f3;
+    --color-error-container: #fbd8e5;
+    --color-on-error-container: #92174a;
+    --color-error-stroke: #d41665;
+    --color-outline: #e1e6df;
+    --color-outline-strong: #c4cbc2;
+    --color-aux-accent-1: #cf2184;
+    --color-aux-accent-1-outline: #ebabcf;
+    --color-aux-accent-1-container: #feebf1;
+    --color-aux-accent-2: #c23934;
+    --color-aux-accent-2-outline: #e9c3c1;
+    --color-aux-accent-2-container: #feebeb;
+    --color-aux-accent-3: #b54c1f;
+    --color-aux-accent-3-outline: #f1c8b6;
+    --color-aux-accent-3-container: #fff0e5;
+    --color-aux-accent-4: #886a00;
+    --color-aux-accent-4-outline: #ebd587;
+    --color-aux-accent-4-container: #f9f2d9;
+    --color-aux-accent-5: #4a6d47;
+    --color-aux-accent-5-outline: #bed0bd;
+    --color-aux-accent-5-container: #f0f5df;
+    --color-aux-accent-6: #2d784d;
+    --color-aux-accent-6-outline: #b9d3c4;
+    --color-aux-accent-6-container: #e4f7ea;
+    --color-aux-accent-7: #1a7474;
+    --color-aux-accent-7-outline: #bed7d7;
+    --color-aux-accent-7-container: #e8f5f5;
+    --color-aux-accent-8: #3963b7;
+    --color-aux-accent-8-outline: #c2d8ec;
+    --color-aux-accent-8-container: #e3f6ff;
+    --color-aux-accent-9: #7e42a6;
+    --color-aux-accent-9-outline: #dbcbe6;
+    --color-aux-accent-9-container: #f0edff;
+    --color-aux-accent-10: #9c2fa6;
+    --color-aux-accent-10-outline: #efd7f1;
+    --color-aux-accent-10-container: #ffebff;
+
+    /* ── Elevation — flat surfaces, elevated overlays ──
+       On-page surfaces (cards, inputs, buttons) stay FLAT: separation
+       comes from the base-100 → base-200 → base-300 ramp + 1px borders.
+       But floating overlays (dropdowns, selects, popovers, modals, sheets)
+       lift OFF the page — on a pure-white canvas a hairline border alone
+       reads poorly, so these get a soft neutral shadow for legibility
+       (DESIGN.md: overlays read through their border + a scrim). */
+    --shadow-xs: none;
+    --shadow-sm: none;
+    --shadow-card: none;
+    --shadow-card-hover: none;
+    --shadow-elevated: 0 4px 12px -2px rgba(10, 29, 8, 0.06),
+        0 2px 6px -2px rgba(10, 29, 8, 0.05);
+    --shadow-dropdown: 0 8px 24px -6px rgba(10, 29, 8, 0.1),
+        0 4px 8px -4px rgba(10, 29, 8, 0.07);
+    --shadow-modal: 0 20px 48px -12px rgba(10, 29, 8, 0.18),
+        0 8px 16px -8px rgba(10, 29, 8, 0.1);
+    --shadow-btn: none;
+    --shadow-btn-primary: none;
+    --shadow-btn-primary-hover: none;
+    --shadow-btn-danger: none;
+    --shadow-input: none;
+
+    /* ── Motion — Geist: short, physical, honors reduced-motion ── */
+    --ease-geist: cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    --animate-fade-in: fade-in 0.15s var(--ease-geist);
+    --animate-slide-up: slide-up 0.2s var(--ease-geist);
+    --animate-scale-in: scale-in 0.15s var(--ease-geist);
 
     @keyframes fade-in {
+        from {
+            opacity: 0;
+            transform: translateY(4px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    @keyframes slide-up {
         from {
             opacity: 0;
             transform: translateY(8px);
@@ -145,40 +304,15 @@
             transform: translateY(0);
         }
     }
-
-    @keyframes slide-up {
-        from {
-            opacity: 0;
-            transform: translateY(16px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
     @keyframes scale-in {
         from {
             opacity: 0;
-            transform: scale(0.96);
+            transform: scale(0.98);
         }
         to {
             opacity: 1;
             transform: scale(1);
         }
-    }
-}
-
-/* Headline gradient shimmer sweep */
-@keyframes headline-shimmer {
-    0% {
-        background-position: 0% center;
-    }
-    50% {
-        background-position: 100% center;
-    }
-    100% {
-        background-position: 0% center;
     }
 }
 
@@ -189,124 +323,6 @@
     }
     100% {
         background-position: 200% center;
-    }
-}
-@keyframes aurora-drift-1 {
-    0%,
-    100% {
-        transform: translate(0, 0) rotate(0deg) scale(1);
-    }
-    25% {
-        transform: translate(40px, -25px) rotate(3deg) scale(1.06);
-    }
-    50% {
-        transform: translate(-25px, 20px) rotate(-2deg) scale(0.97);
-    }
-    75% {
-        transform: translate(20px, 30px) rotate(1deg) scale(1.04);
-    }
-}
-
-@keyframes aurora-drift-2 {
-    0%,
-    100% {
-        transform: translate(0, 0) rotate(0deg) scale(1);
-    }
-    25% {
-        transform: translate(-30px, 25px) rotate(-4deg) scale(1.04);
-    }
-    50% {
-        transform: translate(35px, -20px) rotate(3deg) scale(0.96);
-    }
-    75% {
-        transform: translate(-18px, -22px) rotate(-1deg) scale(1.06);
-    }
-}
-
-@keyframes aurora-drift-3 {
-    0%,
-    100% {
-        transform: translate(0, 0) scale(1);
-        opacity: 0.35;
-    }
-    33% {
-        transform: translate(25px, 35px) scale(1.1);
-        opacity: 0.55;
-    }
-    66% {
-        transform: translate(-35px, -12px) scale(0.94);
-        opacity: 0.4;
-    }
-}
-
-@keyframes hero-grid-glow {
-    0% {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
-    100% {
-        transform: translate(-50%, -50%) rotate(360deg);
-    }
-}
-
-/* Shooting star / meteor streak */
-@keyframes hero-meteor {
-    0% {
-        transform: translate(0, 0) rotate(215deg);
-        opacity: 0;
-    }
-    10% {
-        opacity: 1;
-    }
-    70% {
-        opacity: 1;
-    }
-    100% {
-        transform: translate(-500px, 500px) rotate(215deg);
-        opacity: 0;
-    }
-}
-
-/* Ripple pulse from center */
-@keyframes hero-ripple {
-    0% {
-        transform: translate(-50%, -50%) scale(0.3);
-        opacity: 0.35;
-    }
-    60% {
-        opacity: 0.08;
-    }
-    100% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0;
-    }
-}
-
-/* Vertical scanner beam */
-@keyframes hero-scan {
-    0%,
-    100% {
-        top: -5%;
-    }
-    50% {
-        top: 105%;
-    }
-}
-
-/* Float up for particles */
-@keyframes hero-float-up {
-    0% {
-        transform: translateY(0) scale(1);
-        opacity: 0;
-    }
-    10% {
-        opacity: 1;
-    }
-    90% {
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(-120px) scale(0.5);
-        opacity: 0;
     }
 }
 
@@ -322,26 +338,11 @@
     summary {
         cursor: pointer;
     }
-    :root {
-        --text-primary: #1a211c;
-        --text-secondary: #4d5b51;
-        --text-tertiary: #6b7c70;
-        --text-muted: #9aa69e;
-        --text-disabled: #ced7d1;
-        --text-heading: #1a211c;
-        --text-link: #1a7f54;
-        --text-accent: #1a7f54;
-        --border-default: #e0e7e2;
-        --border-hover: #ced7d1;
-        --surface-primary: #f7fbf8;
-        --surface-elevated: #fdfefd;
-        --surface-subtle: #f7fbf8;
-        --surface-muted: #eef3ef;
-    }
 
     body {
-        background-color: #f7fbf8;
-        color: var(--text-primary);
+        background-color: var(--background);
+        color: var(--foreground);
+        font-family: var(--font-sans);
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         margin: 0;
@@ -358,278 +359,35 @@
         scroll-behavior: smooth;
     }
 
-    *:focus-visible {
-        outline: 2px solid var(--color-primary-600);
-        outline-offset: 2px;
-        border-radius: 4px;
+    /* Two-layer focus ring: 2px surface gap, then 2px accent ring.
+       Form fields (inputs, textareas, selects, and the InputGroup control)
+       are EXCLUDED — they define their own focus treatment (primary border +
+       soft primary ring). Applying the global ring on top produced a doubled,
+       wrong-radius ring on search boxes. */
+    *:focus-visible:not(input):not(textarea):not(select):not(
+            [data-slot='input-group-control']
+        ) {
+        outline: none;
+        box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--ring);
+        border-radius: var(--radius-btn);
     }
-}
 
-/* ─── Magic Bottom Navigation ────────────────────────────── */
-.mnav {
-    position: relative;
-    width: 100%;
-    height: 68px;
-}
-
-/* Dark bar with SVG mask cutout for the notch */
-.mnav-cutout {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    filter: drop-shadow(0 -4px 12px rgba(0, 0, 0, 0.12));
-}
-
-/* Floating green circle behind the active icon */
-.mnav-pill {
-    position: absolute;
-    top: -18px;
-    width: 48px;
-    height: 48px;
-    background: #1a7f54;
-    border-radius: 50%;
-    box-shadow: 0 4px 20px rgba(26, 127, 84, 0.45);
-    transition:
-        left 1s cubic-bezier(0.25, 1, 0.5, 1),
-        transform 1s cubic-bezier(0.25, 1, 0.5, 1);
-    z-index: 1;
-}
-
-/* Tab list */
-.mnav-tabs {
-    position: relative;
-    display: flex;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    z-index: 2;
-}
-
-.mnav-tab {
-    flex: 1;
-    position: relative;
-}
-
-.mnav-tab-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    gap: 3px;
-    text-decoration: none;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.mnav-tab-inner--disabled {
-    cursor: not-allowed;
-}
-.mnav-tab-inner--disabled .mnav-tab-icon {
-    color: rgba(255, 255, 255, 0.15);
-}
-
-/* Icon */
-.mnav-tab-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.45);
-    transition:
-        transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
-        color 0.3s ease;
-}
-
-/* Label — sits below icon, hidden by default */
-.mnav-tab-label {
-    font-size: 0.625rem;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.4);
-    opacity: 0;
-    transform: translateY(4px);
-    transition:
-        opacity 0.3s ease,
-        transform 0.3s ease,
-        color 0.3s ease;
-    white-space: nowrap;
-}
-
-/* ── Active tab ─────────────────────────────────── */
-.mnav-tab.is-active .mnav-tab-icon {
-    color: #ffffff;
-    transform: translateY(-22px);
-}
-
-.mnav-tab.is-active .mnav-tab-label {
-    color: rgba(255, 255, 255, 0.85);
-    opacity: 1;
-    transform: translateY(-2px);
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+    }
 }
 
 /* ─── COMPONENT CLASSES ──────────────────────────────────── */
 @layer components {
-    .btn-primary {
-        @apply bg-primary-600 hover:bg-primary-700 text-white px-5 py-2.5 rounded-lg font-semibold transition-all duration-200 active:scale-[0.98] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 shadow-btn-primary hover:shadow-btn-primary-hover;
-    }
-
-    .btn-secondary {
-        @apply bg-white border border-neutral-200 hover:border-neutral-300 hover:bg-neutral-50 text-neutral-900 px-5 py-2.5 rounded-lg font-medium transition-all duration-200 cursor-pointer shadow-btn hover:shadow-card;
-    }
-
-    .btn-danger {
-        @apply bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-lg font-semibold transition-all duration-200 cursor-pointer shadow-btn-danger;
-    }
-
-    .btn-ghost {
-        @apply bg-transparent hover:bg-neutral-100 text-neutral-600 px-4 py-2 rounded-lg font-medium transition-all duration-200 cursor-pointer hover:shadow-xs;
-    }
-
-    /* ── Card System ────────────────────────────────────── */
-    .card {
-        @apply bg-white rounded-xl border border-neutral-200 shadow-card transition-all duration-200;
-    }
-
-    .card-interactive {
-        @apply bg-white rounded-xl border border-neutral-200 shadow-card hover:shadow-card-hover hover:border-neutral-300 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer;
-    }
-
-    .card-premium {
-        @apply relative bg-white rounded-xl border border-neutral-200 shadow-card transition-all duration-200 overflow-hidden;
-    }
-
-    .card-premium:hover {
-        @apply border-neutral-300 shadow-card-hover -translate-y-0.5;
-    }
-
-    .card-glass {
-        @apply relative bg-white/80 rounded-xl border border-neutral-200 shadow-sm overflow-hidden backdrop-blur-lg;
-    }
-
-    .glass {
-        @apply bg-white/80 backdrop-blur-xl border border-neutral-200/60 shadow-sm;
-    }
-
-    /* ── Badges ──────────────────────────────────────────── */
-    .badge-success {
-        @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700;
-    }
-
     .brand-wordmark {
-        @apply font-bold font-heading tracking-tight select-none;
-    }
-
-    .badge-warning {
-        @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700;
-    }
-
-    .badge-danger {
-        @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-50 text-red-700;
-    }
-
-    .badge-info {
-        @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700;
-    }
-
-    /* ── Inputs ──────────────────────────────────────────── */
-    .input {
-        @apply w-full px-3.5 py-2.5 rounded-lg border border-neutral-200 bg-white placeholder:text-neutral-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/10 transition-all duration-200 outline-none text-sm shadow-input;
-    }
-
-    /* ── Section Typography ──────────────────────────────── */
-    .section-heading {
-        @apply text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight;
-    }
-
-    .section-subheading {
-        @apply mt-2 text-neutral-500 text-base max-w-2xl mx-auto;
-    }
-
-    /* ── Page Layout ─────────────────────────────────────── */
-    .page-container {
-        @apply max-w-4xl mx-auto px-4 sm:px-6 lg:px-8;
-    }
-
-    /* Unified page header banner — used on interior pages */
-    .page-header-banner {
-        @apply relative py-8 sm:py-10 mb-6 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 overflow-hidden;
-        background: linear-gradient(
-            135deg,
-            var(--color-primary-50) 0%,
-            var(--color-neutral-50) 60%,
-            rgba(255, 255, 255, 0) 100%
-        );
-    }
-
-    .page-header-banner::before {
-        content: '';
-        @apply absolute top-0 right-0 w-48 h-48 sm:w-64 sm:h-64 rounded-full pointer-events-none;
-        background: radial-gradient(
-            circle,
-            var(--color-primary-100) 0%,
-            transparent 70%
-        );
-        transform: translate(30%, -40%);
-        opacity: 0.5;
-    }
-
-    .page-header {
-        @apply text-center mb-10;
-    }
-
-    .page-header-icon {
-        @apply w-14 h-14 rounded-2xl bg-primary-100/60 flex items-center justify-center mx-auto mb-4 shadow-sm;
-    }
-
-    .page-title {
-        @apply text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight;
-    }
-
-    .page-subtitle {
-        @apply text-sm text-neutral-500 mt-1.5 max-w-md mx-auto;
-    }
-
-    /* ── Dividers ────────────────────────────────────────── */
-    .divider-gradient {
-        @apply h-px bg-neutral-200;
-    }
-
-    .divider-glow {
-        @apply h-px bg-neutral-200;
-    }
-
-    /* ── Gradient Text ───────────────────────────────────── */
-    .text-gradient-primary {
-        background: linear-gradient(135deg, #1a7f54, #22a06b);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
-
-    /* ── Section Background ──────────────────────────────── */
-    .section-mesh-bg {
-        position: relative;
-    }
-
-    /* ── Shimmer text effect ──────────────────────────────── */
-    .text-shimmer {
-        background: linear-gradient(
-            110deg,
-            var(--color-primary-600) 0%,
-            var(--color-primary-400) 40%,
-            var(--color-primary-600) 60%,
-            var(--color-primary-400) 100%
-        );
-        background-size: 200% auto;
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: shimmer 3s linear infinite;
+        @apply font-semibold font-heading tracking-tight select-none;
     }
 }
 
@@ -683,18 +441,20 @@
     font-style: italic;
 }
 .chat-markdown code {
-    background: #f5f5f5;
+    background: var(--muted);
     padding: 0.15em 0.4em;
     border-radius: 4px;
     font-size: 0.88em;
+    font-family: var(--font-mono);
 }
 .chat-markdown pre {
-    background: #f5f5f5;
+    background: var(--muted);
     padding: 0.75em 1em;
     border-radius: 8px;
     overflow-x: auto;
     margin: 0.5em 0;
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--border);
+    font-family: var(--font-mono);
 }
 .chat-markdown pre code {
     background: none;
@@ -702,7 +462,7 @@
 }
 .chat-markdown hr {
     border: none;
-    border-top: 1px solid #e5e5e5;
+    border-top: 1px solid var(--border);
     margin: 0.6em 0;
 }
 .chat-markdown > *:first-child {
@@ -710,4 +470,194 @@
 }
 .chat-markdown > *:last-child {
     margin-bottom: 0;
+}
+
+@theme inline {
+    --font-heading: 'Inter', 'Anek Telugu', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-sans: 'Inter', 'Anek Telugu', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-serif: 'Newsreader', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --font-mono: 'Fragment Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    --color-link: var(--link);
+    /* Decorative specimen palette — card tints, category fills, accents */
+    --color-forest-ink: var(--forest-ink);
+    --color-olive-press: var(--olive-press);
+    --color-sage-gray: var(--sage-gray);
+    --color-sage-mist: var(--sage-mist);
+    --color-sage-leaf: var(--sage-leaf);
+    --color-deep-teal: var(--deep-teal);
+    --color-crimson-specimen: var(--crimson-specimen);
+    --color-amber-pin: var(--amber-pin);
+    --color-eucalyptus: var(--eucalyptus);
+    --color-lichen: var(--lichen);
+    --color-blush: var(--blush);
+    --color-sand: var(--sand);
+    --color-sage-foam: var(--sage-foam);
+    --color-rose-clay: var(--rose-clay);
+    --color-slate-hollow: var(--slate-hollow);
+    --color-linen: var(--linen);
+    --color-bone: var(--bone);
+    --color-mist: var(--mist);
+    --color-info: var(--info);
+    --color-info-content: var(--info-content);
+    --color-success: var(--success);
+    --color-success-content: var(--success-content);
+    --color-warning: var(--warning);
+    --color-warning-content: var(--warning-content);
+    --color-error: var(--error);
+    --color-error-content: var(--error-content);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar: var(--sidebar);
+    --color-chart-5: var(--chart-5);
+    --color-chart-4: var(--chart-4);
+    --color-chart-3: var(--chart-3);
+    --color-chart-2: var(--chart-2);
+    --color-chart-1: var(--chart-1);
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-muted-hover: var(--muted-hover);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    --color-background-200: var(--background-200);
+    --radius-sm: calc(var(--radius) * 0.6);
+    --radius-md: calc(var(--radius) * 0.8);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 2);
+    --radius-2xl: calc(var(--radius) * 2.6);
+    --radius-3xl: calc(var(--radius) * 3.2);
+    --radius-4xl: calc(var(--radius) * 4);
+}
+
+/* ─── Semantic tokens — Specimen Journal (only theme) ─────────
+   Mapped onto the Material-style palette in design/tailwind-v4.css.
+   Surfaces ride the surface ladder (base=Linen canvas → low/lowest for
+   cards & wells → highest for overlays → inverse for footer). Text uses
+   on-surface (deep sage-ink) with Sage Gray for muted copy. Primary =
+   Sage Leaf #4a6d47 role (fill #4a6d47 / on-primary #eef6dc, container
+   #ddeabd); error = Crimson #991e4b role with its container/stroke.
+   Borders use outline / outline-strong. Flat by design — structure from
+   borders + surface tints. Source of truth: design/DESIGN.md + tailwind-v4.css. */
+:root {
+    color-scheme: light;
+
+    /* Base surfaces — the surface ladder.
+       canvas=surface-base(Linen); cards/panels=surface-low; overlays=
+       surface-highest; text=on-surface (deep sage-ink). */
+    --background: #f8f9f5; /* surface-base — page canvas */
+    --background-200: #e9ede9; /* surface-lowest — section bands / deep fill */
+    --foreground: #2e4320; /* on-surface-base — body text */
+    --card: #f1f3ef; /* surface-low — card / grid tile / panel */
+    --card-foreground: #2e4320; /* on-surface-low */
+    --popover: #fdfefb; /* surface-highest — floating overlays */
+    --popover-foreground: #2b390a; /* on-surface-highest */
+
+    /* Brand — primary role = Sage Leaf fill + light on-primary content.
+       Hover darkens via color-mix per-component. */
+    --primary: #4a6d47; /* primary — Sage Leaf */
+    --primary-foreground: #eef6dc; /* on-primary */
+
+    /* Secondary button surface — neutral surface-low chip */
+    --secondary: #f1f3ef; /* surface-low */
+    --secondary-foreground: #2e4320; /* on-surface */
+
+    /* Neutral fills & muted text */
+    --muted: #f1f3ef; /* surface-low — wells, zebra rows, input fills */
+    --muted-hover: #e9ede9; /* surface-lowest — gentle card/grid/surface hover */
+    --muted-foreground: #6b7860; /* Sage Gray — secondary copy */
+    /* Interactive tint for SELECTED/active menu rows — primary-container wash,
+       a clear step beyond the gentle --muted-hover */
+    --accent: #ddeabd; /* primary-container — selected/active tint */
+    --accent-foreground: #4a6d47; /* on-primary-container */
+
+    /* Status — destructive/error = aux-accent-2 (true danger red), kept
+       distinct from the Crimson (#991e4b) that is now reserved for other
+       roles. Drives delete/remove/logout buttons + error messages. */
+    --destructive: #c23934; /* aux-accent-2 */
+    --destructive-foreground: #ffffff; /* light content on red */
+
+    /* Borders & focus */
+    --border: #e1e6df; /* outline — hairline */
+    --input: #c4cbc2; /* outline-strong — form-field border, findable */
+    --ring: #548f28; /* primary-stroke — focus ring */
+
+    /* Links / emphasis accent — tertiary (#b14eaa), a distinct navigational
+       hue that never reads as a danger/error action */
+    --link: #b14eaa; /* tertiary */
+
+    /* Status tokens — mapped onto the new palette (light fill / dark content) */
+    --info: #1a7474; /* aux-accent-7 teal */
+    --info-content: #f8f9f5;
+    --success: #2d784d; /* aux-accent-6 green */
+    --success-content: #f8f9f5;
+    --warning: #886a00; /* aux-accent-4 amber */
+    --warning-content: #f8f9f5;
+    --error: #c23934; /* aux-accent-2 */
+    --error-content: #ffffff;
+
+    /* Decorative specimen palette — card tints & category fills */
+    --forest-ink: #0a1d08;
+    --olive-press: #2b390a;
+    --sage-gray: #6b7860;
+    --sage-mist: #a5ac9f;
+    --sage-leaf: #4a6d47;
+    --deep-teal: #2b6b5e;
+    --crimson-specimen: #991e4b;
+    --amber-pin: #80581c;
+    --eucalyptus: #c9d5c5;
+    --lichen: #c5ccb6;
+    --blush: #e3c9d0;
+    --sand: #ad9d80;
+    --sage-foam: #729d92;
+    --rose-clay: #c27c93;
+    --slate-hollow: #2a332a;
+    --linen: #f8f9f5;
+    --bone: #eff2e8;
+    --mist: #e1e6df;
+
+    /* Hero backdrop — sage/mist lines, warm cursor glow, faint sage wash.
+       Keeps the specimen mood without a chromatic-green shout. */
+    --hero-glow: rgba(10, 29, 8, 0.04); /* warm ink cursor spotlight */
+    --hero-ring: #e1e6df; /* Mist — faint grid lines */
+    --hero-ring-strong: #c5ccb6; /* Lichen — moving/dashed rings */
+    --hero-accent: oklch(51% 0.06 150 / 0.6); /* Sage Leaf — inner ring/dots */
+    --hero-accent-soft: oklch(51% 0.06 150 / 0.08); /* sage ambient wash */
+
+    /* Data-viz — specimen hues */
+    --chart-1: #4a6d47; /* Sage Leaf */
+    --chart-2: #2b6b5e; /* Deep Teal */
+    --chart-3: #991e4b; /* Crimson */
+    --chart-4: #80581c; /* Amber Pin */
+    --chart-5: #729d92; /* Sage Foam */
+
+    --radius: 0.5rem; /* 8px controls (field); box = 2× = 16px */
+
+    /* Sidebar — mirrors base surfaces */
+    --sidebar: #f1f3ef; /* surface-low */
+    --sidebar-foreground: #2e4320; /* on-surface */
+    --sidebar-primary: #4a6d47; /* primary — Sage Leaf */
+    --sidebar-primary-foreground: #eef6dc; /* on-primary */
+    --sidebar-accent: #ddeabd; /* primary-container */
+    --sidebar-accent-foreground: #4a6d47; /* on-primary-container */
+    --sidebar-border: #e1e6df; /* outline */
+    --sidebar-ring: #548f28; /* primary-stroke */
 }

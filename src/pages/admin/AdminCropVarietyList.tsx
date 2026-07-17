@@ -3,7 +3,19 @@ import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
 import { adminGetCropVarieties, adminGetCrop } from '@/services/adminService'
 import { Plus, Edit } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import {
+    Table,
+    TableHeader,
+    TableBody,
+    TableRow,
+    TableHead,
+    TableCell,
+} from '@/components/ui/table'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
+import { PageHeader } from '@/components/common/PageHeader'
+import { PageContainer } from '@/components/common/PageContainer'
 import type { CropVarietyRow } from '@/types/crop'
 import type { LocalizedText } from '@/types/i18n'
 
@@ -31,51 +43,34 @@ export function AdminCropVarietyListPage() {
     if (isLoading || cropLoading) return <LoadingSpinner />
 
     return (
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="flex items-center justify-between mb-6">
-                <div>
-                    <Link
-                        to={`/admin/crops/${cropId}`}
-                        className="text-sm text-primary-600 hover:underline mb-1 inline-block"
-                    >
-                        ← {cropName}
-                    </Link>
-                    <h1 className="text-2xl font-bold text-neutral-900">
-                        {t('admin.varieties')}
-                    </h1>
-                    <p className="text-sm text-neutral-400">
-                        {varieties.length} {t('common.total')}
-                    </p>
-                </div>
-                <Link
-                    to={`/admin/crops/${cropId}/varieties/add`}
-                    className="btn-primary inline-flex items-center gap-2"
-                >
-                    <Plus className="h-4 w-4" />
-                    {t('admin.addVariety')}
-                </Link>
-            </div>
+        <PageContainer size="lg">
+            <PageHeader
+                backTo={`/admin/crops/${cropId}`}
+                backLabel={cropName}
+                title={t('admin.varieties')}
+                description={`${varieties.length} ${t('common.total')}`}
+                action={
+                    <Button asChild>
+                        <Link to={`/admin/crops/${cropId}/varieties/add`}>
+                            <Plus data-icon="inline-start" />
+                            {t('admin.addVariety')}
+                        </Link>
+                    </Button>
+                }
+            />
 
-            <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
-                <table className="w-full text-sm">
-                    <thead className="bg-neutral-50 border-b border-neutral-200">
-                        <tr>
-                            <th className="text-left px-4 py-3 font-semibold">
-                                ID
-                            </th>
-                            <th className="text-left px-4 py-3 font-semibold">
-                                {t('admin.name')}
-                            </th>
-                            <th className="text-left px-4 py-3 font-semibold">
-                                {t('admin.districts')}
-                            </th>
-                            <th className="text-left px-4 py-3 font-semibold">
-                                {t('admin.seasons')}
-                            </th>
-                            <th className="px-4 py-3" />
-                        </tr>
-                    </thead>
-                    <tbody>
+            <Card className="p-0 overflow-hidden">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead>ID</TableHead>
+                            <TableHead>{t('admin.name')}</TableHead>
+                            <TableHead>{t('admin.districts')}</TableHead>
+                            <TableHead>{t('admin.seasons')}</TableHead>
+                            <TableHead />
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
                         {varieties.map((v) => {
                             const en = v.name?.en
                             const te = v.name?.te
@@ -84,54 +79,56 @@ export function AdminCropVarietyListPage() {
                                 v.recommended_seasons?.length ?? 0
 
                             return (
-                                <tr
-                                    key={v.id}
-                                    className="border-b border-neutral-200 last:border-0 hover:bg-neutral-50"
-                                >
-                                    <td className="px-4 py-3 text-xs text-neutral-400 font-mono">
+                                <TableRow key={v.id}>
+                                    <TableCell className="text-xs text-muted-foreground font-mono">
                                         {v.id.slice(0, 8)}
-                                    </td>
-                                    <td className="px-4 py-3">
+                                    </TableCell>
+                                    <TableCell>
                                         <div className="font-medium">
                                             {en ?? '—'}
                                         </div>
                                         {te && (
-                                            <div className="text-xs text-neutral-400">
+                                            <div className="text-xs text-muted-foreground">
                                                 {te}
                                             </div>
                                         )}
-                                    </td>
-                                    <td className="px-4 py-3 text-neutral-400">
+                                    </TableCell>
+                                    <TableCell className="text-muted-foreground">
                                         {districtCount}
-                                    </td>
-                                    <td className="px-4 py-3 text-neutral-400">
+                                    </TableCell>
+                                    <TableCell className="text-muted-foreground">
                                         {seasonCount}
-                                    </td>
-                                    <td className="px-4 py-3 text-right">
-                                        <Link
-                                            to={`/admin/crops/${cropId}/varieties/${v.id}`}
-                                            className="text-primary-600 hover:underline inline-flex items-center gap-1"
+                                    </TableCell>
+                                    <TableCell className="text-right">
+                                        <Button
+                                            asChild
+                                            variant="outline"
+                                            size="sm"
                                         >
-                                            <Edit className="h-3.5 w-3.5" />
-                                            {t('common.edit')}
-                                        </Link>
-                                    </td>
-                                </tr>
+                                            <Link
+                                                to={`/admin/crops/${cropId}/varieties/${v.id}`}
+                                            >
+                                                <Edit data-icon="inline-start" />
+                                                {t('common.edit')}
+                                            </Link>
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
                             )
                         })}
                         {varieties.length === 0 && (
-                            <tr>
-                                <td
+                            <TableRow>
+                                <TableCell
                                     colSpan={5}
-                                    className="px-4 py-12 text-center text-neutral-400"
+                                    className="py-12 text-center text-muted-foreground"
                                 >
                                     {t('admin.noVarieties')}
-                                </td>
-                            </tr>
+                                </TableCell>
+                            </TableRow>
                         )}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                    </TableBody>
+                </Table>
+            </Card>
+        </PageContainer>
     )
 }

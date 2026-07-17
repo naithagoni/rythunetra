@@ -13,17 +13,30 @@ import { DISTRICT_KEYS } from '@/config/districts'
 import { AI_ENABLED } from '@/config/env'
 import {
     Sprout,
-    Loader2,
     AlertTriangle,
     Droplets,
     TrendingUp,
     Clock,
     Lightbulb,
-    ChevronDown,
-    ChevronUp,
     Leaf,
     Sparkles,
 } from 'lucide-react'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { Spinner } from '@/components/ui/spinner'
+import {
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
+} from '@/components/ui/accordion'
+import { Field, FieldGroup, FieldLabel } from '@/components/ui/field'
+import { scoreColor, demandColor } from '@/utils/statusColors'
+import { PageHeader } from '@/components/common/PageHeader'
+import { PageContainer } from '@/components/common/PageContainer'
+import { Section } from '@/components/common/Section'
+import { InfoCallout } from '@/components/common/InfoCallout'
+import { EmptyState } from '@/components/common/EmptyState'
 
 // ─── Types ────────────────────────────────────────────
 
@@ -56,25 +69,6 @@ const SEASONS = ['kharif', 'rabi', 'zaid'] as const
 
 const IRRIGATION_OPTIONS = ['full', 'limited', 'rainfed'] as const
 
-const scoreColor = (score: number) => {
-    if (score >= 85) return 'text-green-700 bg-green-50 border-green-200'
-    if (score >= 70) return 'text-emerald-700 bg-emerald-50 border-emerald-200'
-    if (score >= 50) return 'text-amber-700 bg-amber-50 border-amber-200'
-    return 'text-orange-700 bg-orange-50 border-orange-200'
-}
-
-const waterIcon: Record<string, string> = {
-    low: '💧',
-    moderate: '💧💧',
-    high: '💧💧💧',
-}
-
-const demandBadge: Record<string, string> = {
-    low: 'bg-neutral-100 text-neutral-600',
-    moderate: 'bg-amber-100 text-amber-700',
-    high: 'bg-green-100 text-green-700',
-}
-
 // ─── Component ────────────────────────────────────────
 
 export function SoilRecommenderPage() {
@@ -93,7 +87,6 @@ export function SoilRecommenderPage() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [result, setResult] = useState<RecommendationResult | null>(null)
-    const [expandedCrop, setExpandedCrop] = useState<number | null>(null)
 
     const soilTypeOptions = useMemo(
         () =>
@@ -187,334 +180,276 @@ export function SoilRecommenderPage() {
     function resetForm() {
         setResult(null)
         setError(null)
-        setExpandedCrop(null)
     }
 
     if (!AI_ENABLED) {
         return (
-            <div className="max-w-3xl mx-auto px-4 py-16 text-center space-y-4">
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-amber-50">
-                    <Sparkles className="h-8 w-8 text-amber-500" />
-                </div>
-                <h2 className="text-xl font-bold text-neutral-900">
-                    {t('settings.aiFeatures')}
-                </h2>
-                <p className="text-sm text-neutral-500 max-w-md mx-auto">
-                    {t('settings.aiDisabledMessage')}
-                </p>
-            </div>
+            <PageContainer size="sm">
+                <PageHeader
+                    title={t('recommend.title')}
+                    description={t('recommend.subtitle')}
+                />
+                <EmptyState
+                    icon={<Sparkles className="size-12" />}
+                    title={t('settings.aiFeatures')}
+                    description={t('settings.aiDisabledMessage')}
+                />
+            </PageContainer>
         )
     }
 
     return (
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-            {/* Header Banner */}
-            <div className="page-header-banner rounded-2xl">
-                <div className="relative text-center space-y-2">
-                    <div className="page-header-icon">
-                        <Sprout className="h-6 w-6 text-primary-600" />
-                    </div>
-                    <h1 className="page-title">{t('recommend.title')}</h1>
-                    <p className="page-subtitle">{t('recommend.subtitle')}</p>
-                </div>
-            </div>
-
+        <PageContainer size="sm">
+            <PageHeader
+                title={t('recommend.title')}
+                description={t('recommend.subtitle')}
+            />
+            <div className="flex flex-col gap-6">
             {/* Form */}
             {!result && (
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    {/* Soil Type */}
-                    <div>
-                        <label className="block text-sm font-semibold mb-1">
-                            {t('recommend.soilType')}{' '}
-                            <span className="text-red-500">*</span>
-                        </label>
-                        <CustomDropdown
-                            options={soilTypeOptions}
-                            value={soilType}
-                            onChange={setSoilType}
-                            placeholder={t('recommend.selectSoilType')}
-                            variant="form"
-                            ariaLabel={t('recommend.soilType')}
-                        />
-                    </div>
+                <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+                    <Section
+                        title={t('recommend.soilType')}
+                        description={t('recommend.phHint')}
+                    >
+                        <FieldGroup>
+                            <Field>
+                                <FieldLabel htmlFor="recommend-soil-type">
+                                    {t('recommend.soilType')}{' '}
+                                    <span className="text-destructive">*</span>
+                                </FieldLabel>
+                                <CustomDropdown
+                                    options={soilTypeOptions}
+                                    value={soilType}
+                                    onChange={setSoilType}
+                                    placeholder={t('recommend.selectSoilType')}
+                                    variant="form"
+                                    ariaLabel={t('recommend.soilType')}
+                                />
+                            </Field>
+                            <Field>
+                                <FieldLabel htmlFor="recommend-ph">
+                                    {t('recommend.phLevel')}
+                                </FieldLabel>
+                                <Input
+                                    id="recommend-ph"
+                                    type="number"
+                                    step="0.1"
+                                    min="0"
+                                    max="14"
+                                    value={phLevel}
+                                    onChange={(e) => setPhLevel(e.target.value)}
+                                    placeholder={t('recommend.phPlaceholder')}
+                                />
+                            </Field>
+                        </FieldGroup>
+                    </Section>
 
-                    {/* pH Level */}
-                    <div>
-                        <label className="block text-sm font-semibold mb-1">
-                            {t('recommend.phLevel')}
-                        </label>
-                        <input
-                            type="number"
-                            step="0.1"
-                            min="0"
-                            max="14"
-                            value={phLevel}
-                            onChange={(e) => setPhLevel(e.target.value)}
-                            placeholder={t('recommend.phPlaceholder')}
-                            className="input"
-                        />
-                        <p className="text-xs text-neutral-500 mt-0.5">
-                            {t('recommend.phHint')}
-                        </p>
-                    </div>
-
-                    {/* Season */}
-                    <div>
-                        <label className="block text-sm font-semibold mb-1">
-                            {t('recommend.season')}{' '}
-                            <span className="text-red-500">*</span>
-                        </label>
-                        <CustomDropdown
-                            options={seasonOptions}
-                            value={season}
-                            onChange={setSeason}
-                            placeholder={t('recommend.selectSeason')}
-                            variant="form"
-                            ariaLabel={t('recommend.season')}
-                        />
-                    </div>
-
-                    {/* District */}
-                    <div>
-                        <label className="block text-sm font-semibold mb-1">
-                            {t('recommend.district')}
-                        </label>
-                        <CustomDropdown
-                            options={districtOptions}
-                            value={district}
-                            onChange={setDistrict}
-                            placeholder={t('recommend.selectDistrict')}
-                            variant="form"
-                            ariaLabel={t('recommend.district')}
-                        />
-                    </div>
-
-                    {/* Irrigation */}
-                    <div>
-                        <label className="block text-sm font-semibold mb-1">
-                            {t('recommend.irrigation')}
-                        </label>
-                        <CustomDropdown
-                            options={irrigationOptions}
-                            value={irrigation}
-                            onChange={setIrrigation}
-                            placeholder={t('recommend.selectIrrigation')}
-                            variant="form"
-                            ariaLabel={t('recommend.irrigation')}
-                        />
-                    </div>
+                    <Section title={t('recommend.season')}>
+                        <FieldGroup>
+                            <Field>
+                                <FieldLabel htmlFor="recommend-season">
+                                    {t('recommend.season')}{' '}
+                                    <span className="text-destructive">*</span>
+                                </FieldLabel>
+                                <CustomDropdown
+                                    options={seasonOptions}
+                                    value={season}
+                                    onChange={setSeason}
+                                    placeholder={t('recommend.selectSeason')}
+                                    variant="form"
+                                    ariaLabel={t('recommend.season')}
+                                />
+                            </Field>
+                            <Field>
+                                <FieldLabel htmlFor="recommend-district">
+                                    {t('recommend.district')}
+                                </FieldLabel>
+                                <CustomDropdown
+                                    options={districtOptions}
+                                    value={district}
+                                    onChange={setDistrict}
+                                    placeholder={t('recommend.selectDistrict')}
+                                    variant="form"
+                                    ariaLabel={t('recommend.district')}
+                                />
+                            </Field>
+                            <Field>
+                                <FieldLabel htmlFor="recommend-irrigation">
+                                    {t('recommend.irrigation')}
+                                </FieldLabel>
+                                <CustomDropdown
+                                    options={irrigationOptions}
+                                    value={irrigation}
+                                    onChange={setIrrigation}
+                                    placeholder={t('recommend.selectIrrigation')}
+                                    variant="form"
+                                    ariaLabel={t('recommend.irrigation')}
+                                />
+                            </Field>
+                        </FieldGroup>
+                    </Section>
 
                     {/* Submit */}
-                    <button
-                        type="submit"
-                        disabled={loading || !soilType || !season}
-                        className="w-full btn-primary py-3 rounded-xl flex items-center justify-center gap-2 disabled:opacity-50"
-                    >
-                        {loading ? (
-                            <>
-                                <Loader2 className="h-5 w-5 animate-spin" />
-                                {t('recommend.analyzing')}
-                            </>
-                        ) : (
-                            <>
-                                <Sprout className="h-5 w-5" />
-                                {t('recommend.getRecommendations')}
-                            </>
-                        )}
-                    </button>
+                    <div className="flex justify-end">
+                        <Button
+                            type="submit"
+                            disabled={loading || !soilType || !season}
+                            size="lg"
+                        >
+                            {loading ? (
+                                <>
+                                    <Spinner data-icon="inline-start" />
+                                    {t('recommend.analyzing')}
+                                </>
+                            ) : (
+                                <>
+                                    <Sprout data-icon="inline-start" />
+                                    {t('recommend.getRecommendations')}
+                                </>
+                            )}
+                        </Button>
+                    </div>
                 </form>
             )}
 
             {/* Error */}
             {error && (
-                <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex gap-3">
-                    <AlertTriangle className="h-5 w-5 text-red-600 shrink-0 mt-0.5" />
-                    <div>
-                        <p className="font-medium text-red-800">
-                            {t('recommend.errorTitle')}
-                        </p>
-                        <p className="text-sm text-red-600">{error}</p>
-                    </div>
-                </div>
+                <InfoCallout
+                    tone="red"
+                    icon={<AlertTriangle className="size-5" />}
+                    title={t('recommend.errorTitle')}
+                >
+                    {error}
+                </InfoCallout>
             )}
 
             {/* Results */}
             {result && (
-                <div className="space-y-4 animate-fade-in">
+                <div className="flex flex-col gap-6">
                     {/* Soil Analysis */}
-                    <div className="bg-amber-50/60 border border-amber-200/30 rounded-xl p-5">
-                        <h3 className="font-semibold text-sm flex items-center gap-2 text-amber-800">
-                            <Leaf className="h-4 w-4" />
-                            {t('recommend.soilAnalysis')}
-                        </h3>
-                        <p className="text-sm mt-1 text-amber-900">
-                            {isTe ? result.soilAnalysisTe : result.soilAnalysis}
-                        </p>
-                    </div>
+                    <InfoCallout
+                        tone="amber"
+                        icon={<Leaf className="size-5" />}
+                        title={t('recommend.soilAnalysis')}
+                    >
+                        {isTe ? result.soilAnalysisTe : result.soilAnalysis}
+                    </InfoCallout>
 
-                    {/* Crop Cards */}
-                    <h3 className="font-semibold text-lg text-neutral-900">
-                        {t('recommend.recommendedCrops')} (
-                        {result.recommendations.length})
-                    </h3>
-
-                    <div className="space-y-3">
-                        {result.recommendations.map((crop, i) => {
-                            const isExpanded = expandedCrop === i
-                            return (
-                                <div
+                    {/* Crop recommendations */}
+                    <Section
+                        title={`${t('recommend.recommendedCrops')} (${result.recommendations.length})`}
+                        flush
+                    >
+                        <Accordion type="single" collapsible className="w-full">
+                            {result.recommendations.map((crop, i) => (
+                                <AccordionItem
                                     key={i}
-                                    className="bg-white border border-neutral-200 rounded-xl overflow-hidden transition-all duration-200 hover:shadow-sm"
+                                    value={`crop-${i}`}
+                                    className="border-b border-border px-6 last:border-b-0"
                                 >
-                                    {/* Crop header */}
-                                    <button
-                                        onClick={() =>
-                                            setExpandedCrop(
-                                                isExpanded ? null : i,
-                                            )
-                                        }
-                                        className="w-full text-left px-4 py-3 flex items-center gap-3"
-                                    >
-                                        {/* Rank */}
-                                        <span className="w-7 h-7 rounded-full bg-primary-100 text-primary-600 font-bold text-sm flex items-center justify-center shrink-0">
-                                            {i + 1}
-                                        </span>
-
-                                        {/* Name + category */}
-                                        <div className="flex-1 min-w-0">
-                                            <p className="font-semibold truncate">
-                                                {isTe
-                                                    ? crop.cropNameTe
-                                                    : crop.cropName}
-                                                {isTe && (
-                                                    <span className="text-xs text-neutral-400 ml-1">
-                                                        ({crop.cropName})
-                                                    </span>
-                                                )}
-                                            </p>
-                                            <p className="text-xs text-neutral-500 capitalize">
-                                                {t(
-                                                    `recommend.categories.${crop.category}`,
-                                                )}
-                                            </p>
-                                        </div>
-
-                                        {/* Score badge */}
-                                        <span
-                                            className={`px-2 py-1 rounded-full text-xs font-bold border ${scoreColor(crop.suitabilityScore)}`}
-                                        >
-                                            {crop.suitabilityScore}%
-                                        </span>
-
-                                        {isExpanded ? (
-                                            <ChevronUp className="h-4 w-4 text-neutral-400 shrink-0" />
-                                        ) : (
-                                            <ChevronDown className="h-4 w-4 text-neutral-400 shrink-0" />
-                                        )}
-                                    </button>
-
-                                    {/* Expanded details */}
-                                    {isExpanded && (
-                                        <div className="px-4 pb-4 space-y-3 border-t border-neutral-100 pt-3">
-                                            {/* Stat pills */}
-                                            <div className="flex flex-wrap gap-2">
-                                                <span className="inline-flex items-center gap-1 text-xs px-2 py-1 bg-blue-50 text-blue-700 rounded-full">
-                                                    <Droplets className="h-3 w-3" />
-                                                    {
-                                                        waterIcon[
-                                                            crop
-                                                                .waterRequirement
-                                                        ]
-                                                    }{' '}
-                                                    {t(
-                                                        `recommend.water.${crop.waterRequirement}`,
-                                                    )}
-                                                </span>
-                                                <span className="inline-flex items-center gap-1 text-xs px-2 py-1 bg-neutral-100 text-neutral-600 rounded-full">
-                                                    <Clock className="h-3 w-3" />
+                                    <AccordionTrigger className="py-4 hover:no-underline">
+                                        <div className="flex flex-1 items-center gap-3 pr-3">
+                                            <div className="min-w-0 flex-1 text-left">
+                                                <p className="truncate font-medium text-foreground">
                                                     {isTe
-                                                        ? crop.growingDurationTe
-                                                        : crop.growingDuration}
-                                                </span>
-                                                <span
-                                                    className={`inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full ${demandBadge[crop.marketDemand]}`}
-                                                >
-                                                    <TrendingUp className="h-3 w-3" />
+                                                        ? crop.cropNameTe
+                                                        : crop.cropName}
+                                                </p>
+                                                <p className="text-xs text-muted-foreground capitalize">
                                                     {t(
-                                                        `recommend.demand.${crop.marketDemand}`,
+                                                        `recommend.categories.${crop.category}`,
                                                     )}
-                                                </span>
+                                                </p>
                                             </div>
-
-                                            {/* Yield */}
-                                            <div className="text-sm">
-                                                <span className="font-medium">
-                                                    {t(
-                                                        'recommend.expectedYield',
-                                                    )}
-                                                    :
-                                                </span>{' '}
-                                                {isTe
-                                                    ? crop.expectedYieldTe
-                                                    : crop.expectedYield}
-                                            </div>
-
-                                            {/* Tips */}
-                                            {crop.tips.length > 0 && (
-                                                <div>
-                                                    <p className="text-xs font-semibold text-neutral-600 mb-1 flex items-center gap-1">
-                                                        <Lightbulb className="h-3 w-3" />
-                                                        {t(
-                                                            'recommend.growingTips',
-                                                        )}
-                                                    </p>
-                                                    <ul className="space-y-1">
-                                                        {(isTe
-                                                            ? crop.tipsTe
-                                                            : crop.tips
-                                                        ).map((tip, j) => (
-                                                            <li
-                                                                key={j}
-                                                                className="flex gap-2 text-sm"
-                                                            >
-                                                                <span className="text-green-500 shrink-0">
-                                                                    •
-                                                                </span>
-                                                                {tip}
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
-                                            )}
+                                            <span
+                                                className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${scoreColor(crop.suitabilityScore).chip}`}
+                                            >
+                                                {crop.suitabilityScore}%
+                                            </span>
                                         </div>
-                                    )}
-                                </div>
-                            )
-                        })}
-                    </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="flex flex-col gap-3 pb-4">
+                                        <div className="flex flex-wrap gap-2">
+                                            <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-1 text-xs text-muted-foreground">
+                                                <Droplets className="size-3" />
+                                                {t(
+                                                    `recommend.water.${crop.waterRequirement}`,
+                                                )}
+                                            </span>
+                                            <span className="inline-flex items-center gap-1 rounded-full bg-muted px-2 py-1 text-xs text-muted-foreground">
+                                                <Clock className="size-3" />
+                                                {isTe
+                                                    ? crop.growingDurationTe
+                                                    : crop.growingDuration}
+                                            </span>
+                                            <span
+                                                className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs ${demandColor(crop.marketDemand).chip}`}
+                                            >
+                                                <TrendingUp className="size-3" />
+                                                {t(
+                                                    `recommend.demand.${crop.marketDemand}`,
+                                                )}
+                                            </span>
+                                        </div>
+                                        <p className="text-sm text-foreground">
+                                            <span className="font-medium">
+                                                {t('recommend.expectedYield')}:
+                                            </span>{' '}
+                                            {isTe
+                                                ? crop.expectedYieldTe
+                                                : crop.expectedYield}
+                                        </p>
+                                        {crop.tips.length > 0 && (
+                                            <div>
+                                                <p className="mb-1 flex items-center gap-1 text-xs font-medium text-muted-foreground">
+                                                    <Lightbulb className="size-3" />
+                                                    {t('recommend.growingTips')}
+                                                </p>
+                                                <ul className="flex flex-col gap-1">
+                                                    {(isTe
+                                                        ? crop.tipsTe
+                                                        : crop.tips
+                                                    ).map((tip, j) => (
+                                                        <li
+                                                            key={j}
+                                                            className="flex gap-2 text-sm text-foreground"
+                                                        >
+                                                            <span className="mt-1.5 size-1 shrink-0 rounded-full bg-muted-foreground" />
+                                                            {tip}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )}
+                                    </AccordionContent>
+                                </AccordionItem>
+                            ))}
+                        </Accordion>
+                    </Section>
 
                     {/* General Advice */}
-                    <div className="bg-green-50/80 border border-green-200/40 rounded-xl p-4">
-                        <h3 className="font-semibold text-sm flex items-center gap-2 text-green-800">
-                            <Lightbulb className="h-4 w-4" />
-                            {t('recommend.generalAdvice')}
-                        </h3>
-                        <p className="text-sm mt-1 text-green-900">
-                            {isTe
-                                ? result.generalAdviceTe
-                                : result.generalAdvice}
-                        </p>
-                    </div>
+                    <InfoCallout
+                        tone="green"
+                        icon={<Lightbulb className="size-5" />}
+                        title={t('recommend.generalAdvice')}
+                    >
+                        {isTe ? result.generalAdviceTe : result.generalAdvice}
+                    </InfoCallout>
 
                     {/* Try Again */}
-                    <button
-                        onClick={resetForm}
-                        className="w-full border border-neutral-200 py-2.5 rounded-xl text-sm font-medium hover:bg-primary-50/50 hover:border-primary-200 transition-all duration-200"
-                    >
-                        {t('recommend.tryAgain')}
-                    </button>
+                    <div className="flex justify-end">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            onClick={resetForm}
+                        >
+                            {t('recommend.tryAgain')}
+                        </Button>
+                    </div>
                 </div>
             )}
-        </div>
+            </div>
+        </PageContainer>
     )
 }

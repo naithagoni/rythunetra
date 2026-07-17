@@ -12,9 +12,27 @@ import {
     checkDuplicateCrop,
 } from '@/services/adminService'
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
+import { PageHeader } from '@/components/common/PageHeader'
+import { PageContainer } from '@/components/common/PageContainer'
 import { CustomDropdown } from '@/components/common/CustomDropdown'
 import { MultiSelectDropdown } from '@/components/common/MultiSelectDropdown'
 import { Save, Trash2, Languages, X, ImageIcon, Plus, List } from 'lucide-react'
+import { toast } from 'sonner'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { Spinner } from '@/components/ui/spinner'
+import {
+    Card,
+    CardContent,
+    CardHeader,
+    CardTitle,
+} from '@/components/ui/card'
+import {
+    Field,
+    FieldDescription,
+    FieldGroup,
+    FieldLabel,
+} from '@/components/ui/field'
 import { translateText } from '@/services/translateService'
 import type { LocalizedText, LocalizedTextArray } from '@/types/i18n'
 import { CROP_TYPE_KEYS } from '@/config/cropTypes'
@@ -56,7 +74,6 @@ export function AdminCropFormPage() {
     const [teName, setTeName] = useState('')
 
     const [saving, setSaving] = useState(false)
-    const [message, setMessage] = useState('')
     const [translating, setTranslating] = useState(false)
 
     // Validation
@@ -135,7 +152,7 @@ export function AdminCropFormPage() {
             const translated = await translateText(enName, 'en', 'te')
             setTeName(translated)
         } catch {
-            setMessage(t('admin.translateFailed'))
+            toast.error(t('admin.translateFailed'))
         } finally {
             setTranslating(false)
         }
@@ -144,13 +161,12 @@ export function AdminCropFormPage() {
     const handleSave = async (e: React.SyntheticEvent) => {
         e.preventDefault()
         setSaving(true)
-        setMessage('')
 
         try {
             // Duplicate check
             const isDuplicate = await checkDuplicateCrop(enName, id)
             if (isDuplicate) {
-                setMessage(t('errors.duplicateCrop'))
+                toast.error(t('errors.duplicateCrop'))
                 setSaving(false)
                 return
             }
@@ -207,13 +223,13 @@ export function AdminCropFormPage() {
             queryClient.invalidateQueries({ queryKey: ['admin-crops'] })
             queryClient.invalidateQueries({ queryKey: ['admin-crop'] })
             queryClient.invalidateQueries({ queryKey: ['crops'] })
-            setMessage(t('admin.saved'))
+            toast.success(t('admin.saved'))
 
             if (isNew) {
                 navigate('/admin/crops', { replace: true })
             }
         } catch {
-            setMessage(t('errors.generic'))
+            toast.error(t('errors.generic'))
         } finally {
             setSaving(false)
         }
@@ -223,7 +239,7 @@ export function AdminCropFormPage() {
         if (!confirm(t('admin.deleteConfirm'))) return
         const { error } = await adminDeleteCrop(id!)
         if (error) {
-            setMessage(t('errors.generic'))
+            toast.error(t('errors.generic'))
             return
         }
         queryClient.invalidateQueries({ queryKey: ['admin-crops'] })
@@ -234,309 +250,333 @@ export function AdminCropFormPage() {
     if (!isNew && isLoading) return <LoadingSpinner />
 
     return (
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <Link
-                to="/admin/crops"
-                className="text-sm text-primary-600 hover:underline mb-1 inline-block"
-            >
-                ← {t('admin.crops')}
-            </Link>
-            <div className="flex items-center justify-between mb-6">
-                <h1 className="text-2xl font-bold text-neutral-900">
-                    {isNew ? t('admin.addCrop') : t('admin.editCrop')}
-                </h1>
-                {!isNew && (
-                    <button
-                        onClick={handleDelete}
-                        className="text-red-600 hover:text-red-700 p-2 rounded-lg hover:bg-red-50"
-                    >
-                        <Trash2 className="h-5 w-5" />
-                    </button>
-                )}
-            </div>
+        <PageContainer size="sm">
+            <PageHeader
+                backTo="/admin/crops"
+                backLabel={t('admin.crops')}
+                title={isNew ? t('admin.addCrop') : t('admin.editCrop')}
+                action={
+                    !isNew && (
+                        <Button
+                            type="button"
+                            variant="destructive"
+                            size="icon"
+                            onClick={handleDelete}
+                            aria-label={t('common.delete')}
+                        >
+                            <Trash2 />
+                        </Button>
+                    )
+                }
+            />
 
-            <form onSubmit={handleSave} className="space-y-6">
+            <form onSubmit={handleSave} className="flex flex-col gap-6">
                 {/* Core Fields */}
-                <div className="bg-white rounded-xl border border-neutral-200 p-5 space-y-4">
-                    <h2 className="font-semibold text-lg">
-                        {t('admin.coreFields')}
-                    </h2>
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-lg">
+                            {t('admin.coreFields')}
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <FieldGroup>
+                            {/* Image Upload */}
+                            <Field>
+                                <FieldLabel>
+                                    {t('admin.cropImage')}{' '}
+                                    <span className="text-destructive">*</span>
+                                </FieldLabel>
+                                <FieldDescription>
+                                    {t('admin.cropImageHint')}
+                                </FieldDescription>
 
-                    {/* Image Upload */}
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('admin.cropImage')}{' '}
-                            <span className="text-red-500">*</span>
-                        </label>
-                        <p className="text-xs text-neutral-400 mb-2">
-                            {t('admin.cropImageHint')}
-                        </p>
-
-                        <input
-                            ref={fileInputRef}
-                            type="file"
-                            accept="image/*"
-                            className="hidden"
-                            onChange={(e) => {
-                                const file = e.target.files?.[0]
-                                if (file) handleImageSelect(file)
-                            }}
-                        />
-
-                        {imagePreview ? (
-                            <div className="relative inline-block">
-                                <img
-                                    src={imagePreview}
-                                    alt="Preview"
-                                    className="h-32 w-48 object-cover rounded-lg border"
+                                <input
+                                    ref={fileInputRef}
+                                    type="file"
+                                    accept="image/*"
+                                    className="hidden"
+                                    onChange={(e) => {
+                                        const file = e.target.files?.[0]
+                                        if (file) handleImageSelect(file)
+                                    }}
                                 />
-                                <button
-                                    type="button"
-                                    onClick={handleRemoveImage}
-                                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 shadow"
-                                    title={t('admin.removeImage')}
-                                >
-                                    <X className="h-3.5 w-3.5" />
-                                </button>
-                            </div>
-                        ) : (
-                            <button
-                                type="button"
-                                onClick={() => fileInputRef.current?.click()}
-                                disabled={uploadingImage}
-                                className="flex items-center gap-2 px-4 py-3 border-2 border-dashed border-neutral-200 rounded-lg text-sm text-neutral-400 hover:border-primary-400 hover:text-primary-600 transition-colors disabled:opacity-50"
-                            >
-                                {uploadingImage ? (
-                                    <>
-                                        <LoadingSpinner />
-                                        {t('admin.uploadingImage')}
-                                    </>
+
+                                {imagePreview ? (
+                                    <div className="relative inline-block">
+                                        <img
+                                            src={imagePreview}
+                                            alt="Preview"
+                                            className="h-32 w-48 object-cover rounded-lg border"
+                                        />
+                                        <Button
+                                            type="button"
+                                            variant="destructive"
+                                            size="icon-xs"
+                                            onClick={handleRemoveImage}
+                                            className="absolute -top-2 -right-2 rounded-full"
+                                            aria-label={t('admin.removeImage')}
+                                        >
+                                            <X />
+                                        </Button>
+                                    </div>
                                 ) : (
-                                    <>
-                                        <ImageIcon className="h-5 w-5" />
-                                        {t('admin.uploadImage')}
-                                    </>
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        onClick={() =>
+                                            fileInputRef.current?.click()
+                                        }
+                                        disabled={uploadingImage}
+                                        className="w-fit border-dashed"
+                                    >
+                                        {uploadingImage ? (
+                                            <Spinner data-icon="inline-start" />
+                                        ) : (
+                                            <ImageIcon data-icon="inline-start" />
+                                        )}
+                                        {uploadingImage
+                                            ? t('admin.uploadingImage')
+                                            : t('admin.uploadImage')}
+                                    </Button>
                                 )}
-                            </button>
-                        )}
-                    </div>
+                            </Field>
 
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('admin.suitableSoilTypes')}{' '}
-                            <span className="text-red-500">*</span>
-                        </label>
-                        <p className="text-xs text-neutral-400 mb-2">
-                            {t('admin.suitableSoilTypesHint')}
-                        </p>
+                            <Field>
+                                <FieldLabel>
+                                    {t('admin.suitableSoilTypes')}{' '}
+                                    <span className="text-destructive">*</span>
+                                </FieldLabel>
+                                <FieldDescription>
+                                    {t('admin.suitableSoilTypesHint')}
+                                </FieldDescription>
 
-                        <MultiSelectDropdown
-                            options={ALL_SOIL_ENTRIES.map((entry) => ({
-                                value: soilEntryKey(entry),
-                                label: `${t(`soilTypes.${entry.type}`)} – ${t(`soilSubTypes.${entry.type}.${entry.subType}`)}`,
-                            }))}
-                            values={selectedSoilKeys}
-                            onChange={setSelectedSoilKeys}
-                            placeholder={t('admin.selectSoilType')}
-                            ariaLabel={t('admin.suitableSoilTypes')}
-                        />
-                    </div>
+                                <MultiSelectDropdown
+                                    options={ALL_SOIL_ENTRIES.map((entry) => ({
+                                        value: soilEntryKey(entry),
+                                        label: `${t(`soilTypes.${entry.type}`)} – ${t(`soilSubTypes.${entry.type}.${entry.subType}`)}`,
+                                    }))}
+                                    values={selectedSoilKeys}
+                                    onChange={setSelectedSoilKeys}
+                                    placeholder={t('admin.selectSoilType')}
+                                    ariaLabel={t('admin.suitableSoilTypes')}
+                                />
+                            </Field>
 
-                    {/* Crop Type */}
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('admin.cropType')}{' '}
-                            <span className="text-red-500">*</span>
-                        </label>
-                        <CustomDropdown
-                            options={CROP_TYPE_KEYS.map((key) => ({
-                                value: key,
-                                label: t(`cropTypes.${key}`),
-                            }))}
-                            value={cropTypeKey}
-                            onChange={setCropTypeKey}
-                            placeholder={t('admin.cropTypePlaceholder')}
-                            ariaLabel={t('admin.cropType')}
-                            variant="form"
-                        />
-                    </div>
-                </div>
+                            {/* Crop Type */}
+                            <Field>
+                                <FieldLabel>
+                                    {t('admin.cropType')}{' '}
+                                    <span className="text-destructive">*</span>
+                                </FieldLabel>
+                                <CustomDropdown
+                                    options={CROP_TYPE_KEYS.map((key) => ({
+                                        value: key,
+                                        label: t(`cropTypes.${key}`),
+                                    }))}
+                                    value={cropTypeKey}
+                                    onChange={setCropTypeKey}
+                                    placeholder={t('admin.cropTypePlaceholder')}
+                                    ariaLabel={t('admin.cropType')}
+                                    variant="form"
+                                />
+                            </Field>
+                        </FieldGroup>
+                    </CardContent>
+                </Card>
 
                 {/* English */}
-                <div className="bg-white rounded-xl border border-neutral-200 p-5 space-y-4">
-                    <h2 className="font-semibold text-lg">English</h2>
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('admin.name')}{' '}
-                            <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                            type="text"
-                            value={enName}
-                            onChange={(e) => setEnName(e.target.value)}
-                            className="input"
-                            placeholder="e.g., Rice"
-                            required
-                        />
-                    </div>
-
-                    {/* Aliases (English) */}
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('admin.aliases')}
-                        </label>
-                        {aliasesEn.map((a, i) => (
-                            <div key={i} className="flex gap-2 mb-2">
-                                <input
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="text-lg">English</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <FieldGroup>
+                            <Field>
+                                <FieldLabel htmlFor="crop-en-name">
+                                    {t('admin.name')}{' '}
+                                    <span className="text-destructive">*</span>
+                                </FieldLabel>
+                                <Input
+                                    id="crop-en-name"
                                     type="text"
-                                    value={a}
-                                    onChange={(e) => {
-                                        const updated = [...aliasesEn]
-                                        updated[i] = e.target.value
-                                        setAliasesEn(updated)
-                                    }}
-                                    className="input flex-1"
-                                    placeholder={`Alias ${i + 1}`}
+                                    value={enName}
+                                    onChange={(e) => setEnName(e.target.value)}
+                                    placeholder="e.g., Rice"
+                                    required
                                 />
-                                <button
+                            </Field>
+
+                            {/* Aliases (English) */}
+                            <Field>
+                                <FieldLabel>{t('admin.aliases')}</FieldLabel>
+                                {aliasesEn.map((a, i) => (
+                                    <div key={i} className="flex gap-2">
+                                        <Input
+                                            type="text"
+                                            value={a}
+                                            onChange={(e) => {
+                                                const updated = [...aliasesEn]
+                                                updated[i] = e.target.value
+                                                setAliasesEn(updated)
+                                            }}
+                                            className="flex-1"
+                                            placeholder={`Alias ${i + 1}`}
+                                        />
+                                        <Button
+                                            type="button"
+                                            variant="destructive"
+                                            size="icon"
+                                            onClick={() => {
+                                                setAliasesEn((prev) =>
+                                                    prev.filter(
+                                                        (_, j) => j !== i,
+                                                    ),
+                                                )
+                                                setAliasesTe((prev) =>
+                                                    prev.filter(
+                                                        (_, j) => j !== i,
+                                                    ),
+                                                )
+                                            }}
+                                            aria-label={t('common.delete')}
+                                        >
+                                            <X />
+                                        </Button>
+                                    </div>
+                                ))}
+                                <Button
                                     type="button"
+                                    variant="link"
+                                    size="sm"
                                     onClick={() => {
-                                        setAliasesEn((prev) =>
-                                            prev.filter((_, j) => j !== i),
-                                        )
-                                        setAliasesTe((prev) =>
-                                            prev.filter((_, j) => j !== i),
-                                        )
+                                        setAliasesEn((prev) => [...prev, ''])
+                                        setAliasesTe((prev) => [...prev, ''])
                                     }}
-                                    className="text-red-500 hover:text-red-600 p-1"
+                                    className="w-fit px-0"
                                 >
-                                    <X className="h-4 w-4" />
-                                </button>
-                            </div>
-                        ))}
-                        <button
-                            type="button"
-                            onClick={() => {
-                                setAliasesEn((prev) => [...prev, ''])
-                                setAliasesTe((prev) => [...prev, ''])
-                            }}
-                            className="text-xs text-primary-600 hover:text-primary-700 inline-flex items-center gap-1"
-                        >
-                            <Plus className="h-3.5 w-3.5" />{' '}
-                            {t('admin.addAlias')}
-                        </button>
-                    </div>
-                </div>
+                                    <Plus data-icon="inline-start" />
+                                    {t('admin.addAlias')}
+                                </Button>
+                            </Field>
+                        </FieldGroup>
+                    </CardContent>
+                </Card>
 
                 {/* Telugu */}
-                <div className="bg-white rounded-xl border border-neutral-200 p-5 space-y-4">
-                    <div className="flex items-center justify-between">
-                        <h2 className="font-semibold text-lg">
+                <Card>
+                    <CardHeader className="flex-row items-center justify-between">
+                        <CardTitle className="text-lg">
                             తెలుగు (Telugu)
-                        </h2>
-                        <button
+                        </CardTitle>
+                        <Button
                             type="button"
+                            variant="secondary"
+                            size="sm"
                             onClick={handleTranslate}
                             disabled={translating || !enName.trim()}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-lg bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
-                            <Languages className="h-4 w-4" />
+                            <Languages data-icon="inline-start" />
                             {translating
                                 ? t('admin.translating')
                                 : t('admin.translateFromEnglish')}
-                        </button>
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('admin.name')}{' '}
-                            <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                            type="text"
-                            value={teName}
-                            onChange={(e) => setTeName(e.target.value)}
-                            className="input"
-                            placeholder="e.g., వరి"
-                            required
-                        />
-                    </div>
-
-                    {/* Aliases (Telugu) */}
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            {t('admin.aliases')}
-                        </label>
-                        {aliasesTe.map((a, i) => (
-                            <div key={i} className="flex gap-2 mb-2">
-                                <input
+                        </Button>
+                    </CardHeader>
+                    <CardContent>
+                        <FieldGroup>
+                            <Field>
+                                <FieldLabel htmlFor="crop-te-name">
+                                    {t('admin.name')}{' '}
+                                    <span className="text-destructive">*</span>
+                                </FieldLabel>
+                                <Input
+                                    id="crop-te-name"
                                     type="text"
-                                    value={a}
-                                    onChange={(e) => {
-                                        const updated = [...aliasesTe]
-                                        updated[i] = e.target.value
-                                        setAliasesTe(updated)
-                                    }}
-                                    className="input flex-1"
-                                    placeholder={`మారుపేరు ${i + 1}`}
+                                    value={teName}
+                                    onChange={(e) => setTeName(e.target.value)}
+                                    placeholder="e.g., వరి"
+                                    required
                                 />
-                                <button
+                            </Field>
+
+                            {/* Aliases (Telugu) */}
+                            <Field>
+                                <FieldLabel>{t('admin.aliases')}</FieldLabel>
+                                {aliasesTe.map((a, i) => (
+                                    <div key={i} className="flex gap-2">
+                                        <Input
+                                            type="text"
+                                            value={a}
+                                            onChange={(e) => {
+                                                const updated = [...aliasesTe]
+                                                updated[i] = e.target.value
+                                                setAliasesTe(updated)
+                                            }}
+                                            className="flex-1"
+                                            placeholder={`మారుపేరు ${i + 1}`}
+                                        />
+                                        <Button
+                                            type="button"
+                                            variant="destructive"
+                                            size="icon"
+                                            onClick={() => {
+                                                setAliasesEn((prev) =>
+                                                    prev.filter(
+                                                        (_, j) => j !== i,
+                                                    ),
+                                                )
+                                                setAliasesTe((prev) =>
+                                                    prev.filter(
+                                                        (_, j) => j !== i,
+                                                    ),
+                                                )
+                                            }}
+                                            aria-label={t('common.delete')}
+                                        >
+                                            <X />
+                                        </Button>
+                                    </div>
+                                ))}
+                                <Button
                                     type="button"
+                                    variant="link"
+                                    size="sm"
                                     onClick={() => {
-                                        setAliasesEn((prev) =>
-                                            prev.filter((_, j) => j !== i),
-                                        )
-                                        setAliasesTe((prev) =>
-                                            prev.filter((_, j) => j !== i),
-                                        )
+                                        setAliasesEn((prev) => [...prev, ''])
+                                        setAliasesTe((prev) => [...prev, ''])
                                     }}
-                                    className="text-red-500 hover:text-red-600 p-1"
+                                    className="w-fit px-0"
                                 >
-                                    <X className="h-4 w-4" />
-                                </button>
-                            </div>
-                        ))}
-                        <button
-                            type="button"
-                            onClick={() => {
-                                setAliasesEn((prev) => [...prev, ''])
-                                setAliasesTe((prev) => [...prev, ''])
-                            }}
-                            className="text-xs text-primary-600 hover:text-primary-700 inline-flex items-center gap-1"
-                        >
-                            <Plus className="h-3.5 w-3.5" />{' '}
-                            {t('admin.addAlias')}
-                        </button>
+                                    <Plus data-icon="inline-start" />
+                                    {t('admin.addAlias')}
+                                </Button>
+                            </Field>
+                        </FieldGroup>
+                    </CardContent>
+                </Card>
+
+                {/* Save-bar */}
+                <div className="sticky bottom-0 -mx-4 sm:-mx-6 lg:-mx-8 flex items-center justify-between gap-2 border-t border-border bg-background/80 backdrop-blur-md px-4 sm:px-6 lg:px-8 py-3">
+                    {!isNew ? (
+                        <Button asChild variant="ghost" type="button">
+                            <Link to={`/admin/crops/${id}/varieties`}>
+                                <List data-icon="inline-start" />
+                                {t('admin.manageVarieties')}
+                            </Link>
+                        </Button>
+                    ) : (
+                        <span />
+                    )}
+                    <div className="flex items-center gap-2">
+                        <Button asChild variant="secondary" type="button">
+                            <Link to="/admin/crops">{t('common.cancel')}</Link>
+                        </Button>
+                        <Button type="submit" disabled={saveDisabled}>
+                            <Save data-icon="inline-start" />
+                            {saving ? t('common.saving') : t('common.save')}
+                        </Button>
                     </div>
                 </div>
-
-                {/* Actions */}
-                {message && (
-                    <p
-                        className={`text-sm font-medium ${message === t('admin.saved') ? 'text-green-600' : 'text-red-600'}`}
-                    >
-                        {message}
-                    </p>
-                )}
-
-                <button
-                    type="submit"
-                    disabled={saveDisabled}
-                    className="btn-primary w-full inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                    <Save className="h-4 w-4" />
-                    {saving ? t('common.saving') : t('common.save')}
-                </button>
-
-                {!isNew && (
-                    <Link
-                        to={`/admin/crops/${id}/varieties`}
-                        className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-xl border border-neutral-200 bg-white hover:bg-neutral-50 transition-colors"
-                    >
-                        <List className="h-4 w-4" />
-                        {t('admin.manageVarieties')}
-                    </Link>
-                )}
             </form>
-        </div>
+        </PageContainer>
     )
 }

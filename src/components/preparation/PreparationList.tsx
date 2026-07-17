@@ -20,19 +20,14 @@ export function PreparationList({
     if (preparations.length === 0) {
         return (
             <EmptyState
-                icon={<ClipboardList className="h-12 w-12" />}
+                icon={<ClipboardList className="size-12" />}
                 title={t('preparations.noPreparations')}
             />
         )
     }
 
-    const gridClass =
-        preparations.length === 1
-            ? 'grid gap-4 grid-cols-1'
-            : 'grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'
-
     return (
-        <div className={gridClass}>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {preparations.map((prep) => (
                 <PreparationCard
                     key={prep.id}

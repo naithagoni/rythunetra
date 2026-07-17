@@ -1,6 +1,20 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
-import { ChevronDown, Check, X } from 'lucide-react'
+import { useState } from 'react'
+import { X, Check, ChevronsUpDown } from 'lucide-react'
 import { cn } from '@/utils/cn'
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from '@/components/ui/popover'
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+} from '@/components/ui/command'
+import { Badge } from '@/components/ui/badge'
 
 export interface MultiSelectOption {
     value: string
@@ -25,238 +39,109 @@ export function MultiSelectDropdown({
     ariaLabel,
 }: MultiSelectDropdownProps) {
     const [open, setOpen] = useState(false)
-    const [focusedIndex, setFocusedIndex] = useState(-1)
-    const [search, setSearch] = useState('')
-    const containerRef = useRef<HTMLDivElement>(null)
-    const listRef = useRef<HTMLUListElement>(null)
-    const inputRef = useRef<HTMLInputElement>(null)
 
-    const filteredOptions = search
-        ? options.filter((o) =>
-              o.label.toLowerCase().includes(search.toLowerCase()),
-          )
-        : options
-
-    // Close on outside click
-    useEffect(() => {
-        function handleClickOutside(e: MouseEvent) {
-            if (
-                containerRef.current &&
-                !containerRef.current.contains(e.target as Node)
-            ) {
-                setOpen(false)
-                setSearch('')
-            }
-        }
-        document.addEventListener('mousedown', handleClickOutside)
-        return () =>
-            document.removeEventListener('mousedown', handleClickOutside)
-    }, [])
-
-    // Scroll focused option into view
-    useEffect(() => {
-        if (open && focusedIndex >= 0 && listRef.current) {
-            const item = listRef.current.children[focusedIndex] as HTMLElement
-            item?.scrollIntoView({ block: 'nearest' })
-        }
-    }, [focusedIndex, open])
-
-    // Focus input when dropdown opens
-    useEffect(() => {
-        if (open && inputRef.current) {
-            inputRef.current.focus()
-        }
-    }, [open])
-
-    const toggleValue = useCallback(
-        (val: string) => {
-            if (values.includes(val)) {
-                onChange(values.filter((v) => v !== val))
-            } else {
-                onChange([...values, val])
-            }
-        },
-        [values, onChange],
-    )
-
-    const removeValue = useCallback(
-        (val: string) => {
+    const toggleValue = (val: string) => {
+        if (values.includes(val)) {
             onChange(values.filter((v) => v !== val))
-        },
-        [values, onChange],
-    )
+        } else {
+            onChange([...values, val])
+        }
+    }
 
-    const handleKeyDown = useCallback(
-        (e: React.KeyboardEvent) => {
-            switch (e.key) {
-                case 'ArrowDown':
-                    e.preventDefault()
-                    if (!open) {
-                        setOpen(true)
-                        setFocusedIndex(0)
-                    } else {
-                        setFocusedIndex((prev) =>
-                            prev < filteredOptions.length - 1 ? prev + 1 : 0,
-                        )
-                    }
-                    break
-                case 'ArrowUp':
-                    e.preventDefault()
-                    if (open) {
-                        setFocusedIndex((prev) =>
-                            prev > 0 ? prev - 1 : filteredOptions.length - 1,
-                        )
-                    }
-                    break
-                case 'Enter':
-                    e.preventDefault()
-                    if (
-                        open &&
-                        focusedIndex >= 0 &&
-                        focusedIndex < filteredOptions.length
-                    ) {
-                        toggleValue(filteredOptions[focusedIndex].value)
-                    } else if (!open) {
-                        setOpen(true)
-                        setFocusedIndex(0)
-                    }
-                    break
-                case 'Escape':
-                    setOpen(false)
-                    setSearch('')
-                    break
-                case 'Backspace':
-                    if (!search && values.length > 0) {
-                        removeValue(values[values.length - 1])
-                    }
-                    break
-            }
-        },
-        [
-            open,
-            focusedIndex,
-            filteredOptions,
-            toggleValue,
-            removeValue,
-            search,
-            values,
-        ],
-    )
+    const removeValue = (val: string, e: React.MouseEvent) => {
+        e.stopPropagation()
+        onChange(values.filter((v) => v !== val))
+    }
 
     const getLabel = (val: string) =>
         options.find((o) => o.value === val)?.label ?? val
 
     return (
-        <div ref={containerRef} className={cn('relative', className)}>
-            {/* Trigger / selected chips */}
-            <div
-                onClick={() => {
-                    setOpen(true)
-                    setFocusedIndex(-1)
-                }}
-                className="flex flex-wrap items-center gap-1.5 min-h-10.5 px-3 py-2 border border-neutral-200 rounded-xl bg-white shadow-input hover:border-primary-400 focus-within:border-primary-500 focus-within:ring-2 focus-within:ring-primary-200 cursor-text transition-all duration-200"
-            >
-                {values.map((val) => (
-                    <span
-                        key={val}
-                        className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-primary-100 text-primary-700 text-sm font-medium"
-                    >
-                        {getLabel(val)}
-                        <button
-                            type="button"
-                            onClick={(e) => {
-                                e.stopPropagation()
-                                removeValue(val)
-                            }}
-                            className="hover:text-primary-900 transition-colors"
-                        >
-                            <X className="h-3 w-3" />
-                        </button>
-                    </span>
-                ))}
-                <input
-                    ref={inputRef}
-                    type="text"
-                    value={search}
-                    onChange={(e) => {
-                        setSearch(e.target.value)
-                        setFocusedIndex(0)
-                        if (!open) setOpen(true)
-                    }}
-                    onKeyDown={handleKeyDown}
-                    placeholder={values.length === 0 ? placeholder : ''}
+        <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+                <button
+                    type="button"
+                    role="combobox"
+                    aria-expanded={open}
                     aria-label={ariaLabel}
-                    className="flex-1 min-w-20 text-sm outline-none bg-transparent placeholder:text-neutral-400"
-                />
-                <ChevronDown
                     className={cn(
-                        'h-4 w-4 text-neutral-400 shrink-0 transition-transform duration-200',
-                        open && 'rotate-180',
+                        // Mirror SelectTrigger exactly (form-field well): muted fill,
+                        // Lichen (input) border, 4px radius; hover only shifts the
+                        // BORDER to sage-gray (bg unchanged); open = ring border + bg.
+                        // Rendered as a plain <button> (not the outline Button variant)
+                        // so no conflicting hover:bg-muted / border-foreground leak in.
+                        'flex w-full items-center justify-between gap-1.5 min-h-11 rounded-[4px] border border-input bg-muted/60 px-3.5 py-1.5 text-sm transition-[color,background-color,border-color,box-shadow] outline-none select-none cursor-pointer hover:border-sage-gray focus-visible:border-ring focus-visible:bg-background focus-visible:ring-[3px] focus-visible:ring-ring/25 aria-expanded:border-ring aria-expanded:bg-background disabled:cursor-not-allowed disabled:opacity-50',
+                        className,
                     )}
-                />
-            </div>
-
-            {/* Dropdown list */}
-            {open && (
-                <ul
-                    ref={listRef}
-                    role="listbox"
-                    aria-multiselectable="true"
-                    aria-activedescendant={
-                        focusedIndex >= 0
-                            ? `multi-option-${focusedIndex}`
-                            : undefined
-                    }
-                    className="absolute left-0 right-0 mt-2 max-h-60 overflow-auto bg-white rounded-xl shadow-dropdown border border-neutral-200 p-1.5 z-50 animate-scale-in"
                 >
-                    {filteredOptions.length === 0 && (
-                        <li className="px-3 py-2.5 text-sm text-neutral-400 italic">
-                            No matching options
-                        </li>
-                    )}
-                    {filteredOptions.map((option, idx) => {
-                        const isSelected = values.includes(option.value)
-                        return (
-                            <li
-                                key={option.value}
-                                id={`multi-option-${idx}`}
-                                role="option"
-                                aria-selected={isSelected}
-                                onClick={() => toggleValue(option.value)}
-                                onMouseEnter={() => setFocusedIndex(idx)}
-                                className={cn(
-                                    'flex items-center gap-2.5 px-3 py-2.5 text-sm cursor-pointer transition-all duration-150 rounded-lg',
-                                    isSelected
-                                        ? 'text-primary-700 bg-primary-50'
-                                        : idx % 2 === 0
-                                          ? 'text-neutral-700 bg-white'
-                                          : 'text-neutral-700 bg-neutral-50',
-                                    focusedIndex === idx &&
-                                        !isSelected &&
-                                        'bg-neutral-100!',
-                                    focusedIndex === idx &&
-                                        isSelected &&
-                                        'bg-primary-100!',
-                                )}
-                            >
-                                <span
-                                    className={cn(
-                                        'flex items-center justify-center h-4.5 w-4.5 rounded-md border-2 shrink-0 transition-all duration-150',
-                                        isSelected
-                                            ? 'bg-primary-600 border-primary-600 shadow-sm'
-                                            : 'border-neutral-300 bg-white',
-                                    )}
+                    <div className="flex flex-wrap gap-1 flex-1">
+                        {values.length === 0 ? (
+                            <span className="text-muted-foreground">
+                                {placeholder}
+                            </span>
+                        ) : (
+                            values.map((val) => (
+                                <Badge
+                                    key={val}
+                                    variant="secondary"
+                                    className="gap-1 pr-1"
                                 >
-                                    {isSelected && (
-                                        <Check className="h-3 w-3 text-white" />
-                                    )}
-                                </span>
-                                <span className="truncate">{option.label}</span>
-                            </li>
-                        )
-                    })}
-                </ul>
-            )}
-        </div>
+                                    <span className="truncate max-w-32">
+                                        {getLabel(val)}
+                                    </span>
+                                    <button
+                                        type="button"
+                                        onClick={(e) => removeValue(val, e)}
+                                        className="rounded-full hover:bg-muted-foreground/20 p-0.5"
+                                    >
+                                        <X className="size-3" />
+                                    </button>
+                                </Badge>
+                            ))
+                        )}
+                    </div>
+                    <ChevronsUpDown className="size-4 shrink-0 opacity-50" />
+                </button>
+            </PopoverTrigger>
+            <PopoverContent className="w-(--radix-popover-trigger-width) p-0">
+                <Command>
+                    <CommandInput placeholder={`Search...`} />
+                    <CommandList>
+                        <CommandEmpty>No results found.</CommandEmpty>
+                        <CommandGroup>
+                            {options.map((option) => {
+                                const isSelected = values.includes(option.value)
+                                return (
+                                    <CommandItem
+                                        key={option.value}
+                                        value={option.label}
+                                        onSelect={() =>
+                                            toggleValue(option.value)
+                                        }
+                                        data-checked={isSelected || undefined}
+                                    >
+                                        <div
+                                            className={cn(
+                                                'mr-2 flex size-4 items-center justify-center rounded-sm border border-primary',
+                                                isSelected
+                                                    ? 'bg-primary text-primary-foreground'
+                                                    : 'opacity-50',
+                                            )}
+                                        >
+                                            {isSelected && (
+                                                <Check className="size-3" />
+                                            )}
+                                        </div>
+                                        <span className="truncate">
+                                            {option.label}
+                                        </span>
+                                    </CommandItem>
+                                )
+                            })}
+                        </CommandGroup>
+                    </CommandList>
+                </Command>
+            </PopoverContent>
+        </Popover>
     )
 }
