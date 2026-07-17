@@ -630,9 +630,9 @@ export function AdminDiseaseFormPage() {
                                                 <img
                                                     src={url}
                                                     alt={`New ${i + 1}`}
-                                                    className="h-24 w-32 object-cover rounded-lg border border-amber-300"
+                                                    className="h-24 w-32 object-cover rounded-lg border border-aux-accent-4-outline"
                                                 />
-                                                <span className="absolute top-1 left-1 bg-amber-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-medium">
+                                                <span className="absolute top-1 left-1 bg-aux-accent-4 text-white text-[10px] px-1.5 py-0.5 rounded-full font-medium">
                                                     new
                                                 </span>
                                                 <Button
@@ -690,13 +690,13 @@ export function AdminDiseaseFormPage() {
                                     {t('admin.linkedVarieties')}
                                 </FieldLabel>
                                 {varietyOptions.length === 0 ? (
-                                    <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-100 border border-amber-400 text-amber-900 text-sm">
+                                    <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-aux-accent-4-container border border-aux-accent-4-outline text-aux-accent-4 text-sm">
                                         <AlertTriangle className="size-4 shrink-0" />
                                         <span>
                                             {t('admin.noVarietiesYet')}{' '}
                                             <Link
                                                 to="/admin/varieties"
-                                                className="font-medium underline hover:text-amber-900/80"
+                                                className="font-medium underline hover:text-aux-accent-4/80"
                                             >
                                                 {t('admin.addVariety')}
                                             </Link>
@@ -719,13 +719,13 @@ export function AdminDiseaseFormPage() {
                                     {t('admin.linkedRemedies')}
                                 </FieldLabel>
                                 {remedyOptions.length === 0 ? (
-                                    <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-amber-100 border border-amber-400 text-amber-900 text-sm">
+                                    <div className="flex items-center gap-2 px-4 py-3 rounded-xl bg-aux-accent-4-container border border-aux-accent-4-outline text-aux-accent-4 text-sm">
                                         <AlertTriangle className="size-4 shrink-0" />
                                         <span>
                                             {t('admin.noRemediesYet')}{' '}
                                             <Link
                                                 to="/admin/remedies/add"
-                                                className="font-medium underline hover:text-amber-900/80"
+                                                className="font-medium underline hover:text-aux-accent-4/80"
                                             >
                                                 {t('admin.addRemedy')}
                                             </Link>
@@ -839,10 +839,10 @@ export function AdminDiseaseFormPage() {
                         </CardTitle>
                         <Button
                             type="button"
+                            variant="secondary"
                             size="sm"
                             onClick={handleTranslateToTelugu}
                             disabled={translating || !enName}
-                            className="bg-amber-100 text-amber-900 hover:bg-amber-200"
                         >
                             <Languages data-icon="inline-start" />
                             {translating

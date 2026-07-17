@@ -98,13 +98,10 @@ export function MobileHeader() {
             <div className="flex items-center justify-between gap-2 px-4 h-14">
                 <Link
                     to="/"
-                    className="group flex min-w-0 items-center gap-2.5"
+                    aria-label={t('common.appName')}
+                    className="group flex min-w-0 items-center"
                 >
-                    <LogoMark size="sm" className="shrink-0" />
-                    <span className="truncate text-base brand-wordmark">
-                        <span className="text-foreground">Rythu</span>
-                        <span className="text-muted-foreground">Netra</span>
-                    </span>
+                    <LogoMark size="md" className="shrink-0" />
                 </Link>
                 <div className="flex shrink-0 items-center gap-1">
                     <LanguageToggle />
@@ -121,14 +118,9 @@ export function MobileHeader() {
                         <SheetContent side="right" className="w-72 gap-0 p-0">
                             <SheetHeader className="border-b border-border">
                                 <SheetTitle className="flex items-center gap-2.5">
-                                    <LogoMark size="sm" />
-                                    <span className="brand-wordmark text-base">
-                                        <span className="text-foreground">
-                                            Rythu
-                                        </span>
-                                        <span className="text-muted-foreground">
-                                            Netra
-                                        </span>
+                                    <LogoMark size="md" />
+                                    <span className="sr-only">
+                                        {t('common.appName')}
                                     </span>
                                 </SheetTitle>
                             </SheetHeader>

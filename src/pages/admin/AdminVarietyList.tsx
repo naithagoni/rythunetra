@@ -67,13 +67,13 @@ export function AdminVarietyListPage() {
                 description={`${varieties.length} ${t('common.total')}`}
                 action={
                     crops.length === 0 ? (
-                        <div className="flex items-center gap-2 px-4 py-3 rounded-md bg-amber-100 border border-amber-400 text-amber-900 text-sm">
+                        <div className="flex items-center gap-2 px-4 py-3 rounded-md bg-aux-accent-4-container border border-aux-accent-4-outline text-aux-accent-4 text-sm">
                             <AlertTriangle className="size-4 shrink-0" />
                             <span>
                                 {t('admin.noCropsYet')}{' '}
                                 <Link
                                     to="/admin/crops/add"
-                                    className="font-medium underline hover:text-amber-900/80"
+                                    className="font-medium underline hover:text-aux-accent-4/80"
                                 >
                                     {t('admin.addCrop')}
                                 </Link>

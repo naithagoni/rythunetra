@@ -1,4 +1,14 @@
 {
+    "footer": {
+        "ctaTitle": "Grow with nature's wisdom.",
+        "ctaSubtitle": "Identify diseases, discover organic remedies, and get region-specific guidance — free, and built for Telangana's farmers.",
+        "ctaButton": "Get Started",
+        "quickLinks": "Quick Links",
+        "about": "About",
+        "aboutText": "A platform to help farmers identify crop diseases and discover organic remedies.",
+        "rights": "All rights reserved.",
+        "madeWith": "Made with"
+    },
     "common": {
         "appName": "RythuNetra",
         "tagline": "Know Your Crop. Heal It Naturally.",

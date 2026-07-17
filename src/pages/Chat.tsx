@@ -222,8 +222,8 @@ export function ChatPage() {
                         sessions.map((s) => (
                             <div
                                 key={s.id}
-                                className={`group/session flex items-center justify-between gap-1 px-3 py-2.5 cursor-pointer text-sm transition-colors hover:bg-muted ${
-                                    activeSessionId === s.id ? 'bg-muted' : ''
+                                className={`group/session flex items-center justify-between gap-1 px-3 py-2.5 cursor-pointer text-sm transition-colors hover:bg-muted-hover ${
+                                    activeSessionId === s.id ? 'bg-accent' : ''
                                 }`}
                                 onClick={() => {
                                     setActiveSessionId(s.id)

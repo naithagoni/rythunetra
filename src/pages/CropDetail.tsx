@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useCrop, useCropVarieties } from '@/hooks/useCrops'
 import { useLanguage } from '@/hooks/useLanguage'
@@ -9,10 +9,9 @@ import { getCropImage } from '@/utils/cropImages'
 import { localize, localizeArray } from '@/types/i18n'
 import type { LanguageCode } from '@/types/i18n'
 import type { CropVariety } from '@/types/crop'
-import { AlertTriangle, Calendar, MapPin, Bug } from 'lucide-react'
+import { AlertTriangle, Calendar, MapPin } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { PageContainer } from '@/components/common/PageContainer'
 import { PageHeader } from '@/components/common/PageHeader'
 import { Section } from '@/components/common/Section'
@@ -21,7 +20,6 @@ export function CropDetailPage() {
     const { id } = useParams<{ id: string }>()
     const { t } = useTranslation()
     const { currentLanguage } = useLanguage()
-    const navigate = useNavigate()
     const lang = currentLanguage as LanguageCode
 
     const { data: crop, isLoading, error } = useCrop(id || '')
@@ -65,18 +63,6 @@ export function CropDetailPage() {
                 backLabel={t('nav.crops')}
                 title={cropName}
                 description={cropType || undefined}
-                action={
-                    <Button
-                        onClick={() =>
-                            navigate(
-                                `/diseases?crop=${localize(crop.name, 'en' as LanguageCode)}`,
-                            )
-                        }
-                    >
-                        <Bug data-icon="inline-start" />
-                        {t('cropDetail.viewDiseases')}
-                    </Button>
-                }
             />
 
             <div className="flex flex-col gap-6">

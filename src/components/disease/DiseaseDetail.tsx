@@ -85,7 +85,7 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
             {primaryCause && localize(primaryCause, lang) && (
                 <Section
                     title={t('diseases.primaryCause')}
-                    headerAction={<Bug className="size-4 text-amber-900" />}
+                    headerAction={<Bug className="size-4 text-aux-accent-4" />}
                 >
                     <p className="text-sm text-foreground">
                         {renderInlineItalics(localize(primaryCause, lang))}
@@ -98,7 +98,7 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
                 <Section
                     title={t('diseases.symptoms')}
                     headerAction={
-                        <AlertTriangle className="size-4 text-red-900" />
+                        <AlertTriangle className="size-4 text-aux-accent-2" />
                     }
                 >
                     <ul className="flex flex-col gap-1.5">
@@ -107,7 +107,7 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
                                 key={i}
                                 className="flex gap-2 text-sm text-foreground"
                             >
-                                <span className="mt-1.5 size-1 shrink-0 rounded-full bg-red-900" />
+                                <span className="mt-1.5 size-1 shrink-0 rounded-full bg-aux-accent-2" />
                                 {localize(s, lang)}
                             </li>
                         ))}
@@ -120,7 +120,7 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
                 <Section
                     title={t('diseases.favorableConditions')}
                     headerAction={
-                        <AlertTriangle className="size-4 text-amber-900" />
+                        <AlertTriangle className="size-4 text-aux-accent-4" />
                     }
                 >
                     <ul className="flex flex-col gap-1.5">
@@ -129,7 +129,7 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
                                 key={i}
                                 className="flex gap-2 text-sm text-foreground"
                             >
-                                <span className="mt-1.5 size-1 shrink-0 rounded-full bg-amber-900" />
+                                <span className="mt-1.5 size-1 shrink-0 rounded-full bg-aux-accent-4" />
                                 {localize(fc, lang)}
                             </li>
                         ))}
@@ -141,7 +141,7 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
             {preventions.length > 0 && (
                 <Section
                     title={t('diseases.preventions')}
-                    headerAction={<Shield className="size-4 text-blue-900" />}
+                    headerAction={<Shield className="size-4 text-aux-accent-8" />}
                 >
                     <ul className="flex flex-col gap-1.5">
                         {preventions.map((p, i) => (
@@ -149,7 +149,7 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
                                 key={i}
                                 className="flex gap-2 text-sm text-foreground"
                             >
-                                <span className="mt-1.5 size-1 shrink-0 rounded-full bg-blue-900" />
+                                <span className="mt-1.5 size-1 shrink-0 rounded-full bg-aux-accent-8" />
                                 {localize(p, lang)}
                             </li>
                         ))}
@@ -161,7 +161,7 @@ export function DiseaseDetail({ disease, language }: DiseaseDetailProps) {
             {treatments.length > 0 && (
                 <Section
                     title={t('diseases.treatments')}
-                    headerAction={<LeafIcon className="size-4 text-green-900" />}
+                    headerAction={<LeafIcon className="size-4 text-aux-accent-6" />}
                 >
                     <ol className="flex flex-col gap-2">
                         {treatments.map((tr, i) => (

@@ -534,10 +534,10 @@ export function AdminRemedyFormPage() {
                         </CardTitle>
                         <Button
                             type="button"
+                            variant="secondary"
                             size="sm"
                             onClick={handleTranslateToTelugu}
                             disabled={translating || !enName}
-                            className="bg-amber-100 text-amber-900 hover:bg-amber-200"
                         >
                             <Languages data-icon="inline-start" />
                             {translating

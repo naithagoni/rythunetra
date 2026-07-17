@@ -17,6 +17,7 @@ import {
 import { LoadingSpinner } from '@/components/common/LoadingSpinner'
 import { PageHeader } from '@/components/common/PageHeader'
 import { PageContainer } from '@/components/common/PageContainer'
+import { effectivenessColor } from '@/utils/statusColors'
 import { ADMIN_PAGE_SIZE } from '@/config/env'
 
 export function AdminRemedyListPage() {
@@ -96,14 +97,7 @@ export function AdminRemedyListPage() {
                                     </TableCell>
                                     <TableCell className="text-center">
                                         <span
-                                            className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                                                r.effectiveness === 'high'
-                                                    ? 'bg-green-100 text-green-900'
-                                                    : r.effectiveness ===
-                                                        'medium'
-                                                      ? 'bg-amber-100 text-amber-900'
-                                                      : 'bg-muted text-muted-foreground'
-                                            }`}
+                                            className={`text-xs px-2 py-0.5 rounded-full font-medium ${effectivenessColor(r.effectiveness as string).chip}`}
                                         >
                                             {t(
                                                 `diseases.${(r.effectiveness as string) ?? 'medium'}`,

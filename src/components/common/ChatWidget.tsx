@@ -313,9 +313,9 @@ export function ChatWidget() {
                                     <div
                                         key={s.id}
                                         className={cn(
-                                            'flex items-center justify-between px-4 py-2.5 cursor-pointer hover:bg-muted text-sm border-b border-border',
+                                            'flex items-center justify-between px-4 py-2.5 cursor-pointer hover:bg-muted-hover text-sm border-b border-border',
                                             activeSessionId === s.id &&
-                                                'bg-primary/5 border-l-2 border-l-primary',
+                                                'bg-accent border-l-2 border-l-primary',
                                         )}
                                         onClick={() => {
                                             setActiveSessionId(s.id)

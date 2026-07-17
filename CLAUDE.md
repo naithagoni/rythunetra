@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> **See also `AGENTS.md`** (repo root) — the portable, tool-agnostic project + design context shared across AI assistants. **`design/DESIGN.md` is the design SOURCE OF TRUTH** (with `design/tailwind-v4.css`); read it before any styling/color/token work, and keep it in sync with the semantic tokens in `src/index.css`. Do not reintroduce superseded design systems ("Fresh Harvest Light", pure-Geist ink/blue).
+
 ## Build & Development Commands
 
 ```bash

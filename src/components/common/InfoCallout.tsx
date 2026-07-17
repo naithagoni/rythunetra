@@ -20,10 +20,10 @@ interface InfoCalloutProps {
 /** Icon/accent color per tone (text only — surface stays neutral). */
 const toneIcon: Record<Tone, string> = {
     neutral: 'text-muted-foreground',
-    blue: 'text-blue-900',
-    green: 'text-green-900',
-    amber: 'text-amber-900',
-    red: 'text-red-900',
+    blue: 'text-aux-accent-8',
+    green: 'text-aux-accent-6',
+    amber: 'text-aux-accent-4',
+    red: 'text-aux-accent-2',
 }
 
 /**

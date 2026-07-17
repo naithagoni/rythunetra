@@ -48,22 +48,17 @@ export function Header() {
 
     return (
         <header className="sticky top-0 z-50 hidden px-4 pt-3 md:block">
-            <div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-6 rounded-full border border-border bg-background/80 pr-2.5 pl-5 shadow-elevated backdrop-blur-xl">
+            <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-6 rounded-xl border border-border bg-background/80 pr-2.5 pl-5 backdrop-blur-xl">
                 {/* Brand */}
                 <Link
                     to="/"
-                    className="group flex shrink-0 items-center gap-2.5"
+                    aria-label={t('common.appName')}
+                    className="group flex shrink-0 items-center"
                 >
                     <LogoMark
-                        size="sm"
+                        size="md"
                         className="transition-transform duration-200 group-hover:scale-105"
                     />
-                    <span className="brand-wordmark text-[17px]">
-                        <span className="text-foreground">Rythu</span>
-                        <span className="text-muted-foreground transition-colors group-hover:text-foreground">
-                            Netra
-                        </span>
-                    </span>
                 </Link>
 
                 {/* Center nav — inline links, sliding green pill on active */}
@@ -118,7 +113,7 @@ export function Header() {
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="rounded-full ring-1 ring-border transition-shadow hover:ring-primary"
+                                    className="rounded-full ring-1 ring-border hover:bg-transparent"
                                 >
                                     <Avatar size="sm">
                                         <AvatarFallback className="bg-primary text-primary-foreground text-xs">

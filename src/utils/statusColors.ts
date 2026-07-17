@@ -1,20 +1,28 @@
 /**
- * Semantic status → Geist accent-scale color mapping.
+ * Semantic status → Specimen Journal aux-accent mapping.
  *
- * Replaces the severity/effectiveness/remedy-type hex maps that were
- * copy-pasted across DiseaseList, Scanner, DiseaseCard, DiseaseDetail,
- * LinkedRemedies, and SoilRecommender. Colors come from the Geist accent
- * scales defined in index.css (light + dark redefined under `.dark`), so a
- * `bg-{c}-100 text-{c}-900` pair reads correctly in both themes.
+ * Drives the severity/effectiveness/remedy-type chips across DiseaseList,
+ * Scanner, DiseaseCard, DiseaseDetail, LinkedRemedies, and SoilRecommender.
+ * Colors come from the aux-accent families in index.css / tailwind-v4.css:
+ * each family has a solid tone (`aux-accent-N`), a soft `-container` fill,
+ * and an `-outline` border, so a `bg-{fam}-container text-{fam}` pair reads
+ * as a soft, legible chip on the Linen/surface canvas.
+ *
+ * Family → semantic role:
+ *   green  = aux-accent-6 (good / high / organic) — kept distinct from
+ *            `primary` (sage) so "good status" never reads as an action
+ *   amber  = aux-accent-4 (moderate / warning)
+ *   red    = aux-accent-2 (critical / danger) — a true red, distinct from
+ *            the crimson error/link role
+ *   blue   = aux-accent-8 (informational / biological)
+ *   purple = aux-accent-9 (chemical / tertiary)
+ *   gray   = neutral surface (low / disabled)
  *
  * NOTE: class strings MUST be written as complete literals — Tailwind v4's
- * JIT scanner does not detect `bg-${scale}-100` template concatenations.
- *
- * Convention (per design.light.md): step 100 = tint background,
- * 400 = border, 900 = text/icon.
+ * JIT scanner does not detect `bg-${fam}-container` template concatenations.
  */
 
-/** Tint chip: soft background + readable text + border. */
+/** Tint chip: soft container background + readable text + outline border. */
 export interface StatusChip {
     /** Combined bg + text classes for a soft chip. */
     chip: string
@@ -27,34 +35,34 @@ export interface StatusChip {
 }
 
 const GREEN: StatusChip = {
-    chip: 'bg-green-100 text-green-900',
-    text: 'text-green-900',
-    bg: 'bg-green-100',
-    border: 'border-green-400',
+    chip: 'bg-aux-accent-6-container text-aux-accent-6',
+    text: 'text-aux-accent-6',
+    bg: 'bg-aux-accent-6-container',
+    border: 'border-aux-accent-6-outline',
 }
 const AMBER: StatusChip = {
-    chip: 'bg-amber-100 text-amber-900',
-    text: 'text-amber-900',
-    bg: 'bg-amber-100',
-    border: 'border-amber-400',
+    chip: 'bg-aux-accent-4-container text-aux-accent-4',
+    text: 'text-aux-accent-4',
+    bg: 'bg-aux-accent-4-container',
+    border: 'border-aux-accent-4-outline',
 }
 const BLUE: StatusChip = {
-    chip: 'bg-blue-100 text-blue-900',
-    text: 'text-blue-900',
-    bg: 'bg-blue-100',
-    border: 'border-blue-400',
+    chip: 'bg-aux-accent-8-container text-aux-accent-8',
+    text: 'text-aux-accent-8',
+    bg: 'bg-aux-accent-8-container',
+    border: 'border-aux-accent-8-outline',
 }
 const PURPLE: StatusChip = {
-    chip: 'bg-purple-100 text-purple-900',
-    text: 'text-purple-900',
-    bg: 'bg-purple-100',
-    border: 'border-purple-400',
+    chip: 'bg-aux-accent-9-container text-aux-accent-9',
+    text: 'text-aux-accent-9',
+    bg: 'bg-aux-accent-9-container',
+    border: 'border-aux-accent-9-outline',
 }
 const RED: StatusChip = {
-    chip: 'bg-red-100 text-red-900',
-    text: 'text-red-900',
-    bg: 'bg-red-100',
-    border: 'border-red-400',
+    chip: 'bg-aux-accent-2-container text-aux-accent-2',
+    text: 'text-aux-accent-2',
+    bg: 'bg-aux-accent-2-container',
+    border: 'border-aux-accent-2-outline',
 }
 const GRAY: StatusChip = {
     chip: 'bg-muted text-muted-foreground',
@@ -79,7 +87,7 @@ export function severityColor(severity: string | null | undefined): StatusChip {
     }
 }
 
-/** Remedy effectiveness. High=green, Moderate=amber, Low=gray. Accepts EN label. */
+/** Remedy effectiveness. High=green, Moderate/Medium=amber, Low=gray. Accepts EN label. */
 export function effectivenessColor(
     effectiveness: string | null | undefined,
 ): StatusChip {
@@ -87,6 +95,7 @@ export function effectivenessColor(
         case 'high':
             return GREEN
         case 'moderate':
+        case 'medium':
             return AMBER
         case 'low':
             return GRAY

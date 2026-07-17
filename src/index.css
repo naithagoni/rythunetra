@@ -1,8 +1,6 @@
 @import 'tailwindcss';
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/geist";
-@import "@fontsource-variable/geist-mono";
 
 /* Hide number input spinners */
 @layer base {
@@ -19,44 +17,59 @@
     }
 }
 
-/* ─── FRESH HARVEST LIGHT ──────────────────────────────────────
-   RythuNetra's design system — light-only, pure white surfaces.
-   Green `primary` is the single action/brand accent (buttons,
-   badges, checkboxes, radios); purple `secondary` is reserved for
-   links. Flat by design: no drop shadows, no texture — structure
-   comes from 1px `base-300` borders and whitespace alone.
-   Source of truth: DESIGN.md ("Fresh Harvest Light").
+/* ─── SPECIMEN JOURNAL ─────────────────────────────────────────
+   RythuNetra's design system — light-only, warm Linen canvas.
+   Forest Ink (#0a1d08) carries body text AND filled CTAs (dark
+   pills — never a chromatic green/blue); Crimson Specimen is the
+   link/emphasis accent; Sage/Teal/Eucalyptus appear as card tints
+   and category accents. Flat by design: on-page surfaces have no
+   drop shadows — structure comes from the Linen→Bone→Eucalyptus
+   surface ladder + 1px Mist borders. Fonts: Inter (sans workhorse),
+   Newsreader (serif hero anchor only), Fragment Mono (field-note
+   tags/labels). Source of truth: design/DESIGN.md.
    ──────────────────────────────────────────────────────────── */
 @theme {
     --color-white: #ffffff;
     --color-black: #000000;
 
-    /* Fonts — Geist Sans (UI/prose), Anek Telugu (Telugu MUST stay), Geist Mono (code/data) */
-    --font-sans: 'Geist Variable', 'Anek Telugu', system-ui, -apple-system, sans-serif;
-    --font-heading: 'Geist Variable', system-ui, -apple-system, sans-serif;
-    --font-mono: 'Geist Mono Variable', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+    /* Fonts — Specimen Journal
+       Inter = sans workhorse (Akkurat substitute) for body/nav/headings/buttons.
+       Anek Telugu MUST stay in the stack for Telugu content.
+       Newsreader = single serif hero anchor (font-serif, hero headline only).
+       Fragment Mono = field-note tags, badges, labels, table IDs. */
+    --font-sans: 'Inter', 'Anek Telugu', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-heading: 'Inter', 'Anek Telugu', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-serif: 'Newsreader', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --font-mono: 'Fragment Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-    /* ── Typography — Geist ramp (headings 600, letter-spacing tightens with size) ── */
-    /* Display / headings — mapped to Geist heading-* metrics */
-    --text-display-xl: 3rem; /* 48px — heading-48 */
-    --text-display-xl--line-height: 3.5rem; /* 56px */
-    --text-display-xl--font-weight: 600;
-    --text-display-xl--letter-spacing: -0.06em; /* -2.88px */
+    /* ── Typography — Specimen Journal ramp ──
+       Sans headings (Inter) run lighter (500) with tight tracking, echoing
+       DESIGN.md's Akkurat 400 section headlines. The single serif hero anchor
+       uses --text-hero (Newsreader) — see font-serif utility, hero only. */
+    --text-hero: 4.5rem; /* 72px — Newsreader serif hero anchor */
+    --text-hero--line-height: 1; /* 0.98 rounded */
+    --text-hero--font-weight: 300;
+    --text-hero--letter-spacing: -0.032em;
 
-    --text-display-lg: 2rem; /* 32px — heading-32 */
-    --text-display-lg--line-height: 2.5rem; /* 40px */
-    --text-display-lg--font-weight: 600;
-    --text-display-lg--letter-spacing: -0.04em; /* -1.28px */
+    --text-display-xl: 3rem; /* 48px */
+    --text-display-xl--line-height: 3.25rem; /* 52px */
+    --text-display-xl--font-weight: 500;
+    --text-display-xl--letter-spacing: -0.04em;
 
-    --text-display-md: 1.5rem; /* 24px — heading-24 */
-    --text-display-md--line-height: 2rem; /* 32px */
-    --text-display-md--font-weight: 600;
-    --text-display-md--letter-spacing: -0.04em; /* -0.96px */
+    --text-display-lg: 2rem; /* 32px */
+    --text-display-lg--line-height: 2.375rem; /* 38px */
+    --text-display-lg--font-weight: 500;
+    --text-display-lg--letter-spacing: -0.03em;
 
-    --text-display-sm: 1.25rem; /* 20px — heading-20 */
+    --text-display-md: 1.5rem; /* 24px */
+    --text-display-md--line-height: 1.875rem; /* 30px */
+    --text-display-md--font-weight: 500;
+    --text-display-md--letter-spacing: -0.02em;
+
+    --text-display-sm: 1.25rem; /* 20px */
     --text-display-sm--line-height: 1.625rem; /* 26px */
-    --text-display-sm--font-weight: 600;
-    --text-display-sm--letter-spacing: -0.02em; /* -0.4px */
+    --text-display-sm--font-weight: 500;
+    --text-display-sm--letter-spacing: -0.015em;
 
     /* Larger heading tokens for hero use — heading-56/64/72 */
     --text-heading-56: 3.5rem;
@@ -111,12 +124,12 @@
        silently shrinks every `max-w-{2xl,3xl,4xl,5xl,6xl}` to a few rem.
        Tailwind's default numeric 4px spacing scale is used throughout. */
 
-    /* Border radius — Fresh Harvest: box 16px (cards/modals), field 8px
-       (buttons/inputs), selector fully-rounded (badges/toggles/avatars) */
-    --radius-card: 1rem; /* 16px — box */
-    --radius-btn: 0.5rem; /* 8px — field */
+    /* Border radius — Specimen Journal: cards 10px, buttons 20px (pill),
+       inputs 4px, badges/toggles fully-rounded. */
+    --radius-card: 10px; /* cards / panels */
+    --radius-btn: 20px; /* pill CTA */
     --radius-badge: 9999px; /* selector — pill */
-    --radius-input: 0.5rem; /* 8px — field */
+    --radius-input: 4px; /* form fields */
 
     /* Letter-spacing helpers */
     --tracking-tight: -0.02em;
@@ -147,83 +160,100 @@
     --color-gray-alpha-900: #000000b3;
     --color-gray-alpha-1000: #000000e8;
 
-    /* ── Geist accent scales (light) ── */
-    --color-blue-100: #f0f7ff;
-    --color-blue-200: #e9f4ff;
-    --color-blue-300: #dfefff;
-    --color-blue-400: #cae7ff;
-    --color-blue-500: #94ccff;
-    --color-blue-600: #48aeff;
-    --color-blue-700: #006bff;
-    --color-blue-800: #0059ec;
-    --color-blue-900: #005ff2;
-    --color-blue-1000: #002359;
+    /* Geist numbered accent scales (blue/red/amber/green/teal/purple/pink)
+       were removed 2026-07-17 — all status/accent UI now uses the Specimen
+       Journal aux-accent families below (see statusColors.ts). The neutral
+       gray scale above is kept (still used by shine-card's ring-gray-alpha). */
 
-    --color-red-100: #ffeeef;
-    --color-red-200: #ffe8ea;
-    --color-red-300: #ffe3e4;
-    --color-red-400: #ffd7d6;
-    --color-red-500: #ffb1b3;
-    --color-red-600: #ff676d;
-    --color-red-700: #fc0035;
-    --color-red-800: #ea001d;
-    --color-red-900: #d8001b;
-    --color-red-1000: #47000c;
-
-    --color-amber-100: #fff6de;
-    --color-amber-200: #fff4cf;
-    --color-amber-300: #fff1c1;
-    --color-amber-400: #ffdc73;
-    --color-amber-500: #ffc543;
-    --color-amber-600: #ffa600;
-    --color-amber-700: #ffae00;
-    --color-amber-800: #ff9300;
-    --color-amber-900: #aa4d00;
-    --color-amber-1000: #561900;
-
-    --color-green-100: #ecfdec;
-    --color-green-200: #e5fce7;
-    --color-green-300: #d3fad1;
-    --color-green-400: #b9f5bc;
-    --color-green-500: #82eb8d;
-    --color-green-600: #4ce15e;
-    --color-green-700: #28a948;
-    --color-green-800: #279141;
-    --color-green-900: #107d32;
-    --color-green-1000: #003a00;
-
-    --color-teal-100: #defffb;
-    --color-teal-200: #ddfef6;
-    --color-teal-300: #ccf9f1;
-    --color-teal-400: #b1f7ec;
-    --color-teal-500: #52f0db;
-    --color-teal-600: #00e3c4;
-    --color-teal-700: #00ac96;
-    --color-teal-800: #00927f;
-    --color-teal-900: #007f70;
-    --color-teal-1000: #003f34;
-
-    --color-purple-100: #faf0ff;
-    --color-purple-200: #f9f0ff;
-    --color-purple-300: #f6e8ff;
-    --color-purple-400: #f2d9ff;
-    --color-purple-500: #dfa7ff;
-    --color-purple-600: #c979ff;
-    --color-purple-700: #a000f8;
-    --color-purple-800: #8500d1;
-    --color-purple-900: #7d00cc;
-    --color-purple-1000: #2f004e;
-
-    --color-pink-100: #ffe8f6;
-    --color-pink-200: #ffe8f3;
-    --color-pink-300: #ffdfeb;
-    --color-pink-400: #ffd3e1;
-    --color-pink-500: #fdb3cc;
-    --color-pink-600: #f97ea7;
-    --color-pink-700: #f22782;
-    --color-pink-800: #e4106e;
-    --color-pink-900: #c41562;
-    --color-pink-1000: #460523;
+    /* ── Specimen Journal semantic palette (design/tailwind-v4.css) ──
+       Material-style role tokens. Surface ladder (highest→inverse),
+       on-surface text (with subtle/disabled alpha variants), semantic
+       roles (primary/secondary/tertiary/error) each with container +
+       stroke, and 10 aux-accent families for status/data. Exposed here
+       as Tailwind utilities (bg-surface-low, text-on-surface-base,
+       bg-primary-container, border-primary-stroke, bg-aux-accent-3, …). */
+    --color-surface-highest: #fdfefb;
+    --color-surface-high: #fafbf7;
+    --color-surface-base: #f8f9f5;
+    --color-surface-low: #f1f3ef;
+    --color-surface-lowest: #e9ede9;
+    --color-surface-contrast: #e5e8e4;
+    --color-surface-inverse: #2a332a;
+    --color-surface-highest-transparent: #fdfefb00;
+    --color-surface-high-transparent: #fafbf700;
+    --color-surface-base-transparent: #f8f9f500;
+    --color-surface-low-transparent: #f1f3ef00;
+    --color-surface-lowest-transparent: #e9ede900;
+    --color-surface-inverse-transparent: #2a332a00;
+    --color-on-surface-highest: #2b390a;
+    --color-on-surface-highest-subtle: #2b390ab3;
+    --color-on-surface-highest-disabled: #2b390a66;
+    --color-on-surface-contrast: #2e4320;
+    --color-on-surface-high: #2f3f1b;
+    --color-on-surface-high-subtle: #2f3f1bb3;
+    --color-on-surface-high-disabled: #2f3f1b66;
+    --color-on-surface-base: #2e4320;
+    --color-on-surface-base-subtle: #2e4320b3;
+    --color-on-surface-base-disabled: #2e432066;
+    --color-on-surface-low: #243b1b;
+    --color-on-surface-low-subtle: #243b1bb3;
+    --color-on-surface-low-disabled: #243b1b66;
+    --color-on-surface-lowest: #123b0e;
+    --color-on-surface-lowest-subtle: #123b0eb3;
+    --color-on-surface-lowest-disabled: #123b0e66;
+    --color-on-surface-inverse: #fdfefb;
+    --color-on-surface-inverse-subtle: #fdfefbb3;
+    --color-on-surface-inverse-disabled: #fdfefb66;
+    --color-surface-tint-mild: #344f3108;
+    --color-surface-tint-base: #344f3112;
+    --color-surface-tint-strong: #33503024;
+    --color-primary-container: #ddeabd;
+    --color-on-primary-container: #4a6d47;
+    --color-primary-stroke: #548f28;
+    --color-secondary-container: #e3f2ea;
+    --color-on-secondary-container: #234b43;
+    --color-secondary-stroke: #0f9397;
+    --color-tertiary: #b14eaa;
+    --color-on-tertiary: #feebfb;
+    --color-tertiary-container: #feebfb;
+    --color-on-tertiary-container: #b14eaa;
+    --color-tertiary-stroke: #d857cf;
+    --color-on-error: #fcf0f3;
+    --color-error-container: #fbd8e5;
+    --color-on-error-container: #92174a;
+    --color-error-stroke: #d41665;
+    --color-outline: #e1e6df;
+    --color-outline-strong: #c4cbc2;
+    --color-aux-accent-1: #cf2184;
+    --color-aux-accent-1-outline: #ebabcf;
+    --color-aux-accent-1-container: #feebf1;
+    --color-aux-accent-2: #c23934;
+    --color-aux-accent-2-outline: #e9c3c1;
+    --color-aux-accent-2-container: #feebeb;
+    --color-aux-accent-3: #b54c1f;
+    --color-aux-accent-3-outline: #f1c8b6;
+    --color-aux-accent-3-container: #fff0e5;
+    --color-aux-accent-4: #886a00;
+    --color-aux-accent-4-outline: #ebd587;
+    --color-aux-accent-4-container: #f9f2d9;
+    --color-aux-accent-5: #4a6d47;
+    --color-aux-accent-5-outline: #bed0bd;
+    --color-aux-accent-5-container: #f0f5df;
+    --color-aux-accent-6: #2d784d;
+    --color-aux-accent-6-outline: #b9d3c4;
+    --color-aux-accent-6-container: #e4f7ea;
+    --color-aux-accent-7: #1a7474;
+    --color-aux-accent-7-outline: #bed7d7;
+    --color-aux-accent-7-container: #e8f5f5;
+    --color-aux-accent-8: #3963b7;
+    --color-aux-accent-8-outline: #c2d8ec;
+    --color-aux-accent-8-container: #e3f6ff;
+    --color-aux-accent-9: #7e42a6;
+    --color-aux-accent-9-outline: #dbcbe6;
+    --color-aux-accent-9-container: #f0edff;
+    --color-aux-accent-10: #9c2fa6;
+    --color-aux-accent-10-outline: #efd7f1;
+    --color-aux-accent-10-container: #ffebff;
 
     /* ── Elevation — flat surfaces, elevated overlays ──
        On-page surfaces (cards, inputs, buttons) stay FLAT: separation
@@ -236,12 +266,12 @@
     --shadow-sm: none;
     --shadow-card: none;
     --shadow-card-hover: none;
-    --shadow-elevated: 0 4px 12px -2px rgba(16, 24, 40, 0.08),
-        0 2px 6px -2px rgba(16, 24, 40, 0.06);
-    --shadow-dropdown: 0 8px 24px -6px rgba(16, 24, 40, 0.12),
-        0 4px 8px -4px rgba(16, 24, 40, 0.08);
-    --shadow-modal: 0 20px 48px -12px rgba(16, 24, 40, 0.22),
-        0 8px 16px -8px rgba(16, 24, 40, 0.12);
+    --shadow-elevated: 0 4px 12px -2px rgba(10, 29, 8, 0.06),
+        0 2px 6px -2px rgba(10, 29, 8, 0.05);
+    --shadow-dropdown: 0 8px 24px -6px rgba(10, 29, 8, 0.1),
+        0 4px 8px -4px rgba(10, 29, 8, 0.07);
+    --shadow-modal: 0 20px 48px -12px rgba(10, 29, 8, 0.18),
+        0 8px 16px -8px rgba(10, 29, 8, 0.1);
     --shadow-btn: none;
     --shadow-btn-primary: none;
     --shadow-btn-primary-hover: none;
@@ -443,10 +473,30 @@
 }
 
 @theme inline {
-    --font-heading: 'Geist Variable', system-ui, -apple-system, sans-serif;
-    --font-sans: 'Geist Variable', 'Anek Telugu', system-ui, -apple-system, sans-serif;
-    --font-mono: 'Geist Mono Variable', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
+    --font-heading: 'Inter', 'Anek Telugu', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-sans: 'Inter', 'Anek Telugu', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --font-serif: 'Newsreader', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --font-mono: 'Fragment Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     --color-link: var(--link);
+    /* Decorative specimen palette — card tints, category fills, accents */
+    --color-forest-ink: var(--forest-ink);
+    --color-olive-press: var(--olive-press);
+    --color-sage-gray: var(--sage-gray);
+    --color-sage-mist: var(--sage-mist);
+    --color-sage-leaf: var(--sage-leaf);
+    --color-deep-teal: var(--deep-teal);
+    --color-crimson-specimen: var(--crimson-specimen);
+    --color-amber-pin: var(--amber-pin);
+    --color-eucalyptus: var(--eucalyptus);
+    --color-lichen: var(--lichen);
+    --color-blush: var(--blush);
+    --color-sand: var(--sand);
+    --color-sage-foam: var(--sage-foam);
+    --color-rose-clay: var(--rose-clay);
+    --color-slate-hollow: var(--slate-hollow);
+    --color-linen: var(--linen);
+    --color-bone: var(--bone);
+    --color-mist: var(--mist);
     --color-info: var(--info);
     --color-info-content: var(--info-content);
     --color-success: var(--success);
@@ -477,6 +527,7 @@
     --color-accent: var(--accent);
     --color-muted-foreground: var(--muted-foreground);
     --color-muted: var(--muted);
+    --color-muted-hover: var(--muted-hover);
     --color-secondary-foreground: var(--secondary-foreground);
     --color-secondary: var(--secondary);
     --color-primary-foreground: var(--primary-foreground);
@@ -497,86 +548,116 @@
     --radius-4xl: calc(var(--radius) * 4);
 }
 
-/* ─── Semantic tokens — Fresh Harvest Light (only theme) ──────
-   Pure white surfaces. Green `primary` = the single action/brand
-   accent (buttons, badges, checkboxes, radios). Purple `--link` =
-   links only. `secondary` stays a neutral base-200 surface for the
-   secondary button, per DESIGN.md. All values authored in OKLCH. */
+/* ─── Semantic tokens — Specimen Journal (only theme) ─────────
+   Mapped onto the Material-style palette in design/tailwind-v4.css.
+   Surfaces ride the surface ladder (base=Linen canvas → low/lowest for
+   cards & wells → highest for overlays → inverse for footer). Text uses
+   on-surface (deep sage-ink) with Sage Gray for muted copy. Primary =
+   Sage Leaf #4a6d47 role (fill #4a6d47 / on-primary #eef6dc, container
+   #ddeabd); error = Crimson #991e4b role with its container/stroke.
+   Borders use outline / outline-strong. Flat by design — structure from
+   borders + surface tints. Source of truth: design/DESIGN.md + tailwind-v4.css. */
 :root {
     color-scheme: light;
 
-    /* Base — surfaces & text */
-    --background: oklch(100% 0 0); /* base-100 — pure white */
-    --background-200: oklch(98% 0 0); /* base-200 — subtle fill */
-    --foreground: oklch(21% 0.006 285.885); /* base-content */
-    --card: oklch(100% 0 0); /* base-100 */
-    --card-foreground: oklch(21% 0.006 285.885);
-    --popover: oklch(100% 0 0);
-    --popover-foreground: oklch(21% 0.006 285.885);
+    /* Base surfaces — the surface ladder.
+       canvas=surface-base(Linen); cards/panels=surface-low; overlays=
+       surface-highest; text=on-surface (deep sage-ink). */
+    --background: #f8f9f5; /* surface-base — page canvas */
+    --background-200: #e9ede9; /* surface-lowest — section bands / deep fill */
+    --foreground: #2e4320; /* on-surface-base — body text */
+    --card: #f1f3ef; /* surface-low — card / grid tile / panel */
+    --card-foreground: #2e4320; /* on-surface-low */
+    --popover: #fdfefb; /* surface-highest — floating overlays */
+    --popover-foreground: #2b390a; /* on-surface-highest */
 
-    /* Brand — green primary (light high-chroma fill + dark content) */
-    --primary: oklch(86.133% 0.141 139.549); /* green fill */
-    --primary-foreground: oklch(17.226% 0.028 139.549); /* on-primary text */
+    /* Brand — primary role = Sage Leaf fill + light on-primary content.
+       Hover darkens via color-mix per-component. */
+    --primary: #4a6d47; /* primary — Sage Leaf */
+    --primary-foreground: #eef6dc; /* on-primary */
 
-    /* Secondary button surface — neutral base-200 (NOT the purple accent) */
-    --secondary: oklch(98% 0 0); /* base-200 */
-    --secondary-foreground: oklch(21% 0.006 285.885);
+    /* Secondary button surface — neutral surface-low chip */
+    --secondary: #f1f3ef; /* surface-low */
+    --secondary-foreground: #2e4320; /* on-surface */
 
     /* Neutral fills & muted text */
-    --muted: oklch(98% 0 0); /* base-200 — wells, zebra rows */
-    --muted-foreground: oklch(45% 0.01 285.885); /* secondary text */
-    /* Interactive hover tint (menu items, list rows) — deeper than base-200
-       so the highlighted row is clearly visible against a white panel */
-    --accent: oklch(95.5% 0 0); /* ~base-300 — visible hover/active tint */
-    --accent-foreground: oklch(21% 0.006 285.885);
+    --muted: #f1f3ef; /* surface-low — wells, zebra rows, input fills */
+    --muted-hover: #e9ede9; /* surface-lowest — gentle card/grid/surface hover */
+    --muted-foreground: #6b7860; /* Sage Gray — secondary copy */
+    /* Interactive tint for SELECTED/active menu rows — primary-container wash,
+       a clear step beyond the gentle --muted-hover */
+    --accent: #ddeabd; /* primary-container — selected/active tint */
+    --accent-foreground: #4a6d47; /* on-primary-container */
 
-    /* Status — error maps to shadcn destructive (light fill + dark content) */
-    --destructive: oklch(78.66% 0.15 28.47); /* error fill */
-    --destructive-foreground: oklch(15.732% 0.03 28.47);
+    /* Status — destructive/error = aux-accent-2 (true danger red), kept
+       distinct from the Crimson (#991e4b) that is now reserved for other
+       roles. Drives delete/remove/logout buttons + error messages. */
+    --destructive: #c23934; /* aux-accent-2 */
+    --destructive-foreground: #ffffff; /* light content on red */
 
     /* Borders & focus */
-    --border: oklch(92% 0 0); /* structural borders/dividers (cards, header) */
-    --input: oklch(87% 0 0); /* form-field border — deeper so inputs are findable */
-    --ring: oklch(86.133% 0.141 139.549); /* primary green — focus ring */
+    --border: #e1e6df; /* outline — hairline */
+    --input: #c4cbc2; /* outline-strong — form-field border, findable */
+    --ring: #548f28; /* primary-stroke — focus ring */
 
-    /* Links — purple secondary hue, darkened for legible text on white */
-    --link: oklch(48% 0.2 311.379);
+    /* Links / emphasis accent — tertiary (#b14eaa), a distinct navigational
+       hue that never reads as a danger/error action */
+    --link: #b14eaa; /* tertiary */
 
-    /* Status tokens (DESIGN.md) — light fill / dark content pairs */
-    --info: oklch(86.078% 0.142 206.182);
-    --info-content: oklch(17.215% 0.028 206.182);
-    --success: oklch(76.662% 0.135 153.45);
-    --success-content: oklch(0% 0 0);
-    --warning: oklch(86.163% 0.142 94.818);
-    --warning-content: oklch(17.232% 0.028 94.818);
-    --error: oklch(78.66% 0.15 28.47);
-    --error-content: oklch(15.732% 0.03 28.47);
+    /* Status tokens — mapped onto the new palette (light fill / dark content) */
+    --info: #1a7474; /* aux-accent-7 teal */
+    --info-content: #f8f9f5;
+    --success: #2d784d; /* aux-accent-6 green */
+    --success-content: #f8f9f5;
+    --warning: #886a00; /* aux-accent-4 amber */
+    --warning-content: #f8f9f5;
+    --error: #c23934; /* aux-accent-2 */
+    --error-content: #ffffff;
 
-    /* Hero backdrop — layered spotlight + ring/grid lines + green accent.
-       Neutral cursor glow, faint green ambient wash, and a soft green tint on
-       the innermost ring / orbiting dots keep it on-brand without shouting. */
-    --hero-glow: rgba(0, 0, 0, 0.05); /* neutral cursor spotlight */
-    --hero-ring: oklch(91% 0 0); /* faint grid lines */
-    --hero-ring-strong: oklch(84% 0 0); /* moving/dashed rings — more visible */
-    --hero-accent: oklch(70% 0.16 139.549 / 0.7); /* green — inner ring/dots */
-    --hero-accent-soft: oklch(86.133% 0.141 139.549 / 0.12); /* green ambient wash */
+    /* Decorative specimen palette — card tints & category fills */
+    --forest-ink: #0a1d08;
+    --olive-press: #2b390a;
+    --sage-gray: #6b7860;
+    --sage-mist: #a5ac9f;
+    --sage-leaf: #4a6d47;
+    --deep-teal: #2b6b5e;
+    --crimson-specimen: #991e4b;
+    --amber-pin: #80581c;
+    --eucalyptus: #c9d5c5;
+    --lichen: #c5ccb6;
+    --blush: #e3c9d0;
+    --sand: #ad9d80;
+    --sage-foam: #729d92;
+    --rose-clay: #c27c93;
+    --slate-hollow: #2a332a;
+    --linen: #f8f9f5;
+    --bone: #eff2e8;
+    --mist: #e1e6df;
 
-    /* Data-viz — brand green first, then distinct status hues */
-    --chart-1: oklch(76.662% 0.135 153.45); /* green */
-    --chart-2: oklch(86.078% 0.142 206.182); /* info/cyan */
-    --chart-3: oklch(74.229% 0.133 311.379); /* purple */
-    --chart-4: oklch(86.163% 0.142 94.818); /* amber */
-    --chart-5: oklch(78.66% 0.15 28.47); /* error/red */
+    /* Hero backdrop — sage/mist lines, warm cursor glow, faint sage wash.
+       Keeps the specimen mood without a chromatic-green shout. */
+    --hero-glow: rgba(10, 29, 8, 0.04); /* warm ink cursor spotlight */
+    --hero-ring: #e1e6df; /* Mist — faint grid lines */
+    --hero-ring-strong: #c5ccb6; /* Lichen — moving/dashed rings */
+    --hero-accent: oklch(51% 0.06 150 / 0.6); /* Sage Leaf — inner ring/dots */
+    --hero-accent-soft: oklch(51% 0.06 150 / 0.08); /* sage ambient wash */
+
+    /* Data-viz — specimen hues */
+    --chart-1: #4a6d47; /* Sage Leaf */
+    --chart-2: #2b6b5e; /* Deep Teal */
+    --chart-3: #991e4b; /* Crimson */
+    --chart-4: #80581c; /* Amber Pin */
+    --chart-5: #729d92; /* Sage Foam */
 
     --radius: 0.5rem; /* 8px controls (field); box = 2× = 16px */
 
     /* Sidebar — mirrors base surfaces */
-    --sidebar: oklch(98% 0 0);
-    --sidebar-foreground: oklch(21% 0.006 285.885);
-    --sidebar-primary: oklch(86.133% 0.141 139.549);
-    --sidebar-primary-foreground: oklch(17.226% 0.028 139.549);
-    --sidebar-accent: oklch(98% 0 0);
-    --sidebar-accent-foreground: oklch(21% 0.006 285.885);
-    --sidebar-border: oklch(95% 0 0);
-    --sidebar-ring: oklch(86.133% 0.141 139.549);
+    --sidebar: #f1f3ef; /* surface-low */
+    --sidebar-foreground: #2e4320; /* on-surface */
+    --sidebar-primary: #4a6d47; /* primary — Sage Leaf */
+    --sidebar-primary-foreground: #eef6dc; /* on-primary */
+    --sidebar-accent: #ddeabd; /* primary-container */
+    --sidebar-accent-foreground: #4a6d47; /* on-primary-container */
+    --sidebar-border: #e1e6df; /* outline */
+    --sidebar-ring: #548f28; /* primary-stroke */
 }

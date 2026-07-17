@@ -289,7 +289,7 @@ export function ScanFlow({ showHistory = true }: { showHistory?: boolean }) {
                                         'scanner.dbMatch.description',
                                     )}
                                     headerAction={
-                                        <Database className="size-4 text-blue-900" />
+                                        <Database className="size-4 text-aux-accent-8" />
                                     }
                                 >
                                     <div className="flex flex-col gap-3">
@@ -319,7 +319,7 @@ export function ScanFlow({ showHistory = true }: { showHistory?: boolean }) {
                                                 >
                                                     <AccordionTrigger className="py-2 text-sm">
                                                         <span className="flex items-center gap-2">
-                                                            <Leaf className="size-4 text-green-900" />
+                                                            <Leaf className="size-4 text-aux-accent-6" />
                                                             {t(
                                                                 'scanner.dbMatch.remedies',
                                                             )}{' '}

@@ -5,26 +5,27 @@ import { Slot } from "radix-ui"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-md border border-transparent bg-clip-padding font-medium whitespace-nowrap transition-all duration-150 ease-[cubic-bezier(0.175,0.885,0.32,1.1)] outline-none select-none active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-muted disabled:text-gray-700 disabled:opacity-100 aria-invalid:border-destructive [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button inline-flex shrink-0 items-center justify-center rounded-full border border-transparent bg-clip-padding font-medium whitespace-nowrap transition-all duration-150 ease-[cubic-bezier(0.175,0.885,0.32,1.1)] outline-none select-none active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-muted disabled:text-muted-foreground disabled:opacity-100 aria-invalid:border-destructive [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
-        // Primary — green fill + dark content; hover darkens fill 7% black (DESIGN.md)
+        // Primary — Forest Ink pill + Linen content; hover lifts to Olive Press (DESIGN.md)
         default:
-          "bg-primary text-primary-foreground hover:[background:color-mix(in_oklab,var(--primary),#000_7%)]",
-        // Outline — pure white (base-100) surface + 1px base-300 border
+          "bg-primary text-primary-foreground hover:bg-olive-press",
+        // Outlined Ghost — transparent surface + 1px Lichen border, Olive Press text;
+        // hover swaps border to Forest Ink (DESIGN.md "Outlined Ghost Button")
         outline:
-          "border-border bg-background text-foreground hover:bg-muted aria-expanded:bg-muted",
-        // Secondary — neutral base-200 chip (cancel/back/media), darkens to base-300 on hover
+          "border-lichen bg-transparent text-olive-press hover:border-foreground hover:bg-muted aria-expanded:bg-muted",
+        // Secondary — neutral Bone chip (cancel/back/media), tints to Eucalyptus on hover
         secondary:
-          "border-border bg-[oklch(98%_0_0)] text-secondary-foreground hover:[background:oklch(95%_0_0)] aria-expanded:[background:oklch(95%_0_0)]",
-        // Ghost — transparent, tints to base-200 on hover
+          "border-border bg-secondary text-secondary-foreground hover:bg-accent aria-expanded:bg-accent",
+        // Ghost — transparent, tints to Bone on hover
         ghost:
           "text-foreground hover:bg-muted aria-expanded:bg-muted",
-        // Error — light error fill + dark error content; hover darkens 7% black
+        // Destructive — Crimson Specimen fill + Linen content; hover darkens 8% black
         destructive:
-          "bg-error text-error-content hover:[background:color-mix(in_oklab,var(--error),#000_7%)]",
-        // Link — purple secondary accent
+          "bg-destructive text-destructive-foreground hover:[background:color-mix(in_oklab,var(--destructive),#000_8%)]",
+        // Link — Crimson emphasis accent
         link: "text-link underline-offset-4 hover:underline",
       },
       size: {

@@ -9,16 +9,21 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground [a]:hover:bg-primary/90",
+        // Category tag — sage-tinted field-note fill
+        default: "bg-accent text-foreground [a]:hover:bg-accent/80",
         secondary:
           "bg-muted text-muted-foreground [a]:hover:bg-accent",
         destructive:
-          "bg-red-100 text-red-900 [a]:hover:bg-red-200",
+          "bg-destructive text-destructive-foreground [a]:hover:bg-destructive/90",
         outline:
-          "border-gray-alpha-400 text-foreground [a]:hover:bg-muted",
+          "border-lichen text-olive-press [a]:hover:bg-muted",
         ghost:
           "hover:bg-muted hover:text-muted-foreground",
         link: "text-link underline-offset-4 hover:underline",
+        // Field-note tag (DESIGN.md "Category Tag") — Fragment Mono, uppercase,
+        // tracked. For short EN labels/IDs only; NOT for dynamic Telugu content.
+        eyebrow:
+          "bg-accent text-olive-press font-mono text-[11px] tracking-[0.04em] uppercase [a]:hover:bg-accent/80",
       },
     },
     defaultVariants: {

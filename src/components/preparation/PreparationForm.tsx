@@ -281,7 +281,7 @@ export function PreparationForm({
                                     />
                                     <Button
                                         type="button"
-                                        variant="secondary"
+                                        variant="outline"
                                         size="sm"
                                         onClick={() =>
                                             imageInputRef.current?.click()
@@ -339,7 +339,7 @@ export function PreparationForm({
                                     />
                                     <Button
                                         type="button"
-                                        variant="secondary"
+                                        variant="outline"
                                         size="sm"
                                         onClick={() =>
                                             videoInputRef.current?.click()

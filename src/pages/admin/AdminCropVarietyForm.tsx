@@ -501,10 +501,10 @@ export function AdminCropVarietyFormPage() {
                                     </FieldLabel>
                                     <Button
                                         type="button"
+                                        variant="secondary"
                                         size="sm"
                                         onClick={handleTranslate}
                                         disabled={translating || !enName.trim()}
-                                        className="bg-amber-100 text-amber-900 hover:bg-amber-200"
                                     >
                                         <Languages data-icon="inline-start" />
                                         {translating

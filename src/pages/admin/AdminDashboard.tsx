@@ -7,7 +7,7 @@ import {
     adminGetCrops,
     adminGetCropVarietyCount,
 } from '@/services/adminService'
-import { Bug, FlaskConical, Sprout, Wheat, ArrowUpRight } from 'lucide-react'
+import { Bug, FlaskConical, Sprout, Wheat } from 'lucide-react'
 import { PageHeader } from '@/components/common/PageHeader'
 import { PageContainer } from '@/components/common/PageContainer'
 
@@ -78,18 +78,10 @@ export function AdminDashboardPage() {
                         to={card.to}
                         className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-[0_4px_16px_-4px_rgba(16,24,40,0.10)] ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_32px_-8px_rgba(16,24,40,0.18)]"
                     >
-                        {/* Faint green accent wash, intensifies on hover */}
-                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                        {/* Large watermark icon in the corner */}
-                        <span className="pointer-events-none absolute -right-3 -top-3 text-primary/10 transition-all duration-300 group-hover:text-primary/20 [&_svg]:size-20">
-                            {card.icon}
-                        </span>
-
                         <div className="relative flex items-center justify-between">
                             <span className="flex size-11 items-center justify-center rounded-xl bg-primary/15 transition-colors duration-300 [&_svg]:size-5 [&_svg]:text-foreground group-hover:bg-primary group-hover:[&_svg]:text-primary-foreground">
                                 {card.icon}
                             </span>
-                            <ArrowUpRight className="size-4 -translate-x-1 text-muted-foreground opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:text-primary group-hover:opacity-100" />
                         </div>
 
                         <p className="relative mt-6 text-display-lg leading-none tracking-tight text-foreground tabular-nums">

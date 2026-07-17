@@ -160,7 +160,7 @@ export function LandingPage() {
             {/* ── HERO ── */}
             <section className="relative flex min-h-[100svh] items-center justify-center overflow-hidden border-b border-border px-6 sm:px-8">
                 <HeroBackdrop />
-                <div className="relative mx-auto flex w-full max-w-3xl flex-col items-center pb-20 pt-24 text-center">
+                <div className="relative mx-auto flex w-full max-w-4xl flex-col items-center pb-20 pt-24 text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 12 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -186,7 +186,7 @@ export function LandingPage() {
                                     ? rotating
                                     : ['disease scans', 'organic remedies']
                             }
-                            className="text-display-lg font-semibold tracking-[-0.04em] text-foreground sm:text-display-xl"
+                            className="font-serif text-5xl font-light leading-[0.98] tracking-[-0.032em] text-foreground sm:text-7xl lg:text-[6.5rem]"
                         />
                     </motion.div>
 
@@ -253,7 +253,7 @@ export function LandingPage() {
             <section className="px-6 py-20 sm:px-8 sm:py-24">
                 <div className="mx-auto max-w-6xl">
                     <Reveal className="mb-10 max-w-2xl">
-                        <h2 className="text-display-lg font-semibold leading-[1.1] tracking-[-0.04em] text-foreground sm:text-[42px]">
+                        <h2 className="text-display-lg font-medium leading-[1.1] tracking-[-0.04em] text-foreground sm:text-[42px]">
                             {t('landing.features.sectionTitle')}
                         </h2>
                         <p className="mt-3 text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -268,10 +268,10 @@ export function LandingPage() {
                             <Reveal key={`${f.to}-${i}`} delay={i * 0.05} y={12}>
                                 <Link
                                     to={f.to}
-                                    className="group flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition-colors duration-200 hover:border-primary/60"
+                                    className="group flex h-full flex-col rounded-[10px] border border-border bg-card p-6 transition-colors duration-200 hover:border-foreground/40"
                                 >
                                     <div className="mb-5 flex items-center justify-between">
-                                        <span className="flex size-11 items-center justify-center rounded-xl bg-primary/15 transition-colors duration-200 group-hover:bg-primary [&_svg]:size-5 [&_svg]:text-foreground group-hover:[&_svg]:text-primary-foreground">
+                                        <span className="flex size-11 items-center justify-center rounded-xl bg-accent transition-colors duration-200 group-hover:bg-primary [&_svg]:size-5 [&_svg]:text-foreground group-hover:[&_svg]:text-primary-foreground">
                                             <f.icon />
                                         </span>
                                         <span className="flex size-6 items-center justify-center rounded-full bg-muted text-muted-foreground transition-all duration-200 group-hover:bg-primary group-hover:text-primary-foreground">
@@ -292,10 +292,10 @@ export function LandingPage() {
             </section>
 
             {/* ── HOW IT WORKS ── */}
-            <section className="border-t border-border bg-[oklch(98%_0_0)] px-6 py-20 sm:px-8 sm:py-24">
+            <section className="border-t border-border bg-background-200 px-6 py-20 sm:px-8 sm:py-24">
                 <div className="mx-auto max-w-6xl">
                     <Reveal className="mb-10 max-w-2xl">
-                        <h2 className="text-display-lg font-semibold leading-[1.1] tracking-[-0.04em] text-foreground sm:text-[42px]">
+                        <h2 className="text-display-lg font-medium leading-[1.1] tracking-[-0.04em] text-foreground sm:text-[42px]">
                             {t('landing.process.sectionTitle')}
                         </h2>
                         <p className="mt-3 text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -330,7 +330,7 @@ export function LandingPage() {
                 <div className="mx-auto max-w-6xl">
                     <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
                         <Reveal>
-                            <h2 className="text-display-lg font-semibold leading-[1.1] tracking-[-0.04em] text-foreground sm:text-[42px]">
+                            <h2 className="text-display-lg font-medium leading-[1.1] tracking-[-0.04em] text-foreground sm:text-[42px]">
                                 {t('landing.telangana.sectionTitle')}
                             </h2>
                             <p className="mt-3 max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg">
@@ -341,7 +341,7 @@ export function LandingPage() {
                         <div className="flex flex-col divide-y divide-border overflow-hidden rounded-xl border border-border bg-card">
                             {metrics.map((m, i) => (
                                 <Reveal key={m.title} delay={i * 0.08}>
-                                    <div className="group flex items-center gap-4 p-5 transition-colors duration-200 hover:bg-primary/5">
+                                    <div className="group flex items-center gap-4 p-5 transition-colors duration-200 hover:bg-muted-hover">
                                         <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary/15 transition-colors duration-200 group-hover:bg-primary [&_svg]:size-5 [&_svg]:text-foreground group-hover:[&_svg]:text-primary-foreground">
                                             <m.icon />
                                         </span>

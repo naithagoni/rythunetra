@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { X, Check, ChevronsUpDown } from 'lucide-react'
 import { cn } from '@/utils/cn'
-import { Button } from '@/components/ui/button'
 import {
     Popover,
     PopoverContent,
@@ -60,13 +59,18 @@ export function MultiSelectDropdown({
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
-                <Button
-                    variant="outline"
+                <button
+                    type="button"
                     role="combobox"
                     aria-expanded={open}
                     aria-label={ariaLabel}
                     className={cn(
-                        'w-full justify-between h-auto min-h-9 py-1.5 px-3 font-normal',
+                        // Mirror SelectTrigger exactly (form-field well): muted fill,
+                        // Lichen (input) border, 4px radius; hover only shifts the
+                        // BORDER to sage-gray (bg unchanged); open = ring border + bg.
+                        // Rendered as a plain <button> (not the outline Button variant)
+                        // so no conflicting hover:bg-muted / border-foreground leak in.
+                        'flex w-full items-center justify-between gap-1.5 min-h-11 rounded-[4px] border border-input bg-muted/60 px-3.5 py-1.5 text-sm transition-[color,background-color,border-color,box-shadow] outline-none select-none cursor-pointer hover:border-sage-gray focus-visible:border-ring focus-visible:bg-background focus-visible:ring-[3px] focus-visible:ring-ring/25 aria-expanded:border-ring aria-expanded:bg-background disabled:cursor-not-allowed disabled:opacity-50',
                         className,
                     )}
                 >
@@ -97,7 +101,7 @@ export function MultiSelectDropdown({
                         )}
                     </div>
                     <ChevronsUpDown className="size-4 shrink-0 opacity-50" />
-                </Button>
+                </button>
             </PopoverTrigger>
             <PopoverContent className="w-(--radix-popover-trigger-width) p-0">
                 <Command>
