@@ -275,6 +275,15 @@ Akkurat 400 at 30–53px, Forest Ink (#0a1d08), tight tracking (-0.04em at 53px,
 
 - **Transparency:** Absolutely no solid colors, checkerboard mockups, or textures in the background. The logo must be isolated on a **transparent background** for easy use across different mediums.
 
+#### 5. As shipped (`src/components/common/LogoMark.tsx`)
+
+- **Single circle** frame; purely stroked, no fill plate. Color follows the surface via the `variant` prop — Forest Ink `#0a1d08` on light, Linen `#f8f9f5` on dark bands.
+- **Weights (48×48 viewBox):** ring `2.4`, pipe `2.6`, letters `3` — a bold, solid mark with round caps/joins.
+- **Tall pipe** spanning `y 9 → 39` (nearly the full height), centred at `x 24`, with **even breathing room** on each side so the letters never crowd it.
+- **Balanced letters:** the "A" outer/left leg and the "N" outer/right leg curve symmetrically to echo the ring while staying **inset from it (~5px)** — neither leg touches the circle.
+- Favicon `public/rythunetra.svg` mirrors the mark as a filled Forest-Ink disc with Linen strokes (filled disc reads better at tab size).
+- **Usage:** shown **without the "RythuNetra" wordmark** in chrome (Header, MobileHeader top bar + drawer, Footer); brand links carry an `aria-label`. Login/Register show the mark centred above the form.
+
 ### Floating Navigation Bar
 
 **Role:** Top-of-page brand and link bar

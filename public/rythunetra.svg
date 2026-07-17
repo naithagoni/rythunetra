@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
   <circle cx="24" cy="24" r="23" fill="#0a1d08"/>
-  <circle cx="24" cy="24" r="19.5" stroke="#f8f9f5" stroke-width="1.6"/>
-  <line x1="24" y1="14" x2="24" y2="34" stroke="#f8f9f5" stroke-width="1.6" stroke-linecap="round"/>
-  <g stroke="#f8f9f5" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M18.8 14 Q11 23 12.6 34"/>
-    <path d="M18.8 14 L21 34"/>
-    <path d="M14.4 26.5 L20.4 26.5"/>
-    <path d="M27.8 34 L27.8 14"/>
-    <path d="M27.8 14 L35.4 34"/>
-    <path d="M35.4 14 Q43 24 35.4 34"/>
+  <circle cx="24" cy="24" r="19.5" stroke="#f8f9f5" stroke-width="2"/>
+  <line x1="24" y1="10.5" x2="24" y2="37.5" stroke="#f8f9f5" stroke-width="2.4" stroke-linecap="round"/>
+  <g stroke="#f8f9f5" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16.5 14 L19.7 34"/>
+    <path d="M16.5 14 Q8.5 24 11.2 34"/>
+    <path d="M12.2 26.5 L18.2 26.5"/>
+    <path d="M28.8 34 L28.8 14"/>
+    <path d="M28.8 14 L36.8 34"/>
+    <path d="M36.8 14 Q39.5 24 36.8 34"/>
   </g>
 </svg>

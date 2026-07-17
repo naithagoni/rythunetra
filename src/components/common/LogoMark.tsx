@@ -51,39 +51,40 @@ export function LogoMark({
                 cy="24"
                 r="22"
                 stroke={color}
-                strokeWidth="2"
+                strokeWidth="2.4"
             />
 
-            {/* Central pipe divider — A | N */}
+            {/* Central pipe divider — A | N (taller, with generous breathing
+                room on each side so the letters sit well clear of it) */}
             <line
                 x1="24"
-                y1="12.5"
+                y1="9"
                 x2="24"
-                y2="35.5"
+                y2="39"
                 stroke={color}
-                strokeWidth="2"
+                strokeWidth="2.6"
                 strokeLinecap="round"
             />
 
             <g
                 stroke={color}
-                strokeWidth="2.4"
+                strokeWidth="3"
                 strokeLinecap="round"
                 strokeLinejoin="round"
             >
-                {/* "A" — both legs meet at a shared apex; the inner (right) leg
-                    runs straight toward the pipe, the outer (left) leg curves
-                    out to follow the circle's left inner boundary; crossbar
-                    joins the two. */}
-                <path d="M18.5 13 Q9.5 23 11.5 35" />
-                <path d="M18.5 13 L21 35" />
-                <path d="M13.6 26 L20.3 26" />
+                {/* "A" — apex at top; inner (right) leg straight down toward the
+                    pipe, outer (left) leg curves out to echo the ring but stays
+                    inset from it (~5px); crossbar joins the two. */}
+                <path d="M16 13 L19.5 35" />
+                <path d="M16 13 Q7.5 24 10.5 35" />
+                <path d="M11.5 26.5 L18 26.5" />
 
-                {/* "N" — left vertical + diagonal, and the rightmost leg curving
-                    to mirror the circle's right inner boundary. */}
-                <path d="M27.5 35 L27.5 13" />
-                <path d="M27.5 13 L36.5 35" />
-                <path d="M36.5 13 Q45 24 36.5 35" />
+                {/* "N" — inner (left) vertical near the pipe, diagonal, and the
+                    outer (right) vertical leg bowed out to mirror the "A" while
+                    staying inset from the ring (no longer touching it). */}
+                <path d="M28.5 35 L28.5 13" />
+                <path d="M28.5 13 L37.5 35" />
+                <path d="M37.5 13 Q40.5 24 37.5 35" />
             </g>
         </svg>
     )
