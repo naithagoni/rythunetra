@@ -6,9 +6,6 @@ import {
     LogOut,
     Settings,
     Shield,
-    Sprout as CropsIcon,
-    Bug,
-    Sprout,
     FlaskConical,
     LogIn,
 } from 'lucide-react'
@@ -36,9 +33,9 @@ export function Header() {
     const navigate = useNavigate()
 
     const navLinks = [
-        { to: '/crops', label: t('nav.crops'), icon: CropsIcon },
-        { to: '/diseases', label: t('common.diseases'), icon: Bug },
-        { to: '/recommend', label: t('nav.recommend'), icon: Sprout },
+        { to: '/crops', label: t('nav.crops') },
+        { to: '/diseases', label: t('common.diseases') },
+        { to: '/recommend', label: t('nav.recommend') },
     ]
 
     const handleSignOut = async () => {
@@ -89,13 +86,12 @@ export function Header() {
                                     )}
                                     <span
                                         className={cn(
-                                            'relative z-10 inline-flex items-center gap-2 text-sm font-medium transition-colors',
+                                            'relative z-10 inline-flex items-center text-sm font-medium transition-colors',
                                             isActive
                                                 ? 'text-primary-foreground'
                                                 : 'text-muted-foreground group-hover/nav:text-foreground',
                                         )}
                                     >
-                                        <link.icon className="size-4" />
                                         {link.label}
                                     </span>
                                 </>

@@ -55,8 +55,12 @@ export function RotatingHeadline({
 
     return (
         <h1 className={className}>
-            {lead}{' '}
-            <span className="relative inline-block align-top">
+            {/* Lead sits on its own line(s); the rotating word gets a dedicated
+                centered line below. This keeps the headline height CONSTANT as
+                words of different widths cycle — otherwise a longer word wraps
+                differently and shifts everything below (buttons "float"). */}
+            <span className="block">{lead}</span>
+            <span className="relative mt-1 inline-block align-top">
                 {/* Hidden sizer — always the current word, drives width/height */}
                 <span
                     ref={measureRef}
