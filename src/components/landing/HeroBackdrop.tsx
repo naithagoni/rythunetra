@@ -6,14 +6,14 @@ import {
     useReducedMotion,
     useMotionTemplate,
 } from 'motion/react'
+import { NetworkGlobe } from './NetworkGlobe'
 
 /**
- * Layered hero backdrop (Vercel-style): a faint grid + concentric dashed rings
- * (the innermost pair slowly counter-rotate, with green accent dots orbiting a
- * ring), a two-layer spotlight (neutral cursor glow + faint green ambient wash)
- * that follows the pointer, and a soft cursor-tracking glow dot. All masked to
- * fade at the edges. Falls back to a centered static glow with no animation on
- * touch/coarse pointers or when the user prefers reduced motion. Decorative.
+ * Layered hero backdrop: a faint grid + an animated 3D network-globe sphere
+ * (rotating point mesh, depth-shaded), a two-layer spotlight (neutral cursor
+ * glow + faint green ambient wash) that follows the pointer, and a soft
+ * cursor-tracking glow dot. All masked to fade at the edges. Falls back to a
+ * static globe pose + centered glow on reduced-motion. Decorative.
  */
 export function HeroBackdrop() {
     const reduce = useReducedMotion()
@@ -64,96 +64,8 @@ export function HeroBackdrop() {
                 }}
             />
 
-            {/* Concentric rings — masked to fade toward the edges */}
-            <div
-                className="absolute left-1/2 top-[30%] size-[920px] -translate-x-1/2 -translate-y-1/2"
-                style={{
-                    maskImage:
-                        'radial-gradient(circle at 50% 50%, black 26%, transparent 74%)',
-                    WebkitMaskImage:
-                        'radial-gradient(circle at 50% 50%, black 26%, transparent 74%)',
-                }}
-            >
-                {/* Static outer rings */}
-                <svg
-                    className="absolute inset-0 size-full"
-                    viewBox="0 0 920 920"
-                    fill="none"
-                    style={{ color: 'var(--hero-ring)' }}
-                >
-                    {[300, 380, 452].map((r) => (
-                        <circle
-                            key={r}
-                            cx="460"
-                            cy="460"
-                            r={r}
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeDasharray="4 6"
-                        />
-                    ))}
-                </svg>
-
-                {/* Slow-spinning dashed ring (clockwise) */}
-                <motion.svg
-                    className="absolute inset-0 size-full"
-                    viewBox="0 0 920 920"
-                    fill="none"
-                    style={{ color: 'var(--hero-ring-strong)' }}
-                    animate={reduce ? undefined : { rotate: 360 }}
-                    transition={{
-                        duration: 90,
-                        ease: 'linear',
-                        repeat: Infinity,
-                    }}
-                >
-                    <circle
-                        cx="460"
-                        cy="460"
-                        r="224"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeDasharray="6 14"
-                        strokeLinecap="round"
-                    />
-                </motion.svg>
-
-                {/* Inner green accent ring + orbiting dots (counter-clockwise) */}
-                <motion.svg
-                    className="absolute inset-0 size-full"
-                    viewBox="0 0 920 920"
-                    fill="none"
-                    animate={reduce ? undefined : { rotate: -360 }}
-                    transition={{
-                        duration: 55,
-                        ease: 'linear',
-                        repeat: Infinity,
-                    }}
-                >
-                    <circle
-                        cx="460"
-                        cy="460"
-                        r="150"
-                        stroke="var(--hero-accent)"
-                        strokeWidth="2"
-                        strokeDasharray="4 14"
-                        strokeLinecap="round"
-                    />
-                    {/* Orbiting accent dots at 0°, 120°, 240° on the r=150 ring */}
-                    {[0, 120, 240].map((deg) => {
-                        const rad = (deg * Math.PI) / 180
-                        return (
-                            <circle
-                                key={deg}
-                                cx={460 + 150 * Math.cos(rad)}
-                                cy={460 + 150 * Math.sin(rad)}
-                                r="5"
-                                fill="var(--hero-accent)"
-                            />
-                        )
-                    })}
-                </motion.svg>
-            </div>
+            {/* Animated 3D network-globe sphere (replaces the concentric rings) */}
+            <NetworkGlobe />
 
             {/* Spotlight — neutral core + faint green halo, follows pointer */}
             <motion.div

@@ -249,6 +249,16 @@ Full-width Linen background, centered logo row, logos rendered in Olive Press (#
 
 Newsreader 300 at 108px on desktop, Linen (#f8f9f5) or Forest Ink (#0a1d08) depending on band. Line-height 0.98, letter-spacing -0.032em. Unique among an otherwise sans-serif system — gives the page its editorial opening.
 
+### Hero Backdrop (Network Globe)
+
+**Role:** Ambient decorative backdrop behind the hero headline (`src/components/landing/HeroBackdrop.tsx` + `NetworkGlobe.tsx`).
+
+A faint Mist grid, then an **animated 3D "network globe"** — ~150 points on a Fibonacci-lattice sphere connected by a short-edge mesh, slowly rotating on a tilted Y axis and perspective-projected with depth shading (near side brighter/larger, back hemisphere fades). Sized large so it frames the headline (radius ≈ 56% of the smaller viewport axis), centred at 34% height, and masked to fade out toward the edges. Above it: a two-layer pointer spotlight (neutral cursor glow + faint sage ambient wash) and a soft cursor-tracking dot, with a bottom gradient fading into the page.
+
+- **Colours (token-driven):** nodes = Sage Mist (`#a5ac9f`), edges = Eucalyptus (`#c9d5c5`) — soft, on-theme, legible on the Linen canvas. Depth controls per-point alpha/size.
+- **Canvas, no 3D library** (plain `<canvas>` + `requestAnimationFrame`); DPR-capped. Purely decorative (`aria-hidden`, pointer-events off).
+- **Reduced motion:** renders a single static globe pose (no animation loop); the pointer spotlight falls back to a centred static glow.
+
 ### Section Headline (Akkurat)
 
 **Role:** Mid-page section titles — 'Truly understand your agents', 'Evals that write themselves'
@@ -364,7 +374,7 @@ Rythunetra avoids drop shadows almost entirely. Elevation is conveyed through su
 
 ## Imagery
 
-Photography is a deliberate structural element: full-bleed landscape plates (lavender-pink toned mountains, misty forests, alpine ridges) serve as visual exhales between text-and-card sections. No lifestyle, no product shots, no UI mockups inside the page — the landscape imagery itself IS the visual punctuation. Imagery is high-key, desaturated, warm-toned, and slightly hazy, reinforcing the naturalist-journal mood. Icons are minimal, stroked, 1px weight, Sage Gray (#6b7860) — they annotate rather than decorate. No 3D, no illustration, no abstract gradients.
+Photography is a deliberate structural element: full-bleed landscape plates (lavender-pink toned mountains, misty forests, alpine ridges) serve as visual exhales between text-and-card sections. No lifestyle, no product shots, no UI mockups inside the page — the landscape imagery itself IS the visual punctuation. Imagery is high-key, desaturated, warm-toned, and slightly hazy, reinforcing the naturalist-journal mood. Icons are minimal, stroked, 1px weight, Sage Gray (#6b7860) — they annotate rather than decorate. Content sections avoid 3D, illustration, and abstract gradients. The one sanctioned exception is the **hero backdrop's animated network globe** (see "Hero Backdrop") — a subtle, low-contrast, token-coloured ambient element behind the opening headline, not content imagery.
 
 ## Layout
 
