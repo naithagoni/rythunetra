@@ -134,7 +134,7 @@ export function Header() {
                                     {isAdmin && (
                                         <DropdownMenuItem
                                             onClick={() => navigate('/admin')}
-                                            className="text-link focus:text-link"
+                                            className="text-tertiary-link focus:text-tertiary-link"
                                         >
                                             <Shield className="size-4" />
                                             {t('common.admin')}

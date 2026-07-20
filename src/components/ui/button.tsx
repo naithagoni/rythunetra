@@ -26,7 +26,7 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-destructive-foreground hover:[background:color-mix(in_oklab,var(--destructive),#000_8%)]",
         // Link — Crimson emphasis accent
-        link: "text-link underline-offset-4 hover:underline",
+        link: "text-tertiary-link underline-offset-4 hover:underline",
       },
       size: {
         // Geist sizes: medium 40 / small 32 / large 48

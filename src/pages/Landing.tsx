@@ -168,8 +168,8 @@ export function LandingPage() {
                         className="mb-8 inline-flex items-center gap-2 rounded-full border border-border bg-background/70 px-4 py-2 font-mono text-xs font-medium text-muted-foreground backdrop-blur-sm"
                     >
                         <span className="relative flex size-2">
-                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-link opacity-75" />
-                            <span className="relative inline-flex size-2 rounded-full bg-link" />
+                            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-tertiary-link opacity-75" />
+                            <span className="relative inline-flex size-2 rounded-full bg-tertiary-link" />
                         </span>
                         {t('landing.hero.badge')}
                     </motion.div>
@@ -341,7 +341,7 @@ export function LandingPage() {
                         <div className="flex flex-col divide-y divide-border overflow-hidden rounded-xl border border-border bg-card">
                             {metrics.map((m, i) => (
                                 <Reveal key={m.title} delay={i * 0.08}>
-                                    <div className="group flex items-center gap-4 p-5 transition-colors duration-200 hover:bg-muted-hover">
+                                    <div className="group flex items-center gap-4 p-5 transition-colors duration-200 hover:bg-surface-hover">
                                         <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary/15 transition-colors duration-200 group-hover:bg-primary [&_svg]:size-5 [&_svg]:text-foreground group-hover:[&_svg]:text-primary-foreground">
                                             <m.icon />
                                         </span>

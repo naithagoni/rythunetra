@@ -11,7 +11,7 @@ export function Footer({ className }: { className?: string }) {
 
     return (
         <footer
-            className={cn('bg-slate-hollow text-linen/70 mt-auto', className)}
+            className={cn('bg-ink-slate text-linen/70 mt-auto', className)}
         >
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* ── Conversion band — large headline + Primary Pill CTA ── */}
@@ -27,7 +27,7 @@ export function Footer({ className }: { className?: string }) {
                     <Button
                         asChild
                         size="pill-lg"
-                        className="group shrink-0 bg-linen text-slate-hollow hover:bg-linen/90"
+                        className="group shrink-0 bg-linen text-ink-slate hover:bg-linen/90"
                     >
                         <Link to="/crops">
                             {t('footer.ctaButton')}

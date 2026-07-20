@@ -46,16 +46,6 @@
        Sans headings (Inter) run lighter (500) with tight tracking, echoing
        DESIGN.md's Akkurat 400 section headlines. The single serif hero anchor
        uses --text-hero (Newsreader) — see font-serif utility, hero only. */
-    --text-hero: 4.5rem; /* 72px — Newsreader serif hero anchor */
-    --text-hero--line-height: 1; /* 0.98 rounded */
-    --text-hero--font-weight: 300;
-    --text-hero--letter-spacing: -0.032em;
-
-    --text-display-xl: 3rem; /* 48px */
-    --text-display-xl--line-height: 3.25rem; /* 52px */
-    --text-display-xl--font-weight: 500;
-    --text-display-xl--letter-spacing: -0.04em;
-
     --text-display-lg: 2rem; /* 32px */
     --text-display-lg--line-height: 2.375rem; /* 38px */
     --text-display-lg--font-weight: 500;
@@ -71,71 +61,31 @@
     --text-display-sm--font-weight: 500;
     --text-display-sm--letter-spacing: -0.015em;
 
-    /* Larger heading tokens for hero use — heading-56/64/72 */
-    --text-heading-56: 3.5rem;
-    --text-heading-56--line-height: 3.5rem;
-    --text-heading-56--font-weight: 600;
-    --text-heading-56--letter-spacing: -0.06em;
-
-    --text-heading-64: 4rem;
-    --text-heading-64--line-height: 4rem;
-    --text-heading-64--font-weight: 600;
-    --text-heading-64--letter-spacing: -0.06em;
-
-    --text-heading-72: 4.5rem;
-    --text-heading-72--line-height: 4.5rem;
-    --text-heading-72--font-weight: 600;
-    --text-heading-72--letter-spacing: -0.06em;
-
     /* Copy — multi-line body, taller line-height */
-    --text-body-lg: 1.125rem; /* 18px — copy-18 */
+    --text-body-lg: 1.125rem; /* 18px — copy-18 (hero subtitle) */
     --text-body-lg--line-height: 1.75rem; /* 28px */
 
-    --text-body-md: 1rem; /* 16px — copy-16 */
-    --text-body-md--line-height: 1.5rem; /* 24px */
-
-    --text-body-sm: 0.875rem; /* 14px — copy-14 */
-    --text-body-sm--line-height: 1.25rem; /* 20px */
-
-    --text-caption: 0.75rem; /* 12px — label-12 */
-    --text-caption--line-height: 1rem; /* 16px */
-
-    --text-code: 0.8125rem; /* 13px — copy-13-mono */
-    --text-code--line-height: 1.125rem; /* 18px */
-
-    /* Legacy heading aliases (kept for existing markup; capped at 600) */
-    --text-h1: 2.25rem;
-    --text-h1--line-height: 1.15;
-    --text-h1--font-weight: 600;
-    --text-h2: 1.5rem;
-    --text-h2--line-height: 1.2;
-    --text-h2--font-weight: 600;
-    --text-h3: 1.25rem;
-    --text-h3--line-height: 1.3;
-    --text-h3--font-weight: 600;
-    --text-h4: 1.125rem;
-    --text-h4--line-height: 1.35;
-    --text-h4--font-weight: 600;
-    --text-body: 0.875rem;
+    --text-body: 0.875rem; /* 14px — default body */
     --text-body--line-height: 1.6;
+
+    /* Removed 2026-07-17 (unused): --text-hero, --text-display-xl,
+       --text-heading-56/64/72, --text-body-md/sm, --text-caption,
+       --text-code, --text-h1..h4. Restore from git if a size returns. */
 
     /* NOTE: no named `--spacing-*` tokens — Tailwind v4 resolves `max-w-2xl…6xl`
        (and w-/h-/gap- named sizes) against `--spacing-*`, so defining them here
        silently shrinks every `max-w-{2xl,3xl,4xl,5xl,6xl}` to a few rem.
        Tailwind's default numeric 4px spacing scale is used throughout. */
 
-    /* Border radius — Specimen Journal: cards 10px, buttons 20px (pill),
-       inputs 4px, badges/toggles fully-rounded. */
-    --radius-card: 10px; /* cards / panels */
-    --radius-btn: 20px; /* pill CTA */
-    --radius-badge: 9999px; /* selector — pill */
-    --radius-input: 4px; /* form fields */
+    /* Border radius — only --radius-btn is consumed (global :focus-visible ring).
+       (--radius-card/-badge/-input removed 2026-07-17 — unused; components use
+       literal rounded-[10px]/[4px]/rounded-full. The shadcn --radius scale is
+       defined in @theme inline below.) */
+    --radius-btn: 20px; /* pill CTA — used by :focus-visible in @layer base */
 
-    /* Letter-spacing helpers */
+    /* Letter-spacing helper — only --tracking-tight is consumed.
+       (--tracking-tighter/-display/-display-lg removed 2026-07-17 — unused.) */
     --tracking-tight: -0.02em;
-    --tracking-tighter: -0.04em;
-    --tracking-display: -0.04em;
-    --tracking-display-lg: -0.06em;
 
     /* ── Geist Gray scale (light) ── */
     --color-gray-100: #f2f2f2;
@@ -172,88 +122,88 @@
        stroke, and 10 aux-accent families for status/data. Exposed here
        as Tailwind utilities (bg-surface-low, text-on-surface-base,
        bg-primary-container, border-primary-stroke, bg-aux-accent-3, …). */
-    --color-surface-highest: #fdfefb;
-    --color-surface-high: #fafbf7;
-    --color-surface-base: #f8f9f5;
-    --color-surface-low: #f1f3ef;
-    --color-surface-lowest: #e9ede9;
-    --color-surface-contrast: #e5e8e4;
-    --color-surface-inverse: #2a332a;
-    --color-surface-highest-transparent: #fdfefb00;
-    --color-surface-high-transparent: #fafbf700;
-    --color-surface-base-transparent: #f8f9f500;
-    --color-surface-low-transparent: #f1f3ef00;
-    --color-surface-lowest-transparent: #e9ede900;
-    --color-surface-inverse-transparent: #2a332a00;
-    --color-on-surface-highest: #2b390a;
-    --color-on-surface-highest-subtle: #2b390ab3;
-    --color-on-surface-highest-disabled: #2b390a66;
-    --color-on-surface-contrast: #2e4320;
-    --color-on-surface-high: #2f3f1b;
-    --color-on-surface-high-subtle: #2f3f1bb3;
-    --color-on-surface-high-disabled: #2f3f1b66;
-    --color-on-surface-base: #2e4320;
-    --color-on-surface-base-subtle: #2e4320b3;
-    --color-on-surface-base-disabled: #2e432066;
-    --color-on-surface-low: #243b1b;
-    --color-on-surface-low-subtle: #243b1bb3;
-    --color-on-surface-low-disabled: #243b1b66;
-    --color-on-surface-lowest: #123b0e;
-    --color-on-surface-lowest-subtle: #123b0eb3;
-    --color-on-surface-lowest-disabled: #123b0e66;
-    --color-on-surface-inverse: #fdfefb;
-    --color-on-surface-inverse-subtle: #fdfefbb3;
-    --color-on-surface-inverse-disabled: #fdfefb66;
-    --color-surface-tint-mild: #344f3108;
-    --color-surface-tint-base: #344f3112;
-    --color-surface-tint-strong: #33503024;
-    --color-primary-container: #ddeabd;
-    --color-on-primary-container: #4a6d47;
-    --color-primary-stroke: #548f28;
-    --color-secondary-container: #e3f2ea;
-    --color-on-secondary-container: #234b43;
-    --color-secondary-stroke: #0f9397;
-    --color-tertiary: #b14eaa;
-    --color-on-tertiary: #feebfb;
-    --color-tertiary-container: #feebfb;
-    --color-on-tertiary-container: #b14eaa;
-    --color-tertiary-stroke: #d857cf;
-    --color-on-error: #fcf0f3;
-    --color-error-container: #fbd8e5;
-    --color-on-error-container: #92174a;
-    --color-error-stroke: #d41665;
-    --color-outline: #e1e6df;
-    --color-outline-strong: #c4cbc2;
-    --color-aux-accent-1: #cf2184;
-    --color-aux-accent-1-outline: #ebabcf;
-    --color-aux-accent-1-container: #feebf1;
-    --color-aux-accent-2: #c23934;
-    --color-aux-accent-2-outline: #e9c3c1;
-    --color-aux-accent-2-container: #feebeb;
-    --color-aux-accent-3: #b54c1f;
-    --color-aux-accent-3-outline: #f1c8b6;
-    --color-aux-accent-3-container: #fff0e5;
-    --color-aux-accent-4: #886a00;
-    --color-aux-accent-4-outline: #ebd587;
-    --color-aux-accent-4-container: #f9f2d9;
-    --color-aux-accent-5: #4a6d47;
-    --color-aux-accent-5-outline: #bed0bd;
-    --color-aux-accent-5-container: #f0f5df;
-    --color-aux-accent-6: #2d784d;
-    --color-aux-accent-6-outline: #b9d3c4;
-    --color-aux-accent-6-container: #e4f7ea;
-    --color-aux-accent-7: #1a7474;
-    --color-aux-accent-7-outline: #bed7d7;
-    --color-aux-accent-7-container: #e8f5f5;
-    --color-aux-accent-8: #3963b7;
-    --color-aux-accent-8-outline: #c2d8ec;
-    --color-aux-accent-8-container: #e3f6ff;
-    --color-aux-accent-9: #7e42a6;
-    --color-aux-accent-9-outline: #dbcbe6;
-    --color-aux-accent-9-container: #f0edff;
-    --color-aux-accent-10: #9c2fa6;
-    --color-aux-accent-10-outline: #efd7f1;
-    --color-aux-accent-10-container: #ffebff;
+    --color-surface-highest: #fdfefb; /* Surface Glow — floating overlays */
+    --color-surface-high: #fafbf7; /* Off White — raised panels */
+    --color-surface-base: #f8f9f5; /* Linen — page canvas */
+    --color-surface-low: #f1f3ef; /* Pale Sage — cards / grid tiles */
+    --color-surface-lowest: #e9ede9; /* Sage Fog — section bands / hover */
+    --color-surface-contrast: #e5e8e4; /* Sage Gray-1 — contrast fill */
+    --color-surface-inverse: #2a332a; /* Ink Slate — dark inverse band */
+    --color-surface-highest-transparent: #fdfefb00; /* Surface Glow 0% */
+    --color-surface-high-transparent: #fafbf700; /* Off White 0% */
+    --color-surface-base-transparent: #f8f9f500; /* Linen 0% */
+    --color-surface-low-transparent: #f1f3ef00; /* Pale Sage 0% */
+    --color-surface-lowest-transparent: #e9ede900; /* Sage Fog 0% */
+    --color-surface-inverse-transparent: #2a332a00; /* Ink Slate 0% */
+    --color-on-surface-highest: #2b390a; /* Olive Press — text on surface-highest */
+    --color-on-surface-highest-subtle: #2b390ab3; /* Olive Press 70% */
+    --color-on-surface-highest-disabled: #2b390a66; /* Olive Press 40% */
+    --color-on-surface-contrast: #2e4320; /* Deep Sage Ink — text on contrast */
+    --color-on-surface-high: #2f3f1b; /* Olive Ink — text on surface-high */
+    --color-on-surface-high-subtle: #2f3f1bb3; /* Olive Ink 70% */
+    --color-on-surface-high-disabled: #2f3f1b66; /* Olive Ink 40% */
+    --color-on-surface-base: #2e4320; /* Deep Sage Ink — body text on canvas */
+    --color-on-surface-base-subtle: #2e4320b3; /* Deep Sage Ink 70% */
+    --color-on-surface-base-disabled: #2e432066; /* Deep Sage Ink 40% */
+    --color-on-surface-low: #243b1b; /* Deep Olive — text on surface-low */
+    --color-on-surface-low-subtle: #243b1bb3; /* Deep Olive 70% */
+    --color-on-surface-low-disabled: #243b1b66; /* Deep Olive 40% */
+    --color-on-surface-lowest: #123b0e; /* Darkest Green — text on surface-lowest */
+    --color-on-surface-lowest-subtle: #123b0eb3; /* Darkest Green 70% */
+    --color-on-surface-lowest-disabled: #123b0e66; /* Darkest Green 40% */
+    --color-on-surface-inverse: #fdfefb; /* Surface Glow — text on dark band */
+    --color-on-surface-inverse-subtle: #fdfefbb3; /* Surface Glow 70% */
+    --color-on-surface-inverse-disabled: #fdfefb66; /* Surface Glow 40% */
+    --color-surface-tint-mild: #344f3108; /* Moss 3% — translucent wash */
+    --color-surface-tint-base: #344f3112; /* Moss 7% — translucent wash */
+    --color-surface-tint-strong: #33503024; /* Moss 14% — translucent wash */
+    --color-primary-container: #ddeabd; /* Lime Wash — active/selected tint */
+    --color-on-primary-container: #4a6d47; /* Sage Leaf — content on container */
+    --color-primary-stroke: #548f28; /* Grass Green — focus ring */
+    --color-secondary-container: #e3f2ea; /* Mint Wash — secondary tint */
+    --color-on-secondary-container: #234b43; /* Dark Teal — content on container */
+    --color-secondary-stroke: #0f9397; /* Cyan Teal — secondary focus */
+    --color-tertiary: #b14eaa; /* Orchid — links / emphasis accent */
+    --color-on-tertiary: #feebfb; /* Pale Orchid — content on tertiary */
+    --color-tertiary-container: #feebfb; /* Pale Orchid — tertiary tint */
+    --color-on-tertiary-container: #b14eaa; /* Orchid — content on container */
+    --color-tertiary-stroke: #d857cf; /* Magenta — tertiary focus */
+    --color-on-error: #fcf0f3; /* Pale Rose — content on error */
+    --color-error-container: #fbd8e5; /* Rose Wash — error tint */
+    --color-on-error-container: #92174a; /* Dark Crimson — content on container */
+    --color-error-stroke: #d41665; /* Rose Red — error focus */
+    --color-outline: #e1e6df; /* Mist — hairline border */
+    --color-outline-strong: #c4cbc2; /* Sage Stone — form-field border */
+    --color-aux-accent-1: #cf2184; /* Magenta Pink */
+    --color-aux-accent-1-outline: #ebabcf; /* Magenta Pink — outline */
+    --color-aux-accent-1-container: #feebf1; /* Magenta Pink — container */
+    --color-aux-accent-2: #c23934; /* Danger Red — app destructive */
+    --color-aux-accent-2-outline: #e9c3c1; /* Danger Red — outline */
+    --color-aux-accent-2-container: #feebeb; /* Danger Red — container */
+    --color-aux-accent-3: #b54c1f; /* Burnt Orange */
+    --color-aux-accent-3-outline: #f1c8b6; /* Burnt Orange — outline */
+    --color-aux-accent-3-container: #fff0e5; /* Burnt Orange — container */
+    --color-aux-accent-4: #886a00; /* Olive Gold — warning */
+    --color-aux-accent-4-outline: #ebd587; /* Olive Gold — outline */
+    --color-aux-accent-4-container: #f9f2d9; /* Olive Gold — container */
+    --color-aux-accent-5: #4a6d47; /* Sage Leaf */
+    --color-aux-accent-5-outline: #bed0bd; /* Sage Leaf — outline */
+    --color-aux-accent-5-container: #f0f5df; /* Sage Leaf — container */
+    --color-aux-accent-6: #2d784d; /* Forest Green — success */
+    --color-aux-accent-6-outline: #b9d3c4; /* Forest Green — outline */
+    --color-aux-accent-6-container: #e4f7ea; /* Forest Green — container */
+    --color-aux-accent-7: #1a7474; /* Teal — info */
+    --color-aux-accent-7-outline: #bed7d7; /* Teal — outline */
+    --color-aux-accent-7-container: #e8f5f5; /* Teal — container */
+    --color-aux-accent-8: #3963b7; /* Royal Blue */
+    --color-aux-accent-8-outline: #c2d8ec; /* Royal Blue — outline */
+    --color-aux-accent-8-container: #e3f6ff; /* Royal Blue — container */
+    --color-aux-accent-9: #7e42a6; /* Violet */
+    --color-aux-accent-9-outline: #dbcbe6; /* Violet — outline */
+    --color-aux-accent-9-container: #f0edff; /* Violet — container */
+    --color-aux-accent-10: #9c2fa6; /* Purple */
+    --color-aux-accent-10-outline: #efd7f1; /* Purple — outline */
+    --color-aux-accent-10-container: #ffebff; /* Purple — container */
 
     /* ── Elevation — flat surfaces, elevated overlays ──
        On-page surfaces (cards, inputs, buttons) stay FLAT: separation
@@ -262,7 +212,8 @@
        lift OFF the page — on a pure-white canvas a hairline border alone
        reads poorly, so these get a soft neutral shadow for legibility
        (DESIGN.md: overlays read through their border + a scrim). */
-    --shadow-xs: none;
+    /* Flat on-page surfaces (shadow-sm/card/card-hover = none, used by cards).
+       Floating overlays get soft warm-ink shadows (elevated/dropdown/modal). */
     --shadow-sm: none;
     --shadow-card: none;
     --shadow-card-hover: none;
@@ -272,58 +223,13 @@
         0 4px 8px -4px rgba(10, 29, 8, 0.07);
     --shadow-modal: 0 20px 48px -12px rgba(10, 29, 8, 0.18),
         0 8px 16px -8px rgba(10, 29, 8, 0.1);
-    --shadow-btn: none;
-    --shadow-btn-primary: none;
-    --shadow-btn-primary-hover: none;
-    --shadow-btn-danger: none;
-    --shadow-input: none;
+    /* Removed 2026-07-17 (unused): --shadow-xs, --shadow-btn,
+       --shadow-btn-primary, --shadow-btn-primary-hover, --shadow-btn-danger,
+       --shadow-input. */
 
-    /* ── Motion — Geist: short, physical, honors reduced-motion ── */
-    --ease-geist: cubic-bezier(0.175, 0.885, 0.32, 1.1);
-    --animate-fade-in: fade-in 0.15s var(--ease-geist);
-    --animate-slide-up: slide-up 0.2s var(--ease-geist);
-    --animate-scale-in: scale-in 0.15s var(--ease-geist);
-
-    @keyframes fade-in {
-        from {
-            opacity: 0;
-            transform: translateY(4px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    @keyframes slide-up {
-        from {
-            opacity: 0;
-            transform: translateY(8px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    @keyframes scale-in {
-        from {
-            opacity: 0;
-            transform: scale(0.98);
-        }
-        to {
-            opacity: 1;
-            transform: scale(1);
-        }
-    }
-}
-
-/* Shimmer keyframe (outside @theme for proper CSS emission) */
-@keyframes shimmer {
-    0% {
-        background-position: -200% center;
-    }
-    100% {
-        background-position: 200% center;
-    }
+    /* Motion tokens (--ease-geist, --animate-fade-in/slide-up/scale-in) and
+       their keyframes were removed 2026-07-17 — unused; page/section motion is
+       handled by motion/react (see components/landing/*). */
 }
 
 /* ─── BASE STYLES ────────────────────────────────────────── */
@@ -381,13 +287,6 @@
             transition-duration: 0.01ms !important;
             scroll-behavior: auto !important;
         }
-    }
-}
-
-/* ─── COMPONENT CLASSES ──────────────────────────────────── */
-@layer components {
-    .brand-wordmark {
-        @apply font-semibold font-heading tracking-tight select-none;
     }
 }
 
@@ -472,31 +371,42 @@
     margin-bottom: 0;
 }
 
+/* ─── @theme inline — Tailwind utility ⇆ CSS-var bridge ───────
+   Exposes fonts + our custom specimen utilities, and (further down) the
+   SHADCN SEMANTIC TOKENS (--color-primary, -foreground, -muted, -border,
+   -destructive, …). The shadcn names are the component contract — every
+   `shadcn add` generates markup against them, so DO NOT rename them; change
+   only their VALUES in :root. Actual values live in the :root block below. */
 @theme inline {
     --font-heading: 'Inter', 'Anek Telugu', ui-sans-serif, system-ui, -apple-system, sans-serif;
     --font-sans: 'Inter', 'Anek Telugu', ui-sans-serif, system-ui, -apple-system, sans-serif;
     --font-serif: 'Newsreader', 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
     --font-mono: 'Fragment Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    --color-link: var(--link);
-    /* Decorative specimen palette — card tints, category fills, accents */
-    --color-forest-ink: var(--forest-ink);
-    --color-olive-press: var(--olive-press);
-    --color-sage-gray: var(--sage-gray);
-    --color-sage-mist: var(--sage-mist);
-    --color-sage-leaf: var(--sage-leaf);
-    --color-deep-teal: var(--deep-teal);
-    --color-crimson-specimen: var(--crimson-specimen);
-    --color-amber-pin: var(--amber-pin);
-    --color-eucalyptus: var(--eucalyptus);
-    --color-lichen: var(--lichen);
-    --color-blush: var(--blush);
-    --color-sand: var(--sand);
-    --color-sage-foam: var(--sage-foam);
-    --color-rose-clay: var(--rose-clay);
-    --color-slate-hollow: var(--slate-hollow);
-    --color-linen: var(--linen);
-    --color-bone: var(--bone);
-    --color-mist: var(--mist);
+    --color-tertiary-link: var(--tertiary-link); /* Orchid #b14eaa — links */
+    /* Specimen palette utilities — USED in components (bg-/text-/border-…).
+       Values live in :root below. */
+    --color-olive-press: var(--olive-press); /* Olive Press #2b390a — outlined-btn text */
+    --color-sage-gray: var(--sage-gray); /* Sage Gray #6b7860 — muted copy / icons */
+    --color-sage-mist: var(--sage-mist); /* Sage Mist #a5ac9f — globe nodes, footer labels */
+    --color-eucalyptus: var(--eucalyptus); /* Eucalyptus #c9d5c5 — globe edges */
+    --color-lichen: var(--lichen); /* Lichen #c5ccb6 — outlined-btn / dashed-upload border */
+    --color-rose-clay: var(--rose-clay); /* Rose Clay #c27c93 — footer heart */
+    --color-ink-slate: var(--ink-slate); /* Ink Slate #2a332a — footer band, modal scrim */
+    --color-linen: var(--linen); /* Linen #f8f9f5 — text/fills on dark bands */
+
+    /* Specimen palette utilities — UNUSED by components (kept for future use).
+       --color-forest-ink: var(--forest-ink);        (Forest Ink #0a1d08) */
+    /* --color-sage-leaf: var(--sage-leaf);           (Sage Leaf #4a6d47) */
+    /* --color-deep-teal: var(--deep-teal);           (Deep Teal #2b6b5e) */
+    /* --color-crimson-specimen: var(--crimson-specimen); (Crimson Specimen #991e4b) */
+    /* --color-amber-pin: var(--amber-pin);           (Amber Pin #80581c) */
+    /* --color-blush: var(--blush);                   (Blush Pink #e3c9d0) */
+    /* --color-sand: var(--sand);                     (Sand Tan #ad9d80) */
+    /* --color-sage-foam: var(--sage-foam);           (Sage Foam #729d92) */
+    /* --color-bone: var(--bone);                     (Bone White #eff2e8) */
+    /* --color-mist: var(--mist);                     (Mist #e1e6df) */
+    /* Status utilities (info/success/warning/error) — currently unused by
+       components; kept for status UI. statusColors.ts uses aux-accent-* instead. */
     --color-info: var(--info);
     --color-info-content: var(--info-content);
     --color-success: var(--success);
@@ -505,7 +415,8 @@
     --color-warning-content: var(--warning-content);
     --color-error: var(--error);
     --color-error-content: var(--error-content);
-    --color-destructive-foreground: var(--destructive-foreground);
+
+    /* Sidebar utilities — unused (no sidebar component yet); kept for shadcn. */
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -519,15 +430,22 @@
     --color-chart-3: var(--chart-3);
     --color-chart-2: var(--chart-2);
     --color-chart-1: var(--chart-1);
+
+    /* ── SHADCN SEMANTIC TOKENS — the component contract (DO NOT RENAME) ──
+       Consumed everywhere as bg-primary / text-foreground / border-border /
+       bg-muted / text-destructive / etc., and by every future `shadcn add`.
+       To restyle, change the VALUE in :root — never the name here.
+       (--color-surface-hover is our own addition for the gentle row hover.) */
     --color-ring: var(--ring);
     --color-input: var(--input);
     --color-border: var(--border);
     --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
     --color-accent-foreground: var(--accent-foreground);
     --color-accent: var(--accent);
     --color-muted-foreground: var(--muted-foreground);
     --color-muted: var(--muted);
-    --color-muted-hover: var(--muted-hover);
+    --color-surface-hover: var(--surface-hover);
     --color-secondary-foreground: var(--secondary-foreground);
     --color-secondary: var(--secondary);
     --color-primary-foreground: var(--primary-foreground);
@@ -548,116 +466,118 @@
     --radius-4xl: calc(var(--radius) * 4);
 }
 
-/* ─── Semantic tokens — Specimen Journal (only theme) ─────────
-   Mapped onto the Material-style palette in design/tailwind-v4.css.
-   Surfaces ride the surface ladder (base=Linen canvas → low/lowest for
-   cards & wells → highest for overlays → inverse for footer). Text uses
-   on-surface (deep sage-ink) with Sage Gray for muted copy. Primary =
-   Sage Leaf #4a6d47 role (fill #4a6d47 / on-primary #eef6dc, container
-   #ddeabd); error = Crimson #991e4b role with its container/stroke.
-   Borders use outline / outline-strong. Flat by design — structure from
-   borders + surface tints. Source of truth: design/DESIGN.md + tailwind-v4.css. */
+/* ─── :root — SHADCN SEMANTIC TOKEN VALUES + palette values ───
+   The shadcn tokens below (--background, --foreground, --primary, --muted,
+   --border, --destructive, --card, --popover, --accent, --ring, …) are the
+   VALUES behind the utility contract aliased in @theme inline. Restyle the
+   app by editing these values; keep the names. Mapped onto the Material-style
+   Specimen Journal palette: surface ladder (Linen canvas → surface-low cards →
+   surface-highest overlays → ink-slate footer), on-surface sage-ink text,
+   Sage Leaf #4a6d47 primary, Crimson-red #c23934 destructive, tertiary #b14eaa
+   links. Below them: hero-backdrop vars, chart hues, sidebar, and the raw
+   specimen palette (used + unused). Source of truth: design/DESIGN.md. */
 :root {
     color-scheme: light;
 
     /* Base surfaces — the surface ladder.
        canvas=surface-base(Linen); cards/panels=surface-low; overlays=
        surface-highest; text=on-surface (deep sage-ink). */
-    --background: #f8f9f5; /* surface-base — page canvas */
-    --background-200: #e9ede9; /* surface-lowest — section bands / deep fill */
-    --foreground: #2e4320; /* on-surface-base — body text */
-    --card: #f1f3ef; /* surface-low — card / grid tile / panel */
-    --card-foreground: #2e4320; /* on-surface-low */
-    --popover: #fdfefb; /* surface-highest — floating overlays */
-    --popover-foreground: #2b390a; /* on-surface-highest */
+    --background: #f8f9f5; /* Linen (surface-base) — page canvas */
+    --background-200: #e9ede9; /* Sage Fog (surface-lowest) — section bands / deep fill */
+    --foreground: #2e4320; /* Deep Sage Ink (on-surface-base) — body text */
+    --card: #f1f3ef; /* Pale Sage (surface-low) — card / grid tile / panel */
+    --card-foreground: #2e4320; /* Deep Sage Ink (on-surface-low) — card text */
+    --popover: #fdfefb; /* Surface Glow (surface-highest) — floating overlays */
+    --popover-foreground: #2b390a; /* Olive Press (on-surface-highest) — overlay text */
 
     /* Brand — primary role = Sage Leaf fill + light on-primary content.
        Hover darkens via color-mix per-component. */
-    --primary: #4a6d47; /* primary — Sage Leaf */
-    --primary-foreground: #eef6dc; /* on-primary */
+    --primary: #4a6d47; /* Sage Leaf (primary) — brand fill / CTA */
+    --primary-foreground: #eef6dc; /* Pale Lime (on-primary) — content on primary */
 
     /* Secondary button surface — neutral surface-low chip */
-    --secondary: #f1f3ef; /* surface-low */
-    --secondary-foreground: #2e4320; /* on-surface */
+    --secondary: #f1f3ef; /* Pale Sage (surface-low) — secondary chip */
+    --secondary-foreground: #2e4320; /* Deep Sage Ink (on-surface) — secondary text */
 
     /* Neutral fills & muted text */
-    --muted: #f1f3ef; /* surface-low — wells, zebra rows, input fills */
-    --muted-hover: #e9ede9; /* surface-lowest — gentle card/grid/surface hover */
+    --muted: #f1f3ef; /* Pale Sage (surface-low) — wells, zebra rows, input fills */
+    --surface-hover: #e9ede9; /* Sage Fog (surface-lowest) — gentle card/grid/surface hover */
     --muted-foreground: #6b7860; /* Sage Gray — secondary copy */
     /* Interactive tint for SELECTED/active menu rows — primary-container wash,
-       a clear step beyond the gentle --muted-hover */
-    --accent: #ddeabd; /* primary-container — selected/active tint */
-    --accent-foreground: #4a6d47; /* on-primary-container */
+       a clear step beyond the gentle --surface-hover */
+    --accent: #ddeabd; /* Lime Wash (primary-container) — selected/active tint */
+    --accent-foreground: #4a6d47; /* Sage Leaf (on-primary-container) — content on accent */
 
     /* Status — destructive/error = aux-accent-2 (true danger red), kept
        distinct from the Crimson (#991e4b) that is now reserved for other
        roles. Drives delete/remove/logout buttons + error messages. */
-    --destructive: #c23934; /* aux-accent-2 */
-    --destructive-foreground: #ffffff; /* light content on red */
+    --destructive: #c23934; /* Danger Red (aux-accent-2) — delete/remove/logout */
+    --destructive-foreground: #ffffff; /* White — content on red */
 
     /* Borders & focus */
-    --border: #e1e6df; /* outline — hairline */
-    --input: #c4cbc2; /* outline-strong — form-field border, findable */
-    --ring: #548f28; /* primary-stroke — focus ring */
+    --border: #e1e6df; /* Mist (outline) — hairline border */
+    --input: #c4cbc2; /* Sage Stone (outline-strong) — form-field border, findable */
+    --ring: #548f28; /* Grass Green (primary-stroke) — focus ring */
 
-    /* Links / emphasis accent — tertiary (#b14eaa), a distinct navigational
+    /* Links / emphasis accent — Orchid (#b14eaa), a distinct navigational
        hue that never reads as a danger/error action */
-    --link: #b14eaa; /* tertiary */
+    --tertiary-link: #b14eaa; /* Orchid (tertiary) — links / emphasis */
 
     /* Status tokens — mapped onto the new palette (light fill / dark content) */
-    --info: #1a7474; /* aux-accent-7 teal */
-    --info-content: #f8f9f5;
-    --success: #2d784d; /* aux-accent-6 green */
-    --success-content: #f8f9f5;
-    --warning: #886a00; /* aux-accent-4 amber */
-    --warning-content: #f8f9f5;
-    --error: #c23934; /* aux-accent-2 */
-    --error-content: #ffffff;
+    --info: #1a7474; /* Teal (aux-accent-7) — info */
+    --info-content: #f8f9f5; /* Linen — content on info */
+    --success: #2d784d; /* Forest Green (aux-accent-6) — success */
+    --success-content: #f8f9f5; /* Linen — content on success */
+    --warning: #886a00; /* Olive Gold (aux-accent-4) — warning */
+    --warning-content: #f8f9f5; /* Linen — content on warning */
+    --error: #c23934; /* Danger Red (aux-accent-2) — error */
+    --error-content: #ffffff; /* White — content on error */
 
-    /* Decorative specimen palette — card tints & category fills */
-    --forest-ink: #0a1d08;
-    --olive-press: #2b390a;
-    --sage-gray: #6b7860;
-    --sage-mist: #a5ac9f;
-    --sage-leaf: #4a6d47;
-    --deep-teal: #2b6b5e;
-    --crimson-specimen: #991e4b;
-    --amber-pin: #80581c;
-    --eucalyptus: #c9d5c5;
-    --lichen: #c5ccb6;
-    --blush: #e3c9d0;
-    --sand: #ad9d80;
-    --sage-foam: #729d92;
-    --rose-clay: #c27c93;
-    --slate-hollow: #2a332a;
-    --linen: #f8f9f5;
-    --bone: #eff2e8;
-    --mist: #e1e6df;
+    /* Specimen palette values — USED by components (aliased in @theme above). */
+    --olive-press: #2b390a; /* Olive Press — outlined-button text */
+    --sage-gray: #6b7860; /* Sage Gray — muted body text, icon strokes */
+    --sage-mist: #a5ac9f; /* Sage Mist — globe nodes, footer labels */
+    --eucalyptus: #c9d5c5; /* Eucalyptus — globe edges, soft tint */
+    --lichen: #c5ccb6; /* Lichen — outlined-btn / dashed-upload border */
+    --rose-clay: #c27c93; /* Rose Clay — footer heart accent */
+    --ink-slate: #2a332a; /* Ink Slate (aka slate-hollow) — footer band, scrim */
+    --linen: #f8f9f5; /* Linen — text/fills on dark bands */
 
-    /* Hero backdrop — sage/mist lines, warm cursor glow, faint sage wash.
-       Keeps the specimen mood without a chromatic-green shout. */
-    --hero-glow: rgba(10, 29, 8, 0.04); /* warm ink cursor spotlight */
+    /* Specimen palette values — UNUSED (kept for future use, do not delete). */
+    --forest-ink: #0a1d08; /* Forest Ink — deepest ink (logo hardcodes this) */
+    --sage-leaf: #4a6d47; /* Sage Leaf — brand green (same as --primary) */
+    --deep-teal: #2b6b5e; /* Deep Teal — secondary category hue */
+    --crimson-specimen: #991e4b; /* Crimson Specimen — legacy link/error hue */
+    --amber-pin: #80581c; /* Amber Pin — warm accent */
+    --blush: #e3c9d0; /* Blush Pink — decorative card tint */
+    --sand: #ad9d80; /* Sand Tan — decorative card tint */
+    --sage-foam: #729d92; /* Sage Foam — decorative cool tint */
+    --bone: #eff2e8; /* Bone White — legacy surface-1 */
+    --mist: #e1e6df; /* Mist — legacy border (= --border) */
+
+    /* Hero backdrop — consumed by HeroBackdrop.tsx (grid + cursor spotlight).
+       (--hero-ring-strong / --hero-accent were removed with the old ring
+       animation; the network globe reads its own sage tokens.) */
+    --hero-glow: rgba(10, 29, 8, 0.04); /* Forest Ink 4% — warm cursor spotlight */
     --hero-ring: #e1e6df; /* Mist — faint grid lines */
-    --hero-ring-strong: #c5ccb6; /* Lichen — moving/dashed rings */
-    --hero-accent: oklch(51% 0.06 150 / 0.6); /* Sage Leaf — inner ring/dots */
-    --hero-accent-soft: oklch(51% 0.06 150 / 0.08); /* sage ambient wash */
+    --hero-accent-soft: oklch(51% 0.06 150 / 0.08); /* Sage 8% — ambient wash */
 
     /* Data-viz — specimen hues */
     --chart-1: #4a6d47; /* Sage Leaf */
     --chart-2: #2b6b5e; /* Deep Teal */
-    --chart-3: #991e4b; /* Crimson */
+    --chart-3: #991e4b; /* Crimson Specimen */
     --chart-4: #80581c; /* Amber Pin */
     --chart-5: #729d92; /* Sage Foam */
 
     --radius: 0.5rem; /* 8px controls (field); box = 2× = 16px */
 
     /* Sidebar — mirrors base surfaces */
-    --sidebar: #f1f3ef; /* surface-low */
-    --sidebar-foreground: #2e4320; /* on-surface */
-    --sidebar-primary: #4a6d47; /* primary — Sage Leaf */
-    --sidebar-primary-foreground: #eef6dc; /* on-primary */
-    --sidebar-accent: #ddeabd; /* primary-container */
-    --sidebar-accent-foreground: #4a6d47; /* on-primary-container */
-    --sidebar-border: #e1e6df; /* outline */
-    --sidebar-ring: #548f28; /* primary-stroke */
+    --sidebar: #f1f3ef; /* Pale Sage (surface-low) */
+    --sidebar-foreground: #2e4320; /* Deep Sage Ink (on-surface) */
+    --sidebar-primary: #4a6d47; /* Sage Leaf (primary) */
+    --sidebar-primary-foreground: #eef6dc; /* Pale Lime (on-primary) */
+    --sidebar-accent: #ddeabd; /* Lime Wash (primary-container) */
+    --sidebar-accent-foreground: #4a6d47; /* Sage Leaf (on-primary-container) */
+    --sidebar-border: #e1e6df; /* Mist (outline) */
+    --sidebar-ring: #548f28; /* Grass Green (primary-stroke) */
 }

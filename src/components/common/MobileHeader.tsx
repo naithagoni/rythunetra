@@ -150,7 +150,7 @@ export function MobileHeader() {
                                             to="/admin"
                                             className={cn(
                                                 linkClass,
-                                                'text-link hover:text-link aria-[current=page]:text-link',
+                                                'text-tertiary-link hover:text-tertiary-link aria-[current=page]:text-tertiary-link',
                                             )}
                                         >
                                             <Shield className="size-4" />

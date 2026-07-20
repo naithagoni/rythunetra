@@ -270,7 +270,7 @@ export function RegisterPage() {
                             {t('auth.hasAccount')}{' '}
                             <Link
                                 to="/login"
-                                className="text-link hover:underline font-medium"
+                                className="text-tertiary-link hover:underline font-medium"
                             >
                                 {t('auth.loginTitle')}
                             </Link>

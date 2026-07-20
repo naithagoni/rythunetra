@@ -3,7 +3,7 @@ import type { ComponentProps } from 'react'
 import { cn } from '@/utils/cn'
 
 const base =
-    'text-link underline-offset-4 hover:underline transition-colors'
+    'text-tertiary-link underline-offset-4 hover:underline transition-colors'
 
 /** Inline text link (internal, react-router). Purple secondary accent, underline on hover. */
 export function InlineLink({

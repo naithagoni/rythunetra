@@ -19,7 +19,7 @@ const badgeVariants = cva(
           "border-lichen text-olive-press [a]:hover:bg-muted",
         ghost:
           "hover:bg-muted hover:text-muted-foreground",
-        link: "text-link underline-offset-4 hover:underline",
+        link: "text-tertiary-link underline-offset-4 hover:underline",
         // Field-note tag (DESIGN.md "Category Tag") — Fragment Mono, uppercase,
         // tracked. For short EN labels/IDs only; NOT for dynamic Telugu content.
         eyebrow:

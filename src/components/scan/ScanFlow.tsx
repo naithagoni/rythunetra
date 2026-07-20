@@ -301,7 +301,7 @@ export function ScanFlow({ showHistory = true }: { showHistory?: boolean }) {
                                             </span>
                                             <Link
                                                 to={`/diseases/${result.dbMatch.id}`}
-                                                className="ml-auto inline-flex items-center gap-1 text-sm font-medium text-link hover:underline"
+                                                className="ml-auto inline-flex items-center gap-1 text-sm font-medium text-tertiary-link hover:underline"
                                             >
                                                 <BookOpen className="size-4" />
                                                 {t('scanner.dbMatch.viewDetails')}

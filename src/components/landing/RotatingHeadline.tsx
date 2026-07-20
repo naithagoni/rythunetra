@@ -80,7 +80,7 @@ export function RotatingHeadline({
                     <AnimatePresence mode="popLayout" initial={false}>
                         <motion.span
                             key={index}
-                            className="relative inline-block whitespace-nowrap text-link"
+                            className="relative inline-block whitespace-nowrap text-tertiary-link"
                             initial={{ opacity: 0, filter: 'blur(6px)', y: 8 }}
                             animate={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
                             exit={{ opacity: 0, filter: 'blur(6px)', y: -8 }}
@@ -109,7 +109,7 @@ function SelectionBox({ dims }: { dims: { w: number; h: number } }) {
     return (
         <motion.span
             aria-hidden
-            className="pointer-events-none absolute -inset-x-1.5 -inset-y-1 rounded-[3px] border border-link"
+            className="pointer-events-none absolute -inset-x-1.5 -inset-y-1 rounded-[3px] border border-tertiary-link"
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.25, ease: [0.175, 0.885, 0.32, 1.1] }}
@@ -122,10 +122,10 @@ function SelectionBox({ dims }: { dims: { w: number; h: number } }) {
             ].map((pos) => (
                 <span
                     key={pos}
-                    className={`absolute size-1.5 rounded-[2px] border border-link bg-background ${pos}`}
+                    className={`absolute size-1.5 rounded-[2px] border border-tertiary-link bg-background ${pos}`}
                 />
             ))}
-            <span className="absolute -top-6 right-0 rounded bg-link px-1.5 py-0.5 font-mono text-[10px] font-medium leading-none text-white">
+            <span className="absolute -top-6 right-0 rounded bg-tertiary-link px-1.5 py-0.5 font-mono text-[10px] font-medium leading-none text-white">
                 {dims.w} × {dims.h}
             </span>
         </motion.span>
@@ -144,7 +144,7 @@ function StrokeWord({ word, reduce }: { word: string; reduce: boolean }) {
                 aria-hidden
                 className="text-transparent"
                 style={{
-                    WebkitTextStroke: '1px var(--color-link)',
+                    WebkitTextStroke: '1px var(--color-tertiary-link)',
                 }}
             >
                 {word}
@@ -152,7 +152,7 @@ function StrokeWord({ word, reduce }: { word: string; reduce: boolean }) {
             {/* Filled layer, wiped in */}
             <motion.span
                 aria-hidden
-                className="absolute inset-0 text-link"
+                className="absolute inset-0 text-tertiary-link"
                 initial={
                     reduce
                         ? { clipPath: 'inset(0 0% 0 0)' }

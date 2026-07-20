@@ -156,7 +156,7 @@ export function LoginPage() {
                             {t('auth.noAccount')}{' '}
                             <Link
                                 to="/register"
-                                className="text-link hover:underline font-medium"
+                                className="text-tertiary-link hover:underline font-medium"
                             >
                                 {t('auth.registerTitle')}
                             </Link>
