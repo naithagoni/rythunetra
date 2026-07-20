@@ -62,6 +62,15 @@ export function NetworkGlobe() {
         const sinT = Math.sin(tiltX)
         const cosT = Math.cos(tiltX)
 
+        // Screen-plane ROLL — tilts the spin axis so the equator travels along
+        // a diagonal instead of horizontally. 0° = left↔right; 45° lays the
+        // equator along the 11 o'clock → 4 o'clock diagonal (60° would be the
+        // steeper 11→5 diameter). Flip the sign to mirror the diagonal
+        // (1↔8 o'clock); reverse `angle` in loop() to swap travel direction.
+        const roll = (15 * Math.PI) / 180
+        const cosR = Math.cos(roll)
+        const sinR = Math.sin(roll)
+
         let raf = 0
         let angle = 0
         let w = 0
@@ -69,7 +78,16 @@ export function NetworkGlobe() {
         let dpr = 1
         let cx = 0
         let cy = 0
-        let radius = 0
+        let radius = 0 // current (eased) radius
+        let targetRadius = 0 // where radius is heading after a resize
+
+        // Fluid size fraction: the globe takes a LARGER share of the smaller
+        // dimension on phones (so it stays prominent) and eases down to a
+        // calmer share on desktop. Interpolated by width — no breakpoint jump.
+        const radiusFraction = (width: number) => {
+            const t = Math.max(0, Math.min(1, (width - 360) / (1280 - 360)))
+            return 0.78 + (0.56 - 0.78) * t // 0.78 @360px → 0.56 @1280px
+        }
 
         const resize = () => {
             const rect = canvas.getBoundingClientRect()
@@ -81,7 +99,9 @@ export function NetworkGlobe() {
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
             cx = w / 2
             cy = h * 0.34 // sit where the old rings were
-            radius = Math.min(w, h) * 0.56
+            targetRadius = Math.min(w, h) * radiusFraction(w)
+            // First measure (or reduced-motion) snaps; later resizes ease.
+            if (radius === 0) radius = targetRadius
         }
 
         const project = (p: { x: number; y: number; z: number }) => {
@@ -94,9 +114,13 @@ export function NetworkGlobe() {
             const rzz = p.y * sinT + rz * cosT // depth: +front, -back
             // Perspective — nearer points spread slightly wider.
             const persp = 1 / (1.9 - rzz * 0.5)
+            // Roll the projected point in the screen plane so the spin reads as
+            // a diagonal (11→5 o'clock). Depth (rzz) is unaffected by a 2D roll.
+            const px = rx * persp
+            const py = ry * persp
             return {
-                sx: cx + rx * radius * persp,
-                sy: cy + ry * radius * persp,
+                sx: cx + (px * cosR - py * sinR) * radius,
+                sy: cy + (px * sinR + py * cosR) * radius,
                 depth: rzz, // -1 (far) → 1 (near)
             }
         }
@@ -133,7 +157,10 @@ export function NetworkGlobe() {
         }
 
         const loop = () => {
-            angle += 0.0016
+            angle -= 0.0016
+            // Ease the radius toward its target so a viewport/orientation
+            // change grows/shrinks the globe smoothly instead of snapping.
+            radius += (targetRadius - radius) * 0.06
             draw()
             raf = requestAnimationFrame(loop)
         }

@@ -186,7 +186,7 @@ export function LandingPage() {
                                     ? rotating
                                     : ['disease scans', 'organic remedies']
                             }
-                            className="font-serif text-5xl font-light leading-[0.98] tracking-[-0.032em] text-foreground sm:text-7xl lg:text-[6.5rem]"
+                            className="font-serif font-light leading-[0.98] tracking-[-0.032em] text-foreground text-[clamp(3.25rem,1.5rem+6.5vw,6.5rem)]"
                         />
                     </motion.div>
 
@@ -205,7 +205,11 @@ export function LandingPage() {
                         transition={{ duration: 0.5, delay: 0.5, ease: swift }}
                         className="mt-10 flex flex-col items-center gap-3 sm:flex-row"
                     >
-                        <Button asChild size="pill-lg" className="group w-full sm:w-auto">
+                        <Button
+                            asChild
+                            size="pill-lg"
+                            className="group w-full sm:w-auto"
+                        >
                             <Link to="/crops">
                                 {t('landing.hero.cta')}
                                 <ArrowRight
@@ -233,7 +237,10 @@ export function LandingPage() {
                         className="mt-16 grid w-full max-w-lg grid-cols-4 divide-x divide-border rounded-xl border border-border bg-card/70 backdrop-blur-sm"
                     >
                         {stats.map((s) => (
-                            <div key={s.label} className="px-2 py-4 text-center">
+                            <div
+                                key={s.label}
+                                className="px-2 py-4 text-center"
+                            >
                                 <div className="text-display-md font-semibold tracking-[-0.02em] text-foreground tabular-nums">
                                     <AnimatedCounter
                                         target={s.value}
@@ -265,7 +272,11 @@ export function LandingPage() {
                         className={`grid grid-cols-1 gap-4 sm:grid-cols-2 ${features.length > 3 ? 'lg:grid-cols-3' : ''}`}
                     >
                         {features.map((f, i) => (
-                            <Reveal key={`${f.to}-${i}`} delay={i * 0.05} y={12}>
+                            <Reveal
+                                key={`${f.to}-${i}`}
+                                delay={i * 0.05}
+                                y={12}
+                            >
                                 <Link
                                     to={f.to}
                                     className="group flex h-full flex-col rounded-[10px] border border-border bg-card p-6 transition-colors duration-200 hover:border-foreground/40"

@@ -269,10 +269,14 @@
        Form fields (inputs, textareas, selects, and the InputGroup control)
        are EXCLUDED — they define their own focus treatment (primary border +
        soft primary ring). Applying the global ring on top produced a doubled,
-       wrong-radius ring on search boxes. */
+       wrong-radius ring on search boxes. Floating menu/popover CONTENT is also
+       excluded — Radix focuses the panel on open, and the global ring drew an
+       unwanted border around the whole account/dropdown panel. */
     *:focus-visible:not(input):not(textarea):not(select):not(
             [data-slot='input-group-control']
-        ) {
+        ):not([data-slot='dropdown-menu-content']):not(
+            [data-slot='popover-content']
+        ):not([data-slot='dropdown-menu-item']) {
         outline: none;
         box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--ring);
         border-radius: var(--radius-btn);
