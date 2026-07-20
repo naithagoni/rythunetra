@@ -40,10 +40,12 @@ The system runs on a **Material-style semantic palette** (see `tailwind-v4.css` 
 | --------- | -------------------------------- | ---------------------- | ------------------- | ----------------- | -------------------------------------------------------------------------- |
 | Primary   | `#4a6d47` `--color-primary`      | `#eef6dc` on-primary   | `#ddeabd` container | `#548f28` stroke  | Filled CTAs, active nav pill, checkboxes, focus ring, selected rows        |
 | Secondary | `#2b6b5e` `--color-secondary`    | `#eff6f2` on-secondary | `#e3f2ea` container | `#0f9397` stroke  | Secondary category fills, tonal pairing                                    |
-| Tertiary  | `#b14eaa` `--color-tertiary`     | `#feebfb` on-tertiary  | `#feebfb` container | `#d857cf` stroke  | **Links** (`--link`) — Admin, View Scan History, InlineLink, etc.          |
+| Tertiary  | `#b14eaa` `--color-tertiary`     | `#feebfb` on-tertiary  | `#feebfb` container | `#d857cf` stroke  | **Links** (`--tertiary-link`) — Admin, View Scan History, InlineLink, etc. |
 | Error     | `#c23934` `--color-aux-accent-2` | `#ffffff`              | `#feebeb` container | `#e9c3c1` outline | **Error messages, delete / remove / logout** (`--error` / `--destructive`) |
 
-> **App role notes:** `--link` maps to **Tertiary `#b14eaa`** (a distinct navigational hue — never the error red) and `--error`/`--destructive` map to **aux-accent-2 `#c23934`** (true danger red). The Material `error` token (`#991e4b`, Crimson) is not used as the app's error color.
+> **App role notes:** the link token maps to **Tertiary `#b14eaa`** (a distinct navigational hue — never the error red) and `--error`/`--destructive` map to **aux-accent-2 `#c23934`** (true danger red). The Material `error` token (`#991e4b`, Crimson) is not used as the app's error color.
+>
+> **Token names (2026-07-20 rename):** the custom link token is **`--tertiary-link`** (was `--link`; utilities `text-/bg-/border-tertiary-link`), the gentle row-hover token is **`--surface-hover`** (was `--muted-hover`), and the inverse/scrim token is **`--ink-slate`** (was `--slate-hollow`; `tailwind-v4.css` still exports the raw hue as `--color-slate-hollow`). The **shadcn semantic token names are unchanged** — `--primary`, `--foreground`, `--muted`, `--border`, `--destructive`, etc. are a fixed component contract (every `shadcn add` generates against them); restyle by changing their **values** in `src/index.css`, never their names.
 
 ### Aux-accent families (status / data-viz)
 
@@ -72,7 +74,7 @@ Ten families, each with a solid tone (`--color-aux-accent-N`), a soft `-containe
 | Sage Mist                            | `#a5ac9f`                                     | `--color-sage-mist`      | Muted helper text, footer labels, low-emphasis metadata          |
 | Eucalyptus                           | `#c9d5c5`                                     | `--color-eucalyptus`     | Soft surface tint                                                |
 | Lichen                               | `#c5ccb6`                                     | `--color-lichen`         | Outlined-button / dashed-upload border                           |
-| Slate Hollow                         | `#2a332a`                                     | `--color-slate-hollow`   | Inverse surface for footer, dark bands, modal scrims             |
+| Slate Hollow / Ink Slate             | `#2a332a`                                     | `--color-slate-hollow` (export) · `--ink-slate` (app) | Inverse surface for footer, dark bands, modal scrims |
 | Blush / Sand / Sage Foam / Rose Clay | `#e3c9d0` · `#ad9d80` · `#729d92` · `#c27c93` | `--color-blush` …        | Decorative alt-card / specimen tints (available, sparingly used) |
 
 ## Tokens — Typography
@@ -107,31 +109,7 @@ Ten families, each with a solid tone (`--color-aux-accent-N`), a soft `-containe
 - **OpenType features:** `"calt", "kern"`
 - **Role:** Field-note tagging: badges, category labels, button text, code-lite metadata, tracked micro-copy
 
-### ui-monospace — System mono fallback for the tightest micro-tags (8px, 500 weight, 0.04em tracking) · `--font-ui-monospace`
-
-- **Substitute:** system-ui monospace stack
-- **Weights:** 400, 500, 600
-- **Sizes:** 8, 9, 11
-- **Line height:** 1.00
-- **Letter spacing:** 0.04em at 8px, 0.08em at 11px
-- **OpenType features:** `"calt", "kern"`
-- **Role:** System mono fallback for the tightest micro-tags (8px, 500 weight, 0.04em tracking)
-
-### GT America Mono — GT America Mono — detected in extracted data but not described by AI · `--font-gt-america-mono`
-
-- **Weights:** 400
-- **Sizes:** 10px
-- **Line height:** 1.2
-- **Role:** GT America Mono — detected in extracted data but not described by AI
-
-### fragmentMono — fragmentMono — detected in extracted data but not described by AI · `--font-fragmentmono`
-
-- **Weights:** 400
-- **Sizes:** 11px, 14px, 28px
-- **Line height:** 1, 1.27
-- **Letter spacing:** 0.02, 0.04, 0.05, 0.1
-- **OpenType features:** `"calt", "kern"`
-- **Role:** fragmentMono — detected in extracted data but not described by AI
+> **Note (2026-07-20 cleanup):** the earlier auto-extracted duplicate mono tokens `--font-ui-monospace`, `--font-gt-america-mono`, and `--font-fragmentmono` were removed from `tailwind-v4.css` — all three duplicated `--font-fragment-mono`. Fragment Mono is the single mono family; `ui-monospace` etc. remain only as fallbacks inside its stack.
 
 ### Type Scale
 
@@ -145,6 +123,8 @@ Ten families, each with a solid tone (`--color-aux-accent-N`), a soft `-containe
 | heading    | 30px  | 1.16        | -0.6px         | `--text-heading`    |
 | heading-lg | 53px  | 1.21        | -2.12px        | `--text-heading-lg` |
 | display    | 108px | 0.98        | -3.46px        | `--text-display`    |
+
+> The hero serif headline does **not** use the fixed 108px `display` token — it ships as a **fluid `clamp(3.25rem, 1.5rem + 6.5vw, 6.5rem)`** (52 → 104px) so it scales smoothly across phone→desktop instead of snapping at breakpoints. See "Hero Headline (Serif Anchor)".
 
 ## Tokens — Spacing & Shapes
 
@@ -245,17 +225,21 @@ Full-width Linen background, centered logo row, logos rendered in Olive Press (#
 
 ### Hero Headline (Serif Anchor)
 
-**Role:** Opening headline on the page — 'Never stop learning'
+**Role:** Opening headline on the page — 'Grow smarter with …'
 
-Newsreader 300 at 108px on desktop, Linen (#f8f9f5) or Forest Ink (#0a1d08) depending on band. Line-height 0.98, letter-spacing -0.032em. Unique among an otherwise sans-serif system — gives the page its editorial opening.
+Newsreader 300, Forest Ink / on-surface. Line-height 0.98, letter-spacing -0.032em. Unique among an otherwise sans-serif system — gives the page its editorial opening.
+
+**Fluid sizing (as shipped):** the size is a single **`clamp(3.25rem, 1.5rem + 6.5vw, 6.5rem)`** — a 52px floor on the smallest phones scaling **continuously** with the viewport up to a 104px ceiling. Do **not** use stepped breakpoint sizes (`text-5xl sm:text-7xl lg:…`) here — they snap abruptly at 640/1024px; the clamp grows the headline smoothly so it never jumps. The rotating word is handled by `RotatingHeadline.tsx` (a fixed lead line + a dedicated word line so headline height stays constant as words cycle).
 
 ### Hero Backdrop (Network Globe)
 
 **Role:** Ambient decorative backdrop behind the hero headline (`src/components/landing/HeroBackdrop.tsx` + `NetworkGlobe.tsx`).
 
-A faint Mist grid, then an **animated 3D "network globe"** — ~150 points on a Fibonacci-lattice sphere connected by a short-edge mesh, slowly rotating on a tilted Y axis and perspective-projected with depth shading (near side brighter/larger, back hemisphere fades). Sized large so it frames the headline (radius ≈ 56% of the smaller viewport axis), centred at 34% height, and masked to fade out toward the edges. Above it: a two-layer pointer spotlight (neutral cursor glow + faint sage ambient wash) and a soft cursor-tracking dot, with a bottom gradient fading into the page.
+A faint Mist grid, then an **animated 3D "network globe"** — ~150 points on a Fibonacci-lattice sphere connected by a short-edge mesh, slowly rotating on a tilted Y axis and perspective-projected with depth shading (near side brighter/larger, back hemisphere fades). Centred at 34% height and masked to fade out toward the edges. Above it: a two-layer pointer spotlight (neutral cursor glow + faint sage ambient wash) and a soft cursor-tracking dot, with a bottom gradient fading into the page.
 
 - **Colours (token-driven):** nodes = Sage Mist (`#a5ac9f`), edges = Eucalyptus (`#c9d5c5`) — soft, on-theme, legible on the Linen canvas. Depth controls per-point alpha/size.
+- **Fluid, eased sizing:** the radius fraction is **interpolated by width** — `0.78 × min(w,h)` on phones (~360px, so the globe stays prominent) easing down to `0.56 ×` on desktop (~1280px), no breakpoint jump. On viewport/orientation change the radius **eases** toward its new target (`radius += (target − radius) × 0.06` per frame) rather than snapping; the first paint snaps to the correct size.
+- **Rotation direction (diagonal):** the spin is a Y-axis rotation given a fixed **screen-plane roll** so the equator travels on a diagonal, not horizontally. `roll` (in `NetworkGlobe.tsx`) is the single knob: `0°` = horizontal, `45°` = the shipped **11 o'clock → 4 o'clock** diagonal, `60°` = the steeper 11→5 diameter; flip its sign to mirror the diagonal, and reverse the `angle` increment in `loop()` to swap travel direction along it.
 - **Canvas, no 3D library** (plain `<canvas>` + `requestAnimationFrame`); DPR-capped. Purely decorative (`aria-hidden`, pointer-events off).
 - **Reduced motion:** renders a single static globe pose (no animation loop); the pointer spotlight falls back to a centred static glow.
 
@@ -294,11 +278,33 @@ Akkurat 400 at 30–53px, Forest Ink (#0a1d08), tight tracking (-0.04em at 53px,
 - Favicon `public/rythunetra.svg` mirrors the mark as a filled Forest-Ink disc with Linen strokes (filled disc reads better at tab size).
 - **Usage:** shown **without the "RythuNetra" wordmark** in chrome (Header, MobileHeader top bar + drawer, Footer); brand links carry an `aria-label`. Login/Register show the mark centred above the form.
 
-### Floating Navigation Bar
+### Floating Navigation Bar (desktop)
 
-**Role:** Top-of-page brand and link bar
+**Role:** Top-of-page brand and link bar (`Header.tsx`, `md:` and up)
 
-Linen surface floating over the canvas with a 12px radius and a single 1px hairline Ink border (8% opacity). Logo on the left, link group centered, and a 'Signin' button anchored on the right. 56–64px tall, never shadows, never elevates — it just sits.
+Brand pinned left, a centered nav **pill group** (transparent fill + 1px border, `rounded-xl`, `backdrop-blur`) floating over the hero backdrop, and actions pinned right. The active nav item is a **Sage Leaf pill** that physically **slides** between links via a shared `layoutId="nav-pill"` (motion/react spring) rather than cross-fading. 56–64px tall, never shadows, never elevates — it just sits. Right side: Language toggle + either the **account avatar dropdown** (signed in) or a Login pill (signed out).
+
+### Mobile Bottom Tab Bar
+
+**Role:** Primary mobile navigation (`MobileHeader.tsx`, below `md:`) — replaces a hamburger/sidebar.
+
+A **floating pill bar** docked to the bottom edge (`rounded-full`, 1px border, `bg-popover/90`, `backdrop-blur-xl`, `--shadow-elevated`, honouring `env(safe-area-inset-bottom)`). Holds three thumb-priority tabs — **Home · Crops · Diseases** — plus a **More** trigger. The top strip is kept minimal: just the logo + language toggle (+ a Login pill when signed out).
+
+- **Expanding-pill tabs:** inactive tabs are **icon-only** (Sage Gray); the active tab expands into a **Sage Leaf pill** revealing its label. A single shared `layoutId="mobile-tab-pill"` makes the pill **slide** between tabs on navigation (spring, matching the desktop nav pill). **Invariant: only one tab may be `active` at a time** — the shared pill can only live in one place, so a second claimant would strip the real tab's background and leave its light label unreadable.
+- **More trigger:** opening the menu must **not** steal the pill. `active` is driven by the route only; while the menu is open, More gets a **separate, non-pill highlight** (`bg-muted` + readable foreground), not the shared pill.
+- Content clearance: page footer adds `pb-24 md:pb-0`, and the chat FAB sits at `bottom-24 md:bottom-6`, so nothing hides behind the floating bar.
+
+### Account / More Panel
+
+**Role:** The overflow + account menu — desktop avatar dropdown and mobile "More" both render the **same** component (`ui/dropdown-menu.tsx`).
+
+Built from the real `DropdownMenu*` primitives (not a copied Sheet), so the two match by construction: `--popover` surface, `rounded-xl`, 1px `--border`, `--shadow-dropdown`, `p-1.5`. Structure: an **Account label** (Fragment Mono `11px` uppercase eyebrow + name/email) → separator → grouped items (Recommend, My Preparations, Settings, and **Admin in Tertiary `#b14eaa`**) → separator → **destructive Logout**. Items are `rounded-lg px-2 py-2`, `size-4` leading icons, hover/focus tint `--accent` (`#ddeabd`). Settings + Admin are auth-gated (signed-in / admin only). On mobile the panel anchors above the bar (`side="top"`).
+
+> **No focus ring on the panel itself.** The global `*:focus-visible` ring (see below) is excluded for `[data-slot='dropdown-menu-content']`, `[data-slot='popover-content']`, and `[data-slot='dropdown-menu-item']` — Radix focuses the panel on open, and the ring would otherwise draw an unwanted border around the whole menu. Rows show selection via their `--accent` tint, not a ring.
+
+### Focus Ring (global)
+
+A **two-layer focus-visible ring** (`*:focus-visible`): a 2px `--background` gap then a 2px `--ring` (Grass Green `#548f28`) accent, at `--radius-btn` (20px). Applied to buttons, links, tabs, and other interactive elements. **Excluded:** form fields (`input`, `textarea`, `select`, InputGroup control — they own a border+ring treatment) and floating menu/popover **content** + menu items (see Account/More Panel above).
 
 ### Nav Header
 
@@ -532,15 +538,6 @@ Example Component Prompts
     --font-fragment-mono:
         'Fragment Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
         monospace;
-    --font-ui-monospace:
-        'ui-monospace', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-        monospace;
-    --font-gt-america-mono:
-        'GT America Mono', ui-monospace, SFMono-Regular, Menlo, Monaco,
-        Consolas, monospace;
-    --font-fragmentmono:
-        'fragmentMono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-        monospace;
 
     /* Typography — Scale */
     --text-tag: 11px;
@@ -657,15 +654,6 @@ Example Component Prompts
         BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-fragment-mono:
         'Fragment Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-        monospace;
-    --font-ui-monospace:
-        'ui-monospace', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-        monospace;
-    --font-gt-america-mono:
-        'GT America Mono', ui-monospace, SFMono-Regular, Menlo, Monaco,
-        Consolas, monospace;
-    --font-fragmentmono:
-        'fragmentMono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
         monospace;
 
     /* Typography — Scale */
