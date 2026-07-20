@@ -44,13 +44,13 @@ export function Header() {
     }
 
     return (
-        <header className="sticky top-0 z-50 hidden px-4 pt-3 md:block">
-            <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-6 rounded-xl border border-border bg-background/80 pr-2.5 pl-5 backdrop-blur-xl">
-                {/* Brand */}
+        <header className="sticky top-0 z-50 hidden px-4 pt-2 md:block lg:px-8">
+            <div className="flex h-14 w-full items-center justify-between gap-6 rounded-xl backdrop-blur-xl">
+                {/* Brand — pinned left */}
                 <Link
                     to="/"
                     aria-label={t('common.appName')}
-                    className="group flex shrink-0 items-center"
+                    className="group flex flex-1 shrink-0 items-center pl-4"
                 >
                     <LogoMark
                         size="md"
@@ -58,8 +58,10 @@ export function Header() {
                     />
                 </Link>
 
-                {/* Center nav — inline links, sliding green pill on active */}
-                <nav className="flex items-center gap-1">
+                {/* Center nav — floats on the hero backdrop: transparent fill so
+                    the backdrop shows through, border defines the pill, blur keeps
+                    it legible when content scrolls underneath on other pages */}
+                <nav className="flex items-center gap-1 rounded-xl border border-border bg-transparent pr-2.5 pl-5 backdrop-blur-sm">
                     {navLinks.map((link) => (
                         <NavLink
                             key={link.to}
@@ -100,8 +102,8 @@ export function Header() {
                     ))}
                 </nav>
 
-                {/* Actions */}
-                <div className="flex shrink-0 items-center gap-1.5">
+                {/* Actions — pinned right */}
+                <div className="flex flex-1 shrink-0 items-center justify-end gap-1.5">
                     <LanguageToggle />
                     {user ? (
                         <DropdownMenu>

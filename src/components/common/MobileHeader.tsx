@@ -94,12 +94,12 @@ export function MobileHeader() {
         'flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground aria-[current=page]:bg-muted aria-[current=page]:text-foreground [&>svg]:size-4 [&>svg]:shrink-0'
 
     return (
-        <header className="sticky top-0 z-50 md:hidden bg-background/80 backdrop-blur-md border-b border-border">
+        <header className="sticky top-0 z-50 pt-2 md:hidden backdrop-blur-md">
             <div className="flex items-center justify-between gap-2 px-4 h-14">
                 <Link
                     to="/"
                     aria-label={t('common.appName')}
-                    className="group flex min-w-0 items-center"
+                    className="group flex min-w-0 items-center pl-4"
                 >
                     <LogoMark size="md" className="shrink-0" />
                 </Link>
