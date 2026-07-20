@@ -187,7 +187,10 @@
         "scanner": "Scanner",
         "chat": "AI Advisor",
         "recommend": "Crop Recommender",
-        "recommend_short": "Recommend"
+        "recommend_short": "Recommend",
+        "advisor": "Advisor",
+        "more": "More",
+        "account": "Account"
     },
     "admin": {
         "dashboard": "Admin Dashboard",

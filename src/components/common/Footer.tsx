@@ -11,7 +11,11 @@ export function Footer({ className }: { className?: string }) {
 
     return (
         <footer
-            className={cn('bg-ink-slate text-linen/70 mt-auto', className)}
+            className={cn(
+                // pb clears the floating mobile tab bar (bottom bar is md:hidden)
+                'bg-ink-slate text-linen/70 mt-auto pb-24 md:pb-0',
+                className,
+            )}
         >
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* ── Conversion band — large headline + Primary Pill CTA ── */}

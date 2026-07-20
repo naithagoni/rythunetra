@@ -188,7 +188,10 @@
         "scanner": "స్కానర్",
         "chat": "AI సలహాదారు",
         "recommend": "పంట సిఫార్సు",
-        "recommend_short": "సిఫార్సు"
+        "recommend_short": "సిఫార్సు",
+        "advisor": "సలహాదారు",
+        "more": "మరిన్ని",
+        "account": "ఖాతా"
     },
     "admin": {
         "dashboard": "అడ్మిన్ డాష్‌బోర్డ్",
